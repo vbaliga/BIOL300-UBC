@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+
+<title>Resources for Chapter 17:  Regression</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-2');
+</script>
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About this site</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Resources for Chapter 17:
+<br>Regression</h1>
+<h4 class="author"></h4>
+
+</div>
+
+
+<hr />
+<p><br></p>
+<div id="web-visualizations" class="section level1">
+<h1>Web visualizations</h1>
+<p><a href="https://shiney.zoology.ubc.ca/whitlock/Residuals/">A web
+visualization that understand residuals.</a>.</p>
+<p><a href="https://shiney.zoology.ubc.ca/whitlock/Residuals/"><img
+src="figures/KFResiduals.png" /></a></p>
+<p><br></p>
+</div>
+<div id="r-lab" class="section level1">
+<h1>R lab</h1>
+<p>A lab on how to carry out regression in R, and related topics, is
+available <a
+href="RLabs/R_tutorial_Correlation_Regression.html">here</a>.</p>
+<p><br></p>
+</div>
+<div id="learn-r-by-example" class="section level1">
+<h1>Learn R by example</h1>
+<p>We used R to analyze all examples in chapter 17. We’ve put the code
+<a href="RExamples/Rcode_Chapter_17.html">here</a> so that you can
+too.</p>
+<p><br></p>
+</div>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>Download a .zip file with all the data for chapter 17 in .csv format
+<a href="DataZipFiles/chapter17.zip">here</a>.</p>
+<p>Download a .zip file with all data sets in the book <a
+href="DataZipFiles/Data.zip">here</a>.</p>
+<p>All data sets and their sources are listed individually below.</p>
+<p>Disclaimer: Most data sets used in the book are grabbed from graphs
+and tables in the original publications, and the values may not be
+exact. Contact the original authors for the raw data.</p>
+<p><br></p>
+<div id="data-for-examples" class="section level2">
+<h2>Data for examples</h2>
+<p><a href="Data/chapter17/chap17e1LionNoses.csv">Example 17.1. Lion
+ages</a></p>
+<p>Whitman, K., A. M. Starfield, H. S. Quadling and C. Packer. 2004.
+<em>Nature</em> 428: 175-178.</p>
+<p><a
+href="Data/chapter17/chap17e3PlantDiversityAndStability.csv">Example
+17.3. Plant species and biomass</a></p>
+<p>Tilman, D., P. B. Reich, and J. M. H. Knops. 2006. <em>Nature</em>
+441: 629-632.</p>
+<p><a href="Data/chapter17/chap17f5_2JuncoOutlier.csv">Figure 17.5-2.
+Junco outlier</a></p>
+<p>Yeh, P. J. 2004. <em>Evolution</em> 58: 166–174.</p>
+<p><a href="Data/chapter17/chap17f5_3DesertPoolFish.csv">Figure 17.5-3.
+Desert pool fish</a></p>
+<p>Kodric-Brown, A., and J. H. Brown. 1993. <em>Ecology</em> 74:
+1847–1855.</p>
+<p><a href="Data/chapter17/chap17f5_4BlueTitCapColor.csv">Figure 17.5-4
+left. Cap color</a></p>
+<p>Hadfield, J. D., et al. 2006. <em>Proceedings of the Royal Society of
+London, Series B, Biological Sciences</em> 273: 1347–1353.</p>
+<p><a href="Data/chapter17/chap17f5_4CockroachNeurons.csv">Figure 17.5-4
+right. Cockroach neurons</a></p>
+<p>Murphy, B. F., Jr., and J. E. Heath. 1983. <em>Journal of
+Experimental Biology</em> 105: 305–315.</p>
+<p><a href="Data/chapter17/chap17f6_3IrisPollination.csv">Figure 17.6-3.
+Iris pollen</a></p>
+<p>Pauw, A., J. Stofberg, and R. J. Waterman. 2009. <em>Evolution</em>
+63: 268-279.</p>
+<p><a
+href="Data/chapter17/chap17f8_1IronAndPhytoplanktonGrowth.csv">Figure
+17.8-1. Iron and plankton</a></p>
+<p>Sunda, W. G., and Huntsman, S. A. 1997. <em>Nature</em> 390:
+389–392.</p>
+<p><a
+href="Data/chapter17/chap17f8_2PondPlantsAndProductivity.csv">Figure
+17.8-2. Plants and productivity</a></p>
+<p>Chase, J. M., and M. A. Leibold. 2002. <em>Nature</em> 416:
+427-430.</p>
+<p><a href="Data/chapter17/chap17e8ShrinkingSeals.csv">Example 17.8.
+Shrinking seals</a></p>
+<p>Trites. A. W. 1996. <em>Journal of Zoology, London</em> 238:
+459-482.</p>
+<p><a href="Data/chapter17/chap17f9_1GuppyColdDeath.csv">Figure 17.9-1.
+Guppy lethal temperature</a></p>
+<p>Pitkow, R. B. 1060. <em>Biological Bulletin</em> 119: 231-245.</p>
+<p><br></p>
+</div>
+<div id="data-for-problem-sets" class="section level2">
+<h2>Data for problem sets</h2>
+<p><a href="Data/chapter17/chap17q01FacesAndPenalties.csv">17.01. Faces
+and aggression</a></p>
+<p>Carré, J. M., and C. M McCormick. 2008. <em>Proceedings of the Royal
+Society of London, Series B, Biological Sciences</em> 275:
+2651–2656.</p>
+<p><a href="Data/chapter17/chap17q06ZooMortality.csv">17.06. Zoo
+mortality</a></p>
+<p>Clubb, R. and G. Mason. 2003. <em>Nature</em> 425: 473-474.</p>
+<p><a href="Data/chapter17/chap17q07ProgesteroneExercise.csv">17.07.
+Exercise and progesterone</a></p>
+<p>Brutsaert, T. D., et al. 2002. <em>Journal of Experimental
+Biology</em> 205: 233-239.</p>
+<p><a href="Data/chapter17/chap17q10HybridPollenSterility.csv">17.10.
+Hybrid pollen sterility</a></p>
+<p>Moyle, L. C., M. S. Olson, and P. Tiffin. 2004. <em>Evolution</em>
+58: 1195-1208.</p>
+<p><a href="Data/chapter17/chap17q11RattlesnakeDigestion.csv">17.11.
+Rattlensake digestion</a></p>
+<p>Tattersall, G. J., et al. 2004. <em>Journal of Experimental
+Biology</em> 207: 579-585.</p>
+<p><a href="Data/chapter17/chap17q12LizardBite.csv">17.12. Lizard
+bites</a></p>
+<p>Lappin, A. K., and J. F. Husak. 2005. <em>American Naturalist</em>
+166: 426-436.</p>
+<p><a href="Data/chapter17/chap17q14HypoxanthineTimeOfDeath.csv">17.14.
+Hypoxanthine and time of death</a></p>
+<p>James, R. A., P. A. Hoadley, and B. G. Sampson. 1997. <em>American
+Journal of Forensic Medicine and Pathology</em> 18: 158-162.</p>
+<p><a href="Data/chapter17/chap17q15SocialSpiderColonies.csv">17.15.
+Social spiders</a></p>
+<p>Rypstra, A. L. 1979. <em>Behavioral Ecology and Sociobiology</em> 5:
+291-300.</p>
+<p><a href="Data/chapter17/chap17q17EarthwormsAndNitrogen.csv">17.17.
+Earthworms and nitrogen</a></p>
+<p>Gundale, M. J., W. M. Jolly, and T. H. Deluca. 2005. <em>Conservation
+Biology</em> 19: 1075-1083.</p>
+<p><a href="Data/chapter17/chap17q18CypressRespiration.csv">17.18.
+Cypress respiration</a></p>
+<p>Reich, P. B., M. G. Tjoelker, J.-L. Machado, and J. Oleksyn. 2006.
+<em>Nature</em> 439: 457-461.</p>
+<p><a href="Data/chapter17/chap17q19testesBrothers.csv">17.19. Brothers
+and testes</a></p>
+<p>Fisher, H. S., K. A. Hook, W. D. Weber, and H. E. Hoekstra. 2018.
+<em>Ecology and Evolution</em> 8: 8197-8203.</p>
+<p><a
+href="Data/chapter17/chap17q20GrasslandNutrientsPlantSpecies.csv">17.20.
+Grassland nutrients</a></p>
+<p>Harpole, W. S. and D. Tilman. 2007. <em>Nature</em> 446: 791-793.</p>
+<p><a href="Data/chapter17/chap17q21PrimateMassMetabolicRate.csv">17.21.
+Primate metabolic rates</a></p>
+<p>Heusner, A. A. 1991. Size and power in mammals. <em>Journal of
+Experimental Biology</em> 160: 25-54.</p>
+<p><a href="Data/chapter17/chap17q23FlycatcherPatch.csv">17.23.
+Flycatcher patch</a></p>
+<p>Griffith, S. C. and B. C. Sheldon. 2001. <em>Animal Behaviour</em>
+61: 987-993.</p>
+<p><a href="Data/chapter17/chap17q24Connectivity.csv">17.24.
+Connectivity and extinction</a></p>
+<p>Jousimo, J., et al. 2014. <em>Science</em> 344:1289-1293.</p>
+<p><a href="Data/chapter17/chap17q25PenguinTreadmill.csv">17.25. Penguin
+treadmill</a></p>
+<p>Green, J. A., et al. 2001. <em>The Journal of Experimental
+Biology</em> 204: 673-684.</p>
+<p><a href="Data/chapter17/chap17q26BeetleWingsAndHorns.csv">17.26.
+Beetle wings and horns</a></p>
+<p>Emlen, D. J. 2001. <em>Science</em> 291: 1534-1536.</p>
+<p><a href="Data/chapter17/chap17q27SongExtinctKatydid.csv">17.27. Song
+of extinct katydid</a></p>
+<p>Gua, J.-J., et al. 2012. <em>Proceedings of the National Academy of
+Sciences (USA)</em> 109: 3868-3873.</p>
+<p><a href="Data/chapter17/chap17q28DaphniaParasiteLongevity.csv">17.28.
+<em>Daphnia</em> parasites</a></p>
+<p>Jensen, K. H., T. Little, A. Skorping, and D. Ebert. 2006. <em>PLoS
+Biology</em> 4: 1265-1269.</p>
+<p><a href="Data/chapter17/chap17q29grasslandDisease.csv">17.29.
+Grassland disease</a></p>
+<p>Parker, I. M., et al. 2015. <em>Nature</em> 520: 542-544.</p>
+<p><a href="Data/chapter17/chap17q30DEETMosquiteBites.csv">17.30.
+Mosquito bites</a></p>
+<p>Golenda, C. F., et al. 1999. <em>American Journal of Tropical
+Medicine and Hygiene</em> 60: 654-657.</p>
+<p><a href="Data/chapter17/chap17q31NuclearTeeth.csv">17.31. Nuclear
+teeth</a></p>
+<p>Spalding, K. L.. et al. 2005. <em>Nature</em> 437: 333-334.</p>
+<p><a href="Data/chapter17/chap17q32LastSupperPortionSize.csv">17.32.
+Last supper portion sizes</a></p>
+<p>Wansink, B., and C. S. Wansink. 2010. <em>International Journal of
+Obesity</em> 34: 943–944.</p>
+<p><a href="Data/chapter17/chap17q33CoralSnakeMimics.csv">17.33. Coral
+snake mimics</a></p>
+<p>Harper, G. R., Jr. and D. W. Pfennig. 2008. <em>Nature</em> 451:
+1103-1106.</p>
+<p><a href="Data/chapter17/chap17q34EggLayingMismatch.csv">17.34. Laying
+date and climate change</a></p>
+<p>Reed T. E., et al. 2013. <em>Dryad Digital Repository</em>. <a
+href="doi:10.5061/dryad.8fc60"
+class="uri">doi:10.5061/dryad.8fc60</a></p>
+<p><a href="Data/chapter17/chap17q35FatherAgeMutations.csv">17.35.
+Fathers age and mutations</a></p>
+<p>Kong, A., et al. 2012. <em>Nature</em> 488: 471-475.</p>
+<p><a href="Data/chapter17/chap17q36beeClimateChange.csv">17.36. Bees
+and climate change</a></p>
+<p>Kerr, J. T. et al. 2015. <em>Science</em> 349:177-180.</p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

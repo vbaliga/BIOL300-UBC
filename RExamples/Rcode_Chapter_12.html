@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>R code for example in Chapter 12:  Comparing two means</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-4');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R code for example in Chapter 12: <br>Comparing two means</h1>
+
+</div>
+
+
+<hr />
+<p>We used R to analyze all examples in Chapter 12. We put the code here so that you can too.</p>
+<p><br> Also see our <a href="https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_Comparing_means_of_2_groups.html">lab on comparing two means using R</a>.</p>
+<p><br></p>
+<div id="new-methods-on-this-page" class="section level1">
+<h1>New methods on this page</h1>
+<ul>
+<li>
+<p>Paired <em>t</em>-test and 95% confidence interval of a mean difference:</p>
+<pre class="r"><code>t.test(blackbird$logAfterImplant, blackbird$logBeforeImplant, paired = TRUE)</code></pre>
+<li>
+<p>Two-sample <em>t</em>-test and 95% confidence interval for a difference between two means:</p>
+<pre class="r"><code>t.test(squamosalHornLength ~ Survival, data = lizard, var.equal = TRUE)</code></pre>
+<li>
+Other new methods:
+<ul>
+<li>
+A multiple histogram plot with <code>ggplot()</code>.
+<li>
+The <em>F</em> test to compare two variances.
+<li>
+The 95% confidence interval for the variance ratio.
+<li>
+Levene’s test to compare variances between two (or more) groups.
+<li>
+Convert data in “wide” format to “long” format.
+</ul>
+</ul>
+<hr />
+<p><br></p>
+</div>
+<div id="load-required-packages" class="section level1">
+<h1>Load required packages</h1>
+<p>We’ll use the <code>ggplot2</code> add on package to make graphs, and <code>dplyr</code> to calculate summary statistics by group. The <code>car</code> package is needed only for the optional Levene’s test. You may need to install it first onto you computer if you have not already done so.</p>
+<pre class="r"><code>install.packages(&quot;car&quot;, dependencies = TRUE) # install only if necessary</code></pre>
+<pre class="r"><code>library(ggplot2)
+library(dplyr)
+library(car)</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="example-12.2.-red-winged-blackbirds" class="section level1">
+<h1>Example 12.2. Red-winged blackbirds</h1>
+<p><strong><em>Confidence interval for mean difference</em></strong>* and the <strong>paired <em>t</em>-test</strong>, comparing immunocompetence of red-winged blackbirds before and after testosterone implants.*</p>
+<p><br></p>
+<div id="read-and-inspect-data" class="section level2">
+<h2>Read and inspect data</h2>
+<p>The data are in “wide” format (one row per individual, with the response variable at two time points in separate columns).</p>
+<pre class="r"><code>blackbird &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter12/chap12e2BlackbirdTestosterone.csv&quot;), stringsAsFactors = FALSE)
+blackbird</code></pre>
+<pre><code>##    blackbird beforeImplant afterImplant logBeforeImplant logAfterImplant
+## 1          1           105           85             4.65            4.44
+## 2          2            50           74             3.91            4.30
+## 3          3           136          145             4.91            4.98
+## 4          4            90           86             4.50            4.45
+## 5          5           122          148             4.80            5.00
+## 6          6           132          148             4.88            5.00
+## 7          7           131          150             4.88            5.01
+## 8          8           119          142             4.78            4.96
+## 9          9           145          151             4.98            5.02
+## 10        10           130          113             4.87            4.73
+## 11        11           116          118             4.75            4.77
+## 12        12           110           99             4.70            4.60
+## 13        13           138          150             4.93            5.01</code></pre>
+<p><br></p>
+</div>
+<div id="plot-paired-data" class="section level2">
+<h2>Plot paired data</h2>
+<p>A strip chart for paired data, with lines connecting dots for the same individual (Figure 12.2-1). We first need to put the log-transformed data into “long” format, with the before and after measurements in the same column of data, and a new variable to indicate the Before and After data.</p>
+<p>We did this by making a separate data frame for Before and After treatments (they must having identical variable names) and then <code>rbind()</code> them. We then ordered the categories of the treatment variable so that Before data comes first in the plot.</p>
+<pre class="r"><code>beforeData &lt;- data.frame(blackbird = blackbird$blackbird, 
+                  logAntibody = blackbird$logBeforeImplant,
+                  time = &quot;Before&quot;)
+afterData &lt;- data.frame(blackbird = blackbird$blackbird, 
+                  logAntibody = blackbird$logAfterImplant,
+                  time = &quot;After&quot;)
+blackbird2 &lt;- rbind(beforeData, afterData)
+blackbird2$time &lt;- factor(blackbird2$time, levels = c(&quot;Before&quot;, &quot;After&quot;))</code></pre>
+<p>A <code>ggplot()</code> command for a paired data plot. The argument <code>alpha =</code> plots transparent dots, which helps to distinguish visually any overlapping measurements.</p>
+<pre class="r"><code>ggplot(blackbird2, aes(x = time, y = logAntibody)) +  
+    geom_point(size = 5, col = &quot;firebrick&quot;, alpha = 0.5) + 
+    geom_line(aes(group = blackbird)) +
+    labs(x = &quot;Implant treatment&quot;, y = &quot;Antibody production rate (ln[mOD/min])&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_12_files/figure-html/unnamed-chunk-7-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="paired-differences" class="section level2">
+<h2>Paired differences</h2>
+<p>We make a new variable <code>d</code> with the After minus Before differences.</p>
+<pre class="r"><code>blackbird$d &lt;- blackbird$logAfterImplant - blackbird$logBeforeImplant
+head(blackbird)</code></pre>
+<pre><code>##   blackbird beforeImplant afterImplant logBeforeImplant logAfterImplant
+## 1         1           105           85             4.65            4.44
+## 2         2            50           74             3.91            4.30
+## 3         3           136          145             4.91            4.98
+## 4         4            90           86             4.50            4.45
+## 5         5           122          148             4.80            5.00
+## 6         6           132          148             4.88            5.00
+##       d
+## 1 -0.21
+## 2  0.39
+## 3  0.07
+## 4 -0.05
+## 5  0.20
+## 6  0.12</code></pre>
+<p><br></p>
+</div>
+<div id="histogram-of-differences" class="section level2">
+<h2>Histogram of differences</h2>
+<p>The commands below generate Figure 12.2-2.</p>
+<pre class="r"><code>hist(blackbird$d, right = FALSE, col = &quot;firebrick&quot;, las = 1)</code></pre>
+<p><img src="Rcode_Chapter_12_files/figure-html/unnamed-chunk-9-1.png" width="480" /></p>
+<p>or</p>
+<pre class="r"><code>ggplot(blackbird, aes(x = d)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 0.1, 
+        boundary = 0, closed = &quot;left&quot;) + 
+    labs(x = &quot;Difference (after–before)&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_12_files/figure-html/unnamed-chunk-10-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="ci-for-mean-difference" class="section level2">
+<h2>95% CI for mean difference</h2>
+<p>95% confidence intervals are part of the output of the <code>t.test()</code> function, viewed in isolation by adding <code>$conf.int</code> to the command.</p>
+<pre class="r"><code>t.test(blackbird$d)$conf.int</code></pre>
+<pre><code>## [1] -0.04007695  0.15238464
+## attr(,&quot;conf.level&quot;)
+## [1] 0.95</code></pre>
+<p>Or, we can use the <code>paired = TRUE</code> argument of <code>t.test()</code> and specifying the pair of variables.</p>
+<pre class="r"><code>t.test(blackbird$logAfterImplant, blackbird$logBeforeImplant, paired = TRUE)$conf.int</code></pre>
+<pre><code>## [1] -0.04007695  0.15238464
+## attr(,&quot;conf.level&quot;)
+## [1] 0.95</code></pre>
+<p><br></p>
+</div>
+<div id="paired-t-test" class="section level2">
+<h2>Paired <em>t</em>-test</h2>
+<p>A paired <em>t</em>-test can be done either on differences you have already calculated (<code>d</code> here) or by using the <code>paired = TRUE</code> argument with the measurements from the two groups.</p>
+<pre class="r"><code>t.test(blackbird$d)</code></pre>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  blackbird$d
+## t = 1.2714, df = 12, p-value = 0.2277
+## alternative hypothesis: true mean is not equal to 0
+## 95 percent confidence interval:
+##  -0.04007695  0.15238464
+## sample estimates:
+##  mean of x 
+## 0.05615385</code></pre>
+<p>or</p>
+<pre class="r"><code>t.test(blackbird$logAfterImplant, blackbird$logBeforeImplant, paired = TRUE)</code></pre>
+<pre><code>## 
+##  Paired t-test
+## 
+## data:  blackbird$logAfterImplant and blackbird$logBeforeImplant
+## t = 1.2714, df = 12, p-value = 0.2277
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.04007695  0.15238464
+## sample estimates:
+## mean of the differences 
+##              0.05615385</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-12.3.-horned-lizards" class="section level1">
+<h1>Example 12.3. Horned lizards</h1>
+<p><em><strong>Confidence interval for the difference between two means</strong>, and the <strong>two-sample <em>t</em>-test</strong>, comparing horn length of live and dead (spiked) horned lizards.</em></p>
+<p><br></p>
+<div id="read-and-inspect-data-1" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>lizard &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter12/chap12e3HornedLizards.csv&quot;), stringsAsFactors = FALSE)
+head(lizard)</code></pre>
+<pre><code>##   squamosalHornLength Survival
+## 1                25.2   living
+## 2                26.9   living
+## 3                26.6   living
+## 4                25.6   living
+## 5                25.7   living
+## 6                25.9   living</code></pre>
+<p>Note that there is one missing value for the variable “squamosalHornLength”.</p>
+<p><br></p>
+</div>
+<div id="multiple-histograms" class="section level2">
+<h2>Multiple histograms</h2>
+<p>We begin by ordering the categories of the survival variable so that “living” comes before “killed” in the histogram. The plot command will deliver a warning to let you know that one case was dropped (the one lizard missing a horn length measurement).</p>
+<pre class="r"><code>lizard$Survival &lt;- factor(lizard$Survival, levels = c(&quot;living&quot;, &quot;killed&quot;))
+
+ggplot(lizard, aes(x = squamosalHornLength)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 2, 
+        boundary = 0, closed = &quot;left&quot;) +
+    facet_wrap( ~ Survival, ncol = 1, scales = &quot;free_y&quot;) +
+    labs(x = &quot;Horn length (mm)&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<pre><code>## Warning: Removed 1 rows containing non-finite values (stat_bin).</code></pre>
+<p><img src="Rcode_Chapter_12_files/figure-html/unnamed-chunk-16-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="ci-for-difference-between-means" class="section level2">
+<h2>95% CI for difference between means</h2>
+<p>The 95% confidence interval for the difference between two means is part of the output of <code>t.test()</code>. Append <code>$confint</code> after calling the function to get R to report only the confidence interval.</p>
+<p>The formula in the following command tells R to compare <code>squamosalHornLength</code> between the two groups indicated by <code>Survival</code>. When using the formula method, the data frame containing the variables must be indicated by <code>data = ````. The</code>var.equal =<code>argument indicates that we assume the variances of the two groups to be equal (the default is</code>FALSE```).</p>
+<pre class="r"><code>t.test(squamosalHornLength ~ Survival, data = lizard, var.equal = TRUE)$conf.int</code></pre>
+<pre><code>## [1] 1.253602 3.335402
+## attr(,&quot;conf.level&quot;)
+## [1] 0.95</code></pre>
+<p><br></p>
+</div>
+<div id="two-sample-t-test" class="section level2">
+<h2>Two-sample <em>t</em>-test</h2>
+<p>A test of the difference between the two means can be carried out with <code>t.test()</code>. The formula in the following command tells R to compare <code>squamosalHornLength</code> between the two groups indicated by <code>Survival</code>. When using the formula method, the data frame containing the variables must be indicated by <code>data = ````. The</code>var.equal =<code>argument indicates that we assume the variances of the two groups to be equal (the default is</code>FALSE```).</p>
+<pre class="r"><code>t.test(squamosalHornLength ~ Survival, data = lizard, var.equal = TRUE)</code></pre>
+<pre><code>## 
+##  Two Sample t-test
+## 
+## data:  squamosalHornLength by Survival
+## t = 4.3494, df = 182, p-value = 2.27e-05
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  1.253602 3.335402
+## sample estimates:
+## mean in group living mean in group killed 
+##             24.28117             21.98667</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-12.4.-salmon-survival" class="section level1">
+<h1>Example 12.4. Salmon survival</h1>
+<p><strong><em>Welch’s two-sample </em>t<em>-test for unequal variances<strong>, comparing chinook salmon survival in the presents and absence of brook trout. This same example to demonstrate the </strong>95% confidence interval for the ratio of two variances<strong>, and the </strong>F</em>-test of equal variances</strong>.*</p>
+<p><br></p>
+<div id="read-and-inspect-data-2" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>chinook &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter12/chap12e4ChinookWithBrookTrout.csv&quot;), stringsAsFactors = FALSE)
+head(chinook)</code></pre>
+<pre><code>##   troutTreatment nReleased nSurvivors proportionSurvived
+## 1        present       820        166              0.202
+## 2         absent       467        180              0.385
+## 3        present       960        136              0.142
+## 4        present       700        153              0.219
+## 5         absent       959        178              0.186
+## 6        present       545        103              0.189</code></pre>
+<p><br></p>
+</div>
+<div id="order-categories" class="section level2">
+<h2>Order categories</h2>
+<p>Set the preferred order of categories in tables and graphs</p>
+<pre class="r"><code>chinook$troutTreatment &lt;- factor(chinook$troutTreatment, 
+      levels = c(&quot;present&quot;, &quot;absent&quot;))</code></pre>
+<p><br></p>
+</div>
+<div id="strip-chart-with-error-bars" class="section level2">
+<h2>Strip chart with error bars</h2>
+<p>Use <code>stat_summary()</code> to overlay mean and 95% confidence intervals. We shifted the position of the bars using <code>position_nudge()</code> to eliminate overlap.</p>
+<p>fun.data=mean_cl_normal, width=0.1, conf.int=0.95</p>
+<pre class="r"><code>ggplot(chinook, aes(x = troutTreatment, y = proportionSurvived)) +
+    geom_point(color = &quot;firebrick&quot;, size = 3, shape = 1) +
+    stat_summary(fun.data = mean_cl_normal, geom = &quot;errorbar&quot;, 
+        width = 0.1, position=position_nudge(x = 0.15)) +
+    stat_summary(fun.y = mean, geom = &quot;point&quot;, color = &quot;firebrick&quot;,
+        size = 3, position=position_nudge(x = 0.15)) +
+    labs(x = &quot;Treatment&quot;, y = &quot;Proportion surviving&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_12_files/figure-html/unnamed-chunk-21-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="statistics-by-group" class="section level2">
+<h2>Statistics by group</h2>
+<p>The <code>summarize()</code> command from the <code>dplyr</code> package will generate the summary statistics in Table 12.4-3.</p>
+<pre class="r"><code>chinookStats &lt;- summarize(group_by(chinook, troutTreatment), 
+          Sample_mean = mean(proportionSurvived, na.rm = TRUE),
+          Sample_standard_deviation = sd(proportionSurvived, na.rm = TRUE), 
+          n = n())
+as.data.frame(chinookStats)</code></pre>
+<pre><code>##   troutTreatment Sample_mean Sample_standard_deviation n
+## 1        present   0.1941667                0.02971476 6
+## 2         absent   0.2351667                0.10364056 6</code></pre>
+<p><br></p>
+</div>
+<div id="welchs-two-sample-t-test" class="section level2">
+<h2>Welch’s two-sample t-test</h2>
+<p>Use <code>var.equal = FALSE</code> argument of the <code>t.test()</code> function for a test of the difference between two means when variances are unequal.</p>
+<pre class="r"><code>t.test(proportionSurvived ~ troutTreatment, data = chinook, var.equal = FALSE)</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  proportionSurvived by troutTreatment
+## t = -0.93148, df = 5.8165, p-value = 0.3886
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  -0.14953173  0.06753173
+## sample estimates:
+## mean in group present  mean in group absent 
+##             0.1941667             0.2351667</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="comparing-variances" class="section level1">
+<h1>Comparing variances</h1>
+<p><em>Here, we demonstrate the <strong>95% confidence interval for the ratio of two variances</strong>, and </em>**F*-test of equal variances,** using the chinook salmon experiment.*</p>
+<p><br></p>
+<div id="ci-for-variance-ratio" class="section level2">
+<h2>95% CI for variance ratio</h2>
+<p>Warning: remember that this method is not robust to departures from assumption of normality.</p>
+<pre class="r"><code>var.test(proportionSurvived ~ troutTreatment, data = chinook)$conf.int</code></pre>
+<pre><code>## [1] 0.01150267 0.58745010
+## attr(,&quot;conf.level&quot;)
+## [1] 0.95</code></pre>
+<p><br></p>
+</div>
+<div id="f-test-of-equal-variances" class="section level2">
+<h2><em>F</em>-test of equal variances</h2>
+<p>Warning: Remember that the <em>F</em>-test is not robust to departures from assumption of normality.</p>
+<p>R doesn’t put the larger variance on top, as in our Quick Formula Summary, but the result is the same.</p>
+<pre class="r"><code>var.test(proportionSurvived ~ troutTreatment, data = chinook)</code></pre>
+<pre><code>## 
+##  F test to compare two variances
+## 
+## data:  proportionSurvived by troutTreatment
+## F = 0.082202, num df = 5, denom df = 5, p-value = 0.01589
+## alternative hypothesis: true ratio of variances is not equal to 1
+## 95 percent confidence interval:
+##  0.01150267 0.58745010
+## sample estimates:
+## ratio of variances 
+##         0.08220245</code></pre>
+<p><br></p>
+</div>
+<div id="levenes-test" class="section level2">
+<h2>Levene’s test</h2>
+<p>This test of equal variances is more robust than the <em>F</em> test. The <code>leveneTest()</code> function is in the <code>car</code> package.</p>
+<pre class="r"><code>leveneTest(chinook$proportionSurvived, group = chinook$troutTreatment, 
+    center = mean)</code></pre>
+<pre><code>## Levene&#39;s Test for Homogeneity of Variance (center = mean)
+##       Df F value   Pr(&gt;F)   
+## group  1  10.315 0.009306 **
+##       10                    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

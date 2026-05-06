@@ -1,0 +1,195 @@
+---
+title: "Resources for Chapter 9: <br>Contingency analysis"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+<br> 
+
+# Chapter links
+
+[Vampire bats sharing a blood meal](http://www.youtube.com/watch?v=q3gxpIJ-f2M) (see Assignment problem 28)
+
+<br>
+
+# Web visualizations
+
+A web visualization of the relationship between contingency analysis and the $\chi$^2^ distribution is [here](http://www.zoology.ubc.ca/~whitlock/Kingfisher/ContingencyAnalysis.htm). 
+
+A set of instructions to work through this visualization tool is one of the activities in the [tutorial for this topic](RLabs/R_tutorial_Contingency_analysis.html).
+
+<br>
+
+# R labs
+
+A lab on how to carry out contingency analysis in R, and related topics, is [here](RLabs/R_tutorial_Contingency_analysis.html).
+
+<br>
+
+# Learn R by example
+
+We used R to analyze all examples in chapter 9. We've put the code [here](RExamples/Rcode_Chapter_9.html) so that you can too.
+
+<br> 
+
+# Data files
+
+<br>
+
+## Data for examples
+
+[Example 9.2. Aspirin vs. cancer](Data/chapter09/chap09e2AspirinCancer.csv)
+
+Cook, N. R., et al. 2005. *Journal of the American Medical Association* 294: 47-55.
+
+[Example 9.3. Toxoplasmosis](Data/chapter09/chap09e3ToxoplasmaAndAccidents.csv)
+
+Yereli, K., I. C. Balcioglu, and A. Ozbilgin. 2006. *Forensic Science International* 163: 34-37.
+
+[Example 9.4. Parasite control of behavior](Data/chapter09/chap09e4WormGetsBird.csv)
+
+Lafferty, K. D., and A. K. Morris. 1996. *Ecology* 77: 1390-1397.
+
+[Example 9.5. Vampire bats and estrous](Data/chapter09/chap09e4VampireBites.csv)
+
+Turner, D. C. 1975. *The vampire bat: a field study in behavior and ecology*. Johns Hopkins Press: Baltimore, MD.
+
+<br>
+
+## Data for problem sets
+
+[01. Coffee and cancer](Data/chapter09/chap09q01CoffeeAndCancer.csv)
+
+Wilson, K. M., et al. 2011. *Journal of the National Cancer Institute* 103: 1-9.
+
+[03. Divorce after diagnosis](Data/chapter09/chap09q03DiseaseAndDivorce.csv)
+
+Glanz, M. C., et al. 2009. *Cancer* 115: 5237-42.
+
+[05. Pigeon rumps](Data/chapter09/chap09q05PigeonRumps.csv)
+
+Palleroni, A., C. T. Miller, M. Hauser, and P. Marler. 2005. *Nature* 434: 973-974.
+
+[06. Malaria transmission](Data/chapter09/chap09q06MalariaAndMosquitoFeeding.csv)
+
+Koella, J.C., F. L. Sørensen, and R. A. Anderson. 1998. *Proceedings of the Royal Society of London, Series B, Biological Sciences (USA)* 265: 763-768.
+
+[07. Redback spider sexual cannibalism](Data/chapter09/chap09q07RedbackSpiderCannibalism.csv)
+
+Andrade, M. C. B. 1996. *Science* 271: 70-72.
+
+[08. Reed frogs and fire](Data/chapter09/chap09q08FrogsFire.csv)
+
+Grafe, T. U., S. Döbler, and K. E. Linsenmair. 2002. *Proceedings of the Royal Society of London, Series B, Biological Sciences* 269: 999-1003.
+
+[09. Fish sex change](Data/chapter09/chap09q09FishSexChange.csv)
+
+Hobbs, J.-P. A., P. L. Munday, and G. P. Jones. 2004. *Proceedings of the Royal Society of London, Series B, Biological Sciences* 271: 2109-2114.
+
+[10. TV violence](Data/chapter09/chap09q09FishSexChange.csv)
+
+Johnson, J. G., et al. 2002. *Science* 295: 2468-2471.
+
+[11. Drinking and heart disease](Data/chapter09/chap09q11AlcoholHeartAttacks.csv)
+
+Doll, R., et al. 1994. *British Medical Journal* 309: 911-918.
+
+[12. Postnatal depression](Data/chapter09/chap09q12PostnatalDepression.csv)
+
+Patel, R. R., D. J. Murphy, and T. J. Peters. 2005. *British Medical Journal* 330: 879.
+
+[13. Migraines with auras](Data/chapter09/chap09q13MigraineShunts.csv)
+
+Schwerzmann, M., et al. 2005. *Neurology* 65: 1415-1418.
+
+[15. CTA screening](Data/chapter09/chap09q15CTAscreening.csv)
+
+SCOT-HEART Investigators. 2018. *New England Journal of Medicine* 379: 924-933.
+
+[16. Mediterranean diet](Data/chapter09/chap09q16MedDiet.csv)
+
+Trichopoulou, A., et al. 2005. *British Medical Journal* 330: 991-997.
+
+[18. Prairie dog multiple mating](Data/chapter09/chap09q18PrairieDogMultipleMating.csv)
+
+Hoogland, J. L. 1998. *Animal Behaviour* 55: 351-359.
+
+[19. Plasma transfusion on the go](Data/chapter09/chap09q19plasmaTransfusion.csv)
+
+Sperry J. L. 2018. *New England Journal of Medicine* 379: 315-326.
+
+[20. Intuition about lying](Data/chapter09/chap09q20LyingIntuition.csv)
+
+Young, E. 2002. New Scientist (https://www.newscientist.com/article/dn2054-intuitive-people-worse-at-detecting-lies/). Accessed July 22, 2019.
+
+[22. Contagious yawning](Data/chapter09/chap09q22Yawning.csv)
+
+Provine, R. R. 1989. *Bulletin of the Psychonomic Society* 27: 211-214.
+
+[23. Daycare and leukemia](Data/chapter09/chap09q23ALLDaycare.csv)
+
+Gilham, C., et al. 2005. *British Medical Journal*, doi:10.1136/bmj.38428.521042.8F.
+
+[24. Blue termites](Data/chapter09/chap09q24BlueTermites.csv)
+
+Šobotník, J., et al. 2012. *Science* 337: 436-436.
+
+[25. Self recognition](Data/chapter09/chap09q25SelfRecognition.csv)
+
+Keenan, J. P., et al. 2001. *Nature* 409: 305.
+
+[27. Heat and sterility](Data/chapter09/chap09q27HeatSterility.csv)
+
+Rohmer, C., J. R. David, B. Moreteau, and D. Joly. 2004. *Journal of Experimental Biology* 207: 2735-2743.
+
+[29. Just because](Data/chapter09/chap09q29Because.csv)
+
+Langer, E., A. Blank, and B. Chanowitz. 1978. *Journal of Personality and Social Psychology* 36: 635-642.
+
+[30. Bereavement and health](Data/chapter09/chap09q30WidowHealth.csv)
+
+Maddison, D., and A. Viola. 1968. *Journal of Psychosomatic Research* 12: 297-306.
+
+[32. Denomination effect](Data/chapter09/chap09q32Denomination.csv)
+
+Raghubir, P., and J. Srivastava. 2009. *Journal of Consumer Research* 36: 701-713.
+
+[33. Firearms and suicide](Data/chapter09/chap09q33FirearmsSuicide.csv)
+
+Brent, D.A., et al. 1993. *American Journal of Diseases of Children* 147: 1066-1071.
+
+[34. Nectar spurs](Data/chapter09/chap09q34NectarSpurs.csv)
+
+Johnson, S. D., and K. E. Steiner. 1997. *Evolution* 51: 45-53.
+
+[35. Kuru](Data/chapter09/chap09q35Kuru.csv)
+
+Mead, S., et al. 2009. *New England Journal of Medicine* 361: 2056-2065.
+
+[36. Vaccination against Lyme Disease](Data/chapter09/chap09q36lymeDisease.csv)
+
+Steere, A. C. 1998. *New England Journal of Medicine* 339: 209-215
+
+<br> 
+
+# Bulk data
+
+Download a .zip file with all the data for chapter 9 in .csv format [here](DataZipFiles/chapter09.zip). 
+
+*Disclaimer: Most data sets used in the book are grabbed from graphs and tables in the original publications, and the values may not be exact. Contact the original authors for the raw data.*
+
+

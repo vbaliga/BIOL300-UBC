@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+
+<title>Labs using R:  5. Describing data</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-3');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li>
+  <a href="index.html">About these labs</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R_tutorial_Loading_R_and_RStudio.html">0. Loading R and RSstudio</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Intro_to_R_1.html">1. Intro to R, Part 1</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Intro_to_R_2.html">2. Intro to R, Part 2</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Graphics.html">3. Graphics</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Making_data_files.html">4a. Making data files for R</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Sampling.html">4b. Sampling</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Describing_data.html">5. Describing data</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Frequency_data.html">6. Frequency data</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Contingency_analysis.html">7. Contingency analysis</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Normal_and_sample_means.html">8. Normal distribution and sample means</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Comparing_means_of_2_groups.html">9. Comparing the means of two groups</a>
+    </li>
+    <li>
+      <a href="R_tutorial_ANOVA.html">10. ANOVA</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Correlation_Regression.html">11. Correlation and regression</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore"><em>Labs using R</em>: <br>5. Describing data</h1>
+
+</div>
+
+
+<p><em>This lab is part of a series designed to accompany a course using </em>The Analysis of Biological Data<em>. The rest of the labs can be found <a href="index.html">here</a>. This lab is based on topics in Chapters 3 and 4 of ABD.</em></p>
+<p><br></p>
+<div id="learning-outcomes" class="section level1">
+<h1>Learning outcomes</h1>
+<ul>
+<li><p>Investigate sampling error; see that larger samples have less sampling error.</p></li>
+<li><p>Visualize confidence intervals.</p></li>
+<li><p>Calculate basic summary statistics using R.</p></li>
+<li><p>Calculate confidence intervals for the mean with R.</p></li>
+</ul>
+<p><br></p>
+<p>If you have not already done so, download <a href="ABDLabs.zip">the zip file containing Data, R scripts, and other resources for these labs</a>. Remember to start RStudio from the “ABDLabs.Rproj” file in that folder to make these exercises work more seamlessly.</p>
+<hr />
+<p><br></p>
+</div>
+<div id="learning-the-tools" class="section level1">
+<h1>Learning the tools</h1>
+<p><br></p>
+<div id="missing-data" class="section level2">
+<h2>Missing data</h2>
+<p>Sometimes we do not have all variables measured on all individuals in the data set. When this happens, we need a space holder in our data files so that R knows that the data is missing. The standard way of doing this in R is to put “NA” (without the quotes) in the location that the data would have gone. NA is short for “not available”.</p>
+<p>For example, in the Titanic data set, we do not know the age of several passengers. Let’s look at it. Load the Titanic data set:</p>
+<pre class="r"><code>titanicData &lt;- read.csv(&quot;DataForLabs/titanic.csv&quot;, stringsAsFactors = TRUE)</code></pre>
+<p>Have R print out the list of the age variable, which you can do easily by just typing its name:</p>
+<pre class="r"><code>titanicData$age</code></pre>
+<p>If you look through the results, you will see that most individuals have numbers in this list, but some have NA. These NAs are the people for which we do not have age information.</p>
+<p>By the way, the titanic.csv file simply has nothing in the places where there is missing data. When R loaded it, it replaced the empty spots with NA automatically.</p>
+<p><br></p>
+</div>
+<div id="measures-of-location" class="section level2">
+<h2>Measures of location</h2>
+<p>This week we want to use R to give some basic descriptive statistics for numerical data.</p>
+<p><br></p>
+<div id="mean" class="section level3">
+<h3>mean()</h3>
+<p>We have already seen in lab 1 how to calculate the mean of a vector of data using <strong>mean()</strong>. Unfortunately, if there are missing data we need to tell R how to deal with it.</p>
+<p>A (somewhat annoying) quirk of R is that if we try to take the mean of a list of numbers that include missing data, we get an NA for the result!</p>
+<pre class="r"><code>mean(titanicData$age)</code></pre>
+<pre><code>## [1] NA</code></pre>
+<p><br></p>
+</div>
+<div id="na.rm-true" class="section level3">
+<h3>na.rm = TRUE</h3>
+<p>To get the mean of all the numbers that we do have, we have to add an option to the <strong>mean()</strong> function. This option is <strong>na.rm = TRUE</strong>.</p>
+<pre class="r"><code>mean(titanicData$age, na.rm = TRUE)</code></pre>
+<pre><code>## [1] 31.19418</code></pre>
+<p>This tells R to remove (“rm”) the NAs before taking the mean. It turns out that the mean age of passengers that we have information for was about 31.2.</p>
+<p><strong>na.rm = TRUE</strong> can be added to many functions in R, including <strong>median()</strong>, as we shall see next.</p>
+<p><br></p>
+</div>
+<div id="median" class="section level3">
+<h3>median()</h3>
+<p>The median of a series of numbers is the “middle” number – half of the numbers in the list are greater the median and half are below it. It can be calculated in R by using <strong>median()</strong>.</p>
+<pre class="r"><code>median(titanicData$age, na.rm = TRUE)</code></pre>
+<pre><code>## [1] 30</code></pre>
+<p><br></p>
+</div>
+<div id="summary" class="section level3">
+<h3>summary()</h3>
+<p>A handy function that will return both the mean and median at the same time (along with other information such as the first and third quartiles) is <strong>summary()</strong>.</p>
+<pre class="r"><code>summary(titanicData$age)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##  0.1667 21.0000 30.0000 31.1942 41.0000 71.0000     680</code></pre>
+<p>From left to right, this output gives us the smallest (minimum) value in the list (“<strong>Min.</strong>”), the first quartile (“<strong>1st Qu.</strong>”), the median, the mean, the third quartile (“<strong>3rd Qu.</strong>”), the largest (maximum) value (“<strong>Max.</strong>”), and finally, the number of individuals with missing values (”<strong>NA’s</strong>”).</p>
+<p>The first quartile is the value in the data that is larger than a quarter of the data points. The third quartile is larger than ¾ of the data. These are also called the 25th percentile and the 75th percentile, respectively. (You may remember these from boxplots, where the top and bottom of the box mark the 75th and 25th percentiles, respectively.)</p>
+<p><br></p>
+</div>
+</div>
+<div id="measures-of-variability" class="section level2">
+<h2>Measures of variability</h2>
+<p>R can also calculate measures of the variability of a sample. In this section we’ll learn how to calculate the variance, standard deviation, coefficient of variation and interquartile range of a set of data.</p>
+<p><br></p>
+<div id="var" class="section level3">
+<h3>var()</h3>
+<p>To calculate the variance of a list of numbers, use <strong>var()</strong>.</p>
+<pre class="r"><code>var(titanicData$age, na.rm = TRUE)</code></pre>
+<pre><code>## [1] 217.4895</code></pre>
+<p>Note that <strong>var()</strong>, as well as <strong>sd()</strong> below, have the same need for <strong>na.rm = TRUE</strong> when analyzing data that include missing values.</p>
+<p><br></p>
+</div>
+<div id="sd" class="section level3">
+<h3>sd()</h3>
+<p>The standard deviation can be calculated by <strong>sd()</strong>.</p>
+<pre class="r"><code>sd(titanicData$age, na.rm = TRUE)</code></pre>
+<pre><code>## [1] 14.74753</code></pre>
+<p>Of course, the standard deviation is the same as the square root of the variance.</p>
+<pre class="r"><code>sqrt(var(titanicData$age, na.rm = TRUE))</code></pre>
+<pre><code>## [1] 14.74753</code></pre>
+<p><br></p>
+</div>
+<div id="coefficient-of-variation" class="section level3">
+<h3>Coefficient of variation</h3>
+<p>Surprisingly, there is no standard function in R to calculate the coefficient of variation. You can do this yourself, though, directly from the definition:</p>
+<pre class="r"><code>100 * sd(titanicData$age, na.rm = TRUE) / mean(titanicData$age, na.rm = TRUE) </code></pre>
+<pre><code>## [1] 47.27653</code></pre>
+<p><br></p>
+</div>
+<div id="iqr" class="section level3">
+<h3>IQR()</h3>
+<p>The interquartile range (or IQR) is the difference between the third quartile and the first quartile; in other words the range covered by the middle half of the data. It can be calculated easily with <strong>IQR()</strong>.</p>
+<pre class="r"><code>IQR(titanicData$age, na.rm = TRUE)</code></pre>
+<pre><code>## [1] 20</code></pre>
+<p>Note that this is the same as we could calculate by the results from <strong>summary()</strong> above. The third quartile is 41 and the first quartile is 21, so the difference is 41 – 21 = 20.</p>
+<p><br></p>
+</div>
+</div>
+<div id="confidence-intervals-of-the-mean" class="section level2">
+<h2>Confidence intervals of the mean</h2>
+<p>The confidence interval for an estimate tells us a range of values that is likely to contain the true value of the parameter. For example, in 95% of random samples the 95% confidence interval of the mean will contain the true value of the mean.</p>
+<p>R does not have a simple built-in function to calculate only the confidence interval of the mean, but the function that calculates <em>t</em>-tests will give us this information. (See chapters 11 and 12 in the text or Week 7 and 8 of these labs for more on <em>t</em>-tests.) The function <strong>t.test()</strong> has many results in its output. By adding <strong>$conf.int</strong> to this function we only get back the confidence interval for the mean. By default it gives us the 95% confidence interval.</p>
+<pre class="r"><code>t.test(titanicData$age)$conf.int</code></pre>
+<pre><code>## [1] 30.04312 32.34524
+## attr(,&quot;conf.level&quot;)
+## [1] 0.95</code></pre>
+<p>As the result above shows, the 95% confidence interval of the mean of age in the <strong>titanicData</strong> data set is from about 30.0 to 32.3. R also tells us that it used a 95% confidence level for its calculation. (The confidence interval is not so useful in this case, because we actually have information for nearly all the individuals on the Titanic.)</p>
+<p>To calculate confidence intervals with a different level of confidence, we can add the option <strong>conf.level</strong> to the <strong>t.test</strong> function. For example, for a 99% confidence interval we can use the following.</p>
+<pre class="r"><code>t.test(titanicData$age, conf.level = 0.99)$conf.int</code></pre>
+<pre><code>## [1] 29.67976 32.70861
+## attr(,&quot;conf.level&quot;)
+## [1] 0.99</code></pre>
+<p><br></p>
+</div>
+</div>
+<div id="r-commands-summary" class="section level1">
+<h1>R commands summary</h1>
+<p><img src="formula_summaries/Describing%20data%20summary.png" /></p>
+<hr />
+<p><br></p>
+</div>
+<div id="activities" class="section level1">
+<h1>Activities</h1>
+<p><br></p>
+<div id="distribution-of-sample-means" class="section level2">
+<h2>1. Distribution of sample means</h2>
+<p>Go to the web and open the page at <a href="http://www.zoology.ubc.ca/~whitlock/kingfisher/SamplingNormal.htm">http://www.zoology.ubc.ca/~whitlock/kingfisher/SamplingNormal.htm</a>. This page contains some interactive visualizations that let you play around with sampling to see the distribution of sampling means. Click the button that says “Tutorial” near the bottom of the page and follow along with the instructions. <br></p>
+</div>
+<div id="confidence-intervals" class="section level2">
+<h2>2. Confidence intervals</h2>
+<p>Go back to the web, and open the page at <a href="http://www.zoology.ubc.ca/~whitlock/kingfisher/CIMean.htm">http://www.zoology.ubc.ca/~whitlock/kingfisher/CIMean.htm</a> . This applet draws confidence intervals for the mean of a known population. Click “Tutorial” again, and follow along.</p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="questions" class="section level1">
+<h1>Questions</h1>
+<p><br> 1. Your TA should provide a data file that includes data that your classmates collected on themselves during the first week of lab, in Lab 1. (If you are doing these outside of a class setting, anonymized data based on a previous class’s answers is available as “studentSampleData.csv”. A visual inspection of the class from which these data were taken showed that no one was below 100 cm in height, and no one had a particualrly large or small head.) Remember that these data were collected using measuring tapes based in inches, but the data file asked fo rthe measurements in centimenters. Open that file in R.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Plot the distribution of heights in the class. Describe the shape of the distribution. Is it symmetric or strongly skewed? Is it unimodal or bimodal?</li>
+</ol>
+<p><em>Key point: A distribution is skewed if it is asymmetric. A distribution is skewed right if there is a long tail to the right, and skewed left if there is a long tail to the left.</em> <img src="formula_summaries/skew.png" /></p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><p>Are there any large outliers that look as though a student used the wrong units for their height measurement. (I.e., are there any that are more plausibly a height given in inches rather than the requested centimeters?) If so, and if this is not likely to be an accurate description of an individual in your class, use <strong>filter()</strong> from the package <strong>dplyr</strong> to create a new data set without those rows.</p></li>
+<li><p>Use R to calculate the mean height of all students in the class, using the filtered data.</p></li>
+<li><p>Use <strong>sd()</strong> to calculate the standard deviation of height, using the filter data.</p></li>
+</ol>
+<p><br> 2. The file “caffeine.csv” contains data on the amount of caffeine in a 16 oz. cup of coffee obtained from various vendors. For context, doses of caffeine over 25 mg are enough to increase anxiety in some people, and doses over 300 to 360 mg are enough to significantly increase heart rate in most people. A can of Red Bull contains 80mg of caffeine.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>What is the mean amount of caffeine in 16 oz. coffees?</p></li>
+<li><p>What is the 95% confidence interval for the mean?</p></li>
+<li><p>Plot the frequency distribution of caffeine levels for these data in a histogram. Is the amount of caffeine in a cup of coffee relatively consistent from one vendor to another? What is the standard deviation of caffeine level? What is the coefficient of variation?</p></li>
+<li><p>The file “caffeineStarbucks.csv” has data on six 16 oz. cups of Breakfast Blend coffee sampled on six different days from a Starbucks location. Calculate the mean (and the 95% confidence interval for the mean) for these data. Compare these results to the data taken on the broader sample of vendors in the first file. Describe the difference.</p></li>
+</ol>
+<p><br> 3. A confidence interval is a range of values that are likely to contain the true value of a parameter. Consider the “caffeine.csv” data again.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Calculate the 99% confidence interval for the mean caffeine level.</p></li>
+<li><p>Compare this 99% confidence interval to the 95% confidence interval you calculate in question 2b. Which confidence interval is wider (i.e., spans a broader range)? Why should this one be wider?</p></li>
+<li><p>Let’s compare the quantiles of the distribution of caffeine to this confidence interval. Approximately 95% of the data values should fall between the 2.5% and 97.5% quantiles of the distribution of caffeine. (Explain why this is true.) We can use R to calculate the 2.5% and 97.5% quantiles with a command like the following. (Replace “datavector” with the name of the vector of your caffeine data.)</p></li>
+</ol>
+<pre class="r"><code>&gt; quantile(datavector, c(0.025, 0.975), na.rm =TRUE)</code></pre>
+<p>Are these the same as the boundaries of the 95% confidence interval? If not, why not? Which should bound a smaller region, the quantile or the confidence interval of the mean?</p>
+<p><br> 4. Return to the class data set “studentSampleData.csv”. Find the mean value of “number of siblings.” Add one to this to find the mean number of children per family in the class.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>The mean number of offspring per family twenty years ago was about 2. Is the value for this class similar, greater, or smaller? If different, think of reasons for the difference.</p></li>
+<li><p>Are the families represented in this class systematically different from the population at large? Is there a potential sampling bias?</p></li>
+<li><p>Consider the way in which the data were collected. How many families with zero children are represented? Why? What effect does this have on the estimated mean family size of all couples?</p></li>
+</ol>
+<p><br> 5. Return to the data on countries of the world, in “countries.csv”. Plot the distributions for <strong>ecological_footprint_2000</strong>, <strong>cell_phone_subscriptions_per_100_people_2012</strong>, and <strong>life_expectancy_at_birth_female</strong>.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>For each variable, plot a histogram of the distribution. Is the variable skewed? If so, in which direction?</p></li>
+<li><p>For each variable, calculate the mean and median. Are they similar? Match the difference in mean and median to the direction of skew on the histogram. Do you see a pattern?</p></li>
+</ol>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

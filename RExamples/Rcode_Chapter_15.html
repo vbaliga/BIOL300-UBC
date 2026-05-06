@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+
+<title>R code for example in Chapter 15:  Comparing means of more than two groups</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-4');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R code for example in Chapter 15: <br>Comparing means of more than two groups</h1>
+
+</div>
+
+
+<hr />
+<p>We used R to analyze all examples in Chapter 15. We put the code here so that you can too.</p>
+<p>Also see our <a href="https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_ANOVA.html">lab on ANOVA using R</a>.</p>
+<p><br></p>
+<div id="new-methods-on-this-page" class="section level1">
+<h1>New methods on this page</h1>
+<ul>
+<li>
+<p>Fixed effects analysis of variance (ANOVA):</p>
+<pre class="r"><code>circadianAnova &lt;- lm(shift ~ treatment, data = circadian)
+anova(circadianAnova)</code></pre>
+<li>
+<p>Unplanned comparisons (Tukey-Kramer tests) using the <code>multcomp</code> package:</p>
+<pre class="r"><code>circadianPairs &lt;- emmeans(circadianAnova, &quot;treatment&quot;)
+contrast(circadianPairs, method = &quot;pairwise&quot;, adjust = &quot;tukey&quot;)</code></pre>
+<li>
+<p>Kruskal-Wallis test:</p>
+<pre class="r"><code>kruskal.test(shift ~ treatment, data = circadian)</code></pre>
+<li>
+Other new methods:
+<ul>
+<li>
+<em>R</em><sup>2</sup>.
+<li>
+Planned comparisons.
+<li>
+Random effects analysis of variance.
+<li>
+Repeatability.
+</ul>
+</ul>
+<hr />
+</div>
+<div id="load-required-packages" class="section level1">
+<h1>Load required packages</h1>
+<p>We need the <code>emmeans</code> package to carry out pairwise comparisons of group means in addition to the <code>ggplot2</code> and <code>dplyr</code> packages. We also need the <code>nlme</code> package to carry out ANOVA with a random effect. You might need to install the <code>emmeans</code> package on your computer if you have not already done so.</p>
+<pre class="r"><code>install.packages(&quot;emmeans&quot;, dependencies = TRUE) # only if not yet installed</code></pre>
+<pre class="r"><code>library(ggplot2)
+library(dplyr)
+library(nlme)
+library(emmeans)</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="example-15.1.-knees-who-say-night" class="section level1">
+<h1>Example 15.1. Knees who say night</h1>
+<p><em><strong>Analysis of variance</strong>, comparing phase shift in the circadian rhythm of melatonin production in participants given alternative light treatments. Also, the nonparametric <strong>Kruskal-Wallis test</strong>. Finally, we use the same data to demonstrate <strong>planned comparisons</strong> and <strong>unplanned comparisons (Tukey-Kramer tests)</strong>. </em></p>
+<p><br></p>
+<div id="read-and-inspect-data" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>circadian &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter15/chap15e1KneesWhoSayNight.csv&quot;), stringsAsFactors = FALSE)</code></pre>
+<p><br></p>
+</div>
+<div id="order-groups" class="section level2">
+<h2>Order groups</h2>
+<pre class="r"><code>circadian$treatment &lt;- factor(circadian$treatment, 
+    levels = c(&quot;control&quot;, &quot;knee&quot;, &quot;eyes&quot;)) </code></pre>
+<p><br></p>
+</div>
+<div id="statistics-by-treatment-group" class="section level2">
+<h2>Statistics by treatment group</h2>
+<p>Here is how to create a table of descriptive statistics of a variable by group (Table 15.1-1) using <code>summarize()</code> from the <code>dplyr</code> package.</p>
+<pre class="r"><code>circadianStats &lt;- summarize(group_by(circadian, treatment), 
+          Ybar = mean(shift, na.rm = TRUE),
+          s = sd(shift, na.rm = TRUE), 
+          n = n())
+data.frame(circadianStats)</code></pre>
+<pre><code>##   treatment       Ybar         s n
+## 1   control -0.3087500 0.6175629 8
+## 2      knee -0.3357143 0.7908193 7
+## 3      eyes -1.5514286 0.7063151 7</code></pre>
+<p><br></p>
+</div>
+<div id="basic-strip-chart" class="section level2">
+<h2>Basic strip chart</h2>
+<p>The basic strip chart is as follows.</p>
+<pre class="r"><code>ggplot(circadian, aes(x = treatment, y = shift)) +
+    geom_point(color = &quot;firebrick&quot;, size = 3, shape = 1) +
+    labs(x = &quot;Light treatment&quot;, y = &quot;Shift in circadian rhythm (h)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_15_files/figure-html/unnamed-chunk-9-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="standard-error-bars" class="section level2">
+<h2>Standard error bars</h2>
+<p>Use <code>stat_summary()</code> to overlay mean and standard error bars. We shifted the position of the bars to eliminate overlap.</p>
+<pre class="r"><code>ggplot(circadian, aes(x = treatment, y = shift)) +
+    geom_point(color = &quot;firebrick&quot;, size = 3, shape = 1) +
+    stat_summary(fun.data = mean_se, geom = &quot;errorbar&quot;, 
+        colour = &quot;black&quot;, width = 0.1, 
+        position=position_nudge(x = 0.15)) +
+    stat_summary(fun.y = mean, geom = &quot;point&quot;, 
+        colour = &quot;firebrick&quot;, size = 3, 
+        position=position_nudge(x = 0.15)) +
+    labs(x = &quot;Light treatment&quot;, y = &quot;Shift in circadian rhythm (h)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_15_files/figure-html/unnamed-chunk-10-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="fixed-effects-anova-table" class="section level2">
+<h2>Fixed effects ANOVA table</h2>
+<p>The ANOVA table is made in two steps. The first step involves fitting the ANOVA model to the data using <code>lm()</code> (“lm” stands for “linear model”, of which ANOVA is one type). Then we use the command <code>anova()</code> to assemble the table. The result will look similar to that in Table 15.1-2, although the columns are arranged slightly differently.</p>
+<pre class="r"><code>circadianAnova &lt;- lm(shift ~ treatment, data = circadian)
+anova(circadianAnova)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: shift
+##           Df Sum Sq Mean Sq F value   Pr(&gt;F)   
+## treatment  2 7.2245  3.6122  7.2894 0.004472 **
+## Residuals 19 9.4153  0.4955                    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p><br></p>
+</div>
+<div id="r2" class="section level2">
+<h2><span class="math inline">\(R^2\)</span></h2>
+<p><span class="math inline">\(R^2\)</span> indicates the fraction of variation in the response variable “explained” by treatment. This is again done in two steps. The first step calculates a bunch of useful quantities from the ANOVA model object previously created with a <code>lm()</code> command. The second step shows the <span class="math inline">\(R^2\)</span> value.</p>
+<pre class="r"><code>circadianAnovaSummary &lt;- summary(circadianAnova)
+circadianAnovaSummary$r.squared</code></pre>
+<pre><code>## [1] 0.4341684</code></pre>
+<p><br></p>
+</div>
+<div id="kruskal-wallis-test" class="section level2">
+<h2>Kruskal-Wallis test</h2>
+<p>The Kruskal-Wallis test is a nonparametric method to compare more than two groups. The method is not needed for the circadian rhythm data, because assumptions of ANOVA are met, but we include it here to demonstrate the method. Write the formula for the command in the same way as with <code>lm()</code>.</p>
+<pre class="r"><code>kruskal.test(shift ~ treatment, data = circadian)</code></pre>
+<pre><code>## 
+##  Kruskal-Wallis rank sum test
+## 
+## data:  shift by treatment
+## Kruskal-Wallis chi-squared = 9.4231, df = 2, p-value = 0.008991</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="planned-and-unplanned-comparisons" class="section level1">
+<h1>Planned and unplanned comparisons</h1>
+<p><em><strong>Planned</strong> and <strong>unplanned</strong> comparisons of pairs of means.</em></p>
+<p>A planned comparison is a comparison between two group means that was planned during the design of the study, in other words well before the data were collected. To use the method you need a solid prior justification—why are you focusing on that specific pair of treatments? Only a small number of planned comparisons are allowed.</p>
+<p>If you lack a solid prior justification for a specific comparison between two groups, use unplanned comparison instead. Unplanned comparisons typically involve testing differences between all pairs of means, and methods provide needed protection against rising Type I errors that would otherwise result from multiple testing. We use the Tukey method for unplanned comparisons.</p>
+<p><br></p>
+<div id="a-planned-comparison" class="section level2">
+<h2>A planned comparison</h2>
+<p>Here we’ll calculate a planned comparison. The only one we are interested in is that between the “control” and “knee” treatment groups, but <code>emmeans()</code> will calculate all pairs.</p>
+<p>First, apply the <code>emmeans()</code> command to the ANOVA object.</p>
+<pre class="r"><code>circadianPairs &lt;- emmeans(circadianAnova, specs = &quot;treatment&quot;)</code></pre>
+<p>To obtain the planned 95% confidence intervals for a pairwise comparison, use</p>
+<pre class="r"><code>circadianPlanned &lt;- contrast(circadianPairs, method = &quot;pairwise&quot;, adjust = &quot;none&quot;)
+confint(circadianPlanned)</code></pre>
+<pre><code>##  contrast       estimate    SE df lower.CL upper.CL
+##  control - knee    0.027 0.364 19   -0.736     0.79
+##  control - eyes    1.243 0.364 19    0.480     2.01
+##  knee - eyes       1.216 0.376 19    0.428     2.00
+## 
+## Confidence level used: 0.95</code></pre>
+<pre class="r"><code># or
+confint(circadianPlanned)[1,] # for the control vs knee comparison alone</code></pre>
+<pre><code>##         contrast   estimate        SE df   lower.CL  upper.CL
+## 1 control - knee 0.02696429 0.3643283 19 -0.7355836 0.7895122</code></pre>
+<p>The planned 2-sample <span class="math inline">\(t\)</span>-test between two means is just</p>
+<pre class="r"><code>circadianPlanned</code></pre>
+<pre><code>##  contrast       estimate    SE df t.ratio p.value
+##  control - knee    0.027 0.364 19 0.074   0.9418 
+##  control - eyes    1.243 0.364 19 3.411   0.0029 
+##  knee - eyes       1.216 0.376 19 3.231   0.0044</code></pre>
+<pre class="r"><code># or
+circadianPlanned[1,] # for the control vs knee comparison alone</code></pre>
+<pre><code>##  contrast       estimate    SE df t.ratio p.value
+##  control - knee    0.027 0.364 19 0.074   0.9418</code></pre>
+<p><br></p>
+</div>
+<div id="unplanned-comparisons" class="section level2">
+<h2>Unplanned comparisons</h2>
+<p>Here we show how to carry out Tukey-Kramer tests between all pairs of means. The raw data for the “Wood-wide web” example (Example 15.4) are not available, so we have used the circadian rhythm data to demonstrate the R method here instead. The output table will say “<span class="math inline">\(t\)</span>” but it is actually “<span class="math inline">\(q\)</span>” as we describe in the book.</p>
+<pre class="r"><code>circadianPairs &lt;- emmeans(circadianAnova, &quot;treatment&quot;)
+circadianUnplanned &lt;- contrast(circadianPairs, method = &quot;pairwise&quot;, adjust = &quot;tukey&quot;)
+circadianUnplanned</code></pre>
+<pre><code>##  contrast       estimate    SE df t.ratio p.value
+##  control - knee    0.027 0.364 19 0.074   0.9970 
+##  control - eyes    1.243 0.364 19 3.411   0.0079 
+##  knee - eyes       1.216 0.376 19 3.231   0.0117 
+## 
+## P value adjustment: tukey method for comparing a family of 3 estimates</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-15.6.-walking-stick-limbs" class="section level1">
+<h1>Example 15.6. Walking stick limbs</h1>
+<p><em><strong>Random effects ANOVA to estimate variance components</strong> and calculate <strong>repeatability</strong> of measurements of femur length in walking stick insects</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data-1" class="section level2">
+<h2>Read and inspect data</h2>
+<p>Data are in “long” format. Femur length is one column, with another variable indicating specimen identity. Each specimen was measured twice and therefore takes up two rows.</p>
+<pre class="r"><code>walkingstick &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter15/chap15e6WalkingStickFemurs.csv&quot;), stringsAsFactors = FALSE)
+head(walkingstick)</code></pre>
+<pre><code>##   specimen femurLength
+## 1        1        0.26
+## 2        1        0.26
+## 3        2        0.23
+## 4        2        0.19
+## 5        3        0.25
+## 6        3        0.23</code></pre>
+<p><br></p>
+</div>
+<div id="strip-chart" class="section level2">
+<h2>Strip chart</h2>
+<p>To make the strip chart in Figure 15.6-1, we first need to order the specimens by their mean measurement.</p>
+<p>First, calculate the mean femur length for each specimen, as well as which of its two measurements is the smallest and which the largest. Save the result in the same data frame.</p>
+<pre class="r"><code>walkingstick &lt;- mutate(group_by(walkingstick, specimen), meanFemur = mean(femurLength))
+head(data.frame(walkingstick))</code></pre>
+<pre><code>##   specimen femurLength meanFemur
+## 1        1        0.26      0.26
+## 2        1        0.26      0.26
+## 3        2        0.23      0.21
+## 4        2        0.19      0.21
+## 5        3        0.25      0.24
+## 6        3        0.23      0.24</code></pre>
+<p>Then, order the specimens by their mean femur lengths, so that we can plot them smallest to largest. Finally, make a new variable <code>indiv</code> to label the ordered specimens.</p>
+<pre class="r"><code>walkingstick.ordered &lt;- arrange(walkingstick, meanFemur)
+walkingstick.ordered$indiv &lt;- rep(1:25, rep(2, 25))</code></pre>
+<p>Finally, make the plot. The <code>stat_summary</code> layer with <code>geom = &quot;linerange&quot;</code> draws a line from the smallest to largest measurement for each individual. <code>geom_point()</code> overlays the points.</p>
+<pre class="r"><code>ggplot(walkingstick.ordered, aes(indiv, femurLength)) +
+    stat_summary(fun.data = mean_se, geom = &quot;linerange&quot;, 
+        colour = &quot;black&quot;) +
+    geom_point(color = &quot;firebrick&quot;, size = 3) +
+    labs(x = &quot;Individual walking stick&quot;, y = &quot;Femur length (cm)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_15_files/figure-html/unnamed-chunk-21-1.png" width="480" /></p>
+</div>
+<div id="random-effects-anova" class="section level2">
+<h2>Random effects ANOVA</h2>
+<p>Fit the random effects ANOVA using <code>lme()</code> command from the <code>nlme</code> package. Individual walking stick is the random effect in the walking stick data. The example doesn’t include a fixed-effect variable, so we just provide a symbol for a constant in the formula (<code>~ 1</code>), representing the grand mean. The random effect is included in a second formula as <code>1|specimen</code>, which indicates that each insect specimen (the variable representing individual insect) has its own true femur length represented in the formula as a constant. This notation takes some getting used to.</p>
+<pre class="r"><code>walkingstickAnova &lt;- lme(fixed = femurLength ~ 1, 
+             random = ~ 1|specimen, data = walkingstick)</code></pre>
+<p><br></p>
+</div>
+<div id="variance-components" class="section level2">
+<h2>Variance components</h2>
+<p>Obtain the variances and standard deviations of the random effects using <code>VarCorr</code>. The first row contains the variance (and standard deviation) among the specimens. This is the variability among random groups. The second row contains the variance (and standard deviation) of measurements made on the same individuals. This is the within-group variation and is labeled “Residual”.</p>
+<pre class="r"><code>walkingstickVarcomp &lt;- VarCorr(walkingstickAnova)
+walkingstickVarcomp</code></pre>
+<pre><code>## specimen = pdLogChol(1) 
+##             Variance     StdDev    
+## (Intercept) 0.0010539182 0.03246411
+## Residual    0.0003559996 0.01886795</code></pre>
+<p><br></p>
+</div>
+<div id="repeatability" class="section level2">
+<h2>Repeatability</h2>
+<p>The repeatability is the proportion of total variance among measurements (within plus among individuals) that is among measurements.</p>
+<pre class="r"><code>varAmong  &lt;- as.numeric( walkingstickVarcomp[1,1] )
+varWithin &lt;- as.numeric( walkingstickVarcomp[2,1] )
+repeatability &lt;- varAmong / (varAmong + varWithin)
+repeatability</code></pre>
+<pre><code>## [1] 0.7475033</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

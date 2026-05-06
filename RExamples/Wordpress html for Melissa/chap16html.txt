@@ -1,0 +1,124 @@
+<h2>Correlation between numerical variables: R code for Chapter 16 examples</h2>
+Download the R code on this page as a single file <a href="../wp-content/rcode/chap16.r">here</a>
+<div style="width:650px; padding:6px; border:2px solid black; bgcolor=" #ffffff""="">
+<h3>New methods on this page</h3>
+Click on a function argument for a short description of its meaning. The variable names are plucked from the examples further below.
+
+<b>Linear correlation</b>:
+<code>cor.test([tippy title = "booby$futureBehavior" width = "300" header = "off"] <font color="003399">The name of a numeric variable in data frame <code>booby</code>.</font>[/tippy], [tippy title = "booby$nVisitsNestling" width = "300" header = "off"] <font color="003399">A second numeric variable from the same data frame, having the same number of elements as the first variable.</font>[/tippy])</code>
+
+<b>Spearman rank correlation</b>:
+<code>cor.test([tippy title = "trick$years" width = "300" header = "off"] <font color="003399">Name of a numeric variable in the data frame <code>trick</code>.</font>[/tippy], [tippy title = "trick$impressivenessScore" width = "300" header = "off"] <font color="003399">A second numeric variable in the same data frame.</font>[/tippy], [tippy title="method = "spearman"" width = "300" header = "off"] <font color="003399">An argument indicating the correlation method to use.</font>[/tippy])</code>
+
+</div>
+<code><!-- COMMENT --------------------------------------
+To see how to produce the xxxxx (Figure xxx) click [tippy title="here" width = "680" header = "off"]
+<pre>
+# Note.
+commands...
+</pre>
+[/tippy].
+---------------------------------------------------- --></code>
+<h3>Example 16.1. <a href="../wp-content/data/chapter16/chap16e1FlippingBird.csv">Flipping Booby</a></h3>
+<em><b>Estimate a linear correlation</b> between the number of non-parent adult visits experienced by boobies as chicks and the number of similar behaviors performed by the same birds when adult</em>.
+
+Read and inspect the data
+<pre>booby &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter16/chap16e1FlippingBird.csv"))
+head(booby)
+</pre>
+<strong>Scatter plot</strong>.
+<pre>plot(futureBehavior ~ nVisitsNestling, data = booby)
+</pre>
+For a fancier scatter plot using more options (Figure 16.1-4), see the commands [tippy title="here" width = "680" header = "off"]
+<pre>plot(futureBehavior ~ nVisitsNestling, data = booby, pch = 16, col = "firebrick",
+	las = 1, bty = "l", cex = 1.2, xlab = "Events experienced as a nestling", 
+	ylab = "Future behavior")
+</pre>
+[/tippy].
+
+<strong>Correlation coefficient</strong>. The <code>cor.test</code> function computes a number of useful quantities, which we save in the object <code>boobyCor</code>. The quantities can be extracted one at a time or shown all at once.
+<pre>boobyCor &lt;- cor.test(booby$futureBehavior, booby$nVisitsNestling)
+boobyCor
+</pre>
+If only the estimated correlation and standard error are of interest, they can be obtained as follows. The calculation of standard error uses <code>nrow(booby)</code> to get the sample size for the correlation, but this will only be true if there are no missing values.
+<pre>r &lt;- boobyCor$estimate
+r
+SE &lt;- sqrt( (1 - r^2)/(nrow(booby) - 3) )
+unname(SE)
+</pre>
+<strong>Confidence limit for a correlation coefficient</strong>. The 95% confidence interval for the correlation is included in the output of <code>cor.test</code>. If all you want is the confidence interval, it can be extracted from the <code>boobyCor</code> calculated in an earlier step.
+<pre>boobyCor$conf.int
+</pre>
+
+<hr>
+
+<h3>Example 16.2. <a href="../wp-content/data/chapter16/chap16e2InbreedingWolves.csv">Inbreeding wolves</a></h3>
+<em><b>Test a linear correlation</b> between inbreeding coefficients of litters of mated wolf pairs and the number of pups surviving their first winter</em>.
+
+Read and inspect data.
+<pre>wolf &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter16/chap16e2InbreedingWolves.csv"))
+head(wolf)
+</pre>
+<strong>Scatter plot</strong>.
+<pre>plot(nPups ~ inbreedCoef, data = wolf)
+</pre>
+A fancier scatter plot with more options can be made with the commands [tippy title="here" width = "680" header = "off"]
+<pre>plot(nPups ~ inbreedCoef, data = wolf, pch = 16, col = "firebrick",
+	las = 1, bty = "l", cex = 1.2, xlab = "Inbreeding coefficient", 
+	ylab = "Number of pups")
+</pre>
+[/tippy].
+
+<strong>Test of zero correlation</strong>. The results of the test are included in the output of <code>cor.test</code>.
+<pre>cor.test(wolf$nPups, wolf$inbreedCoef)
+</pre>
+
+<hr>
+
+<h3>Figure 16.4-1. <a href="../wp-content/data/chapter16/chap16f4_1StreamInvertebrates.csv">Stream invertebrates</a></h3>
+<em><b>Effect of the range of the data on the correlation coefficient</b> between population density of (log base 10 of number of individuals per square meter) and body mass (g) of different species of stream invertebrates</em>.
+
+Read and inspect the data.
+<pre>streamInvert &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter16/chap16f4_1StreamInvertebrates.csv"))
+head(streamInvert)
+</pre>
+<strong>Scatter plot</strong>.
+<pre>plot(log10Density ~ log10Mass, data = streamInvert)
+</pre>
+See [tippy title="here" width = "680" header = "off"]
+<pre>plot(log10Density ~ log10Mass, data = streamInvert, pch = 16, col = "firebrick",
+	las = 1, bty = "l", cex = 1.2, xlab = "Log population density", 
+	ylab = "Log body mass")
+</pre>
+[/tippy] for commands to make a scatter plot of these data with more options.
+
+<strong>Effect of the range of the data on the correlation coefficient</strong>. Here is the correlation coefficient for the full range of the data. The command uses <code>cor.test</code> but we extract just the correlation coefficient for this exercise.
+<pre>cor.test(streamInvert$log10Density, streamInvert$log10Mass)$estimate
+</pre>
+Here is the correlation coefficient for the subset of the data corresponding to a log10Mass between 0 and 2.
+<pre>streamInvertReduced &lt;- subset(streamInvert, log10Mass &gt; 0 &amp; log10Mass &lt; 2)
+cor.test(streamInvertReduced$log10Density, streamInvertReduced$log10Mass)$estimate
+</pre>
+
+<hr>
+
+<h3>Example 16.5. <a href="../wp-content/data/chapter16/chap16e5IndianRopeTrick.csv">Indian rope trick</a></h3>
+<em><b>Spearman rank correlation</b> between impressiveness score of the Indian rope trick and the number of years elapsed bewteen the witnessing of the trick and the telling of it in writing</em>.
+
+Read and inspect the data.
+<pre>trick &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter16/chap16e5IndianRopeTrick.csv"))
+head(trick)
+</pre>
+<strong>Scatter plot</strong>.
+<pre>plot(impressivenessScore ~ years, data = trick)
+</pre>
+See [tippy title="here" width = "680" header = "off"]
+<pre>plot(impressivenessScore ~ years, data = trick, pch = 16, col = "firebrick",
+	las = 1, bty = "l", cex = 1.2, xlab = "Years elapsed", 
+	ylab = "Impressiveness score")
+</pre>
+[/tippy] for commands to make a scatter plot of these data with more options.
+
+<strong>Test of zero Spearman rank correlation</strong>. In this example, the variable "impressivenessScore" is a number score with lots of tied observations. Because of the ties, R will warn you that the <i>P</i>-value in the output is not exact.
+<pre>cor.test(trick$years, trick$impressivenessScore, method = "spearman")
+</pre>

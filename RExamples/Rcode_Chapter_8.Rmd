@@ -1,0 +1,288 @@
+---
+title: "R code for examples in Chapter 8: <br>Fitting probability models to frequency data"
+author:  
+
+#output: html_document
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 5, fig.height=4)
+suppressPackageStartupMessages(library(ggplot2))
+```
+
+***
+
+We used R to analyze all examples in Chapter 8. We put the code here so that you can too.
+
+<br>
+Also see our [lab on analyzing frequency data using R](https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_Frequency_data.html).
+
+<br>
+
+
+# New methods on this page
+
+These are the core commands that produce the new methods described in Chapter 8. The variable names are plucked from the examples further below.
+
+<ul>
+<li> $\chi^2$ goodness-of-fit test:
+
+```{r eval = FALSE}
+chisq.test(birthDayTable, p = c(52,52,52,52,52,53,53)/366))
+```
+
+<li> Calculate Poisson probabilities:
+
+```{r eval = FALSE}
+dpois(0:20, lambda = meanExtinctions)
+```
+
+<li>Other new methods:
+<ul>
+<li>Divide individuals into groups based on a numeric variable using <code>cut()</code>.
+</ul>
+</ul>
+
+***
+
+<br>
+
+# Load required packages 
+
+We'll use the ```ggplot2``` add-on package to draw many plots.
+
+```{r eval = FALSE}
+library(ggplot2)
+```
+
+***
+
+<br>
+
+# Example 8.1. No weekend getaway
+
+***Fit the proportional model** to frequency data.*
+
+<br>
+
+## Read and inspect the data
+
+Each row represents a single birth, and shows the day of the week of birth.
+
+```{r}
+birthDay <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter08/chap08e1DayOfBirth2016.csv"), stringsAsFactors = FALSE)
+head(birthDay)
+```
+
+Put the days of the week in the correct order for tables and graphs.
+
+```{r}
+birthDay$day <- factor(birthDay$day, levels = c("Sunday", "Monday",
+ 	"Tuesday", "Wednesday","Thursday","Friday","Saturday"))
+```
+
+<br>
+
+## Frequency table
+
+Tabulate the numbers of births on each day of the week (Table 8.1-1).
+
+```{r}
+birthDayTable <- table(birthDay$day)
+addmargins(birthDayTable)
+```
+
+<br>
+
+## Bar graph
+
+This produces a graph like that in Figure 8.1-1.
+
+```{r}
+ggplot(birthDay, aes(x = day)) + 
+    geom_bar(stat="count", fill = "firebrick") +
+    labs(x = "", y = "Frequency") +
+    theme_classic()
+```
+
+<br>
+
+## $\chi^2$ goodness-of-fit test
+
+The vector $p$ is the expected proportions rather than the expected frequencies, and they must sum to 1 (R nevertheless uses the expected frequencies when calculating the $\chi^2$ statistic).
+
+```{r}
+chisq.test(birthDayTable, p = c(52,52,52,52,52,53,53)/366)
+```
+
+***
+
+<br>
+
+# Example 8.3. Gene content
+
+***Goodness-of-fit of the proportional model** to data with two categories.*
+
+Read and inspect the data. Each row is a different gene with its chromosome indicated.
+
+```{r}
+geneContent <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter08/chap08e3GeneContentX.csv"), stringsAsFactors = FALSE)
+head(geneContent)
+```
+
+Make a new variable to indicate whether genes are on the X chromosome. Order the categories as desired for tables and graphs.
+
+```{r}
+geneContent$XnotX <- geneContent$chr
+geneContent$XnotX[geneContent$chr != "X"] <- "NotX"
+geneContent$XnotX <- factor(geneContent$XnotX, levels = c("X","NotX"))
+```
+
+<br>
+
+## Frequency table
+
+The table shows the number of genes on the X and on other chromosomes.
+
+```{r}
+geneContentTable <- table(geneContent$XnotX)
+data.frame(addmargins(geneContentTable))
+```
+
+<br>
+
+## $\chi^2$ goodness-of-fit test
+
+Test of the proportional model.
+
+```{r}
+chisq.test(geneContentTable, p = c(1020.7, 18607.3)/sum(geneContentTable) )
+```
+
+***
+
+<br>
+
+# Example 8.4. Mass extinctions
+
+***Goodness-of-fit of the Poisson probability model** to frequency data on number of marine invertebrate extinctions per time block in the fossil record.*
+
+Read and inspect the data. Each row is a time block, with the observed number of extinctions listed.
+
+```{r}
+extinctData <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter08/chap08e4MassExtinctions.csv"), stringsAsFactors = FALSE)
+head(extinctData)
+```
+
+<br>
+
+## Frequency table
+
+This table tallies the number of time blocks falling in each number-of-extinctions category. First make a new variable with number of extinctions as a factor so that missing categories are nevertheless included in the table (e.g., no time blocks have exactly 13 extinctions). 
+
+```{r}
+extinctData$nExtinctCategory <- factor(extinctData$numberOfExtinctions,
+    levels = c(0:20))                                          
+extinctTable <- table(extinctData$nExtinctCategory)
+data.frame(addmargins(extinctTable))
+```
+
+<br>
+
+## Mean number of extinctions
+
+The mean number of extinctions per time block must be estimated from the data.
+
+```{r}
+meanExtinctions <- mean(extinctData$numberOfExtinctions)
+meanExtinctions
+```
+
+<br>
+
+## Expected frequencies
+
+Calculate expected frequencies under the Poisson distribution using the estimated mean. Don't forget that the Poisson distribution also includes the number-of-extinctions categories 21, 22, 23, and so on.
+
+```{r}
+expectedProportion <- dpois(0:20, lambda = meanExtinctions)
+expectedFrequency <- expectedProportion * 76
+```
+
+Show the frequency distribution in a histogram (Figure 8.4-2). Superimpose a curve of the expected frequencies. 
+
+```{r}
+hist(extinctData$numberOfExtinctions, right = FALSE, breaks = seq(0, 21, 1),
+	xlab = "Number of extinctions", col = "firebrick", las = 1)
+lines(expectedFrequency ~ c(0:20 + 0.5), lwd = 2) 
+```
+
+<br>
+
+## Table of frequencies
+
+Make a table of observed and expected frequencies, saving results in a data frame (Table 8.4-3).
+
+```{r}
+extinctFreq <- data.frame(nExtinct = 0:20, obsFreq = as.vector(extinctTable), 
+	expFreq = expectedFrequency)
+extinctFreq
+```
+
+The low expected frequencies will violate the assumptions of the $\chi^2$ test, so we will need to group categories. Create a new variable that groups the extinctions into fewer categories.
+
+```{r}
+extinctFreq$groups <- cut(extinctFreq$nExtinct, 
+	breaks = c(0, 2:8, 21), right = FALSE,
+	labels = c("0 or 1","2","3","4","5","6","7","8 or more"))
+extinctFreq
+```
+
+Then sum up the observed and expected frequencies within the new categories.
+
+```{r}
+obsFreqGroup <- tapply(extinctFreq$obsFreq, extinctFreq$groups, sum)
+expFreqGroup <- tapply(extinctFreq$expFreq, extinctFreq$groups, sum)
+data.frame(obs = obsFreqGroup, exp = expFreqGroup)
+```
+
+The expected frequency for the last category, "8 or more", doesn't yet include the expected frequencies for the categories 21, 22, 23, and so on. However, the expected frequencies must sum to 76. In the following, we recalculate the expected frequency for the last group, expFreqGroup[length(expFreqGroup)], as 76 minus the sum of the expected frequencies for all the other groups.
+
+```{r}
+expFreqGroup[length(expFreqGroup)] = 76 - sum(expFreqGroup[1:(length(expFreqGroup)-1)])
+data.frame(obs = obsFreqGroup, exp = expFreqGroup)
+```
+
+<br>
+
+## Goodness of fit test
+
+Finally, we are ready to carry out the $\chi^2$ goodness-of-fit test. R gives us a warning here because one of the expected frequencies is less than 5. However, we have been careful to meet the assumptions of the $\chi^2$ test, so let's persevere. Once again, R doesn't know that we've estimated a parameter from the data (the mean), so it won't use the correct degrees of freedom when calculating the $P$-value. As before, we need to grab the $\chi^2$ value calculated by chisq.test and recalculate $P$ using the correct degrees of freedom. Since the number of categories is now 8, the correct degrees of freedom is 8 - 1 - 1 = 6.
+
+Ignore the warning from the next command, because we are following the rules for expected frequencies. 
+
+```{r}
+saveChiTest <- chisq.test(obsFreqGroup, p = expFreqGroup/76)
+saveChiTest
+```
+
+The above uses the wrong degrees of freedom for the $\chi^2$ statistic, so yields the wrong $P$-value. Here's how to make things right:
+
+```{r}
+pValue <- 1 - pchisq(saveChiTest$statistic, df = 6)
+unname(pValue)
+```
+
+<br>
+
+## Variance:mean ratio
+
+```{r}
+var(extinctData$numberOfExtinctions) / meanExtinctions
+```

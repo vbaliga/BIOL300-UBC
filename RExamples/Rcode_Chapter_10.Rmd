@@ -1,0 +1,247 @@
+---
+title: "R code for example in Chapter 10: <br>The normal distribution"
+author: 
+
+#output: html_document
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 5, fig.height=4)
+```
+
+***
+
+We used R to analyze all examples in Chapter 10. We put the code here so that you can too.
+
+<br>
+Also see our [lab on the normal distribution using R](https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_Normal_and_sample_means.html).
+
+<br>
+
+# New methods on this page
+
+<ul>
+<li>Probabilities under the normal curve:
+
+```{r eval = FALSE}
+pnorm(157.5, mean = 177.6, sd = 9.7)
+```
+
+<li>Other new methods:
+<ul>Normal approximation to a binomial distribution.
+</ul>
+</ul>
+
+***
+
+<br>
+
+# Load required packages 
+
+We'll use the ```ggplot2``` add on package to make graphs.
+
+```{r message=FALSE}
+library(ggplot2)
+```
+
+***
+
+<br>
+
+<!--
+NASA excludes anyone under 62 inches in height and anyone over 75 inches from being
+an astronaut pilot (NASA 2004). In metric units, these values for the lower and upper
+height restrictions are 157.5 cm and 190.5 cm, respectively. What fraction of the young
+adult American population is excluded from being an astronaut pilot by these height constraints?
+The distribution of adult heights within a gender and age group is reasonably
+well approximated by a normal distribution, with the mean and standard deviation for
+20- to 29-year-old males in America given by 177.6 cm and 9.7 cm, respectively (McDowell
+et al. 2008). For 20- to 29-year-old American females, the mean height is 163.2 cm with a
+standard deviation of 10.1 cm.
+-->
+
+# Example 10.4. Small step for man?
+
+***Calculate probabilities under the normal curve***. 
+
+<br>
+
+## Adult men
+
+The command ```pnorm(Y)``` gives the probability of obtaining a value **less than** ```Y``` under the normal distribution. Set the arguments ```mean =``` and ```sd =``` to the mean and standard deviate of the desired normal distribution.
+
+Here are the calculations for adult men. The numbers here will be slightly different from those in the book because of roundoff errors.
+
+Pr[Height < 157.5]
+
+```{r eval = TRUE}
+pTooShort <- pnorm(157.5, mean = 177.6, sd = 9.7)
+pTooShort
+```
+
+Pr[Height > 190.5]
+
+```{r eval = TRUE}
+pTooTall <- 1 - pnorm(190.5, mean = 177.6, sd = 9.7)
+pTooTall
+```
+
+Pr[Height < 157.5 or Height > 190.5]
+
+```{r eval = TRUE}
+pTooShort + pTooTall
+```
+
+
+<br>
+
+## Adult women
+
+<!-- 
+Women’s heights
+are approximated by a normal distribution with mean 163.2 cm and standard
+deviation 10.1 cm. These values correspond to height restrictions at 0.56 standard
+deviations below the mean and 2.7 standard deviations above the mean. (Check these
+numbers for yourself.) Using Statistical Table B, the fraction 0.28774 of the women
+are too short to meet NASA’s guidelines and the fraction 0.00347 are too tall. In
+total, the height restrictions exclude 29.1% of young American women from being
+astronaut pilots.
+-->
+
+Pr[Height < 157.5]
+
+```{r eval = TRUE}
+pTooShort <- pnorm(157.5, mean = 163.2, sd = 10.1)
+pTooShort
+```
+
+Pr[Height > 190.5]
+
+```{r eval = TRUE}
+pTooTall <- 1 - pnorm(190.5, mean = 163.2, sd = 10.1)
+pTooTall
+```
+
+Pr[Height < 157.5 or Height > 190.5]
+
+```{r eval = TRUE}
+pTooShort + pTooTall
+```
+
+***
+
+<br>
+
+# Figure 10.6. Spanish flu
+
+***Demonstration of the central limit theorem**, using the distribution of sample mean age at death in samples from a highly non-normal distribution*.
+
+Read and inspect the data.
+
+```{r eval = TRUE}
+flu <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter10/chap10e6AgesAtDeathSpanishFlu1918.csv"), stringsAsFactors = FALSE)
+head(flu)
+```
+
+<br>
+
+## Histogram 
+
+Visualizing the frequency distribution of ages at death in Switzerland in 1918 during the Spanish flu epidemic.
+
+```{r eval = TRUE}
+hist(flu$age, right = FALSE, col = "firebrick", breaks = seq(0,102,2), 
+     xlab = "Age at death (yrs)", las = 1, main = "")
+```
+
+or
+
+```{r eval = TRUE}
+ggplot(flu, aes(x = age)) + 
+    geom_histogram(fill = "firebrick", col = "black", binwidth = 2, 
+        boundary = 0, closed = "left") + 
+    labs(x = "Age at death (yrs)", y = "Frequency") + 
+    theme_classic()
+```
+
+<br>
+
+## Demonstrate central limit theorem
+
+We treat the age at death measurements from Switzerland in 1918 as a population. Then we take a large number of random samples, each of size $n$, from the population of age at death measurements and plot the sample means. 
+
+Note: your results won't be the identical to the corresponding panel in Figure 10.6-2, because 10,000 random samples is not large enough for extreme accuracy. 
+
+The code below is for $n = 4$. Change $n$ to another number and rerun to see the effects of sample size on the shape of the distribution of sample means.
+
+```{r eval = TRUE}
+n <- 4
+results <- vector()
+for(i in 1:10000){
+	AgeSample <- sample(flu$age, size = n, replace = FALSE)
+	results[i] <- mean(AgeSample)
+	}
+```
+
+
+<br>
+
+## Histogram of sample means
+
+```{r eval = TRUE}
+hist(results, right = FALSE, breaks = 50, col = "firebrick", las = 1, 
+	xlab = "Mean age at death (yrs)", ylab = "Frequency", main = "")
+```
+
+or
+
+```{r eval = TRUE}
+ggplot(data.frame(results), aes(x = results)) + 
+    geom_histogram(fill = "firebrick", col = "black", binwidth = 2, 
+        boundary = 0, closed = "left") + 
+    labs(x = "Mean age at death (yrs)", y = "Frequency") + 
+    theme_classic()
+```
+
+***
+
+<br>
+
+# Example 10.7. Dead bug
+
+***Normal approximation to the binomial distribution** applied to the cricket preference of the brown recluse spider*.
+
+<br>
+
+## Normal approximation
+
+The below differs slighty from the number in the book because of roundoff.
+
+```{r eval = TRUE}
+spiderProb <- 1 - pnorm( (30 + 1/2 - 41 * 0.5) / sqrt(41 * 0.50 * 0.5))
+Pvalue <- 2 * spiderProb
+Pvalue
+```
+
+<br>
+
+## Compare with exact result
+
+Compare with the exact result obtained when using the binomial distribution, ```dbinom()```, which we encountered in the Chapter 7 R page.
+
+```{r eval = TRUE}
+2 * sum( dbinom(31:41, size = 41, prob = 0.5) )
+```
+
+You can also use ```pbinom()```.
+
+```{r eval = TRUE}
+2 * (1 - pbinom(30, size = 41, prob = 0.5))
+```
+

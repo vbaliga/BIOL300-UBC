@@ -1,0 +1,40 @@
+# This will make a list of commands to knitr all .Rmd files in the current directory.
+# Best to paste render commands into the RStudio console window.
+
+setwd("/Users/schluter/Documents/WhitlockSchluter3")
+z <- list.files(pattern = ".Rmd")
+
+z <- paste0('rmarkdown::render("', z, '", "html_document")')
+cat(z, sep = "\n")
+
+# yields
+
+rmarkdown::render("about.Rmd", "html_document")
+rmarkdown::render("acknowledgments.Rmd", "html_document")
+rmarkdown::render("chapter01.Rmd", "html_document")
+rmarkdown::render("chapter02.Rmd", "html_document")
+rmarkdown::render("chapter03.Rmd", "html_document")
+rmarkdown::render("chapter04.Rmd", "html_document")
+rmarkdown::render("chapter05.Rmd", "html_document")
+rmarkdown::render("chapter06.Rmd", "html_document")
+rmarkdown::render("chapter07.Rmd", "html_document")
+rmarkdown::render("chapter08.Rmd", "html_document")
+rmarkdown::render("chapter09.Rmd", "html_document")
+rmarkdown::render("chapter10.Rmd", "html_document")
+rmarkdown::render("chapter11.Rmd", "html_document")
+rmarkdown::render("chapter12.Rmd", "html_document")
+rmarkdown::render("chapter13.Rmd", "html_document")
+rmarkdown::render("chapter14.Rmd", "html_document")
+rmarkdown::render("chapter15.Rmd", "html_document")
+rmarkdown::render("chapter16.Rmd", "html_document")
+rmarkdown::render("chapter17.Rmd", "html_document")
+rmarkdown::render("chapter18.Rmd", "html_document")
+rmarkdown::render("chapter19.Rmd", "html_document")
+rmarkdown::render("chapter20.Rmd", "html_document")
+rmarkdown::render("chapter21.Rmd", "html_document")
+# rmarkdown::render("chapterResources.Rmd", "html_document")
+rmarkdown::render("chapterRevProbs.Rmd", "html_document")
+# rmarkdown::render("chapterTEMPLATE.Rmd", "html_document")
+# rmarkdown::render("Corrections.Rmd", "html_document")
+# rmarkdown::render("Data sets.Rmd", "html_document")
+rmarkdown::render("index.Rmd", "html_document")

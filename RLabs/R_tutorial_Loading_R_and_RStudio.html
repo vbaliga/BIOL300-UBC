@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Whitlock and Schluter" />
+
+
+<title>Loading R and RStudio</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-3');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li>
+  <a href="index.html">About these labs</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R_tutorial_Loading_R_and_RStudio.html">0. Loading R and RSstudio</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Intro_to_R_1.html">1. Intro to R, Part 1</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Intro_to_R_2.html">2. Intro to R, Part 2</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Graphics.html">3. Graphics</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Making_data_files.html">4a. Making data files for R</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Sampling.html">4b. Sampling</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Describing_data.html">5. Describing data</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Frequency_data.html">6. Frequency data</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Contingency_analysis.html">7. Contingency analysis</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Normal_and_sample_means.html">8. Normal distribution and sample means</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Comparing_means_of_2_groups.html">9. Comparing the means of two groups</a>
+    </li>
+    <li>
+      <a href="R_tutorial_ANOVA.html">10. ANOVA</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Correlation_Regression.html">11. Correlation and regression</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Loading R and RStudio</h1>
+<h4 class="author">Whitlock and Schluter</h4>
+
+</div>
+
+
+<p><em>This lab is part of a series designed to accompany a course using </em>The Analysis of Biological Data<em>. The rest of the labs can be found <a href="index.html">here</a>. </em></p>
+<hr />
+<p><br></p>
+<p>For these labs, you will need two programs on your computer, R and RStudio. Both of these are free programs, available to download without charge from the web.</p>
+<p><br></p>
+<div id="loading-r-on-your-computer" class="section level1">
+<h1>Loading R on your computer</h1>
+<p>A list of sites where R can be downloaded is maintained at <a href="https://cran.r-project.org/mirrors.html">https://cran.r-project.org/mirrors.html</a> —choose the site geographically nearest you. For Vancouver, for the best choice is <a href="http://cran.stat.sfu.ca">here</a>. From the top box, click on the link that matches your type of computer.</p>
+<p><strong>Macs</strong> – If you have a Mac, you will likely first need to install XQuartz from <a href="https://www.xquartz.org">https://www.xquartz.org</a>. After it downloads, click on the .dmg file that appears in your downloads folder, and then form the folder that opens, click on the XQuartz.pkg file. Follow the installation instructions in the new window that opens.</p>
+<p>To load R, choose the MacOS link from the CRAN website above. From the resulting page (called “R for Mac OS X”) choose the .pkg file that matches your version of the operating system – usually this is the first one. Download that package, click on the .pkg file once it has downloaded fully, and follow instructions on the screen.</p>
+<p><strong>Windows</strong> – After choosing Windows from the CRAN page, click on the first link for labeled “base”. Then click on the large top link “Download R 4.X.X for Windows”. Run the .exe file that downloads.</p>
+<p><br></p>
+</div>
+<div id="loading-rstudio-onto-your-computer" class="section level1">
+<h1>Loading RStudio onto your computer</h1>
+<p>Go to <a href="https://www.rstudio.com/products/rstudio/download/">the download page for RStudio</a> and choose the “DOWNLOAD” button under the left column for RStudio Desktop FREE. Then from the list of Installers, choose one that matches your operating system.</p>
+<p><strong>Mac</strong> – Open the .dmg file that downloads, and in the resulting window slide the RStudio icon into the Applications icon.</p>
+<p><strong>Windows</strong> – Run the .exe installer file that downloads.</p>
+<p><br></p>
+</div>
+<div id="getting-set-up-to-use-these-labs" class="section level1">
+<h1>Getting set up to use these labs</h1>
+<p>A zip file that contains all the data sets, R scripts, and some other features can be downloaded in a <a href="ABDLabs.zip">folder called ABDLabs</a>. When you download this file and de-compress it, it should open a folder called ABDLabs. Inside this folder is one file and two folders. The folder Data contains all the data sets that you will need to complete these labs. The folder called LearningTheTools has an R script for each week, containing all the commands described in that week’s instructions. You’ll learn how to use these in Lab 1.</p>
+<p><br></p>
+</div>
+<div id="starting-a-new-session-in-r." class="section level1">
+<h1>Starting a new session in R.</h1>
+<p>There is a file in the ABDLabs folder called ABDLabs.Rproj. You can double click on this file to start R and Rstudio automatically. If you start your session in R from this file, it will automatically load some packages of extra functionality that you will need for some tasks, and it will automatically tell R to look inside the ABDLabs folder for files like the data sets. Starting for this file will make your life a little easier.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

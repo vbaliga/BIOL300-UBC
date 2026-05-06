@@ -1,0 +1,191 @@
+---
+title: "<em>Labs using R</em>:  Notes for Instructors"
+author: "Whitlock and Schluter"
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+*These labs are a series designed to accompany a course using *The Analysis of Biological Data*. The student labs can be found [here](index.html). *
+
+
+***
+<br>
+
+These notes are intended for instructors only, to accompany the "Labs using R" with *The Analysis of Biological Data*.
+
+These labs have two goals:  to develop a greater conceptual understanding of basic biostatistics and to introduce the open source stats package R. These tutorials are meant to follow an introduction to their topics either through textbook reading or lectures. They do not usually repeat the statistical information, but provide opportunities for active learning and practice on the important topics of the week.
+
+<br>
+
+### No copyright
+
+The labs (unlike the book) are released to the public domain without copyright by a CC0 license. This license allows you to use or modify these labs in any way that you like, although we request that you give us credit.
+
+<br>
+
+### Real data 
+
+All the data provided in these labs are real, coming from published scientific literature. 
+
+<br>
+
+### Before the semester starts...
+
+One of the physical items required for these labs (specifically Tutorial 4b) will require some lead time for purchase-- that is, the cowrie shells used in that week. See the description of Llab 4 below for more information. Otherwise the course will require some measuring tapes (see Tutorial 1), rulers, and dice.
+
+<br>
+
+## General notes
+
+Most of these tutorials can be used in a self-guided way, although they also can work in small groups. Part of the Lab 4, on sampling, requires several groups to collate their data for the exercise to be effective.
+
+Most of these labs do not require any materials aside from what is available online here, but again there are exceptions. The main activity in Lab 4, on Sampling, requires some special materials and some preparation from the instructors in a physical lab. Other activities require measuring tapes for students to collect data on themselves; if necessary these measurements can be skipped as anonymized data from previous classes is provided.
+
+These labs do not map one-to-one to the chapters in *The Analysis of Biological Data*.  However, they do come in an order consistent with the order of the book.  When we teach from the book, the lecture are a week or so ahead of the labs, so the students have been exposed to the statistical concepts in each lab already, but what is new is using R to address those topics.  The first two weeks of these tutorials are very R specific and don't require any specific statistical knowledge, allowing the lecture part of the course to get ahead of the labs.
+
+Any special materials or preparation should be described below in the section for each lab. Most require no special preparation.
+
+### Lab "0": Loading R and RStudio
+
+Loading these two programs on each student's computer is time-consuming, but typically can be done before the first class. It's worth allocating some time to help students get these programs to a functional state.
+
+Another useful preparation for each student is to download the folder called *ABDLabs*. This contains a folder with all the data for these tutorials as well R scripts containing all commands used in the "Learning the Tools" section of each tutorial. (These are separate data sets from the one used in the book, and this is a separate folder.)  
+
+Importantly, the folder also contains an Rproject file called "ABDLabs.Rproj".  ***It is very helpful if every student gets into the habit of starting RStudio by clicking on this ABDLabs.Rproj file each time they work on the tutorials.**  This is because loading this Rproject will load the appropriate packages automatically, but more importantly will set the working directory to the right place to make the data calls in the tutorials work properly.
+
+Finally, for an introductory class it is probably useful to have all of the packages needed for these tutorials installed on the computers the students will use. (This is covered in the second tutorial, but depending on the class you may want to help them skip this step.) The necessary packages are:
+
+* ggplot2
+* dplyr
+* car
+* binom
+<br> 
+
+## Notes by Lab
+
+<br>
+
+### Lab 1: Intro to R 1
+
+This week is rather unambitious, but it's important to get these basics straight. It is very useful later if the students are encouraged to get into the habit of starting RStudio from the ABDLabs.Rproj file, rather than directly from the application itself.
+
+**Activities**: Some of the weeks include activities that are not focused on R. This week asks the students to collect some simple data about themselves, using a cloth tape measure. These data will be used later in the questions **and in later weeks**.  We always make this data collection purely optional for students (including any individual question they choose not to answer), and we collect the data without names attached. You can do this either by having the give you the answers on data sheets ([Student data sheet 1](Student data sheet 1.pdf) is linked from the lab), or if your local laws allow, through a Google Sheet.
+
+**Materials needed** 
+
+* *Cloth measuring tapes* (used by tailors, available in the fabric section of stores). **Important**: We use measuring tapes that are *denominated in inches*, but we request the data in cm. Some students will fail to convert to cm correctly, but this is a feature that we take advatage of later.  The inaccurate conversion results in a data file with some obvious outliers that will demonstrate a nice pedagogical point in Lab 3.  So when you collate these data, don't clean up this conversion error, which we have found almost invariably happens in each class.
+
+* *Data sheets*. Either prepare the Google sheet ahead of time or make enough copies of the  [Student data sheet 1](Student data sheet 1.pdf) for all students.
+
+<br>
+
+### Lab 2: Intro to R 2
+
+This week is the first week to use data from the ABDLabs folder.  Again, emphasize the importance of starting RStudio from the ABDLabs.Rproj file, and everything should work.
+
+<br>
+
+### Lab 3: Graphics
+
+This week will use the data file collected during Lab 1. Make that file accessible to students in some way. The required columns are height_cm, circumference_of_head_cm, sex, number_of_siblings, dominant_hand, and dominant_foot.
+
+If any students erred in their conversions from inches to centimeters in recording their data in Lab 1, there should be obvious outliers on the plots produced  for Question 6. Discuss the importance of understanding the source of the error of the outlier (and confirming, if true, that the outliers are not truly part of the sample) before removing them from the data set. If there is time, contrast this situation to the situation in Question 5, where the outlier is real and biologically meaningful.
+
+<br>
+
+### Lab 4: Sampling
+
+In these online versions of the tutorials, Lab 4 is broken into two parts. Part 4a simply describes how to use R to make data files.  Part 4b describes a set of activities to understand bias and sampling error. The activity in Part 4b requires the material in 4a, but 4a could be read without 4b if desirable.  
+
+A reminder, 4b is the one lab that requires the most group work and the most physical preparation by an instructor. In a class where the students are using these tutorials in a self-guided manner, Lab 4b should be skipped.
+
+**Materials and preparation**
+The key requirement for this lab is a *set of ~30 cowrie shells for each group of 2-4 students*. The secret ingredient here is that the sets of shells each contain roughly 80% from a small drab species, and about 20% from a larger, more colorful species.  Almost invariably, when the students are haphazardly sampling from the  bags for the first steps of the lab, they are more likely to choose the larger more colorful ones, and this biases their estimates of the mean shell length.
+
+We have been able to get these shells online. We use Ring Top Cowrie Seashells *Cypraea annulus* (for the plain ones) and Snakehead Cowrie Seashells *Cypraea arabica* (for the larger and more attractive). Neither of these are known (to us) to be of conservation concern. You may need to substitute with a different type of shells, or indeed another type of object altogether.
+
+It is important to let the students do their first samples without much guidance, so that they make their own mistakes here and later see the consequences. Later in the lab they are walked through how to take a proper random sample in this case.
+
+Other materials required:
+
+* *Rulers* to measure the shells with
+
+* *Large format paper* to keep track of the shells while measuring. We use desktop calendar refills for this.
+
+
+
+<br>
+
+### Lab 5: Describing data
+
+The activities this week are both online exercises that require no preparation.
+
+The students will need the data set collected during Lab 1 again here , for Question 1.
+
+Question 3d asks them to think about quantiles of the distribution and compare those to the confidence interval of the mean. The key is that the quantiles are about distribution of the individuals, while the confidence interval relates to the distribution  of sample means, which has a lower variance.
+
+Question 4:  The families with zero kids are not represented in a class, because there is no one to be there. Therefore the family size is overestimated in this way.
+
+<br>
+
+### Lab 6: Frequency data
+
+The activity in this lab will require a moderate number of normal six-sided  dice. Each student will need five at a time, but the exercise doesn't have to happen simultaneously for all students.
+
+Calculating a fit to a Poisson distribution is time-consuming in R. You may decide to skip this (and Question 4).
+
+<br>
+
+### Lab 7: Contingency analysis
+
+The students will need the data set collected during Lab 1 again here, for Question 1.
+
+
+In addition, they will collect new data in Activity 2.  This requires a printed sheet with the paragraph from the *Origin of Species*, available [here](OriginsParagraph.pdf). Each student will need a copy.
+
+It is important to emphasize that when doing the activity finding the t's in the passage that it should be done at a brisk reading pace. The goal is not to find every one, but to see what happens at a reading pace.
+
+Question 2 (on the relationship between footedness and handedness using class data) will probably not have sample sizes sufficient to meet the assumptions of the $\chi$^2^  test, and Fisher's exact test will be required. (Unless the class is very large, in which case it is recommended to use one smaller section's data, if possible).
+
+<br>
+
+### Lab 8: The normal distribution and sample means
+
+Activity 1 has student collecting data on themselves, in this case measuring their finger lengths. They will need *rulers* or *measuring tapes* to collect these data. They will also need copies of the [Student Data Sheet 7](Student data sheet 7.pdf) for each student.
+
+This week requires a little hustle on the part of the instructor or TA, because the data from the students needs to be collated into a data file in order for the class to answer the last question. Have the students do the finger measurements (Activity 1) first, so that the file can be ready when they get to question 5. The necessary columns are sex, right_index_finger_length, and right_ring_finger_length.  
+
+<br>
+
+### Lab 9: Comparing the means of two groups
+
+This week requires a data file to be prepared from the finger data collected in Lab 8.
+
+<br>
+
+### Lab 10: ANOVA
+
+This week requires no special preparation.
+
+<br>
+
+### Lab 11: Correlation and regression
+
+
+This week requires no special preparation. Lab 11 is rather short, and so it can usually be combined with review or activities.
+
+The last question is fairly challenging, perhaps. It will require using filter() (from dplyr) and max().
+
+
+

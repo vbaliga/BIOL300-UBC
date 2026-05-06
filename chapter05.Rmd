@@ -1,0 +1,28 @@
+---
+title: "Resources for Chapter 5: <br>Probability"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+<br> 
+
+# Data
+
+Chapter 5 has no associated data.
+
+Download a .zip file with all data sets in the book [here](DataZipFiles/Data.zip). 
+

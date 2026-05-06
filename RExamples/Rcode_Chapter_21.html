@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+
+<title>R code for example in Chapter 21:  Survival Analysis</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-4');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R code for example in Chapter 21: <br>Survival Analysis</h1>
+
+</div>
+
+
+<hr />
+<p>We used R to analyze all examples in Chapter 21. We put the code here so that you can too.</p>
+<p><br></p>
+<div id="new-methods-on-this-page" class="section level1">
+<h1>New methods on this page</h1>
+<ul>
+<li>
+<p>Survival curve:</p>
+<pre class="r"><code>ebolaSurv &lt;- Surv(time = ebola$time, event = ebola$outcome)
+ebolaKM &lt;- survfit(ebolaSurv ~ 1, data = ebola, type=&quot;kaplan-meier&quot;) </code></pre>
+<li>
+Other new methods:
+<ul>
+<li>
+Hazard ratio.
+<li>
+Logrank test.
+</ul>
+</ul>
+<hr />
+</div>
+<div id="load-required-packages" class="section level1">
+<h1>Load required packages</h1>
+<p>We need <code>ggplot2</code> for ordinary graphs and two new packages for survival analysis. You might need to install these additional packages on your computer if you have not already done so.</p>
+<pre class="r"><code>install.packages(&quot;survival&quot;, dependencies = TRUE)   # only if not yet installed
+install.packages(&quot;survminer&quot;, dependencies = TRUE)  # only if not yet installed</code></pre>
+<pre class="r"><code>library(ggplot2)
+library(survival)
+library(survminer)</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="example-21.1-ebola-outbreak" class="section level1">
+<h1>Example 21.1 Ebola outbreak</h1>
+<p><em><strong>Survival curve</strong> for patients diagnosed as having both Ebola virus disease and malaria at Ebola treatment centers in Sierra Leone in 2014-2015. The survival curve is calculated using the <strong>Kaplan-Meier</strong> method</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data" class="section level2">
+<h2>Read and inspect data</h2>
+<p>Each row is a subject. An event (death) is indicated if the variable <code>outcome</code> is 1, in which case <code>time</code> indicates the time of death. An outcome of 0 refers to no event (censored data), in which case <code>time</code> is the time of censoring.</p>
+<pre class="r"><code>ebola &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter21/chap21e1EbolaMalaria.csv&quot;))
+head(ebola)</code></pre>
+<pre><code>##   subject time outcome
+## 1       1  0.5       1
+## 2       2  0.5       1
+## 3       3  0.5       1
+## 4       4  0.7       0
+## 5       5  1.0       1
+## 6       6  1.0       1</code></pre>
+<p><br></p>
+</div>
+<div id="survival-curve" class="section level2">
+<h2>Survival curve</h2>
+<p>Survival curve based on the Kaplan-Meier method. First we run <code>Surv()</code> to convert the data to a format used by the <code>survival</code> package. Then the <code>survfit()</code> function is used to calculate the survival curve by fitting the survival data to a constant (since there is only 1 group of subjects).</p>
+<pre class="r"><code>ebolaSurv &lt;- Surv(time = ebola$time, event = ebola$outcome)
+ebolaKM &lt;- survfit(ebolaSurv ~ 1, data = ebola, type=&quot;kaplan-meier&quot;) </code></pre>
+<p>Finally, the curve is plotted (Figure 21.1-1).</p>
+<pre class="r"><code>ggsurvplot(ebolaKM, conf.int = TRUE, pval = FALSE, risk.table = FALSE, 
+  legend = &quot;none&quot;, censor.shape = &quot;|&quot;, censor.size = 4, palette = c(&quot;firebrick&quot;), 
+  ylab = &quot;Proportion surviving&quot;, xlab = &quot;Time (days since admission)&quot;)</code></pre>
+<p><img src="Rcode_Chapter_21_files/figure-html/unnamed-chunk-6-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="proportion-surviving" class="section level2">
+<h2>Proportion surviving</h2>
+<p>These are the quantities used to calculate the survival curve (Table 21.1-2), including confidence intervals.</p>
+<pre class="r"><code>summary(ebolaKM, censored = FALSE)</code></pre>
+<pre><code>## Call: survfit(formula = ebolaSurv ~ 1, data = ebola, type = &quot;kaplan-meier&quot;)
+## 
+##  time n.risk n.event survival std.err lower 95% CI upper 95% CI
+##   0.5     53       3    0.943  0.0317        0.883        1.000
+##   1.0     49       5    0.847  0.0498        0.755        0.951
+##   3.0     42       4    0.766  0.0592        0.659        0.892
+##   4.0     38       6    0.645  0.0674        0.526        0.792
+##   5.0     32       3    0.585  0.0695        0.463        0.738
+##   7.0     27       3    0.520  0.0712        0.398        0.680
+##   8.0     24       4    0.433  0.0713        0.314        0.598
+##  16.0     20       1    0.412  0.0710        0.294        0.577</code></pre>
+<p><br></p>
+</div>
+<div id="median-survival-time" class="section level2">
+<h2>Median survival time</h2>
+<p>Median survival time can be calculated if the study ends after survival proportion drops below 0.50.</p>
+<pre class="r"><code>ebolaKM</code></pre>
+<pre><code>## Call: survfit(formula = ebolaSurv ~ 1, data = ebola, type = &quot;kaplan-meier&quot;)
+## 
+##       n  events  median 0.95LCL 0.95UCL 
+##      53      29       8       5      NA</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-21.2-tumor-genetics" class="section level1">
+<h1>Example 21.2 Tumor genetics</h1>
+<p><em>In this example we <strong>compare the survival curves of two groups</strong> using the <strong>hazard ratio</strong> and the <strong>logrank test</strong></em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data-1" class="section level2">
+<h2>Read and inspect data</h2>
+<p>The data are survival times of patients with either of the two most common subtypes of breast cancer. Each row is a subject. An event (death) is indicated if the variable <code>status</code> is 1, in wich case <code>OverallSurvivalMonths</code> indicates the time of death. A status of 0 refers to no event (censored data), in which case `<code>OverallSurvivalMonths</code> is the time of censoring.</p>
+<pre class="r"><code>tumors &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter21/chap21e2BreastCancer.csv&quot;))
+head(tumors)</code></pre>
+<pre><code>##            ID  Subtype OverallSurvivalMonths status
+## 1 Norway FU17 LuminalA                     4      0
+## 2 Stanford 48    Basal                     4      0
+## 3 Norway FU12    Basal                     5      1
+## 4  New York 3    Basal                     6      1
+## 5 Norway FU19    Basal                     8      1
+## 6 Stanford 46    Basal                     9      0</code></pre>
+<p><br></p>
+</div>
+<div id="survival-curve-1" class="section level2">
+<h2>Survival curve</h2>
+<p>Survival curve based on the Kaplan-Meier method. First we run <code>Surv()</code> to convert the data to a format used by the <code>survival</code> package. Then the <code>survfit()</code> function is used to calculate the survival curve by fitting the data to tumor <code>Subtype</code> (the variable indicating the two groups of subjects).</p>
+<pre class="r"><code>tumorSurv &lt;- Surv(time = tumors$OverallSurvivalMonths, event = tumors$status)
+tumorKM &lt;- survfit(tumorSurv ~ Subtype, data = tumors, type=&quot;kaplan-meier&quot;) </code></pre>
+<p>Finally, the curve is plotted (Figure 21.2-1).</p>
+<pre class="r"><code>ggsurvplot(tumorKM, conf.int = TRUE, pval = FALSE, risk.table = FALSE,
+    legend.labs=c(&quot;Basal&quot;, &quot;LuminalA&quot;), 
+    legend = c(0.15, 0.15), break.time.by = 25,
+    legend.title = &quot;Subtype&quot;,
+    censor.shape = &quot;|&quot;, censor.size = 4,
+    palette=c(&quot;firebrick&quot;, &quot;goldenrod1&quot;), 
+    xlab = &quot;Time since diagnosis (months)&quot;,
+    ylab = &quot;Proportion surviving&quot;)</code></pre>
+<p><img src="Rcode_Chapter_21_files/figure-html/unnamed-chunk-11-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="hazard-ratio" class="section level2">
+<h2>Hazard ratio</h2>
+<p>If we assume that the ratio of hazard rates between the two groups remains the same at every time point, then the hazard ratio can be calculated using the quantities in the following table.</p>
+<pre class="r"><code>tumorDiff &lt;- survdiff(tumorSurv ~ Subtype, data = tumors)
+print(tumorDiff, digits = 4)</code></pre>
+<pre><code>## Call:
+## survdiff(formula = tumorSurv ~ Subtype, data = tumors)
+## 
+##                   N Observed Expected (O-E)^2/E (O-E)^2/V
+## Subtype=Basal    19        9    4.442     4.678     7.223
+## Subtype=LuminalA 27        4    8.558     2.428     7.223
+## 
+##  Chisq= 7.2  on 1 degrees of freedom, p= 0.0072</code></pre>
+<pre class="r"><code>D1 &lt;- tumorDiff$obs[1]
+D2 &lt;- tumorDiff$obs[2]
+E1 &lt;- tumorDiff$exp[1]
+E2 &lt;- tumorDiff$exp[2]
+HR &lt;- (D1/D2)/(E1/E2)
+HR</code></pre>
+<pre><code>## [1] 4.335565</code></pre>
+<p>Standard errors and confidence interval can be calculated using the formula in the textbook.</p>
+<pre class="r"><code>SE_lnHR = sqrt(1/E1 + 1/E2)
+SE_lnHR</code></pre>
+<pre><code>## [1] 0.5847999</code></pre>
+<pre class="r"><code>L = log(HR)
+lower &lt;- exp(L - 1.96*SE_lnHR)
+upper &lt;- exp(L + 1.96*SE_lnHR)
+ci95 &lt;- c(lower=lower, upper=upper)
+ci95</code></pre>
+<pre><code>##     lower     upper 
+##  1.378015 13.640724</code></pre>
+<p><br></p>
+</div>
+<div id="cox-regression" class="section level2">
+<h2>Cox regression</h2>
+<p>Another way to approximate the hazard ratio is to use Cox regression, a topic beyond the scope of Chapter 21. The R commands are shown here for the sake of completeness.</p>
+<p>The output includes an estimate of the hazard ratio that uses a different formula than the one used above and leads to a slightly different answer: H = 4.447 (and its inverse 1/H = 0.225) along with an approximate 95% confidence interval.</p>
+<p>The output also includes the results of the logrank test.</p>
+<pre class="r"><code>z &lt;- coxph(tumorSurv ~ Subtype, data = tumors)
+summary(z)</code></pre>
+<pre><code>## Call:
+## coxph(formula = tumorSurv ~ Subtype, data = tumors)
+## 
+##   n= 46, number of events= 13 
+## 
+##                    coef exp(coef) se(coef)     z Pr(&gt;|z|)  
+## SubtypeLuminalA -1.4923    0.2249   0.6042 -2.47   0.0135 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+##                 exp(coef) exp(-coef) lower .95 upper .95
+## SubtypeLuminalA    0.2249      4.447    0.0688    0.7349
+## 
+## Concordance= 0.705  (se = 0.06 )
+## Likelihood ratio test= 6.78  on 1 df,   p=0.009
+## Wald test            = 6.1  on 1 df,   p=0.01
+## Score (logrank) test = 7.27  on 1 df,   p=0.007</code></pre>
+<p><br></p>
+</div>
+<div id="logrank-test" class="section level2">
+<h2>Logrank test</h2>
+<p>The <code>survdiff()</code>function provides the logrank test.</p>
+<pre class="r"><code>tumorDiff &lt;- survdiff(tumorSurv ~ Subtype, data = tumors)
+print(tumorDiff, digits = 4)</code></pre>
+<pre><code>## Call:
+## survdiff(formula = tumorSurv ~ Subtype, data = tumors)
+## 
+##                   N Observed Expected (O-E)^2/E (O-E)^2/V
+## Subtype=Basal    19        9    4.442     4.678     7.223
+## Subtype=LuminalA 27        4    8.558     2.428     7.223
+## 
+##  Chisq= 7.2  on 1 degrees of freedom, p= 0.0072</code></pre>
+<p><br></p>
+</div>
+<div id="proportional-hazards" class="section level2">
+<h2>Proportional hazards</h2>
+<p>A graphical test of the assumption of proportional hazards plots the log of the estimated proportions of individuals surviving at each time point in the two groups (the same values that are depicted in the survival curve) against log of time for each time point.</p>
+<pre class="r"><code>plot(tumorKM, fun = &quot;cloglog&quot;, col = c(&quot;firebrick&quot;, &quot;goldenrod1&quot;), 
+  las = 1, lwd = 2, ylab = &quot;ln(-ln(Proportion surviving)&quot;, 
+  xlab = &quot;ln(Time since diagnosis)&quot;)</code></pre>
+<p><img src="Rcode_Chapter_21_files/figure-html/unnamed-chunk-16-1.png" width="480" /></p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,226 @@
+---
+title: "R code for example in Chapter 21: <br>Survival Analysis"
+author: 
+
+#output: html_document
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 5, fig.height=4)
+```
+
+***
+
+We used R to analyze all examples in Chapter 21. We put the code here so that you can too.
+
+<br>
+
+# New methods on this page
+
+<ul>
+<li>Survival curve:
+```{r eval = FALSE}
+ebolaSurv <- Surv(time = ebola$time, event = ebola$outcome)
+ebolaKM <- survfit(ebolaSurv ~ 1, data = ebola, type="kaplan-meier") 
+```
+
+<li>Other new methods:
+<ul>
+<li>Hazard ratio.
+<li>Logrank test.
+</ul>
+</ul>
+
+***
+
+# Load required packages 
+
+We need ```ggplot2``` for ordinary graphs and two new packages for survival analysis. You might need to install these additional packages on your computer if you have not already done so.
+
+```{r eval = FALSE}
+install.packages("survival", dependencies = TRUE)   # only if not yet installed
+install.packages("survminer", dependencies = TRUE)  # only if not yet installed
+```
+
+```{r message = FALSE}
+library(ggplot2)
+library(survival)
+library(survminer)
+```
+
+***
+
+<br>
+
+# Example 21.1 Ebola outbreak
+
+***Survival curve** for patients diagnosed as having both Ebola virus disease and malaria at Ebola treatment centers in Sierra Leone in 2014-2015. The survival curve is calculated using the **Kaplan-Meier** method*.
+
+<br>
+
+## Read and inspect data
+
+Each row is a subject. An event (death) is indicated if the variable ```outcome``` is 1, in which case ```time``` indicates the time of death. An outcome of 0 refers to no event (censored data), in which case ```time``` is the time of censoring.
+
+```{r eval = TRUE}
+ebola <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter21/chap21e1EbolaMalaria.csv"))
+head(ebola)
+```
+
+<br>
+
+## Survival curve
+
+Survival curve based on the Kaplan-Meier method. First we run ```Surv()``` to convert the data to a format used by the ```survival``` package. Then the ```survfit()``` function is used to calculate the survival curve by fitting the survival data to a constant (since there is only 1 group of subjects). 
+
+```{r eval = TRUE}
+ebolaSurv <- Surv(time = ebola$time, event = ebola$outcome)
+ebolaKM <- survfit(ebolaSurv ~ 1, data = ebola, type="kaplan-meier") 
+```
+
+Finally, the curve is plotted (Figure 21.1-1).
+
+```{r eval = TRUE}
+ggsurvplot(ebolaKM, conf.int = TRUE, pval = FALSE, risk.table = FALSE, 
+  legend = "none", censor.shape = "|", censor.size = 4, palette = c("firebrick"), 
+  ylab = "Proportion surviving", xlab = "Time (days since admission)")
+```
+
+<br>
+
+## Proportion surviving
+
+These are the quantities used to calculate the survival curve (Table 21.1-2), including confidence intervals. 
+
+```{r eval = TRUE}
+summary(ebolaKM, censored = FALSE)
+```
+
+<br>
+
+## Median survival time
+
+Median survival time can be calculated if the study ends after survival proportion drops below 0.50. 
+
+```{r eval = TRUE}
+ebolaKM
+```
+
+
+***
+
+<br> 
+
+# Example 21.2 Tumor genetics 
+
+*In this example we **compare the survival curves of two groups** using the **hazard ratio** and the **logrank test***.
+
+<br>
+
+## Read and inspect data
+
+The data are survival times of patients with either of the two most common subtypes of breast cancer. Each row is a subject. An event (death) is indicated if the variable ```status``` is 1, in wich case ```OverallSurvivalMonths``` indicates the time of death. A status of 0 refers to no event (censored data), in which case ```OverallSurvivalMonths`` is the time of censoring.
+
+```{r eval = TRUE}
+tumors <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter21/chap21e2BreastCancer.csv"))
+head(tumors)
+```
+
+<br>
+
+## Survival curve
+
+Survival curve based on the Kaplan-Meier method. First we run ```Surv()``` to convert the data to a format used by the ```survival``` package. Then the ```survfit()``` function is used to calculate the survival curve by fitting the data to tumor ```Subtype``` (the variable indicating the two groups of subjects). 
+
+```{r eval = TRUE}
+tumorSurv <- Surv(time = tumors$OverallSurvivalMonths, event = tumors$status)
+tumorKM <- survfit(tumorSurv ~ Subtype, data = tumors, type="kaplan-meier") 
+```
+
+Finally, the curve is plotted (Figure 21.2-1).
+
+```{r eval = TRUE}
+ggsurvplot(tumorKM, conf.int = TRUE, pval = FALSE, risk.table = FALSE,
+	legend.labs=c("Basal", "LuminalA"), 
+	legend = c(0.15, 0.15), break.time.by = 25,
+	legend.title = "Subtype",
+	censor.shape = "|", censor.size = 4,
+	palette=c("firebrick", "goldenrod1"), 
+	xlab = "Time since diagnosis (months)",
+	ylab = "Proportion surviving")
+```
+
+<br>
+
+## Hazard ratio
+
+If we assume that the ratio of hazard rates between the two groups remains the same at every time point, then the hazard ratio can be calculated using the quantities in the following table. 
+
+```{r eval = TRUE}
+tumorDiff <- survdiff(tumorSurv ~ Subtype, data = tumors)
+print(tumorDiff, digits = 4)
+
+D1 <- tumorDiff$obs[1]
+D2 <- tumorDiff$obs[2]
+E1 <- tumorDiff$exp[1]
+E2 <- tumorDiff$exp[2]
+HR <- (D1/D2)/(E1/E2)
+HR
+```
+
+Standard errors and confidence interval can be calculated using the formula in the textbook.
+
+```{r eval = TRUE}
+SE_lnHR = sqrt(1/E1 + 1/E2)
+SE_lnHR
+L = log(HR)
+lower <- exp(L - 1.96*SE_lnHR)
+upper <- exp(L + 1.96*SE_lnHR)
+ci95 <- c(lower=lower, upper=upper)
+ci95
+```
+
+<br>
+
+## Cox regression
+
+Another way to approximate the hazard ratio is to use Cox regression, a topic beyond the scope of Chapter 21. The R commands are shown here for the sake of completeness. 
+
+The output includes an estimate of the hazard ratio that uses a different formula than the one used above and leads to a slightly different answer: H = 4.447 (and its inverse 1/H = 0.225) along with an approximate 95% confidence interval.
+
+The output also includes the results of the logrank test. 
+
+```{r eval = TRUE}
+z <- coxph(tumorSurv ~ Subtype, data = tumors)
+summary(z)
+```
+
+<br>
+
+## Logrank test
+
+The ```survdiff()```function provides the logrank test. 
+
+```{r eval = TRUE}
+tumorDiff <- survdiff(tumorSurv ~ Subtype, data = tumors)
+print(tumorDiff, digits = 4)
+```
+
+<br>
+
+## Proportional hazards
+
+A graphical test of the assumption of proportional hazards plots the log of the estimated proportions of individuals surviving at each time point in the two groups (the same values that are depicted in the survival curve) against log of time for each time point.
+
+```{r eval = TRUE}
+plot(tumorKM, fun = "cloglog", col = c("firebrick", "goldenrod1"), 
+  las = 1, lwd = 2, ylab = "ln(-ln(Proportion surviving)", 
+  xlab = "ln(Time since diagnosis)")
+```
+

@@ -1,0 +1,32 @@
+name: "Whitlock and Schluter"
+navbar:
+  title: <em>The Analysis of Biological Data</em> by Whitlock and Schluter
+
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "About this site"
+      href: about.html
+    - text: "Available resources"
+      menu:
+        - text: "Web visualizations"
+          href: https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm
+        - text: "R labs"
+          href: RLabs/index.html
+        - text: "Learn R by example"
+          href: RExamples/index.html
+        - text: "Data"
+          href: index.html#Data
+        - text: "Resources by chapter"
+          href: index.html#Data       
+
+output_dir: "."
+output:
+  html_document:
+    theme: yeti
+    highlight: textmate
+    includes:
+      in_header: header.html
+      before_body: header_image.html
+    css: ws.css
+   

@@ -1,0 +1,306 @@
+---
+title: "R code for example in Chapter 7: <br>Analyzing proportions"
+author: 
+
+#output: html_document
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 5, fig.height=4)
+suppressPackageStartupMessages(library(binom))
+suppressPackageStartupMessages(library(ggplot2))
+```
+
+***
+
+We used R to analyze all examples in Chapter 7. We put the code here so that you can too.
+
+<br>
+Also see our [lab on how to carry out frequency analaysis in R](https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_Frequency_data.html).
+
+<br>
+
+# New methods on this page
+
+These are the core commands that produce the new methods described in Chapter 7. The variable names are plucked from the examples further below.
+
+<ul>
+<li>Calculating binomial probabilities:
+
+```{r eval = FALSE}
+    dbinom(6, size = 27, prob = 0.25)
+```
+
+<li>Binomial test:
+
+```{r eval = FALSE}
+    binom.test(10, n = 25, p = 0.061)
+```
+
+<li>Agresti-Coull 95% confidence interval for the proportion:
+
+```{r eval = FALSE}
+    binom.confint(131, n = 169, method = "ac")
+```
+
+<li>Other new methods:
+<ul>
+<li>Install an R package.
+<li>Sampling distribution of a proportion by repeated sampling from a known population.
+</ul>
+</ul> 
+
+***
+
+<br>
+
+# Load required packages 
+
+We'll use the ```ggplot2``` add on package to draw many plots, and the ```binom``` package to calculate a confidence interval for a proportion using the Agresti-Coull method. They need to be loaded only once per session.
+
+You might need to install the ```binom``` package on your computer if you have not already done so.
+
+```{r eval = FALSE}
+install.packages("binom", dependencies = TRUE) # only if not yet installed
+```
+
+```{r eval = TRUE}
+library(binom)
+library(ggplot2)
+```
+
+***
+
+<br>
+
+# 7.1 Binomial distribution
+
+***Calculate a binomial probability**, the probability of obtaining $X$ successes in $n$ trials when trials are independent and probability of success $p$ is the same for every trial. 
+*
+
+<br>
+
+## Binomial probability
+
+This uses Example 6.4 on mirror image flowers. The probability of getting exactly 6 left-handed flowers when $n = 27$ and $p = 0.25$ is
+
+```{r}
+dbinom(6, size = 27, prob = 0.25)
+```
+
+<br>
+
+## Table of probabilities
+
+Tabulate the probability distribution of all possible values for the number of left-handed flowers out of 27 (Table 7.1-1).
+
+```{r}
+xsuccesses <- 0:27
+probx <- dbinom(xsuccesses, size = 27, prob = 0.25) 
+probTable <- data.frame(xsuccesses, probx)
+probTable
+```
+
+<br>
+
+## Histogram of probability distribution
+
+This illustrates the binomial distribution for the number of left-handed flowers when $n = 27$ and $p = 0.25$ (Figure 7.1-1).
+
+<!--
+```{r}
+barplot(height = probx, names.arg = xsuccesses, space = 0, las = 1,
+	col = "firebrick", ylab = "Probability", xlab = "Number of left-handed flowers")
+```
+
+or -->
+
+```{r}
+ggplot(probTable, aes(x = xsuccesses, y = probx)) + 
+    geom_bar(stat = "identity", fill = "firebrick", col = "black") +
+    labs(x = "Number of left-handed flowers", y = "Probability") +
+    theme_classic()
+```
+
+***
+
+<br>
+
+## Sampling distribution of a proportion
+
+Compare sampling distributions for the proportion based on $n = 10$ and $n = 100$ (Figure 7.1-2).
+
+Take a large number of random samples of $n = 10$ from a population having probability of success $p = 0.25$. Convert to proportions by dividing by the sample size. Do the same for the larger sample size $n = 100$. The following commands use 10,000 random samples.
+
+```{r}
+successes10 <- rbinom(10000, size = 10, prob = 0.25)
+proportion10 <- successes10 / 10
+successes100 <- rbinom(10000, size = 100, prob = 0.25)
+proportion100 <- successes100 / 100
+```
+
+<!--
+The ```par(mfrow = c(2,1))``` command sets up a graph window that will plot both graphs arranged in 2 rows and 1 column.
+
+```{r}
+par(mfrow = c(2,1))
+hist(proportion10, breaks = 10, right = FALSE, xlim = c(0,1),
+	xlab = "Sample proportion", col = "firebrick", main = "")
+hist(proportion100, breaks = 20, right = FALSE, xlim = c(0,1),
+	xlab = "Sample proportion", col = "firebrick", main = "")
+par(mfrow = c(1,1))
+```
+or
+
+-->
+
+```{r}
+ggplot(data = data.frame(proportion10), aes(x = proportion10)) + 
+    stat_bin(aes(y=..count../sum(..count..)), fill = "firebrick", col = "black",
+             boundary = 0, closed = "left", binwidth = 0.1) +
+    labs(x = "Sample proportion", y = "Probability") + 
+    coord_cartesian(xlim = c(0, 1)) +
+    theme_classic()
+
+ggplot(data = data.frame(proportion100), aes(x = proportion100)) + 
+    stat_bin(aes(y=..count../sum(..count..)), fill = "firebrick", col = "black",
+             boundary = 0, closed = "left", binwidth = 0.01) +
+    labs(x = "Sample proportion", y = "Probability") + 
+    coord_cartesian(xlim = c(0, 1)) +
+    theme_classic()
+```
+
+***
+
+<br>
+
+# Example 7.2. Sex and the X
+
+*The **binomial test**, used to test whether spermatogenesis genes in the mouse genome occur with unusual frequency on the X chromosome.*
+
+<br>
+
+## Read and inspect data
+
+Each row in the data file represents a different spermatogenesis gene.
+
+```{r}
+mouseGenes <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter07/chap07e2SexAndX.csv"), stringsAsFactors = FALSE)
+head(mouseGenes)
+```
+
+<br>
+
+## Tabulate number of genes
+
+Tally the number of spermatogenesis genes on the X-chromosome and the number not on the X-chromosome.
+
+```{r}
+table(mouseGenes$onX)
+```
+
+<br>
+
+## Calculate probabilities
+
+Calculate the binomial probabilities of all possible outcomes under the null hypothesis (Table 7.2-1). Under the binomial distribution with $n = 25$ and $p = 0.061$, the number of successes can be any integer between 0 and 25.
+
+```{r}
+xsuccesses <- 0:25
+probx <- dbinom(xsuccesses, size = 25, prob = 0.061)
+data.frame(xsuccesses, probx)
+```
+
+<br>
+
+## Calculate $P$-value
+
+Use these probabilities to calculate the $P$-value corresponding to an observed 10 spermatogenesis genes on the X chromosome. Remember to multiply the probability of 10 or more successes by 2 for the two-tailed test result.
+
+```{r}
+2 * sum(probx[xsuccesses >= 10])
+```
+
+<br>
+
+## R's binomial test
+
+For a faster result, try R's built-in binomial test. The resulting $P$-value is slightly different from our own calculation. In the book, we get the two-tailed probability by multiplying the one-tailed probability by 2. However, computer programs may calculate the probability of extreme results at the "other" tail with a different method. The output of ```binom.test()``` includes a confidence interval for the proportion using the Clopper-Pearson method, which is more conservative than the Agresti-Coull method.
+
+```{r}
+binom.test(10, n = 25, p = 0.061)
+```
+
+***
+
+<br>
+
+# Example 7.3. She-turtles
+
+***Standard error and 95% confidence interval for a proportion** using the Agresti-Coull method for the confidence interval.*
+
+<br>
+
+## Read and inspect data
+
+```{r}
+turtles <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter07/chap07e3GreenTurtleSex.csv"), stringsAsFactors = FALSE)
+head(turtles)
+```
+
+<br>
+
+Frequency table of female and male offspring number.
+
+```{r}
+turtleTable <- table(turtles$Sex)
+turtleTable
+```
+
+<br>
+
+## Calculate proportion
+
+Estimate the proportion of offspring that are female.
+
+```{r}
+n <- sum(turtleTable)
+n
+X <- turtleTable[1]
+pHat <-  X / n
+pHat
+```
+
+<br>
+
+## Standard error of proportion
+
+```{r}
+sqrt( (pHat * (1 - pHat))/n )
+```
+
+<br>
+
+## Agresti-Coull 95% CI
+
+First, calculate the Agresti-Coull 95% confidence interval for the population proportion using the formula in the book.
+
+```{r}
+pPrime <- (X + 2)/(n + 4)
+pPrime
+lower <- pPrime - 1.96 * sqrt( (pPrime * (1 - pPrime))/(n + 4) )
+upper <- pPrime + 1.96 * sqrt( (pPrime * (1 - pPrime))/(n + 4) )
+c(lower = lower, upper = upper)
+```
+
+Second, use the ```binom``` package. The result will be very slightly different from the one you calculated above because the formula we use in the book takes a slight shortcut.
+
+```{r}
+binom.confint(X, n = n, method = "ac")
+```

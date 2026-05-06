@@ -1,0 +1,402 @@
+---
+title: "Learn R by example, Chapter 9: <br>Contingency analysis"
+author: 
+
+#output: html_document
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 5, fig.height=4)
+```
+
+***
+
+We used R to analyze all examples in Chapter 9. We put the code here so that you can too.
+
+<br>
+Also see our [lab on contingency analysis using R](https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_Contingency_analysis.html).
+
+<br>
+
+# New methods on this page
+
+<ul>
+<li>Relative risk and odds ratio using the ```epitools``` package:
+
+```{r eval = FALSE}
+riskratio(t(cancerTable), rev = "both", method = "wald")
+oddsratio(cancerTable, method = "wald")
+```
+
+<li>$\chi^2$ contingency test:
+
+```{r eval = FALSE}
+chisq.test(worm$fate, worm$infection, correct = FALSE)
+```
+
+<li>Fisher's exact test:
+
+```{r eval = FALSE}
+fisher.test(vampire$bitten, vampire$estrous)
+```
+
+<li>Other new methods:
+<ul>
+<li>Mosaic plot for a case-control study.
+<li>Row and column sums in a contingency table.
+</ul>
+</ul>
+
+***
+
+<br>
+
+# Load required packages 
+
+We'll use the ```epitools``` add on package to calculate relative risk and odds ratio. You might need to install it first if you have not already done so.
+
+```{r eval = FALSE}
+install.packages("epitools", dependencies = TRUE) # only if not yet installed
+```
+
+```{r message = FALSE}
+library(epitools)
+```
+
+***
+
+<br>
+
+# Figure 9.1-1. Survival and gender
+
+## Read and inspect data
+
+The option ```stringsAsFactors = FALSE``` keeps character data in character format rather than convert them to factors, which can sometimes be a little harder to work with.
+
+```{r eval = TRUE}
+titanic <- read.csv(
+  url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter09/chap09f01Titanic.csv"), 
+  stringsAsFactors = FALSE)
+head(titanic)
+```
+
+<br>
+
+## Contingency table
+
+Next, make a contingency table for the association between survival and gender. R orders the categories of each variable alphabetically, which works here.
+
+```{r eval = TRUE}
+titanicTable <- table(titanic$survival, titanic$gender, useNA = c("ifany"))
+titanicTable
+```
+
+<br>
+
+## Mosaic plot
+
+Pass the table to the ```mosaicplot()``` function to make the plot. We flip (transpose) the contingency table (```t(titanicTable)``` so that the mosaic plot produced has the explanatory variable (gender) in the columns and the response variable (survival) in the rows.
+
+```{r eval = TRUE}
+par(pty = "s") # makes a square plot
+mosaicplot( t(titanicTable), col = c("firebrick", "goldenrod1"), cex.axis = 1, 
+	sub = "Gender", ylab = "Relative frequency", main = "")
+```
+
+***
+
+<br>
+
+# Example 9.2. Aspirin and cancer
+
+***Relative risk** and **odds ratio** to estimate association between aspirin treatment and cancer incidence in a 2x2 contingency table*.
+
+Read and inspect the data.
+
+```{r eval = TRUE}
+cancer <- read.csv(
+  url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter09/chap09e2AspirinCancer.csv"), 
+  stringsAsFactors = FALSE)
+head(cancer)
+```
+
+<br>
+
+## Contingency table
+
+Next, make a 2 x 2 contingency table showing association between aspirin treatment and cancer incidence (Table 9.2-1). R orders the categories of each variable alphabetically, which works here.
+
+```{r eval = TRUE}
+cancerTable <- table(cancer$cancer, cancer$aspirinTreatment)
+cancerTable
+```
+
+<br>
+
+## Mosaic plot
+
+A mosaic plot showing the association (Figure 9.2-1).
+
+```{r eval = TRUE}
+par(pty = "s") # makes a square plot
+mosaicplot( t(cancerTable), col = c("firebrick", "goldenrod1"), cex.axis = 1, 
+	sub = "Aspirin treatment", ylab = "Relative frequency", main = "")
+```
+
+<br>
+
+## Relative risk
+
+The relative risk (RR) is the probability of the undesired outcome (cancer) in the treatment group (aspirin) divided by the probability in the control (placebo) group. 
+
+Our contingency table ```cancerTable```, has the undesired outcome in the treatment group in the top left position. The ```riskratio()``` function expects the opposite layout, so we need to flip the table and reverse the order of the rows to use it. We can do this all at once with the following arguments to the ```riskratio()``` function. The full output of the command is shown below.
+
+```{r eval = TRUE}
+RR <- riskratio(t(cancerTable), rev = "both", method = "wald")
+RR
+```
+
+Notice that the resulting estimate RR differs slightly from the relative risk value given in the book for these same data (1.007) because rounding error here is reduced.
+
+To grab the key output, namely the estimate of the relative risk and the 95% confidence interval, use the following command:
+
+```{r eval = TRUE}
+RR$measure[2,]
+```
+
+<!--
+For step-by-step calculations of the relative risk, see here
+
+```{r eval = FALSE}
+x = as.vector(cancerTable)
+names(x) = c("a","c","b","d")
+phat1 = x["a"]/(x["a"] + x["c"])
+phat2 = x["b"]/(x["b"] + x["d"])
+rrHat = unname(phat1/phat2)
+unname(rrHat)
+ 
+# Standard error
+seLnRR = sqrt( 1/x["a"] + 1/x["b"] - 1/(x["a"]+x["c"]) - 1/(x["b"]+x["d"]) )
+unname(seLnRR)
+
+# 95% confidence interval
+Z = qnorm(1 - 0.05/2) # when rounded, is 1.96
+ciLnRR = c(log(rrHat) - Z * seLnRR, log(rrHat) + Z * seLnRR)
+ciRR = exp(ciLnRR) # transform back to ratio scale
+names(ciRR) = c("lower","upper")
+ciRR
+```
+-->
+
+<br>
+
+## Odds ratio
+
+To obtain the odds ratio (OR), use the ```oddsratio()``` function on ```cancerTable``` as is.
+
+```{r eval = TRUE}
+OR <- oddsratio(cancerTable, method = "wald")
+OR
+```
+
+The resulting output of ```oddsratio()``` includes a lot of incidental computations. To grab the essential output for the odds ratio, including the 95% confidence interval, use the following.
+
+```{r eval = TRUE}
+OR$measure[2, ]
+```
+
+<!--
+For step-by-step calculations of the odds ratio and confidence interval, see here
+
+```{r eval = TRUE}
+# First assign the labels a,b,c, and d to the table, as on page 240.
+# Then plug the values into the formula for odds ratio
+x = as.vector(cancerTable)
+names(x) = c("a","c","b","d")
+orHat = unname(x["a"] * x["d"]) / (x["b"] * x["c"])
+unname(orHat)
+
+# Standard error of log odds ratio
+seLnOR = sqrt(1/x["a"] + 1/x["b"]+ 1/x["c"] + 1/x["d"])
+unname(seLnOR)
+
+# 95% confidence interval
+Z = qnorm(1 - 0.05/2) # when rounded, is 1.96
+ciLnOR = c(log(orHat) - Z * seLnOR, log(orHat) + Z * seLnOR)
+ciOR = exp(ciLnOR) # transform back to ratio scale
+names(ciOR) = c("lower","upper")
+ciOR
+```
+-->
+
+***
+
+<br>
+
+# Example 9.3. Toxoplasma and driving
+
+***Odds ratio** to estimate association between Toxoplasma infection and driving accidents in a 2 x 2 **case-control study***.
+
+Read and inspect the data.
+
+```{r eval = TRUE}
+toxoplasma <- read.csv(
+  url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter09/chap09e3ToxoplasmaAndAccidents.csv"), stringsAsFactors = FALSE)
+head(toxoplasma)
+```
+
+<br>
+
+## Contingency table
+
+First, make the 2 x 2 contingency table (Table 9.3-1). The table that results has the undesired outcome (accidents) for the treatment group (infected) in the top left. 
+
+```{r eval = TRUE}
+toxTable <- table(toxoplasma$accident, toxoplasma$condition)
+toxTable
+```
+
+<br>
+
+## Mosaic plot
+
+Next, make the mosaic plot for a case-control study (Figure 9.3-1).
+
+```{r eval = TRUE}
+par(pty = "s") # makes a square plot
+mosaicplot(toxTable, col=c("firebrick", "goldenrod1"), cex.axis = 1.2, 
+sub = "Condition", dir = c("h","v"), ylab = "Relative frequency", main = "")
+```
+
+<br>
+
+## Odds ratio
+
+Odds ratio using ```epitools```.
+
+```{r eval = TRUE}
+OR <- oddsratio(toxTable, method = "wald")
+OR$measure[2,]
+```
+
+***
+
+<br>
+
+# Example 9.4. Worm gets bird
+
+***$\chi^2$ contingency test** to test association between trematode infection status of killifish and their fate (eaten or not eaten) in the presence of predatory birds*.
+
+Read and inspect the data.
+
+```{r eval = TRUE}
+worm <- read.csv(
+  url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter09/chap09e4WormGetsBird.csv"),
+  stringsAsFactors = FALSE)
+head(worm)
+```
+
+<br>
+
+## Contingency table 
+
+In the contingency table in the book (Table 9.4-1), we ordered the infection categories from uninfected to highly infected. Use ```factor()``` to set the order. Then make the contingency table. The ```addmargins()``` function adds the row and column sums to the display of the table.
+
+```{r eval = TRUE}
+worm$infection <- factor(worm$infection, 
+	levels = c("uninfected", "lightly", "highly"))
+wormTable <- table(worm$fate, worm$infection)
+addmargins(wormTable)
+```
+
+<br>
+
+## Mosaic plot
+
+Use the table to make the mosaic plot (Figure 9.4-1).
+
+```{r eval = TRUE}
+par(pty = "s") # makes a square plot
+mosaicplot( t(wormTable), col = c("firebrick", "goldenrod1"), cex.axis = 1, 
+	sub = "Infection status", ylab = "Relative frequency", main = "")
+```
+
+<br>
+
+## $\chi^2$ contingency test
+
+Carry out the $\chi^2$ contingency test. Include the argument ```correct = FALSE``` to avoid Yates' correction. This has no effect except in 2 x 2 tables, but we keep it here for demonstration purposes.
+
+```{r eval = TRUE}
+saveChiTest <- chisq.test(worm$fate, worm$infection, correct = FALSE)
+saveChiTest
+```
+
+The expected frequencies under null hypothesis are included with the results, but aren't normally shown. Type ```saveChiTest$expected``` to extract them. Include the ```addmargins()``` function if you want to see the row and column sums too.
+
+```{r eval = TRUE}
+addmargins(saveChiTest$expected)
+```
+
+<!--
+**<i>G</i>-test** applied to the worm-gets-bird data (Section 9.6). R has no simple, built-in function to carry out the <i>G</i>-test with goodness-of-fit data. Code for a command ```g.test``` by Brent Larget is available <a href="http://www.stat.wisc.edu/~st571-1/gtest.R">here</a>. Below, we source this code, which then allows you to use his function ```g.test```.
+
+```{r eval = TRUE}
+source("http://www.stat.wisc.edu/~st571-1/gtest.R")
+g.test(wormTable)
+```
+-->
+
+***
+
+<br>
+
+# Example 9.5. Vampire bat feeding
+
+***Fisher's exact test** of association between estrous status of cows and whether cows were bitten by vampire bats.*
+
+Read and inspect the data.
+
+```{r eval = TRUE}
+vampire <- read.csv(
+  url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter09/chap09e5VampireBites.csv"),
+  stringsAsFactors = FALSE)
+```
+
+<br>
+
+## Contingency table
+
+Make the 2 x 2 contingency table (Table 9.5-1).
+
+```{r eval = TRUE}
+vampireTable <- table(vampire$bitten, vampire$estrous)
+vampireTable
+```
+
+<br>
+
+## $\chi^2$ contingency test
+
+Get the expected frequencies under null hypothesis of independence using ```chisq.test()```. R complains because of the violation of assumptions. Just in case you hadn't noticed.
+
+```{r eval = TRUE}
+saveTest <- chisq.test(vampire$bitten, vampire$estrous, correct = FALSE) 
+saveTest$expected
+```
+
+<br>
+
+## Fisher's exact test
+
+The output includes an estimate of the odds ratio, but it uses a different method than is used in our book.
+
+```{r eval = TRUE}
+fisher.test(vampire$bitten, vampire$estrous)
+```

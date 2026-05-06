@@ -1,0 +1,43 @@
+---
+title: "R code for example in Chapter X: <br>Title"
+author: 
+#output: html_document
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+# New methods on this page
+
+These are the core commands that produce the new methods described in Chapter X. The variable names are plucked from the examples further below.
+
+<ul>
+<li> *Calculating binomial probabilities*
+```{r eval = FALSE}
+    rcode here
+```
+</ul>
+
+<li><ul> *Other new methods*
+
+    <li>Sampling distribution of a proportion by repeated sampling from a known population.
+    </ul>
+</ul>   
+***
+
+
+<br>
+
+# Table, Figure or topic name
+
+<br>
+

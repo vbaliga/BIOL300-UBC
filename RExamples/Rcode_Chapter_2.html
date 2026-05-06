@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>R code for examples in Chapter 2:  Displaying data</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-4');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R code for examples in Chapter 2: <br>Displaying data</h1>
+
+</div>
+
+
+<!--
+knitr:: seems to be the best way to control figure dimensions with ggplots. 
+It may be necessary to force a different width and height for individual plots 
+in base R, e.g., see mosaicplot() and plot() used for scatter plot of guppy data
+-->
+<hr />
+<p>We used R to analyze all examples in Chapter 2. We put the code here so that you can too.</p>
+<p><br> Also see our <a href="https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_Graphics.html">lab on graphics using R</a>.</p>
+<p><br></p>
+<div id="new-methods-on-this-page" class="section level1">
+<h1>New methods on this page</h1>
+<ul>
+<li>
+<p>Read data from a comma-separated (.csv) file into a data frame.</p>
+<pre class="r"><code>locustData &lt;- read.csv(chap02f1_2locustSerotonin.csv, stringsAsFactors = FALSE)</code></pre>
+<li>
+<p>Inspect data in a data frame.</p>
+<pre class="r"><code>head(locustData)
+nrow(locustData)</code></pre>
+<li>
+<p>Strip chart relating a numeric variable to a categorical variable:</p>
+<pre class="r"><code>ggplot(data = locustData, aes(x = treatmentTime, y = serotoninLevel)) + 
+    geom_jitter()</code></pre>
+<li>
+<p>Frequency table:</p>
+<pre class="r"><code>table(tigerData$activity)</code></pre>
+<li>
+<p>Bar graph for count data:</p>
+<pre class="r"><code>ggplot(data = educationSpending, aes(x = as.character(year), 
+      y = spendingPerStudent)) + 
+    geom_bar(stat = &quot;identity&quot;)</code></pre>
+<li>
+<p>Histogram for a numeric variable:</p>
+<pre class="r"><code>ggplot(data = zikaData, aes(x = biparietalDiamMm)) + 
+    geom_histogram()</code></pre>
+<li>
+<p>Scatter plot showing association between two numeric variables:</p>
+<pre class="r"><code>ggplot(data = guppyFatherSonData, aes(x = fatherOrnamentation, 
+      y = sonAttractiveness)) + 
+    geom_point()</code></pre>
+<li>
+Other new methods:
+<ul>
+<li>
+Load an R package.
+<li>
+Make a contingency table.
+<li>
+Create a multiple-histogram plot.
+<li>
+Make a line plot.
+</ul>
+</ul>
+<hr />
+<p><br></p>
+</div>
+<div id="load-required-package" class="section level1">
+<h1>Load required package</h1>
+<p>We’ll use the <code>ggplot2</code> add on package to draw some of the plots. It needs to be loaded only once per session.</p>
+<pre class="r"><code>library(ggplot2)</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="figure-2.1-2.-locust-serotonin" class="section level1">
+<h1>Figure 2.1-2. Locust serotonin</h1>
+<p><em><strong>Strip chart</strong> of serotonin levels in the central nervous system of desert locusts that were experimentally crowded for 0 (the control group), 1, and 2 hours.</em></p>
+<p><br></p>
+<div id="read-data-from-.csv-file" class="section level2">
+<h2>Read data from .csv file</h2>
+<p>The <code>read.csv()</code> command grabs the data from a file on the book web site and stores in the data frame <code>locustData</code>.</p>
+<pre class="r"><code>locustData &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter02/chap02f1_2locustSerotonin.csv&quot;), stringsAsFactors = FALSE)</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="show-the-first-few-lines-of-data" class="section level2">
+<h2>Show the first few lines of data</h2>
+<p>To check that the data were read correctly and determine the number of cases (rows) in the data.</p>
+<pre class="r"><code>head(locustData)</code></pre>
+<pre><code>##   serotoninLevel treatmentTime
+## 1            5.3             0
+## 2            4.6             0
+## 3            4.5             0
+## 4            4.3             0
+## 5            4.2             0
+## 6            3.6             0</code></pre>
+<pre class="r"><code>nrow(locustData)</code></pre>
+<pre><code>## [1] 30</code></pre>
+<p><br></p>
+</div>
+<div id="draw-a-stripchart" class="section level2">
+<h2>Draw a stripchart</h2>
+<p>The <code>ggplot()</code> code stitches together multiple components here shown on different lines: the data and variables; the strip chart itself (with options specifying color and size of dots and width of strips); the axis labels, and the theme. We convert <code>treatmentTime</code> to a character variable for best results.</p>
+<pre class="r"><code>meanLevel &lt;- tapply(locustData$serotoninLevel, locustData$treatmentTime,mean)
+
+ggplot(data = locustData, aes(x = as.character(treatmentTime), y = serotoninLevel)) +
+    geom_jitter(color = &quot;firebrick&quot;, size = 3, width = 0.15) +
+    labs(x = &quot;Treatment time (hours)&quot;, y = &quot;Serotonin (pmoles)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_2_files/figure-html/unnamed-chunk-11-1.png" width="480" /></p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="figure-2.1-3.-education-spending" class="section level1">
+<h1>Figure 2.1-3. Education spending</h1>
+<p><em>A <strong>bar graph</strong> of education spending per student in different years in British Columbia.</em></p>
+<p><br></p>
+<div id="read-and-inspect-data" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>educationSpending &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter02/chap02f1_3EducationSpending.csv&quot;), stringsAsFactors = FALSE)
+
+head(educationSpending)</code></pre>
+<pre><code>##   year spendingPerStudent
+## 1 1998               5844
+## 2 1999               5983
+## 3 2000               6216
+## 4 2001               6328
+## 5 2002               6455
+## 6 2003               6529</code></pre>
+<p><br></p>
+</div>
+<div id="bar-graph" class="section level2">
+<h2>Bar graph</h2>
+<p>In this example, the actual bar heights are provided in the data frame, so we use <code>stat = "identity"</code>. We convert year to a categorial variable for best results.</p>
+<pre class="r"><code>ggplot(data = educationSpending, aes(x = as.character(year), y = spendingPerStudent)) + 
+    geom_bar(stat = &quot;identity&quot;, fill = &quot;firebrick&quot;) +
+    labs(x = &quot;&quot;, y = &quot;Education spending ($ per student)&quot;) +
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_2_files/figure-html/unnamed-chunk-13-1.png" width="480" /></p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-2.2a.-deaths-from-tigers" class="section level1">
+<h1>Example 2.2A. Deaths from tigers</h1>
+<p><em><strong>Frequency table</strong> and <strong>bar graph</strong> showing activities of 88 people at the time they were killed by tigers near Chitwan National Park, Nepal, from 1979 to 2006.</em></p>
+<p><br></p>
+<div id="read-and-inspect-data-1" class="section level2">
+<h2>Read and inspect data</h2>
+<p>We store the data into a data frame named <code>tigerData</code>.</p>
+<pre class="r"><code>tigerData &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter02/chap02e2aDeathsFromTigers.csv&quot;), stringsAsFactors = FALSE)
+
+head(tigerData)</code></pre>
+<pre><code>##   person              activity
+## 1      1 Disturbing tiger kill
+## 2      2       Forest products
+## 3      3          Grass/fodder
+## 4      4       Fuelwood/timber
+## 5      5          Grass/fodder
+## 6      6       Forest products</code></pre>
+<p><br></p>
+</div>
+<div id="frequency-table" class="section level2">
+<h2>Frequency table</h2>
+<p>This is a basic frequency table. R will arrange the categories in alphabetical order by default. Use <code>sort()</code> to order categories from most to least frequent. The last step, <code>data.frame()</code> arranges the frequencies in a column.</p>
+<pre class="r"><code>tigerTable &lt;- table(tigerData$activity)
+tigerTable &lt;- sort(tigerTable, decreasing = TRUE)
+data.frame(tigerTable, row.names = 1)</code></pre>
+<pre><code>##                       Freq
+## Grass/fodder            44
+## Forest products         11
+## Fishing                  8
+## Herding                  7
+## Disturbing tiger kill    5
+## Fuelwood/timber          5
+## Sleeping in house        3
+## Walking                  3
+## Toilet                   2</code></pre>
+<p><br></p>
+</div>
+<div id="frequency-table-1" class="section level2">
+<h2>Frequency table</h2>
+<p>We can instead use <code>factor()</code> to make a new activity variable whose categories (“levels”) are ordered by frequency.</p>
+<pre class="r"><code>tigerTable &lt;- table(tigerData$activity)
+tigerData$activity_ordered &lt;- factor(tigerData$activity, 
+    levels = names(sort(tigerTable, decreasing = TRUE)) )
+data.frame(table(tigerData$activity_ordered), row.names = 1)</code></pre>
+<pre><code>##                       Freq
+## Grass/fodder            44
+## Forest products         11
+## Fishing                  8
+## Herding                  7
+## Disturbing tiger kill    5
+## Fuelwood/timber          5
+## Sleeping in house        3
+## Walking                  3
+## Toilet                   2</code></pre>
+<p><br></p>
+</div>
+<div id="bar-graph-1" class="section level2">
+<h2>Bar graph</h2>
+<p>In this example, <code>ggplot()</code> tallies the frequency in each category from the data using <code>stat = "count"</code>. We’ll use the new, ordered activity variable created in the previous step. We also add an option to rotate the axis labels so they fit on the page.</p>
+<pre class="r"><code>ggplot(data = tigerData, aes(x = activity_ordered)) + 
+    geom_bar(stat = &quot;count&quot;, fill = &quot;firebrick&quot;) +
+    labs(x = &quot;Activity&quot;, y = &quot;Frequency&quot;) +
+    theme_classic() +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))</code></pre>
+<p><img src="Rcode_Chapter_2_files/figure-html/unnamed-chunk-17-1.png" width="480" /></p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-2.2b.-effects-of-zika-virus" class="section level1">
+<h1>Example 2.2B. Effects of Zika virus</h1>
+<p><em><strong>Frequency table</strong> and <strong>histogram</strong> illustrating the frequency distribution of head diameters of fetuses of pregnant women infected with the Zika virus. </em></p>
+<p><br></p>
+<div id="read-and-inspect-data-2" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>zikaData &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter02/chap02e2bZikaBiparietalDiameter.csv&quot;), stringsAsFactors = FALSE)
+
+head(zikaData)</code></pre>
+<pre><code>##   gestationalAgeWks biparietalDiamMm
+## 1              34.1               61
+## 2              32.9               69
+## 3              35.6               70
+## 4              35.8               82
+## 5              34.4               80
+## 6              33.3               80</code></pre>
+<p><br></p>
+</div>
+<div id="frequency-table-2" class="section level2">
+<h2>Frequency table</h2>
+<p>To make a frequency table for a numeric variable we need to place observations into bins. THe variables head width ranges from 61 to 92.</p>
+<pre class="r"><code>range(zikaData$biparietalDiamMm)</code></pre>
+<pre><code>## [1] 61 92</code></pre>
+<p>So let’s make bins of width 5 from 60 to 95. The option <code>right = FALSE</code> ensures that abundance value 70 (for example) is counted in the 70-75 bin rather than in the 65-70 bin.</p>
+<pre class="r"><code>zikaTable &lt;- table(cut(zikaData$biparietalDiamMm, 
+    breaks = seq(00, 95, by=5), right = FALSE))
+data.frame(zikaTable, row.names = 1)</code></pre>
+<pre><code>##         Freq
+## [0,5)      0
+## [5,10)     0
+## [10,15)    0
+## [15,20)    0
+## [20,25)    0
+## [25,30)    0
+## [30,35)    0
+## [35,40)    0
+## [40,45)    0
+## [45,50)    0
+## [50,55)    0
+## [55,60)    0
+## [60,65)    1
+## [65,70)    1
+## [70,75)    1
+## [75,80)    0
+## [80,85)   13
+## [85,90)   20
+## [90,95)    4</code></pre>
+<p><br></p>
+</div>
+<div id="histogram" class="section level2">
+<h2>Histogram</h2>
+<p>A quick histogram in base R can be obtained as follows</p>
+<pre class="r"><code>hist(zikaData$biparietalDiamMm, right = FALSE, col = &quot;firebrick&quot;)</code></pre>
+<p><img src="Rcode_Chapter_2_files/figure-html/unnamed-chunk-21-1.png" width="480" /></p>
+<p>Or use the <code>ggplot()</code> method. The option <code>boundary = 0</code> puts bars between the bin cut points. The option <code>closed = left</code> ensures that abundance value 70 (for example) is counted in the 70-75 bin rather than in the 65-70 bin.</p>
+<pre class="r"><code>ggplot(data = zikaData, aes(x = biparietalDiamMm)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 5, 
+        boundary = 0, closed = &quot;left&quot;) + 
+    labs(x = &quot;Head diamater (mm)&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_2_files/figure-html/unnamed-chunk-22-1.png" width="480" /></p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="figure-2.2-5.-salmon-body-size" class="section level1">
+<h1>Figure 2.2-5. Salmon body size</h1>
+<p><em><strong>Histograms</strong> of body mass of 228 female sockeye salmon sampled from Pick Creek in Alaska. The same data are plotted for three different interval widths: 0.1 kg, 0.3 kg, and 0.5 kg.</em></p>
+<p><br></p>
+<div id="read-and-inspect-data-3" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>salmonSizeData &lt;- read.csv(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter02/chap02f2_5SalmonBodySize.csv&quot;, stringsAsFactors = FALSE)
+
+head(salmonSizeData)</code></pre>
+<pre><code>##   year   sex oceanAgeYears lengthMm massKg
+## 1 1996 FALSE             3      513  3.090
+## 2 1996 FALSE             3      513  2.909
+## 3 1996 FALSE             3      525  3.056
+## 4 1996 FALSE             3      501  2.690
+## 5 1996 FALSE             3      513  2.876
+## 6 1996 FALSE             3      501  2.978</code></pre>
+<p><br></p>
+</div>
+<div id="histograms-testing-different-bin-widths" class="section level2">
+<h2>Histograms, testing different bin widths</h2>
+<p>Comparing the effect of setting bin width to 0.1, 0.3, and 0.5 kg.</p>
+<pre class="r"><code>ggplot(data = salmonSizeData, aes(x = massKg)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 0.1, 
+        boundary = 0, closed = &quot;left&quot;) + 
+    labs(x = &quot;Body mass (kg)&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_2_files/figure-html/unnamed-chunk-24-1.png" width="480" /></p>
+<pre class="r"><code>ggplot(data = salmonSizeData, aes(x = massKg)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 0.3, 
+        boundary = 0, closed = &quot;left&quot;) + 
+    labs(x = &quot;Body mass (kg)&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_2_files/figure-html/unnamed-chunk-24-2.png" width="480" /></p>
+<pre class="r"><code>ggplot(data = salmonSizeData, aes(x = massKg)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 0.5, 
+        boundary = 0, closed = &quot;left&quot;) + 
+    labs(x = &quot;Body mass (kg)&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_2_files/figure-html/unnamed-chunk-24-3.png" width="480" /></p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-2.3a.-bird-malaria" class="section level1">
+<h1>Example 2.3A. Bird malaria</h1>
+<p><em><strong>Contingency table</strong>, <strong>grouped bar plot</strong>, and <strong>mosaic plot</strong> showing the association between egg removal treatment and incidence of malaria in female great tits</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data-4" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>birdMalariaData &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter02/chap02e3aBirdMalaria.csv&quot;), stringsAsFactors = FALSE)
+
+head(birdMalariaData)</code></pre>
+<pre><code>##   bird treatment response
+## 1    1   Control  Malaria
+## 2    2   Control  Malaria
+## 3    3   Control  Malaria
+## 4    4   Control  Malaria
+## 5    5   Control  Malaria
+## 6    6   Control  Malaria</code></pre>
+<!-- 
+## Order treatment categories
+
+The ```factor()``` command allows us to order the levels so that the category "Egg removal" comes before "Control" in tables and graphs (categories are otherwise ordered alphabetically by defauly).
+
+
+```r
+birdMalariaData$treatment_ordered <- factor(birdMalariaData$treatment, 
+      levels= c("Egg removal", "Control"))
+```
+-->
+<p><br></p>
+</div>
+<div id="contingency-table" class="section level2">
+<h2>Contingency table</h2>
+<p>Use <code>table()</code> with the names of two categorical variables as arguments, beginning with the response variable.</p>
+<pre class="r"><code>birdMalariaTable &lt;- table(birdMalariaData$response, birdMalariaData$treatment)
+birdMalariaTable</code></pre>
+<pre><code>##             
+##              Control Egg removal
+##   Malaria          7          15
+##   No Malaria      28          15</code></pre>
+<p><br></p>
+</div>
+<div id="add-row-and-column-sums" class="section level2">
+<h2>Add row and column sums</h2>
+<p>To add row and column totals to the table, use the following.</p>
+<pre class="r"><code>addmargins(birdMalariaTable, margin = c(1,2), FUN = sum, quiet = TRUE)</code></pre>
+<pre><code>##             
+##              Control Egg removal sum
+##   Malaria          7          15  22
+##   No Malaria      28          15  43
+##   sum             35          30  65</code></pre>
+<p><br></p>
+</div>
+<div id="grouped-bar-graph" class="section level2">
+<h2>Grouped bar graph</h2>
+<p>In a grouped bar graph, <code>ggplot()</code> uses the argument <code>fill</code> for the response variable (here named <code>response</code>). The argument <code>position</code> controls the placement of bars. <code>scale_fill_manual</code> is optional but it allows control of the colors used.</p>
+<pre class="r"><code>ggplot(birdMalariaData, aes(x = treatment, fill = response)) + 
+    geom_bar(stat = &quot;count&quot;, position = position_dodge2(preserve=&quot;single&quot;)) +
+    scale_fill_manual(values=c(&quot;firebrick&quot;, &quot;goldenrod1&quot;)) +
+    labs(x = &quot;Treatment&quot;, y = &quot;Frequency&quot;) +
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_2_files/figure-html/unnamed-chunk-29-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="mosaic-plot" class="section level2">
+<h2>Mosaic plot</h2>
+<p>Mosaic plots are easiest in base R rather than <code>ggplot()</code>. The <code>t()</code> command flips (transposes) the table to ensure that the explanatory variable is along the horizontal axis.</p>
+<pre class="r"><code>mosaicplot( t(birdMalariaTable), col = c(&quot;firebrick&quot;, &quot;goldenrod1&quot;), 
+      sub = &quot;Treatment&quot;, ylab = &quot;Relative frequency&quot;, main = &quot;&quot;)</code></pre>
+<p><img src="Rcode_Chapter_2_files/figure-html/unnamed-chunk-30-1.png" width="480" /></p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="figure-2.3-3.-guppy-fathers-and-sons" class="section level1">
+<h1>Figure 2.3-3. Guppy fathers and sons</h1>
+<p><em><strong>Scatter plot</strong> of the relationship between the ornamentation of male guppies and the average attractiveness of their sons</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data-5" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>guppyFatherSonData &lt;- read.csv(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter02/chap02f3_3GuppyFatherSonAttractiveness.csv&quot;, stringsAsFactors = FALSE)
+
+head(guppyFatherSonData)</code></pre>
+<pre><code>##   fatherOrnamentation sonAttractiveness
+## 1                0.35             -0.32
+## 2                0.03             -0.03
+## 3                0.14              0.11
+## 4                0.10              0.28
+## 5                0.22              0.31
+## 6                0.23              0.18</code></pre>
+<p><br></p>
+</div>
+<div id="scatter-plot" class="section level2">
+<h2>Scatter plot</h2>
+<p>A quick scatter plot can be made simply with base R’s <code>plot()</code> command. The tilde (~) relates the response variable <code>sonAttractiveness</code> to the explanatory variable <code>fatherOrnamentation</code>.</p>
+<pre class="r"><code>plot(sonAttractiveness ~ fatherOrnamentation, data = guppyFatherSonData,
+     pch = 16, col = &quot;firebrick&quot;)</code></pre>
+<p><img src="Rcode_Chapter_2_files/figure-html/unnamed-chunk-32-1.png" width="576" /></p>
+<p>In <code>ggplot()</code>, the commands for a scatter plot are as follows.</p>
+<pre class="r"><code>ggplot(data = guppyFatherSonData, aes(x = fatherOrnamentation, y = sonAttractiveness)) + 
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    labs(x = &quot;Father&#39;s ornamentation&quot;, y = &quot;Son&#39;s attractiveness&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_2_files/figure-html/unnamed-chunk-33-1.png" width="480" /></p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-2.3b.human-hemoglobin" class="section level1">
+<h1>Example 2.3B.Human hemoglobin</h1>
+<p><em><strong>Strip chart</strong>, <strong>violin plot</strong>, and <strong>multiple histograms</strong> showing hemoglobin concentration in men living at high altitude in three different parts of the world and in a sea level population (USA)</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data-6" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>hemoglobinData &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter02/chap02e3bHumanHemoglobinElevation.csv&quot;), stringsAsFactors = FALSE)
+
+head(hemoglobinData)</code></pre>
+<pre><code>##              id hemoglobin population
+## 1 US.Sea.level1      10.40        USA
+## 2 US.Sea.level2      11.20        USA
+## 3 US.Sea.level3      11.70        USA
+## 4 US.Sea.level4      11.80        USA
+## 5 US.Sea.level5      11.90        USA
+## 6 US.Sea.level6      12.05        USA</code></pre>
+<p><br></p>
+</div>
+<div id="table-of-sample-sizes" class="section level2">
+<h2>Table of sample sizes</h2>
+<pre class="r"><code>table(hemoglobinData$population)</code></pre>
+<pre><code>## 
+##    Andes Ethiopia    Tibet      USA 
+##       71      128       59     1704</code></pre>
+<p><br></p>
+</div>
+<div id="strip-chart" class="section level2">
+<h2>Strip chart</h2>
+<pre class="r"><code>ggplot(data = hemoglobinData, aes(x = population, y = hemoglobin)) +
+    geom_jitter(color = &quot;firebrick&quot;, shape = 1, size = 3, width = 0.15) +
+    labs(x = &quot;Male population&quot;, y = &quot;Hemoglobin concentration (g/dL)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_2_files/figure-html/unnamed-chunk-36-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="violin-plot" class="section level2">
+<h2>Violin plot</h2>
+<p>A violin plot using <code>ggplot()</code>, like that in Figure 2.3-4.</p>
+<pre class="r"><code>ggplot(data = hemoglobinData, aes(y = hemoglobin, x = population)) + 
+    geom_violin(fill = &quot;goldenrod1&quot;, col = &quot;black&quot;) + 
+    labs(x = &quot;Male population&quot;, y = &quot;Hemoglobin concentration (g/dL)&quot;) + 
+    stat_summary(fun.y = mean,  geom = &quot;point&quot;, color = &quot;black&quot;) +
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_2_files/figure-html/unnamed-chunk-37-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="multiple-histograms" class="section level2">
+<h2>Multiple histograms</h2>
+<p>Shows the association between hemoglobin and population using stacked histograms all having the same x-axis (Figure 2.3-5). The <code>facet_wrap()</code> function indicates the groups (in this case populations), with the tilde “~” indicating that they represent another explanatory variable.</p>
+<pre class="r"><code>ggplot(data = hemoglobinData, aes(x = hemoglobin)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, binwidth = 1, col = &quot;black&quot;, 
+          boundary = 0, closed = &quot;left&quot;) +
+    labs(x = &quot;Hemoglobin concentration (g/dL)&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic() +
+    facet_wrap( ~ population, ncol = 1, scales = &quot;free_y&quot;, strip.position = &quot;right&quot;)</code></pre>
+<p><img src="Rcode_Chapter_2_files/figure-html/unnamed-chunk-38-1.png" width="480" /></p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-2.4a.-measles-outbreaks" class="section level1">
+<h1>Example 2.4A. Measles outbreaks</h1>
+<p><em><strong>Line graph</strong> showing confirmed cases of measles in England and Wales from 1995 to 2011. Annual counts are quarterly.</em></p>
+<p><br></p>
+<div id="read-and-inspect-data-7" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>measlesData &lt;- read.csv(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter02/chap02f4_1MeaslesOutbreaks.csv&quot;, stringsAsFactors = FALSE)
+
+head(measlesData)</code></pre>
+<pre><code>##   year quarter confirmedCases yearByQuarter
+## 1 2011     4th            136       2011.88
+## 2 2011     3rd            154       2011.62
+## 3 2011     2nd            346       2011.38
+## 4 2011     1st            151       2011.12
+## 5 2010     4th             31       2010.88
+## 6 2010     3rd            134       2010.62</code></pre>
+<p><br></p>
+</div>
+<div id="draw-a-line-graph" class="section level2">
+<h2>Draw a line graph</h2>
+<p>The graph in this example consists of both points and lines, and so both <code>geom_line()</code> and <code>geom_point()</code> are included.</p>
+<pre class="r"><code>ggplot(data = measlesData, aes(x = yearByQuarter, y = confirmedCases)) +
+    geom_line() +
+    geom_point(color = &quot;firebrick&quot;) +
+    labs(x = &quot;Year&quot;, y = &quot;Number of new measles cases&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_2_files/figure-html/unnamed-chunk-40-1.png" width="480" /></p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

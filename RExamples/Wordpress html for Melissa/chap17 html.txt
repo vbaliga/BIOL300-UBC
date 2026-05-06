@@ -1,0 +1,437 @@
+<h2>Regression: R code for Chapter 17 examples</h2>
+Download the R code on this page as a single file <a href="../wp-content/rcode/chap17.r">here</a>
+<div style="width:650px; padding:6px; border:2px solid black; bgcolor=" #ffffff""="">
+<h3>New methods on this page</h3>
+Click on a function argument for a short description of its meaning. The variable names are plucked from the examples further below.
+
+<b>Linear regression</b>:
+<code>lionRegression &lt;- lm([tippy title = "ageInYears ~ proportionBlack" width = "300" header = "off"] <font color="003399">Formula describing a relationship between the response variable (the y-variable) and the explanatory variable (the x-variable).</font>[/tippy], [tippy title = "data = lion" width = "300" header = "off"] <font color="003399">The name of the data frame containing the variables in the formula.</font>[/tippy])</code>
+<code>summary([tippy title = "lionRegression" width = "300" header = "off"] <font color="003399">The name of the R object containing the results of <code>lm</code> in the previous step.</font>[/tippy])</code>
+
+<b>Predict mean y on a regression line corresponding to a given x-value</b>:
+<code>predict([tippy title = "lionRegression" width = "300" header = "off"] <font color="003399">The name of the R object with the saved results from a previous <code>lm</code> command.</font>[/tippy], [tippy title = "data.frame(proportionBlack = 0.50)" width = "300" header = "off"] <font color="003399">The <code>predict</code> function requires that the x-value have the same name as the explanatory variable in the regression and be in a data frame. This argument accomplishes both at once.</font>[/tippy], [tippy title = "se.fit = TRUE" width = "300" header = "off"] <font color="003399">The argument causes the <code>predict</code> function also to show a standard error for the prediction.</font>[/tippy])</code>
+
+<b>ANOVA test of zero regression slope</b>:
+<code>anova([tippy title = "prairieRegression" width = "300" header = "off"] <font color="003399">The name of the R object with the saved results from a previous <code>lm</code> command.</font>[/tippy])</code>
+
+<b>Other new methods</b>:
+95% confidence interval for the slope.
+95% confidence bands.
+95% prediction intervals.
+Scatter plot smoothing.
+Nonlinear regression.
+Logistic regression.
+
+</div>
+<h3>Example 17.1. <a href="../wp-content/data/chapter17/chap17e1LionNoses.csv">Lion noses</a></h3>
+<em><b>Estimate a linear regression</b> and <b>calculate predicted values and their uncertainty</b> for the relationship between lion age and proportion of black on the lion nose</em>.
+
+Read and inspect the data.
+<pre>lion &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter17/chap17e1LionNoses.csv"))
+head(lion)
+</pre>
+Basic <strong>scatter plot</strong>.
+<pre>plot(ageInYears ~ proportionBlack, data = lion)
+</pre>
+Commands for a fancier scatter plot using more options (Figure 17.1-1) are [tippy title="here" width = "680" header = "off"]
+<pre>plot(ageInYears ~ proportionBlack, data = lion, pch = 16, col="firebrick", 
+	las = 1, cex = 1.5, bty = "l", xlim = c(0,0.8), ylim = c(0,14), 
+	ylab = "Age (years)", xlab = "Proportion black")
+</pre>
+[/tippy].
+
+<strong>Fit the linear regression to the data using least squares</strong>. Use <code>lm</code>, which was also used for ANOVA. Save the results into a model object, and then use other commands to extract the quantities we want.
+<pre>lionRegression &lt;- lm(ageInYears ~ proportionBlack, data = lion)
+</pre>
+Show the <strong>estimated linear regression coefficients: slope and intercept</strong>. The output of <code>summary</code> includes other valuable quantities, including standard errors and a <i>t</i>-test of zero regression slope. If you want only the regression coeffients without the rest of the data, use <code>coef(lionRegression)</code>.
+<pre>summary(lionRegression)
+</pre>
+<strong>Add the least squares regression line to the plot</strong>. The quick method is to use <code>abline</code>. If needed, redraw the scatter plot first.
+<pre>abline(lionRegression)
+</pre>
+Another way to draw the regression line is to generate predicted values and then connect them with a line (Figure 17.1-4). This has the advantage of more control - for example, we can make sure that the line doesn't fall outside the range of the data, avoiding extrapolation. Commands to accomplish this are [tippy title="here" width = "680" header = "off"]
+<pre>xpts &lt;- range(lion$proportionBlack)
+ypts &lt;- predict(lionRegression, data.frame(proportionBlack = xpts))
+lines(ypts ~ xpts, lwd = 1.5)
+</pre>
+[/tippy].
+
+<strong>Use the regression line for prediction</strong>. For example, here is how to predict mean lion age corresponding to a value of 0.50 of proportion black in the nose. Standard error of the predicted mean is included.
+<pre>predict(lionRegression, data.frame(proportionBlack = 0.50), se.fit = TRUE)
+</pre>
+<strong>Calculate the residual and regression mean squares</strong>. All the mean squares are included in the anova table, which is generate using the <code>anova</code> command.
+<pre>anova(lionRegression)
+</pre>
+<strong>Standard error of slope</strong>. The standard errors are provided in the output of the <code>summary</code> function.
+<pre>summary(lionRegression)
+</pre>
+<strong>95% confidence interval for slope</strong>.
+<pre>confint(lionRegression)
+</pre>
+<strong>95% confidence bands</strong> (Figure 17.2-1). If needed, redraw the scatter plot, including the regression line, before executing the commands below. The <code>seq</code> function below generates a sequence of 100 new x-values evenly spaced between the smallest and largest values of <code>proportionBlack</code>. The <code>predict</code> function calculates the corresponding predicted mean y-values on the regression line, as well as the lower and upper limits of the confidence intervals for the predicted mean y-values at each x-value (these are put into the data frame named <code>ypt</code>. Finally, the <code>lines</code> functions connect the consecutive lower limits of the confidence intervals with a line, and do the same for the consecutive upper limits, forming the bands.
+<pre>xpt &lt;- seq(min(lion$proportionBlack), max(lion$proportionBlack), 
+	length.out = 100)
+ypt &lt;- data.frame( predict(lionRegression, 
+	newdata = data.frame(proportionBlack = xpt), 
+	interval = "confidence") )
+lines(ypt$lwr ~ xpt, lwd = 1.5, lty = 2)
+lines(ypt$upr ~ xpt, lwd = 1.5, lty = 2)
+</pre>
+<strong>95% prediction intervals</strong> (Figure 17.2-1). If needed, redraw the scatter plot, including the regression line, before executing the commands below. The commands below are the same as those used to generate the confidence bands (see above), but here the lower and upper limits are confidence intervals for the prediction of a single individual y-value, rather than the mean value, corresponding to each x-value.
+<pre>xpt &lt;- seq(min(lion$proportionBlack), max(lion$proportionBlack), 
+	length.out = 100)
+ypt &lt;- data.frame(predict(lionRegression, newdata = data.frame(proportionBlack = xpt), 
+	interval = "prediction", level = 0.95))
+lines(ypt$lwr ~ xpt, lwd = 1.5, lty = 3)
+lines(ypt$upr ~ xpt, lwd = 1.5, lty = 3)
+</pre>
+
+<hr>
+
+<h3>Example 17.3. <a href="../wp-content/data/chapter17/chap17e3PlantDiversityAndStability.csv">Prairie home campion</a></h3>
+<em><b>Test the null hypothesis of zero regression slope</b>. The data are from an experiment investigating the effect of plant species diversity on the stability of plant biomass production</em>.
+
+Read and inspect the data.
+<pre>prairie &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter17/chap17e3PlantDiversityAndStability.csv"))
+head(prairie)
+</pre>
+<strong>Log-transform</strong> stability and include the new variable in the data frame. Inspect the data frame once again to make sure the function worked as intended.
+<pre>prairie$logStability &lt;- log(prairie$biomassStability)
+head(prairie)
+</pre>
+<strong>Scatter plot with regression line</strong>.
+<pre>plot(logStability ~ nSpecies, data = prairie) 
+prairieRegression &lt;- lm(logStability ~ nSpecies, data = prairie)
+abline(prairieRegression)
+</pre>
+Commands for a fancier scatter plot with more options (Figure 17.3-1) are [tippy title="here" width = "680" header = "off"]
+<pre>plot(logStability ~ nSpecies, data = prairie, bty = "l", col = "firebrick", 
+	pch = 1, las = 1, cex = 1.5, xlim = c(0,16), xaxp = c(0,16,8), 
+	xlab = "Species number treatment", ylab = "Log-transformed ecosystem stability")
+prairieRegression &lt;- lm(logStability ~ nSpecies, data = prairie)
+xpts &lt;- c(1,16)
+ypts &lt;- predict(prairieRegression, newdata = data.frame(nSpecies = xpts))
+lines(ypts ~ xpts, lwd=1.5)</pre>
+[/tippy].
+
+<strong><i>t</i>-test and 95% confidence interval of regression slope</strong>.
+<pre>prairieRegression &lt;- lm(logStability ~ nSpecies, data = prairie)
+summary(prairieRegression)
+confint(prairieRegression)
+</pre>
+<strong>ANOVA test of zero regression slope</strong> (Table 17.3-2).
+<pre>anova(prairieRegression)
+</pre>
+<strong><i>R</i><sup>2</sup></strong>. The <i>R</i><sup>2</sup> associated with the regression is part of the output of the <code>summary</code> command.
+<pre>summary(prairieRegression)$r.squared
+</pre>
+
+<hr>
+
+<h3>Figure 17.5-2. <a href="../wp-content/data/chapter17/chap17f5_2JuncoOutlier.csv">Tail feather outlier</a></h3>
+<em><b>Examine the effect on an outlier on linear regression</b>. The data are percentage of white in the tail feathers of the dark-eyed junco at sites at different latitudes</em>.
+
+Read and inspect data.
+<pre>junco &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter17/chap17f5_2JuncoOutlier.csv"))
+head(junco)
+</pre>
+<strong>Scatter plot</strong> of all the data.
+<pre>plot(percentWhiteTail ~ latitude, data = junco)
+</pre>
+Commands for a more elaborate scatter plot using more options (Figure 17.5-2) are [tippy title="here" width = "680" header = "off"]
+<pre>plot(percentWhiteTail ~ latitude, data = junco, pch = 16, col="firebrick", 
+ 	las = 1, cex = 1.5, bty = "l", xlab = "Latitude (degrees N)", 
+ 	ylab = "Percent white in tail")
+</pre>
+[/tippy].
+
+Add regression lines to the scatter plot, calculated both with and without the outlier. You may need to redraw the scatter plot using the above commands before executing the following functions.
+<pre>juncoRegression &lt;- lm(percentWhiteTail ~ latitude, data = junco)
+abline(juncoRegression, col = "red", lwd = 2)
+juncoRegressionNoOut &lt;- lm(percentWhiteTail ~ latitude, 
+	data = junco, subset = percentWhiteTail &gt; 38)
+abline(juncoRegressionNoOut, lwd = 2)
+</pre>
+
+<hr>
+
+<h3>Figure 17.5-3. <a href="../wp-content/data/chapter17/chap17f5_3DesertPoolFish.csv">Desert pool fish</a></h3>
+<em><b>Detect a nonlinear relationship graphically</b>, using data on surface area of desert pools and the number of fish species present</em>.
+
+Read and inspect data.
+<pre>desertFish &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter17/chap17f5_3DesertPoolFish.csv"))
+head(desertFish)
+</pre>
+<strong>Scatter plot</strong>.
+<pre>plot(nFishSpecies ~ poolArea, data = desertFish)
+</pre>
+Commands for a fancier scatter plot are [tippy title="here" width = "680" header = "off"]
+<pre>plot(nFishSpecies ~ poolArea, data = desertFish, pch = 16, col = "firebrick", 
+  	las = 1, cex = 1.5, bty = "l", xlab = expression(Area~(m^2)), 
+  	ylab = "Number of species", ylim = c(0,6))
+</pre>
+[/tippy].
+
+<strong>Add regression line</strong> to previous scatter plot.
+<pre>desertRegression &lt;- lm(nFishSpecies ~ poolArea, data = desertFish)
+abline(desertRegression)
+</pre>
+<strong>Add curve based on smoothing</strong> to previous scatter plot.
+<pre>desertSmooth &lt;-loess(nFishSpecies ~ poolArea, data = desertFish)
+xpts &lt;- seq(min(desertFish$poolArea), max(desertFish$poolArea), length.out = 100)
+ypts &lt;- predict(desertSmooth, new = data.frame(poolArea = xpts))
+lines(xpts, ypts)
+</pre>
+Here is another method to produce a smooth curve in a scatter plot.
+<pre>desertSmooth &lt;-smooth.spline(desertFish$poolArea, desertFish$nFishSpecies, df = 4)
+xpts &lt;- seq(min(desertFish$poolArea), max(desertFish$poolArea), length.out = 100)
+ypts &lt;- predict(desertSmooth, xpts)$y
+lines(xpts, ypts)
+</pre>
+
+<hr>
+
+<h3>Figure 17.5-4 (left). <a href="../wp-content/data/chapter17/chap17f5_4BlueTitCapColor">Blue tit cap color</a></h3>
+<em><b>Create a residual plot to check assumptions</b>. The data are cap color of offspring and parents in a sample of the blue tit</em>.
+
+Read and inspect the data.
+<pre>capColor &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter17/chap17f5_4BlueTitCapColor.csv"))
+head(capColor)
+</pre>
+<strong>Basic scatter plot with regression line</strong>.
+<pre>plot(offspringColorScore ~ midparentColorScore, data = capColor)
+capColorRegression &lt;- lm(offspringColorScore ~ midparentColorScore, data = capColor)
+abline(capColorRegression)
+</pre>
+<strong>Residual plot</strong>. Residuals are calculated from the model object created from the previous <code>lm</code> command, using the <code>residuals</code> command.
+<pre>plot(residuals(capColorRegression) ~ midparentColorScore, data = capColor)
+abline(c(0,0))
+</pre>
+Commands for a fancier residual plot using more options are [tippy title="here" width = "680" header = "off"]
+<pre>plot(residuals(capColorRegression) ~ midparentColorScore, data = capColor, 
+	pch = 16, col = "firebrick", las = 1, cex = 1.5, bty = "l", 
+	xlab = "Midparent color score", ylab = "Residuals")
+abline(c(0,0))
+</pre>
+[/tippy].
+
+<hr class="short">
+
+<h3>Figure 17.5-4 (right). <a href="../wp-content/data/chapter17/chap17f5_4CockroachNeurons.csv">Cockroach neurons</a></h3>
+<em><b>Make a residual plot to check assumptions</b>. The data are temperature and the firing rate of neurons in cockroach</em>.
+
+Read and inspect the data.
+<pre>roach &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter17/chap17f5_4CockroachNeurons.csv"))
+head(roach)
+</pre>
+<strong>Scatter plot with regression line</strong>.
+<pre>plot(rate ~ temperature, data = roach)
+roachRegression &lt;- lm(rate ~ temperature, data = roach)
+abline(roachRegression)
+</pre>
+<strong>Residual plot</strong>.
+<pre>plot(residuals(roachRegression) ~ temperature, data = roach)
+abline(c(0,0))
+</pre>
+Commands for a more elaborate residual plot are [tippy title="here" width = "680" header = "off"]
+<pre>plot(residuals(roachRegression) ~ temperature, data = roach, 
+	pch = 16, col = "firebrick", las = 1, cex = 1.5, bty = "l", 
+	xlab = "Temperature", ylab = "Residuals")
+abline(c(0,0))
+</pre>
+[/tippy].
+
+<hr>
+
+<h3>Figure 17.6-3. <a href="../wp-content/data/chapter17/chap17f6_3IrisPollination.csv">Iris pollination</a></h3>
+<em><b>Use a square root transformation</b> to improve the fit to assumptions of linear regression. The data are number of pollen grains received and floral tube length of an iris species</em>.
+
+Read and inspect data.
+<pre>iris &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter17/chap17f6_3IrisPollination.csv"))
+head(iris)
+</pre>
+<strong>Scatter plot with regression line</strong>.
+<pre>plot(grainsDeposited ~ tubeLengthMm, data = iris)
+irisRegression &lt;- lm(grainsDeposited ~ tubeLengthMm, data = iris)
+abline(irisRegression)
+</pre>
+<strong>Residual plot</strong>.
+<pre>plot(residuals(irisRegression) ~ tubeLengthMm, data = iris)
+abline(c(0,0))
+</pre>
+Commands for a residual plot with more options are [tippy title="here" width = "680" header = "off"]
+<pre>plot(residuals(irisRegression) ~ tubeLengthMm, data = iris, pch = 16,  
+	col = "firebrick", las = 1, cex = 1.5, bty = "l",
+	xlab = "Floral tube length (mm)", ylab = "Residuals")
+abline(c(0,0))
+</pre>
+[/tippy].
+
+<strong>Square root transformation</strong>.
+<pre>iris$sqRootGrains &lt;- sqrt(iris$grainsDeposited + 1/2)
+</pre>
+<strong>Scatter plot using transformed data</strong>, with new regression line added.
+<pre>plot(sqRootGrains ~ tubeLengthMm, data = iris)
+irisRegressionSqrt &lt;- lm(sqRootGrains ~ tubeLengthMm, data = iris)
+abline(irisRegressionSqrt)
+</pre>
+<strong>Residual plot based on the transformed data</strong>.
+<pre>plot(residuals(irisRegressionSqrt) ~ tubeLengthMm, data = iris)
+abline(c(0,0))
+</pre>
+Instructions for a residual plot with more options are [tippy title="here" width = "680" header = "off"]
+<pre>plot(residuals(irisRegressionSqrt) ~ tubeLengthMm, data = iris,  
+	pch= 16, col = "firebrick", las = 1, cex=1.5, bty = "l", 
+	xlab = "Floral tube length (mm)", ylab = "Residuals")
+abline(c(0,0))
+</pre>
+[/tippy].
+
+<hr>
+
+<h3>Figure 17.8-1. <a href="../wp-content/data/chapter17/chap17f8_1IronAndPhytoplanktonGrowth.csv">Iron and phytoplankton growth</a></h3>
+<em><b>Fit a nonlinear regression curve having an asymptote</b> (Michaelis-Menten curve). The data are the relationship between population growth rate of a phytoplankton in culture and the concentration of iron in the medium</em>.
+
+Read and examine data.
+<pre>phytoplankton &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter17/chap17f8_1IronAndPhytoplanktonGrowth.csv"))
+head(phytoplankton)
+</pre>
+<strong>Scatter plot</strong>.
+<pre>plot(phytoGrowthRate ~ ironConcentration, data = phytoplankton)
+</pre>
+Instructions for a scatter plot with more options are [tippy title="here" width = "680" header = "off"]
+<pre>plot( phytoGrowthRate ~ ironConcentration, data = phytoplankton, pch = 16, 
+	col = "firebrick", las = 1, cex = 1.5, bty = "l", 
+	ylab = "Growth rate (no./day)",
+	xlab = expression(paste("Iron concentration (", mu, "mol)")) )
+</pre>
+[/tippy].
+
+<strong>Fit a Michaelis-Menten curve</strong> to the phytoplankton data using the <code>nls</code> (nonlinear least squares). To fit the curve, provide a formula that also includes symbols (letters) for the parameters to be estimated. In the following function, we use "a" and "b" to indicate the parameters of the Michaelis-Menten curve we want to estimate. The function includes an argument where we must provide an initial guess of parameter values. The value of the initial guess is not so important -- here we choose a=1 and b=1 as initial guesses. The first function below carried out the model fit and save the results in an R object named <code>phytoCurve</code>.
+<pre>phytoCurve &lt;- nls(phytoGrowthRate ~ a*ironConcentration / ( b+ironConcentration), 
+	data = phytoplankton, list(a = 1, b = 1))
+</pre>
+<strong>Obtain the parameter estimates</strong> using the <code>summary</code> command to , including standard errors and <i>t</i>-tests of null hypotheses that parameter values are zero.
+<pre>summary(phytoCurve)
+</pre>
+<strong>Add the nonlinear regression curve to scatter plot</strong>. If necessary, redraw the scatter plot before issuing the following commands.
+<pre>xpts &lt;- seq(min(phytoplankton$ironConcentration), 
+	max(phytoplankton$ironConcentration), length.out = 100)
+ypts &lt;- predict(phytoCurve, new = data.frame(ironConcentration = xpts))
+lines(xpts, ypts)
+</pre>
+Many of the functions that can be used to extract results from a saved <code>lm</code> object work in the same way when applied to an <code>nls</code> object, such as <code>predict</code>, <code>residuals</code>, and <code>coef</code>.
+
+<hr>
+
+<h3>Figure 17.8-2. <a href="../wp-content/data/chapter17/chap17f8_2PondPlantsAndProductivity.csv">Pond plants and productivity</a></h3>
+<em><b>Fit a quadratic curve</b> to the relationship between the number of plant species present in ponds and pond productivity</em>.
+
+Read and examine data.
+<pre>pondProductivity &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter17/chap17f8_2PondPlantsAndProductivity.csv"))
+head(pondProductivity)
+</pre>
+<strong>Scatter plot</strong>.
+<pre>plot(species ~ productivity, data = pondProductivity)
+</pre>
+Commands for a fancier scatter plot are [tippy title="here" width = "680" header = "off"]
+<pre>plot(species ~ productivity, data = pondProductivity, pch = 16, 
+	col = "firebrick", las = 1, cex = 1.5, bty = "l", 
+	ylab = "Number of species", xlab = "Productivity (g/15 days)" )
+</pre>
+[/tippy].
+
+<strong>Fit a quadratic curve</strong> to the data. Here, the single variable <code>productivity</code> in the data frame is included in the formula both as itself and as the squared term, productivity<sup>2</sup>. To make the squared term work, we need to wrap the term with <code>I()</code>. The results of the model fit are saved in an R object <code>productivityCurve</code>.
+<pre>productivityCurve &lt;- lm(species ~ productivity + I(productivity^2), 
+	data = pondProductivity)
+</pre>
+Show <strong>estimates of the parameters of the quadratic curve</strong> (regression coefficients) are obtained as follows, along with standard errors and <i>t</i>-tests.
+<pre>summary(productivityCurve)
+</pre>
+<strong>Add quadratic regression curve to scatter plot</strong>. If necessary, redraw the previous scatter plot before issuing the following commands.
+<pre>xpts &lt;- seq(min(pondProductivity$productivity), max(pondProductivity$productivity), 
+	length.out = 100)
+ypts &lt;- predict(productivityCurve, new = data.frame(productivity = xpts))
+lines(xpts, ypts)
+</pre>
+
+<hr>
+
+<h3>Example 17.8. <a href="../wp-content/data/chapter17/chap17e8ShrinkingSeals.csv">Incredible shrinking seal</a></h3>
+<b>Fit a formula-free curve</b> (cubic spline) to the relationship between body length and age for female fur seals.
+
+Read and inspect data
+<pre>shrink &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter17/chap17e8ShrinkingSeals.csv"))
+head(shrink)
+</pre>
+<strong>Scatter plot</strong>.
+<pre>plot(length ~ ageInDays, data = shrink, pch = ".")
+</pre>
+Commands for a fancier scatter plot with more options are [tippy title="here" width = "680" header = "off"]
+<pre>plot(jitter(length, factor = 2) ~ ageInDays, data = shrink, pch = ".", 
+	col = "firebrick", las = 1, bty = "l", ylab = "Body length (cm)",
+	xlab = "Female age (days)")
+</pre>
+[/tippy].
+
+<strong>Fit a cubic spline</strong>. The argument <code>df</code> stands for effective degrees of freedom, which allows you to control how complicated the curve should be. The simplest possible curve is a straight line, which has <code>df=2</code> (one for slope and another for intercept). More complex curves require more <code>df</code>. Here we fit a very complicated curve.
+<pre>shrinkCurve &lt;- smooth.spline(shrink$ageInDays, shrink$length, df = 40)
+</pre>
+<strong>Add curve to scatter plot</strong>. If needed, replot the scatter plot before issuing the commands below.
+<pre>xpts &lt;- seq(min(shrink$ageInDays), max(shrink$ageInDays), length.out = 1000)
+ypts &lt;- predict(shrinkCurve, xpts)$y
+lines(xpts, ypts)
+</pre>
+
+<hr>
+
+<h3>Figure 17.9-1. <a href="../wp-content/data/chapter17/chap17f9_1GuppyColdDeath.csv">Guppy cold death</a></h3>
+<em><b>Fit a logistic regression</b> to the relationship between guppy mortality and duration of exposure to a temperature of 5 degrees C</em>.
+
+Read and inspect the data.
+<pre>guppy &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter17/chap17f9_1GuppyColdDeath.csv"))
+head(guppy)
+</pre>
+<strong>Draw a frequency table</strong> of mortality at different exposure times.
+<pre>table(guppy$mortality, guppy$exposureDurationMin, 
+	dnn = c("Mortality","Exposure (min)"))
+</pre>
+<strong>Scatter plot of the data</strong>.
+<pre>plot(mortality ~ jitter(exposureDurationMin), data = guppy)
+</pre>
+Commands for a fancier scatter plot, with more options, are [tippy title="here" width = "680" header = "off"]
+<pre>plot(jitter(mortality, factor = 0.1) ~ jitter(exposureDurationMin, factor = 1),  
+	data = guppy, col = "firebrick", las = 1, bty = "l", ylab = "Mortality",
+	xlab = "Duration of exposure (min)")
+</pre>
+[/tippy].
+
+<strong>Fit a logistic regression</strong>.
+<pre>guppyGlm &lt;- glm(mortality ~ exposureDurationMin, data = guppy,
+	family = binomial(link = logit))
+</pre>
+<strong>Add logistic regression curve to scatter plot</strong>.
+<pre>xpts &lt;- seq(min(guppy$exposureDurationMin), max(guppy$exposureDurationMin), 
+	length.out = 100)
+ypts &lt;- predict(guppyGlm, newdata = data.frame(exposureDurationMin = xpts), 
+	type = "response")
+lines(xpts, ypts)
+</pre>
+<strong>Table of regression coefficients</strong>, with parameter estimates (Table 17.9-2).
+<pre>summary(guppyGlm)
+</pre>
+<strong>95% confidence intervals for parameter estimates</strong>. It is necessary to load the <code>MASS</code> package first.
+<pre>library(MASS)
+confint(guppyGlm)
+</pre>
+<strong>Predict probability of mortality</strong> (mean mortality) for a given x-value, 10 min duration, including standard error of prediction.
+<pre>predict(guppyGlm, newdata = data.frame(exposureDurationMin = 10),
+	type = "response", se.fit = TRUE)
+</pre>
+<strong>Estimate the LD50</strong>, the dose at which half the individuals are predicted to die from exposure.
+<pre>library(MASS)
+dose.p(guppyGlm, p = 0.50)
+</pre>
+<strong>Analysis of deviance table</strong>, with a of the null hypothesis of zero slope (Table 17.9-3).
+<pre>anova(guppyGlm, test = "Chi")
+</pre>

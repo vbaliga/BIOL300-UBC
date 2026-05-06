@@ -1,0 +1,23 @@
+---
+title: "Corrections for Whitlock and Schluter, <em>The Analysis of Biological Data</em>"
+author: 
+
+output:
+  html_document:
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<br>
+
+Below we list corrections for typos in the 3rd edition of *The Analysis of Biological Data*.
+
+***
+
+<br> 
+
+None found yet!

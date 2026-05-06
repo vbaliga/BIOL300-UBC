@@ -1,0 +1,40 @@
+/* navbar */
+.navbar-default .navbar-brand {
+    color: #daa520  /*#daa520;*/
+}
+
+.navbar-brand {
+    font-size: 16px;
+}
+
+h1 {
+  font-size:30px;
+  /*text-decoration: underline;*/
+ 
+}
+h2 {
+  font-size:22px;
+  /*font-weight: 400;*/
+  /*color: #002db3;*/
+  color: #b34700;
+
+}
+
+h3 {
+  font-size:16px;
+  
+}
+
+/* font weight of main headers in table of contents (300 is default) */
+.tocify-header {
+  font-weight: 500;
+}
+
+.title {
+  color:  #b34700; /*#DF7401;*/
+  text-decoration: initial;
+}
+
+.list-group-item.active {
+  background-color: #daa520  /*changes color of box at top of ToC -- maybe this blue?: #4775d1*/
+}

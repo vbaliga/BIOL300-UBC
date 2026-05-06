@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+
+<title>Resources for Chapter 15:  Comparing means of more than two groups</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-2');
+</script>
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About this site</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Resources for Chapter 15: <br>Comparing
+means of more than two groups</h1>
+<h4 class="author"></h4>
+
+</div>
+
+
+<hr />
+<p><br></p>
+<div id="chapter-links" class="section level1">
+<h1>Chapter links</h1>
+<p>You can watch a video of the singing mouse <a
+href="https://datadryad.org/resource/doi:10.5061/dryad.v43b">here</a>
+(from Assignment Problem 31). Good luck hearing its 20 kHz song with
+human ears!</p>
+<p><br></p>
+</div>
+<div id="r-lab" class="section level1">
+<h1>R lab</h1>
+<p>A lab on how to carry out ANOVA in R, and related topics, is
+available <a href="RLabs/R_tutorial_ANOVA.html">here</a>.</p>
+<p><br></p>
+</div>
+<div id="learn-r-by-example" class="section level1">
+<h1>Learn R by example</h1>
+<p>We used R to analyze all examples in chapter 15. We’ve put the code
+<a href="RExamples/Rcode_Chapter_15.html">here</a> so that you can
+too.</p>
+<p><br></p>
+</div>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>Download a .zip file with all the data for chapter 15 in .csv format
+<a href="DataZipFiles/chapter15.zip">here</a>.</p>
+<p>Download a .zip file with all data sets in the book <a
+href="DataZipFiles/Data.zip">here</a>.</p>
+<p>All data sets and their sources are listed individually below.</p>
+<p>Disclaimer: Most data sets used in the book are grabbed from graphs
+and tables in the original publications, and the values may not be
+exact. Contact the original authors for the raw data.</p>
+<p><br></p>
+<div id="data-for-examples" class="section level2">
+<h2>Data for examples</h2>
+<p><a href="Data/chapter15/chap15e1KneesWhoSayNight.csv">Example 15.1.
+Knees who say night</a></p>
+<p>Wright Jr., K. P. and C. A. Czeisler 2002. <em>Science</em> 297:
+571.</p>
+<p><a href="Data/chapter15/chap15e6WalkingStickFemurs.csv">Example 15.6.
+Walking sticks</a></p>
+<p>Nosil, P. and B. J. Crespi. 2006. <em>Proceedings of the National
+Academy of Sciences</em> 103: 9090-9095.</p>
+<p><br></p>
+</div>
+<div id="data-for-problem-sets" class="section level2">
+<h2>Data for problem sets</h2>
+<p><a href="Data/chapter15/chap15q01HoneybeeCaffeine.csv">01. Caffeine
+and nectar</a></p>
+<p>Singaravelan, N., G. Nee’man, M. Inbar, and I. Izhaki. 2005.
+<em>Journal of Chemical Ecology</em> 31:2791-2804.</p>
+<p><a href="Data/chapter15/chap15q03ExamGrades.csv">03. Exam
+repeatability</a></p>
+<p>These data are unpublished.</p>
+<p><a href="Data/chapter15/chap15q04PlantPopulationPersistence.csv">04.
+Plant population persistence</a></p>
+<p>Molofsky, J. and J.-B. Ferdy. 2005. <em>Proceedings of the National
+Academy of Sciences (USA)</em> 102: 3726-3731.</p>
+<p><a href="Data/chapter15/chap15q07DisordersAndGeneExpression.csv">07.
+Disorders and gene expression</a></p>
+<p>Tkachev, D., et al. 2003. <em>Lancet</em> 362: 798-805.</p>
+<p><a href="Data/chapter15/chap15q09HippocampalVolumeRatio.csv">09.
+Hippocampal volume loss</a></p>
+<p>Cook, M. J., et al. 1993. <em>The Lancet</em> 342: 1391-1394.</p>
+<p><a href="Data/chapter15/chap15q11DungBeetleCondition.csv">11. Dung
+beetles</a></p>
+<p>Kotiaho, J. S., L. W. Simmons and J. L. Tomkins. 2001.
+<em>Nature</em> 410: 684-686.</p>
+<p><a href="Data/chapter15/chap15q13RicketsiellaColor.csv">13.
+<em>Ricketsiella</em> and aphid color</a></p>
+<p>Tsuchida, T., et al. 2010. <em>Science</em> 330: 1102-1104.</p>
+<p><a href="Data/chapter15/chap15q14TsetseLearning.csv">14. Tsetse fly
+learning</a></p>
+<p>Bouyer, J., et al. 2007. <em>Biology Letters</em> 3: 113-116.</p>
+<p><a href="Data/chapter15/chap15q15EelgrassGenotypes.csv">15. Eelgrass
+genetic diversity</a></p>
+<p>Reusch, T. B. H., A. Ehlers, A. Hämmerli, and B. Worm. 2005.
+<em>Proceedings of the National Academy of Sciences</em> 102:
+2826-2831.</p>
+<p><a href="Data/chapter15/chap15q17DaphniaResistance.csv">17.
+<em>Daphnia</em> resistance</a></p>
+<p>Hairston N. G., Jr., et al. 1999. <em>Nature</em> 401: 446.</p>
+<p><a href="Data/chapter15/chap15q20WalkingStickHeads.csv">20. Walking
+stick heads</a></p>
+<p>Nosil, P. and B. J. Crespi. 2006. <em>Proceedings of the National
+Academy of Sciences</em> 103: 9090-9095.</p>
+<p><a href="Data/chapter15/chap15q21LodgepolePineCones.csv">21.
+Lodgepole pine cones</a></p>
+<p>Edelaar, P. and C. W. Benkman. 2006. <em>Journal of Evolutionary
+Biology</em> 19: 1651-1659.</p>
+<p><a href="Data/chapter15/chap15q22LizardSprintSpeed.csv">22. Lizard
+sprint speed</a></p>
+<p>Huey, R. B. and A. E. Dunham. 1987. <em>Evolution</em> 42:
+1116-1120.</p>
+<p><a href="Data/chapter15/chap15q23MalariaFungusVenom.csv">23. Mosquito
+poisoning</a></p>
+<p>Fang, W., et al.. 2011. <em>Science</em> 331: 1074-1077.</p>
+<p><a href="Data/chapter15/chap15q24NonsenseMathEffect.csv">24.
+Meaningless math</a></p>
+<p>Eriksson, K. 2012. <em>Judgment and Decision Making</em>
+7:746–749.</p>
+<p><a href="Data/chapter15/chap15q25FlySelfMedication.csv">25. Fly
+self-medication</a></p>
+<p>Kacsoh, B. Z., Z. R. Lynch, N. T. Mortimer, and T. A. Schlenke. 2013.
+<em>Science</em> 339: 947-950.</p>
+<p><a href="Data/chapter15/chap15q27FiddlerCrabFans.csv">27. Fiddler
+crab claws</a></p>
+<p>Darnell, M. Z., and P. Munguia. 2011. <em>American Naturalist</em>
+178: 419-428.</p>
+<p><a href="Data/chapter15/chap15q29Tribolium.csv">29.
+<em>Tribolium</em> lifespan</a></p>
+<p>Khan, I., et al. 2018. <em>The American Naturalist</em> 191:
+306-317.</p>
+<p><a href="Data/chapter15/chap15q30HIVmutation.csv">30. HIV
+fitness</a></p>
+<p>Theys, K., et al. 2018. <em>PLoS Genetics</em> 14(6): e1007420.</p>
+<p><a href="Data/chapter15/chap15q31singingMice.csv">31. Singing
+mice</a></p>
+<p>Pasch, B., B. M. Bolker, and S. M. Phelps. 2013. <em>The American
+Naturalist</em> 182: E161–E173.</p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

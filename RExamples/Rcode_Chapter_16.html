@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>R code for examples in Chapter 2:  Correlation between numerical variables</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-4');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R code for examples in Chapter 2: <br>Correlation between numerical variables</h1>
+
+</div>
+
+
+<hr />
+<p>We used R to analyze all examples in Chapter 16. We put the code here so that you can too.</p>
+<p>Also see our <a href="https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_Correlation_Regression.html">R lab on correlation</a>.</p>
+<p><br></p>
+<div id="new-methods-on-this-page" class="section level1">
+<h1>New methods on this page</h1>
+<ul>
+<li>
+<p>Linear correlation:</p>
+<pre class="r"><code>cor.test(~ futureBehavior + nVisitsNestling, data = booby)</code></pre>
+<li>
+<p>Spearman rank correlation:</p>
+<pre class="r"><code>cor.test(~ impressivenessScore + years, data = trick, method = &quot;spearman&quot;)</code></pre>
+</ul>
+<hr />
+</div>
+<div id="load-required-packages" class="section level1">
+<h1>Load required packages</h1>
+<p>We need to load the <code>ggplot2</code> package for graphs. We might need the <code>dplyr</code> package for subsetting a data set.</p>
+<pre class="r"><code>library(ggplot2)
+library(dplyr)</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="example-16.1.-flipping-booby" class="section level1">
+<h1>Example 16.1. Flipping booby</h1>
+<p><em><strong>Estimate a linear correlation</strong> between the number of non-parent adult visits experienced by boobies as chicks and the number of similar behaviors performed by the same birds when adult</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>booby &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter16/chap16e1FlippingBird.csv&quot;), stringsAsFactors = FALSE)
+head(booby)</code></pre>
+<pre><code>##   nVisitsNestling futureBehavior
+## 1               1          -0.80
+## 2               7          -0.92
+## 3              15          -0.80
+## 4               4          -0.46
+## 5              11          -0.47
+## 6              14          -0.46</code></pre>
+<p><br></p>
+</div>
+<div id="scatter-plot" class="section level2">
+<h2>Scatter plot</h2>
+<pre class="r"><code>ggplot(booby, aes(nVisitsNestling, futureBehavior)) + 
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    labs(x = &quot;Events experienced while a nestling&quot;, y = &quot;Future behavior&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_16_files/figure-html/unnamed-chunk-5-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="correlation-coefficient" class="section level2">
+<h2>Correlation coefficient</h2>
+<p>The <code>cor.test</code> function computes a number of useful quantities, which we save in the object <code>boobyCor</code>. The quantities can be extracted one at a time or shown all at once. We show the formula method here.</p>
+<pre class="r"><code>boobyCor &lt;- cor.test(~ futureBehavior + nVisitsNestling, data = booby)
+boobyCor</code></pre>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  futureBehavior and nVisitsNestling
+## t = 2.9603, df = 22, p-value = 0.007229
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  0.1660840 0.7710999
+## sample estimates:
+##       cor 
+## 0.5337225</code></pre>
+<p>If only the estimated correlation <span class="math inline">\(r\)</span> and its standard error are of interest, they can be obtained as follows. The calculation of standard error uses <code>nrow(booby)</code> to get the sample size for the correlation, but this will only be true if there are no missing values.</p>
+<pre class="r"><code>r &lt;- boobyCor$estimate
+r</code></pre>
+<pre><code>##       cor 
+## 0.5337225</code></pre>
+<pre class="r"><code>SE &lt;- sqrt( (1 - r^2)/(nrow(booby) - 3) )
+unname(SE)</code></pre>
+<pre><code>## [1] 0.1845381</code></pre>
+<p><br></p>
+</div>
+<div id="confidence-interval" class="section level2">
+<h2>Confidence interval</h2>
+<p>The 95% confidence interval for the correlation is included in the output of <code>cor.test</code>. It can be extracted from the <code>boobyCor</code> calculated in an earlier step.</p>
+<pre class="r"><code>boobyCor$conf.int</code></pre>
+<pre><code>## [1] 0.1660840 0.7710999
+## attr(,&quot;conf.level&quot;)
+## [1] 0.95</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-16.2.-inbreeding-wolves" class="section level1">
+<h1>Example 16.2. Inbreeding wolves</h1>
+<p><em><strong>Test a linear correlation</strong> between inbreeding coefficients of litters of mated wolf pairs and the number of pups surviving their first winter</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data-1" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>wolf &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter16/chap16e2InbreedingWolves.csv&quot;), stringsAsFactors = FALSE)
+head(wolf)</code></pre>
+<pre><code>##   inbreedCoef nPups
+## 1        0.00     6
+## 2        0.00     6
+## 3        0.13     7
+## 4        0.13     5
+## 5        0.13     4
+## 6        0.19     8</code></pre>
+<p><br></p>
+</div>
+<div id="scatter-plot-1" class="section level2">
+<h2>Scatter plot</h2>
+<pre class="r"><code>ggplot(wolf, aes(inbreedCoef, nPups)) + 
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    labs(x = &quot;Inbreeding coefficient&quot;, y = &quot;Number of pups&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_16_files/figure-html/unnamed-chunk-10-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="test-of-zero-correlation" class="section level2">
+<h2>Test of zero correlation</h2>
+<p>The results of the test are included in the output of <code>cor.test</code>.</p>
+<pre class="r"><code>cor.test(~ nPups + inbreedCoef, data = wolf)</code></pre>
+<pre><code>## 
+##  Pearson&#39;s product-moment correlation
+## 
+## data:  nPups and inbreedCoef
+## t = -3.5893, df = 22, p-value = 0.001633
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.8120418 -0.2706791
+## sample estimates:
+##        cor 
+## -0.6077184</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="figure-16.4-1.-stream-invertebrates" class="section level1">
+<h1>Figure 16.4-1. Stream invertebrates</h1>
+<p><em><strong>Effect of the range of the data on the correlation coefficient</strong> between population density of (log base 10 of number of individuals per square meter) and body mass (g) of different species of stream invertebrates</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data-2" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>streamInvert &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter16/chap16f4_1StreamInvertebrates.csv&quot;), stringsAsFactors = FALSE)
+head(streamInvert)</code></pre>
+<pre><code>##   log10Mass log10Density
+## 1     -3.22         4.22
+## 2     -2.70         4.25
+## 3     -2.70         4.13
+## 4     -2.60         3.99
+## 5     -2.03         5.34
+## 6     -2.12         4.09</code></pre>
+<p><br></p>
+</div>
+<div id="scatter-plot-2" class="section level2">
+<h2>Scatter plot</h2>
+<pre class="r"><code>ggplot(streamInvert, aes(log10Mass, log10Density)) + 
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    labs(x = &quot;Log body mass&quot;, y = &quot;Log population density&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_16_files/figure-html/unnamed-chunk-13-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="effect-of-the-range-of-the-data" class="section level2">
+<h2>Effect of the range of the data</h2>
+<p>Here is the correlation coefficient for the full range of the data. The command uses <code>cor.test</code> but we extract just the correlation coefficient for this exercise.</p>
+<pre class="r"><code>cor.test(~ log10Density + log10Mass, data = streamInvert)$estimate</code></pre>
+<pre><code>##        cor 
+## -0.7651667</code></pre>
+<p>We want to obtain the correlation coefficient for the subset of the data corresponding to a log10Mass between 0 and 2. First subset the data we using either <code>subset()</code> in base R or <code>filter()</code> in the <code>dplyr</code> package.</p>
+<pre class="r"><code>streamInvertReduced &lt;- subset(streamInvert, log10Mass &gt;= 0 &amp; log10Mass &lt;= 2)
+# or
+streamInvertReduced &lt;- filter(streamInvert, log10Mass &gt;= 0, log10Mass &lt;= 2)</code></pre>
+<p>Then recalculate the correlation coefficient.</p>
+<pre class="r"><code>cor.test(~ log10Density + log10Mass, data = streamInvertReduced)$estimate</code></pre>
+<pre><code>##        cor 
+## -0.2552496</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-16.5.-indian-rope-trick" class="section level1">
+<h1>Example 16.5. Indian rope trick</h1>
+<p><em><strong>Spearman rank correlation</strong> between impressiveness score of the Indian rope trick and the number of years elapsed bewteen the witnessing of the trick and the telling of it in writing</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data-3" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>trick &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter16/chap16e5IndianRopeTrick.csv&quot;), stringsAsFactors = FALSE)
+head(trick)</code></pre>
+<pre><code>##   years impressivenessScore
+## 1     2                   1
+## 2     5                   1
+## 3     5                   1
+## 4     4                   2
+## 5    17                   2
+## 6    17                   2</code></pre>
+<p><br></p>
+</div>
+<div id="scatter-plot-3" class="section level2">
+<h2>Scatter plot</h2>
+<pre class="r"><code>ggplot(trick, aes(years, impressivenessScore)) + 
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    labs(x = &quot;Years elapsed&quot;, y = &quot;Impressiveness score&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_16_files/figure-html/unnamed-chunk-18-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="spearmans-rank-correlation" class="section level2">
+<h2>Spearman’s rank correlation</h2>
+<p>The correlation is part of the output of the <code>cor.test()</code> function. See the next section for the result.</p>
+<pre class="r"><code>cor.test(~ years + impressivenessScore, data = trick, method = &quot;spearman&quot;)</code></pre>
+<p><br></p>
+</div>
+<div id="test-of-zero-correlation-1" class="section level2">
+<h2>Test of zero correlation</h2>
+<p>In this example, the variable <code>impressivenessScore</code> is a number score with lots of tied observations. Because of the ties, R will warn you that the <em>P</em>-value in the output is not exact.</p>
+<pre class="r"><code>cor.test(~ years + impressivenessScore, data = trick, method = &quot;spearman&quot;)</code></pre>
+<pre><code>## Warning in cor.test.default(x = c(2L, 5L, 5L, 4L, 17L, 17L, 31L, 20L,
+## 22L, : Cannot compute exact p-value with ties</code></pre>
+<pre><code>## 
+##  Spearman&#39;s rank correlation rho
+## 
+## data:  years and impressivenessScore
+## S = 332.12, p-value = 2.571e-05
+## alternative hypothesis: true rho is not equal to 0
+## sample estimates:
+##       rho 
+## 0.7843363</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>R code for examples in Chapter 13:  Handling violations of assumptions</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-4');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R code for examples in Chapter 13: <br>Handling violations of assumptions</h1>
+
+</div>
+
+
+<hr />
+<p>We used R to analyze all examples in Chapter 13. We put the code here so that you can too.</p>
+<p><br> Also see our <a href="https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_Comparing_means_of_2_groups.html">lab on comparing two means using R</a>.</p>
+<p><br></p>
+<div id="new-methods-on-this-page" class="section level1">
+<h1>New methods on this page</h1>
+<ul>
+<li>
+<p>Data transformations:</p>
+<pre class="r"><code>marine$lnBiomassRatio &lt;- log(marine$biomassRatio)</code></pre>
+<li>
+<p>Quantile plots:</p>
+<pre class="r"><code>qqnorm(marine$biomassRatio, datax = TRUE)</code></pre>
+<li>
+<p>Mann-Whitney <em>U</em>-test (R uses the equivalent Wilcoxon rank-sum test):</p>
+<pre class="r"><code>wilcox.test(timeToMating ~ feedingStatus, data = cannibalism)</code></pre>
+<li>
+Other new methods:
+<ul>
+<li>
+Shapiro-Wilk test of normality.
+<li>
+Sign test.
+<li>
+Permutation test.
+</ul>
+</ul>
+<hr />
+</div>
+<div id="load-required-packages" class="section level1">
+<h1>Load required packages</h1>
+<p>We’ll use the <code>ggplot2</code> add on package to make graphs, and <code>dplyr</code> to calculate summary statistics by group.</p>
+<pre class="r"><code>library(ggplot2)
+library(dplyr)</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="example-13.1.-marine-reserves" class="section level1">
+<h1>Example 13.1. Marine reserves</h1>
+<p><em><strong>The normal quantile plot</strong>, <strong>Shapiro-Wilk test of normality</strong>, and the <strong>log transformation</strong>, investigating the ratio of biomass between marine reserves and non-reserve control areas</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>marine &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter13/chap13e1MarineReserve.csv&quot;), stringsAsFactors = FALSE)
+head(marine)</code></pre>
+<pre><code>##   biomassRatio
+## 1         1.34
+## 2         1.96
+## 3         2.49
+## 4         1.27
+## 5         1.19
+## 6         1.15</code></pre>
+<p><br></p>
+</div>
+<div id="histogram" class="section level2">
+<h2>Histogram</h2>
+<p>A histogram visualizes the frequency distribution of biomass ratio (Figure 13.1-4).</p>
+<pre class="r"><code>hist(marine$biomassRatio, right = FALSE, col = &quot;firebrick&quot;, 
+     las = 1, xlab = &quot;Biomass ratio&quot;, main = &quot;&quot;)</code></pre>
+<p><img src="Rcode_Chapter_13_files/figure-html/unnamed-chunk-6-1.png" width="480" /></p>
+<p>or</p>
+<pre class="r"><code>ggplot(marine, aes(biomassRatio)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 0.5, 
+        boundary = 0, closed = &quot;left&quot;) + 
+    labs(x = &quot;Biomass ratio&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_13_files/figure-html/unnamed-chunk-7-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="normal-quantile-plot" class="section level2">
+<h2>Normal quantile plot</h2>
+<p>The line in the normal quantile plot of Figure 13.1-4 passes through the first and 3rd quartiles of the data.</p>
+<pre class="r"><code>qqnorm(marine$biomassRatio, col = &quot;firebrick&quot;, pch = 16, las = 1,
+       datax = TRUE, xlab = &quot;Biomass ratio&quot;)
+qqline(marine$biomassRatio, datax = TRUE, lwd = 2)</code></pre>
+<p><img src="Rcode_Chapter_13_files/figure-html/unnamed-chunk-8-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="shapiro-wilk-test" class="section level2">
+<h2>Shapiro-Wilk test</h2>
+<p>A test of the goodness of fit of the normal distribution to data.</p>
+<pre class="r"><code>shapiro.test(marine$biomassRatio)</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  marine$biomassRatio
+## W = 0.81751, p-value = 8.851e-05</code></pre>
+<p><br></p>
+</div>
+<div id="natural-log-transformation" class="section level2">
+<h2>Natural log-transformation</h2>
+<p>The function <code>log()</code> takes the natural logarithm of all the elements of a vector or variable. The following command saves the result as a new variable in the original data frame, <code>marine</code>.</p>
+<pre class="r"><code>marine$lnBiomassRatio &lt;- log(marine$biomassRatio)</code></pre>
+<p><br></p>
+</div>
+<div id="histogram-1" class="section level2">
+<h2>Histogram</h2>
+<p>A histogram of the data after log-transformation of marine biomass ratio (Figure 13.3-2).</p>
+<pre class="r"><code>hist(marine$lnBiomassRatio, right = FALSE, col = &quot;firebrick&quot;, 
+     las = 1, xlab = &quot;Log biomass ratio&quot;, main = &quot;&quot;,
+     breaks = seq(-0.25, 1.5, by = 0.25))</code></pre>
+<p><img src="Rcode_Chapter_13_files/figure-html/unnamed-chunk-11-1.png" width="480" /></p>
+<p>or</p>
+<pre class="r"><code>ggplot(marine, aes(lnBiomassRatio)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 0.25, 
+        boundary = 0, closed = &quot;left&quot;) + 
+    labs(x = &quot;Log biomass ratio&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_13_files/figure-html/unnamed-chunk-12-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="ci-of-the-mean" class="section level2">
+<h2>95% CI of the mean</h2>
+<p>Confidence interval for the mean of the log-transformed data.</p>
+<pre class="r"><code>t.test(marine$lnBiomassRatio)$conf.int</code></pre>
+<pre><code>## [1] 0.3470180 0.6112365
+## attr(,&quot;conf.level&quot;)
+## [1] 0.95</code></pre>
+<p><br></p>
+</div>
+<div id="back-transform-95-ci" class="section level2">
+<h2>Back-transform 95% CI</h2>
+<p>Transform the lower and upper limits of the confidence interval back to the original untransformed scale (<code>exp()</code> is the inverse of the natural log function).</p>
+<pre class="r"><code>exp( t.test(marine$lnBiomassRatio)$conf.int )</code></pre>
+<pre><code>## [1] 1.414842 1.842708
+## attr(,&quot;conf.level&quot;)
+## [1] 0.95</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-13.4.-sexual-conflict" class="section level1">
+<h1>Example 13.4. Sexual conflict</h1>
+<p><em><strong>The sign test</strong>, comparing the numbers of species in 25 pairs of closely related insect taxa</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data." class="section level2">
+<h2>Read and inspect data.</h2>
+<pre class="r"><code>conflict &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter13/chap13e4SexualConflict.csv&quot;), stringsAsFactors = FALSE)
+head(conflict)</code></pre>
+<pre><code>##   taxonPair nSpeciesMultipleMating nSpeciesSingleMating difference
+## 1         A                     53                   10         43
+## 2         B                     73                  120        -47
+## 3         C                    228                   74        154
+## 4         D                    353                  289         64
+## 5         E                    157                   30        127
+## 6         F                    300                    4        296</code></pre>
+<p><br></p>
+</div>
+<div id="histogram-2" class="section level2">
+<h2>Histogram</h2>
+<p>A histogram of the difference in numbers of species (Figure 13.4-1).</p>
+<pre class="r"><code>hist(conflict$difference, right = FALSE, col = &quot;firebrick&quot;,
+    breaks = 50, xlab = &quot;Difference in species number&quot;, las = 1)</code></pre>
+<p><img src="Rcode_Chapter_13_files/figure-html/unnamed-chunk-16-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="frequencies" class="section level2">
+<h2>Frequencies</h2>
+<p>Count up the frequency of differences that are below, equal to, and above zero.</p>
+<p>The command below creates a new variable in the data frame called <code>conflictZero</code> to indicate whether each difference is below, equal to, or above 0.</p>
+<pre class="r"><code>conflictZero &lt;- cut(conflict$difference, breaks = c(-Inf, 0, 1, Inf), 
+    labels = c(&quot;below&quot;,&quot;equal&quot;,&quot;above&quot;), right = FALSE)
+table(conflictZero)</code></pre>
+<pre><code>## conflictZero
+## below equal above 
+##     7     0    18</code></pre>
+<p><br></p>
+</div>
+<div id="sign-test" class="section level2">
+<h2>Sign test</h2>
+<p>The sign test is just a binomial test. The output includes a confidence interval for the proportion using the Clopper-Pearson method, which isn’t covered in the book.</p>
+<pre class="r"><code>binom.test(7, n = 25, p = 0.5)</code></pre>
+<pre><code>## 
+##  Exact binomial test
+## 
+## data:  7 and 25
+## number of successes = 7, number of trials = 25, p-value = 0.04329
+## alternative hypothesis: true probability of success is not equal to 0.5
+## 95 percent confidence interval:
+##  0.1207167 0.4938768
+## sample estimates:
+## probability of success 
+##                   0.28</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-13.5.-cricket-cannibalism" class="section level1">
+<h1>Example 13.5. Cricket cannibalism</h1>
+<p>**<em>The Wilcoxon rank-sum test (equivalent to the Mann-Whitney </em>U*-test)<strong> comparing times to mating (in hours) of starved and fed female sagebrush crickets. We also apply the </strong>permutation test** to the same data*.</p>
+<p><br></p>
+<div id="read-and-inspect-data-1" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>cannibalism &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter13/chap13e5SagebrushCrickets.csv&quot;), stringsAsFactors = FALSE)
+head(cannibalism)</code></pre>
+<pre><code>##   feedingStatus timeToMating
+## 1       starved          1.9
+## 2       starved          2.1
+## 3       starved          3.8
+## 4       starved          9.0
+## 5       starved          9.6
+## 6       starved         13.0</code></pre>
+<p><br></p>
+</div>
+<div id="multiple-histograms" class="section level2">
+<h2>Multiple histograms</h2>
+<p>The following commands produce Figure 13.5-1. We begin by ordering the categories of the feeding status variable so that “starved” comes before “fed” in the histogram.</p>
+<pre class="r"><code>cannibalism$feedingStatus &lt;- factor(cannibalism$feedingStatus, 
+    levels = c(&quot;starved&quot;, &quot;fed&quot;))
+
+ggplot(cannibalism, aes(x = timeToMating)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 20, 
+        boundary = 0, closed = &quot;left&quot;) +
+    facet_wrap( ~ feedingStatus, ncol = 1, scales = &quot;free_y&quot;) +
+    labs(x = &quot;Time to mating (hours)&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_13_files/figure-html/unnamed-chunk-20-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="wilcoxon-rank-sum-test" class="section level2">
+<h2>Wilcoxon rank-sum test</h2>
+<p>This test, available in R, is equivalent to the Mann-Whitney <em>U</em>-test.</p>
+<pre class="r"><code>wilcox.test(timeToMating ~ feedingStatus, data = cannibalism)</code></pre>
+<pre><code>## 
+##  Wilcoxon rank sum test
+## 
+## data:  timeToMating by feedingStatus
+## W = 55, p-value = 0.3607
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="permutation-test" class="section level1">
+<h1>Permutation test</h1>
+<p><em><strong>Permutation test</strong> of the difference between mean time to mating of starved and fed crickets</em>.</p>
+<p><br></p>
+<div id="observed-value" class="section level2">
+<h2>Observed value</h2>
+<p>Begin by calculating the <strong>observed difference between means</strong> (starved minus fed). The difference is -18.25734 in this data set.</p>
+<pre class="r"><code>cricketMeans &lt;- summarize(group_by(cannibalism, feedingStatus), 
+                  timeToMating = mean(timeToMating, na.rm = TRUE))
+cricketMeans &lt;- as.data.frame(cricketMeans)
+cricketMeans</code></pre>
+<pre><code>##   feedingStatus timeToMating
+## 1       starved     17.72727
+## 2           fed     35.98462</code></pre>
+<pre class="r"><code>diffMeans &lt;- cricketMeans$timeToMating[1] - cricketMeans$timeToMating[2]
+diffMeans</code></pre>
+<pre><code>## [1] -18.25734</code></pre>
+<p><br></p>
+</div>
+<div id="number-of-permutations" class="section level2">
+<h2>Number of permutations</h2>
+<p>Decide on the number of permutations. We use 10K here.</p>
+<pre class="r"><code>nPerm &lt;- 10000</code></pre>
+<p><br></p>
+</div>
+<div id="run-a-loop" class="section level2">
+<h2>Run a loop</h2>
+<p>Create a loop to permute the data many times (the number of times determined by <code>nperm</code>). In the following loop, <code>i</code> is a counter that climbs from 1 to <code>nPerm</code> by 1. In each iteration, the permuted difference is saved in the object <code>permResult</code>.</p>
+<pre class="r"><code>permResult &lt;- vector() # initializes
+for(i in 1:nPerm){
+    # step 1: permute the times to mating
+    cannibalism$permSample &lt;- sample(cannibalism$timeToMating, replace = FALSE)
+    # step 2: calculate difference betweeen means
+    permSampleMean &lt;- as.data.frame(summarize(group_by(cannibalism, feedingStatus), 
+                  permMean = mean(permSample, na.rm = TRUE)))
+    permResult[i] &lt;- permSampleMean$permMean[1] - permSampleMean$permMean[2]
+    }</code></pre>
+<p><br></p>
+</div>
+<div id="plot-null-distribution" class="section level2">
+<h2>Plot null distribution</h2>
+<p>Make a histogram of the permuted differences (Figure 13.8-1).</p>
+<pre class="r"><code>hist(permResult, right = FALSE, breaks = 100)</code></pre>
+<p><img src="Rcode_Chapter_13_files/figure-html/unnamed-chunk-25-1.png" width="480" /></p>
+<p>or</p>
+<pre class="r"><code>ggplot(data.frame(permResult), aes(permResult)) + 
+    geom_histogram(fill = &quot;white&quot;, col = &quot;black&quot;, binwidth = 1, 
+        boundary = 0, closed = &quot;left&quot;) + 
+    labs(x = &quot;Permuted difference in treatment means (hours)&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_13_files/figure-html/unnamed-chunk-26-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="approximate-p-value" class="section level2">
+<h2>Approximate <span class="math inline">\(P\)</span>-value</h2>
+<p>Use the null distribution to calculate an approximate <em>P</em>-value. This is the twice the proportion of the permuted means that fall below the observed difference in means, <code>diffMeans</code> (-18.25734 in this example). The following code calculates the <em>number</em> of permuted means falling below <code>diffMeans</code>.</p>
+<pre class="r"><code>sum(as.numeric(permResult &lt;= diffMeans))</code></pre>
+<pre><code>## [1] 649</code></pre>
+<p>These commands obtain the <em>fraction</em> of permuted means falling below <code>diffMeans</code>.</p>
+<pre class="r"><code>sum(as.numeric(permResult &lt;= diffMeans)) / nPerm</code></pre>
+<pre><code>## [1] 0.0649</code></pre>
+<p>Finally, multiply by 2 to get the <em>P</em>-value for a two-sided test. The value won’t be identical to the one in the book, or to the value you obtain, because 10,000 iterations is not large enough for extreme accuracy.</p>
+<pre class="r"><code>2 * ( sum(as.numeric(permResult &lt;= diffMeans)) / nPerm )</code></pre>
+<pre><code>## [1] 0.1298</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+---
+title: "Resources for Chapter 18: <br>Analyzing multiple factors"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+<br>
+
+# Learn R by example
+
+We used R to analyze all examples in chapter 18. We've put the code [here](RExamples/Rcode_Chapter_18.html) so that you can too.
+
+<br> 
+
+# Data
+
+Download a .zip file with all the data for chapter 18 in .csv format [here](DataZipFiles/chapter18.zip). 
+
+Download a .zip file with all data sets in the book [here](DataZipFiles/Data.zip). 
+
+All data sets and their sources are listed individually below.
+
+Disclaimer: Most data sets used in the book are grabbed from graphs and tables in the original publications, and the values may not be exact. Contact the original authors for the raw data.
+
+<br> 
+
+## Data for examples
+
+[Example 18.2. Zooplankton depredation](Data/chapter18/chap18e2ZooplanktonDepredation.csv) 
+
+Svanbäck, R. and D. I. Bolnick. 2007. *Proceedings of the Royal Society of London Series B, Biological Sciences* 274: 839-844.  
+
+[Example 18.3. Intertidal algae](Data/chapter18/chap18e3IntertidalAlgae.csv) 
+
+Harley, C. D. G. 2003. *Ecology* 84: 1477-1488. 
+
+[Example 18.4. Mole rat layabouts](Data/chapter18/chap18e4MoleRatLayabouts.csv) 
+
+Scantlebury, M., et al. 2006. *Nature* 440: 795-797. 
+
+<br>
+
+## Data for problem sets
+
+[18.06. Hippocampus lesions](Data/chapter18/chap18q06HippocampusLesions.csv) 
+
+Broadbent, N. J., L. R. Squire, and R. E. Clark. 2004. *Proceedings of the National Academy of Sciences* 101: 14515-14520. 
+
+[18.07. SP and female lifespan](Data/chapter18/chap18q07flyLifeSpan.csv) 
+
+Barnes, A. I., et al. 2008. *Proceedings of the Royal Society of London, Series B, Biological Sciences* 275: 1675-1683.
+
+[18.08. Bee genes](Data/chapter18/chap18q08BeeGeneExpression.csv) 
+
+Ben-Shahar, Y., et al. 2002. *Science* 296: 741-744. 
+
+[18.11. Mouse empathy](Data/chapter18/chap18q11MouseEmpathy.csv) 
+
+Langford, D. J.,et al. 2006. *Science* 312: 1967-1970. 
+
+[18.12. Neanderthal brains](Data/chapter18/chap18q12NeanderthalBrainSize.csv) 
+
+Ruff, C. B., E. Trinkaus, and T. W. Holliday. 1997. *Nature* 387: 173-176. 
+
+[18.14. Larval fish](Data/chapter18/chap18q14ExploitedLarvalFish.csv) 
+
+Hsieh, C. H., et al. 2006. *Nature* 443: 859-862. 
+
+[18.17. Opsin expression](Data/chapter18/chap18q17OpsinExpression.csv) 
+
+Fuller, R. C., L. A. Noa, and R. S. Strellner. 2010. *American Naturalist* 176: 1-13.
+
+[18.18. Trichomes and beetles](Data/chapter18/chap18q18trichomesBeetles.csv) 
+
+Sato, Y., and H. Kudoh. 2017. *American Naturalist* 190: E67-E77.
+

@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Whitlock and Schluter" />
+
+
+<title>Labs using R: Notes for Instructors</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-3');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li>
+  <a href="index.html">About these labs</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R_tutorial_Loading_R_and_RStudio.html">0. Loading R and RSstudio</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Intro_to_R_1.html">1. Intro to R, Part 1</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Intro_to_R_2.html">2. Intro to R, Part 2</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Graphics.html">3. Graphics</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Making_data_files.html">4a. Making data files for R</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Sampling.html">4b. Sampling</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Describing_data.html">5. Describing data</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Frequency_data.html">6. Frequency data</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Contingency_analysis.html">7. Contingency analysis</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Normal_and_sample_means.html">8. Normal distribution and sample means</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Comparing_means_of_2_groups.html">9. Comparing the means of two groups</a>
+    </li>
+    <li>
+      <a href="R_tutorial_ANOVA.html">10. ANOVA</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Correlation_Regression.html">11. Correlation and regression</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore"><em>Labs using R</em>: Notes for Instructors</h1>
+<h4 class="author">Whitlock and Schluter</h4>
+
+</div>
+
+
+<p><em>These labs are a series designed to accompany a course using </em>The Analysis of Biological Data<em>. The student labs can be found <a href="index.html">here</a>. </em></p>
+<hr />
+<p><br></p>
+<p>These notes are intended for instructors only, to accompany the “Labs using R” with <em>The Analysis of Biological Data</em>.</p>
+<p>These labs have two goals: to develop a greater conceptual understanding of basic biostatistics and to introduce the open source stats package R. These tutorials are meant to follow an introduction to their topics either through textbook reading or lectures. They do not usually repeat the statistical information, but provide opportunities for active learning and practice on the important topics of the week.</p>
+<p><br></p>
+<div id="no-copyright" class="section level3">
+<h3>No copyright</h3>
+<p>The labs (unlike the book) are released to the public domain without copyright by a CC0 license. This license allows you to use or modify these labs in any way that you like, although we request that you give us credit.</p>
+<p><br></p>
+</div>
+<div id="real-data" class="section level3">
+<h3>Real data</h3>
+<p>All the data provided in these labs are real, coming from published scientific literature.</p>
+<p><br></p>
+</div>
+<div id="before-the-semester-starts" class="section level3">
+<h3>Before the semester starts…</h3>
+<p>One of the physical items required for these labs (specifically Tutorial 4b) will require some lead time for purchase– that is, the cowrie shells used in that week. See the description of Llab 4 below for more information. Otherwise the course will require some measuring tapes (see Tutorial 1), rulers, and dice.</p>
+<p><br></p>
+</div>
+<div id="general-notes" class="section level2">
+<h2>General notes</h2>
+<p>Most of these tutorials can be used in a self-guided way, although they also can work in small groups. Part of the Lab 4, on sampling, requires several groups to collate their data for the exercise to be effective.</p>
+<p>Most of these labs do not require any materials aside from what is available online here, but again there are exceptions. The main activity in Lab 4, on Sampling, requires some special materials and some preparation from the instructors in a physical lab. Other activities require measuring tapes for students to collect data on themselves; if necessary these measurements can be skipped as anonymized data from previous classes is provided.</p>
+<p>These labs do not map one-to-one to the chapters in <em>The Analysis of Biological Data</em>. However, they do come in an order consistent with the order of the book. When we teach from the book, the lecture are a week or so ahead of the labs, so the students have been exposed to the statistical concepts in each lab already, but what is new is using R to address those topics. The first two weeks of these tutorials are very R specific and don’t require any specific statistical knowledge, allowing the lecture part of the course to get ahead of the labs.</p>
+<p>Any special materials or preparation should be described below in the section for each lab. Most require no special preparation.</p>
+<div id="lab-0-loading-r-and-rstudio" class="section level3">
+<h3>Lab “0”: Loading R and RStudio</h3>
+<p>Loading these two programs on each student’s computer is time-consuming, but typically can be done before the first class. It’s worth allocating some time to help students get these programs to a functional state.</p>
+<p>Another useful preparation for each student is to download the folder called <em>ABDLabs</em>. This contains a folder with all the data for these tutorials as well R scripts containing all commands used in the “Learning the Tools” section of each tutorial. (These are separate data sets from the one used in the book, and this is a separate folder.)</p>
+<p>Importantly, the folder also contains an Rproject file called “ABDLabs.Rproj”. *<strong>It is very helpful if every student gets into the habit of starting RStudio by clicking on this ABDLabs.Rproj file each time they work on the tutorials.</strong> This is because loading this Rproject will load the appropriate packages automatically, but more importantly will set the working directory to the right place to make the data calls in the tutorials work properly.</p>
+<p>Finally, for an introductory class it is probably useful to have all of the packages needed for these tutorials installed on the computers the students will use. (This is covered in the second tutorial, but depending on the class you may want to help them skip this step.) The necessary packages are:</p>
+<ul>
+<li>ggplot2</li>
+<li>dplyr</li>
+<li>car</li>
+<li>binom <br></li>
+</ul>
+</div>
+</div>
+<div id="notes-by-lab" class="section level2">
+<h2>Notes by Lab</h2>
+<p><br></p>
+<div id="lab-1-intro-to-r-1" class="section level3">
+<h3>Lab 1: Intro to R 1</h3>
+<p>This week is rather unambitious, but it’s important to get these basics straight. It is very useful later if the students are encouraged to get into the habit of starting RStudio from the ABDLabs.Rproj file, rather than directly from the application itself.</p>
+<p><strong>Activities</strong>: Some of the weeks include activities that are not focused on R. This week asks the students to collect some simple data about themselves, using a cloth tape measure. These data will be used later in the questions <strong>and in later weeks</strong>. We always make this data collection purely optional for students (including any individual question they choose not to answer), and we collect the data without names attached. You can do this either by having the give you the answers on data sheets (<a href="Student%20data%20sheet%201.pdf">Student data sheet 1</a> is linked from the lab), or if your local laws allow, through a Google Sheet.</p>
+<p><strong>Materials needed</strong></p>
+<ul>
+<li><p><em>Cloth measuring tapes</em> (used by tailors, available in the fabric section of stores). <strong>Important</strong>: We use measuring tapes that are <em>denominated in inches</em>, but we request the data in cm. Some students will fail to convert to cm correctly, but this is a feature that we take advatage of later. The inaccurate conversion results in a data file with some obvious outliers that will demonstrate a nice pedagogical point in Lab 3. So when you collate these data, don’t clean up this conversion error, which we have found almost invariably happens in each class.</p></li>
+<li><p><em>Data sheets</em>. Either prepare the Google sheet ahead of time or make enough copies of the <a href="Student%20data%20sheet%201.pdf">Student data sheet 1</a> for all students.</p></li>
+</ul>
+<p><br></p>
+</div>
+<div id="lab-2-intro-to-r-2" class="section level3">
+<h3>Lab 2: Intro to R 2</h3>
+<p>This week is the first week to use data from the ABDLabs folder. Again, emphasize the importance of starting RStudio from the ABDLabs.Rproj file, and everything should work.</p>
+<p><br></p>
+</div>
+<div id="lab-3-graphics" class="section level3">
+<h3>Lab 3: Graphics</h3>
+<p>This week will use the data file collected during Lab 1. Make that file accessible to students in some way. The required columns are height_cm, circumference_of_head_cm, sex, number_of_siblings, dominant_hand, and dominant_foot.</p>
+<p>If any students erred in their conversions from inches to centimeters in recording their data in Lab 1, there should be obvious outliers on the plots produced for Question 6. Discuss the importance of understanding the source of the error of the outlier (and confirming, if true, that the outliers are not truly part of the sample) before removing them from the data set. If there is time, contrast this situation to the situation in Question 5, where the outlier is real and biologically meaningful.</p>
+<p><br></p>
+</div>
+<div id="lab-4-sampling" class="section level3">
+<h3>Lab 4: Sampling</h3>
+<p>In these online versions of the tutorials, Lab 4 is broken into two parts. Part 4a simply describes how to use R to make data files. Part 4b describes a set of activities to understand bias and sampling error. The activity in Part 4b requires the material in 4a, but 4a could be read without 4b if desirable.</p>
+<p>A reminder, 4b is the one lab that requires the most group work and the most physical preparation by an instructor. In a class where the students are using these tutorials in a self-guided manner, Lab 4b should be skipped.</p>
+<p><strong>Materials and preparation</strong> The key requirement for this lab is a <em>set of ~30 cowrie shells for each group of 2-4 students</em>. The secret ingredient here is that the sets of shells each contain roughly 80% from a small drab species, and about 20% from a larger, more colorful species. Almost invariably, when the students are haphazardly sampling from the bags for the first steps of the lab, they are more likely to choose the larger more colorful ones, and this biases their estimates of the mean shell length.</p>
+<p>We have been able to get these shells online. We use Ring Top Cowrie Seashells <em>Cypraea annulus</em> (for the plain ones) and Snakehead Cowrie Seashells <em>Cypraea arabica</em> (for the larger and more attractive). Neither of these are known (to us) to be of conservation concern. You may need to substitute with a different type of shells, or indeed another type of object altogether.</p>
+<p>It is important to let the students do their first samples without much guidance, so that they make their own mistakes here and later see the consequences. Later in the lab they are walked through how to take a proper random sample in this case.</p>
+<p>Other materials required:</p>
+<ul>
+<li><p><em>Rulers</em> to measure the shells with</p></li>
+<li><p><em>Large format paper</em> to keep track of the shells while measuring. We use desktop calendar refills for this.</p></li>
+</ul>
+<p><br></p>
+</div>
+<div id="lab-5-describing-data" class="section level3">
+<h3>Lab 5: Describing data</h3>
+<p>The activities this week are both online exercises that require no preparation.</p>
+<p>The students will need the data set collected during Lab 1 again here , for Question 1.</p>
+<p>Question 3d asks them to think about quantiles of the distribution and compare those to the confidence interval of the mean. The key is that the quantiles are about distribution of the individuals, while the confidence interval relates to the distribution of sample means, which has a lower variance.</p>
+<p>Question 4: The families with zero kids are not represented in a class, because there is no one to be there. Therefore the family size is overestimated in this way.</p>
+<p><br></p>
+</div>
+<div id="lab-6-frequency-data" class="section level3">
+<h3>Lab 6: Frequency data</h3>
+<p>The activity in this lab will require a moderate number of normal six-sided dice. Each student will need five at a time, but the exercise doesn’t have to happen simultaneously for all students.</p>
+<p>Calculating a fit to a Poisson distribution is time-consuming in R. You may decide to skip this (and Question 4).</p>
+<p><br></p>
+</div>
+<div id="lab-7-contingency-analysis" class="section level3">
+<h3>Lab 7: Contingency analysis</h3>
+<p>The students will need the data set collected during Lab 1 again here, for Question 1.</p>
+<p>In addition, they will collect new data in Activity 2. This requires a printed sheet with the paragraph from the <em>Origin of Species</em>, available <a href="OriginsParagraph.pdf">here</a>. Each student will need a copy.</p>
+<p>It is important to emphasize that when doing the activity finding the t’s in the passage that it should be done at a brisk reading pace. The goal is not to find every one, but to see what happens at a reading pace.</p>
+<p>Question 2 (on the relationship between footedness and handedness using class data) will probably not have sample sizes sufficient to meet the assumptions of the <span class="math inline">\(\chi\)</span><sup>2</sup> test, and Fisher’s exact test will be required. (Unless the class is very large, in which case it is recommended to use one smaller section’s data, if possible).</p>
+<p><br></p>
+</div>
+<div id="lab-8-the-normal-distribution-and-sample-means" class="section level3">
+<h3>Lab 8: The normal distribution and sample means</h3>
+<p>Activity 1 has student collecting data on themselves, in this case measuring their finger lengths. They will need <em>rulers</em> or <em>measuring tapes</em> to collect these data. They will also need copies of the <a href="Student%20data%20sheet%207.pdf">Student Data Sheet 7</a> for each student.</p>
+<p>This week requires a little hustle on the part of the instructor or TA, because the data from the students needs to be collated into a data file in order for the class to answer the last question. Have the students do the finger measurements (Activity 1) first, so that the file can be ready when they get to question 5. The necessary columns are sex, right_index_finger_length, and right_ring_finger_length.</p>
+<p><br></p>
+</div>
+<div id="lab-9-comparing-the-means-of-two-groups" class="section level3">
+<h3>Lab 9: Comparing the means of two groups</h3>
+<p>This week requires a data file to be prepared from the finger data collected in Lab 8.</p>
+<p><br></p>
+</div>
+<div id="lab-10-anova" class="section level3">
+<h3>Lab 10: ANOVA</h3>
+<p>This week requires no special preparation.</p>
+<p><br></p>
+</div>
+<div id="lab-11-correlation-and-regression" class="section level3">
+<h3>Lab 11: Correlation and regression</h3>
+<p>This week requires no special preparation. Lab 11 is rather short, and so it can usually be combined with review or activities.</p>
+<p>The last question is fairly challenging, perhaps. It will require using filter() (from dplyr) and max().</p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

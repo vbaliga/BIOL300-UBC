@@ -1,0 +1,25 @@
+/* navbar */
+.navbar-default .navbar-brand {
+    color: #daa520;
+}
+
+h1 {
+  font-size:30px;
+  
+}
+h2 {
+  font-size:22px;
+  /*font-weight: 400;*/
+  color: #002db3;
+
+}
+
+h3 {
+  font-size:16px;
+  color: #002db3;
+}
+
+/* font weight of main headers in table of contents (300 is default) */
+.tocify-header {
+  font-weight: 500;
+}

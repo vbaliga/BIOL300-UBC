@@ -1,0 +1,141 @@
+---
+title: "Resources for Chapter 8: <br>Fitting probability models to frequency data"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+<br> 
+
+# Chapter links
+
+The human genome data is that we used for Example 8.3 is from the [ENSEMBL website](http://www.ensembl.org/Homo_sapiens).
+
+<br>
+
+# R lab
+
+A lab on how to carry out frequency analysis in R, and related topics, is available [here](RLabs/R_tutorial_Frequency_data.html).
+
+<br>
+
+# Learn R by example
+
+We used R to analyze all examples in chapter 89. We've put the code [here](RExamples/Rcode_Chapter_8.html) so that you can too.
+
+<br> 
+
+# Data
+
+Download a .zip file with all the data for chapter 8 in .csv format [here](DataZipFiles/chapter08.zip). 
+
+Download a .zip file with all data sets in the book [here](DataZipFiles/Data.zip). 
+
+All data sets and their sources are listed individually below.
+
+Disclaimer: Most data sets used in the book are grabbed from graphs and tables in the original publications, and the values may not be exact. Contact the original authors for the raw data.
+
+<br> 
+
+## Data for examples
+
+[Example 8.1. Days of birth](Data/chapter08/chap08e1DayOfBirth2016.csv) 
+
+Ventura, S. J., et al. 2001. Births: final data for 1999. *National Vital Statistics Reports* Vol. 49, No. 1.
+
+[Example 8.3. Gene content of chromosomes](Data/chapter08/chap08e3GeneContentX.csv)
+
+Zerbino, D. R. et al. 2018. *Nucleic Acids Research* 46: D754-D761. [Human Genome Project](http://www.ensembl.org/Homo_sapiens) 
+
+[Example 8.4. Mass extinctions](Data/chapter08/chap08e4MassExtinctions.csv)
+
+Raup, D. M., and J. J. Sepkoski, Jr. 1982. *Science* 215: 1501-1503
+
+<br>
+
+## Data for problem sets
+
+[01. Spatial computer program](Data/chapter08/chap08q01testingComputerProgram.csv) 
+
+These data are hypothetical.
+
+[02. Shad parasites](Data/chapter08/chap08q02ShadParasites.csv) 
+
+Shaw, D. J., B. T. Grenfell, and A. P. Dobson. 1998. *Parasitology* 117: 597-610. 
+
+[03. Resistance to bacteria](Data/chapter08/chap08q03F2Resistance.csv) 
+
+Luijckx, P., H. Fienberg, D. Duneau, and D. Ebert. 2012. *Heredity* 108: 547-551.
+
+[04. World Cup](Data/chapter08/chap08q05WorldCup.csv)
+
+These data are widely available.
+
+[06. The Conqueror](Data/chapter07/chap07q05GenghisKhanCancer.csv) 
+
+Adams, C. 1984. Straight Dope. www.straightdope.com/columns/read/374/did-john-wayne-die-of-cancer-caused-by-a-radioactive-movie-set. [link](http://www.straightdope.com/columns/read/374/did-john-wayne-die-of-cancer-caused-by-a-radioactive-movie-set) Accessed August 4, 2019.
+
+[11. Spirit bear genetics](Data/chapter08/chap08q11SpiritBearGenetics.csv)
+
+Hedrick, P. W., and K. Ritland. 2012. *Evolution* 66: 305-313.
+
+[13. Bird window crashes](Data/chapter08/chap08q13BirdWindowCrash.csv) 
+
+Klem, D., et al. 2004. *Wilson Bulletin* 116: 69-73.
+
+[14. Cavalry ](Data/chapter08/chap08q14Cavalry.csv)
+
+Bortkiewicz, L. 1898. Cited in Larson, R. J., and M. L. Marx. 1981. *An Introduction to Mathematical Statistics and its Applications*. Prentice-Hall: Englewood Cliffs, NJ. 
+
+[15. Hospital weekend or weekday ](Data/chapter08/chap08q15HospitalAdmission.csv)
+
+Bendavid, E., et al. 2007. *The American Journal of Medicine* 120: 422-428.
+
+[16. Truffles](Data/chapter08/chap08q16Truffles.csv) 
+
+Waters, J. R., K. S. McKelvey, D. L. Luoam, and C. J. Zabel. 1997.  *Forest Ecology and Management* 96: 155-166. 
+
+[17. Hurricanes](Data/chapter08/chap08q17Hurricanes.csv) 
+
+Blake, E. S., E. N. Rappaport, J. D. Jarrell, and C. W. Landsea. 2005.  *NOAA Technical Memorandum NWS TPC-4.* 
+
+[18. Snapdragon gene](Data/chapter08/chap08q18snapdragonGeneticsA.csv). The data set for part (b) is [here](Data/chapter08/chap08q18snapdragonGeneticsB.csv)
+
+Hartl, D. L., and E. W. Jones. 2005. *Genetics: Analysis of Genes and Genomes*. Sudbury, MA: Jones & Bartlett.
+
+[19. Falling cats](Data/chapter08/chap08q19FallingCatsByMonth.csv)
+
+Vnuk, D., et al. 2004. *Journal of Feline Medicine and Surgery* 6:305-312.
+
+[22. Dodder growth orientation](Data/chapter08/chap08q22DodderGrowth.csv) 
+
+Runyon, J. B., M. C. Mescher, and C. M. De Moraes. 2006. *Science* 313: 1964-1967.
+
+[23. Dodder and $\alpha$-pinene](Data/chapter08/chap08q23DodderWithPinene.csv) 
+
+Runyon, J. B., M. C. Mescher, and C. M. De Moraes. 2006. *Science* 313:1964-1967.
+
+[24. Wall punching](Data/chapter08/chap08q24WallPunching.csv) 
+
+Consumer Product Safety Commission. 2018. National Electronic Injury Surveillance System. www.cpsc.gov/Research--Statistics/NEISS-Injury-Data/ [link](https://www.cpsc.gov/Research--Statistics/NEISS-Injury-Data/) Accessed November 2018.
+
+[25. Computer injuries](Data/chapter08/chap08q25ComputerInjuries.csv) 
+
+Consumer Product Safety Commission. 2018. National Electronic Injury Surveillance System. www.cpsc.gov/Research--Statistics/NEISS-Injury-Data/ [link](https://www.cpsc.gov/Research--Statistics/NEISS-Injury-Data/) Accessed November 2018.
+
+[26. Wild pigs](Data/chapter08/chap08q26WildPigs.csv) 
+
+Probst, C., et al. 2017. *Royal Society Open Science* 4: 170054.

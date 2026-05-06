@@ -1,0 +1,98 @@
+---
+title: "Resources for <em>The Analysis of Biological Data</em>"
+author: 
+output:
+  # pdf_document:
+  #   toc: yes
+  #   toc_depth: '3'
+  html_document:
+    includes:
+      before_body: header_image.html
+    toc: yes
+    toc_depth: 3
+    toc_float:
+      collapsed: no
+---
+
+<br>
+
+Welcome to the learning resource pages for the [The Analysis of Biological Data, 3rd edition](https://www.macmillanlearning.com/college/us/product/Analysis-of-Biological-Data/p/131922623X?searchText=whitlock), by Michael Whitlock and Dolph Schluter!
+
+<small>(The website for the 1st and 2nd editions is still live at [whitlockschluter.zoology.ubc.ca](https://whitlockschluter.zoology.ubc.ca)).</small>
+
+***
+
+# What's here
+
+## Data
+
+The [data for all examples and problems in the book](#Data) by chapter are below. Click [here to download a single .zip file with all data sets](DataZipFiles/Data.zip) in the book.
+
+## R labs
+
+[The R labs help to learn basic statistical analyses and core concepts](RLabs/index.html) using the statistical package R.
+
+## R code
+
+We used [R to analyze all examples in the book](RExamples/index.html). We put the [code here](RExamples/index.html) so that you can too.
+
+## Interactive visualizations
+
+[A collection of interactive visualizations](https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm) help to develop intuition about some of the trickier concepts in statistical analysis.
+
+## Corrections
+
+[Known typos are listed here](Corrections.html). If you find any new errors or have any suggestions for the third edition, please <A HREF="mailto:whitlock@zoology.ubc.ca">write to the authors</A>. 
+
+***
+
+# Data & resources by chapter {#Data}
+
+All the data sets used in the book, and links to all other resources by chapter. 
+
+*Disclaimer: Most data sets used in the book are grabbed from graphs and tables in the original publications, and the values may not be exact. Contact the original authors for the raw data.*
+
+[Chapter 1: Statistics and samples](chapter01.html)
+
+[Chapter 2: Displaying data](chapter02.html)
+
+[Chapter 3: Describing data](chapter03.html)
+
+[Chapter 4: Estimating with uncertainty](chapter04.html)
+
+[Chapter 5: Probability](chapter05.html)
+
+[Chapter 6: Hypothesis testing](chapter06.html)
+
+[Chapter 7: Analyzing proportions](chapter07.html)
+
+[Chapter 8: Fitting probability models to frequency data](chapter08.html)
+
+[Chapter 9: Contingency analysis](chapter09.html)
+
+[Chapter 10: The normal distribution](chapter10.html)
+
+[Chapter 11: Inference for a normal population](chapter11.html)
+
+[Chapter 12: Comparing two means](chapter12.html)
+
+[Chapter 13: Handling violations of assumptions](chapter13.html)
+
+[Chapter 14: Designing experiments](chapter14.html)
+
+[Chapter 15: Comparing means of more than two groups](chapter15.html)
+
+[Chapter 16: Correlation between numerical variables](chapter16.html)
+
+[Chapter 17: Regression](chapter17.html)
+
+[Chapter 18: Analyzing multiple factors](chapter18.html)
+
+[Chapter 19: Computer-intensive methods](chapter19.html)
+
+[Chapter 20: Likelihood](chapter20.html)
+        
+[Chapter 21: Survival analysis](chapter21.html)
+
+[Review problems](chapterRevProbs.html)
+

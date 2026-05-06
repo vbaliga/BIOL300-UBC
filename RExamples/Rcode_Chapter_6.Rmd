@@ -1,0 +1,227 @@
+---
+title: "R code for example in Chapter 6: <br>Hypothesis testing"
+author: 
+
+#output: html_document
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 5, fig.height=4)
+suppressPackageStartupMessages(library(ggplot2))
+```
+
+***
+
+We used R to analyze all examples in Chapter 6. We put the code here so that you can too.
+
+<!--
+Also see our [tutorial on describing data using R](https://whitlockschluter3e.zoology.ubc.ca/Tutorials using R/R_tutorial_Describing_data.html).
+-->
+
+<br>
+
+# New methods on this page
+
+<ul>
+<li>Take a random sample of a categorical variable having two possible outcomes from a theoretical population of known probabilities:
+
+```{r eval = FALSE}
+sample(c("L", "R"), size = 18, prob = c(0.5, 0.5), replace = TRUE)
+```
+
+<li>Create a loop to sample repeatedly a known population to use to generate an approximate null distribution for a test statistic:
+
+```{r eval = FALSE}
+for(i in 1:10000){
+    temporarySample = sample(c("L", "R"), size = 18, prob = c(0.5, 0.5))
+        replace = TRUE)
+    sum(temporarySample == "R")
+    }
+```
+</ul>
+
+***
+
+<br>
+
+# Load the required packages
+
+We'll use the ```ggplot2``` package to draw some of the plots. It needs to be loaded only once per session.
+
+```{r eval = FALSE}
+library(ggplot2)
+```
+
+***
+
+<br>
+
+# Example 6.2. Toads
+
+***Obtain the null distribution for the test statistic** (the number of right-handed toads out of 18).
+*
+
+<br>
+
+## A very large number of samples
+
+Sample $n = 18$ toads from a theoretical population in which left- and right- handed individuals occur with equal probability (as stipulated by the null hypothesis). For each sample, the number of right-handed toads is calculated and saved in a vector named ```results18``` (the samples themselves are not saved). The results vector is initialized before the loop. The term ```results18[i]``` refers to the ```i```th element of ```results18```, where ```i``` is a counter. So many iterations might take a few minutes to run on your computer.
+
+```{r eval = TRUE}
+results18 <- vector()
+for(i in 1:10000){
+	  tempSample <- sample(c("L", "R"), size = 18, prob = c(0.5, 0.5), replace = TRUE)
+	  results18[i] <- sum(tempSample == "R")
+	  }
+```
+
+Save ```results18``` also as a factor with 19 levels, representing each possible integer outcome between 0 and 18. This step is for tables and graphs only -- it makes sure that all 19 categories are included in tables and graphs, even categories with no occurrences.
+
+```{r eval = TRUE}
+factor18 <- factor(results18, levels = 0:18)
+```
+
+<br>
+
+## The relative frequency distribution
+
+Tabulate outcomes in the random sampling process (Table 6.2-1). This is the null distribution. Your results will be similar but not identical to the numbers in Table 6.2-1 because 10,000 times is not large enough for extreme accuracy. The ```table()``` command calculates the frequencies, and dividing by the length of ```results18``` (i.e., the number of elements in the vector, equal to the number of iterations in the loop) yields the proportions (relative frequencies).
+
+```{r eval = TRUE}
+nullTable <- table(factor18, dnn = "nRightToads")/length(factor18)
+data.frame(nullTable)
+```
+
+<br>
+
+## Histogram of the null distribution
+
+This plots the frequency distribution of the number of right-handed toads out of $n = 18$ independent trials (Figure 6.2-1). Setting ```freq = FALSE``` causes ```hist``` to graph density of observations rather than frequency. In this case, height of bars indicates relative frequency if bars are one unit wide (as in the present case).
+
+```{r eval = TRUE}
+hist(results18, right = FALSE, freq = FALSE, las = 1,
+	    xlim = c(0,18), xlab = "Number of right-handed toads", main = "")
+```
+
+or
+
+```{r eval = TRUE}
+ggplot(data.frame(results18), aes(x = results18)) +
+    geom_histogram(aes(y = ..density..), fill = "white", col = "black", 
+        boundary = 0, closed = "left", bins = 19, binwidth = 1) +
+    scale_x_continuous(limits = c(0,19)) +
+    labs(x = "Number of right-handed toads", y = "Density") + 
+    theme_classic()
+```
+
+<br>
+
+## Probability of 14 or more
+
+Calculate the fraction of samples in the null distribution having 14 or more right-handed toads. This won't be the exact probability of 14 or more because 10,000 times is not large enough for extreme accuracy.
+
+```{r eval = TRUE}
+frac14orMore <- sum(results18 >= 14)/length(results18)
+frac14orMore
+```
+
+<br>
+
+## $P$-value
+
+Calculate the approximate $P$-value. This won't be exact because 10,000 times is not large enough for extreme accuracy.
+
+```{r eval = TRUE}
+2 * frac14orMore
+```
+
+***
+
+<br>
+
+# Example 6.4. Mirror-image flowers
+
+*Determine the **null distribution for the test statistic**, the number of left-handed flowers out of 27.*
+
+<br>
+
+## A very large number of samples
+
+Obtain a very large number of samples of 27 individuals from a theoretical population in which L and R occur in the ratio 1:3, as specified by the null hypothesis. For each sample, the number of "L" is counted and saved in a vector named ```results27``` (the samples themselves are not saved).
+
+```{r eval = TRUE}
+results27 <- vector(mode = "numeric")
+for(i in 1:10000){
+	  tempSample <- sample(c("L", "R"), size = 27, prob = c(0.25, 0.75), 
+		  replace = TRUE)
+	  results27[i] <- sum(tempSample == "L")
+	}
+```
+
+Save the results also as a factor. This is to ensure that all categories between 0 and 27 are included in tables and graphs, even those that did not occur in the sampling process.
+
+```{r eval = TRUE}
+results27fac <- factor(results27, levels = 0:27)
+```
+
+<br>
+
+## The relative frequency distribution
+
+Tabulate the relative frequency distribution of outcomes. To get relative frequencies, use ```table()``` to get frequencies and then divide by the total number of replicates. Your results will be similar but not identical to the numbers in the Chapter because 10,000 iterations is not large enough for extreme accuracy.
+
+```{r eval = TRUE}
+nullTable <- table(results27fac, dnn = "nRightFlowers")/length(results27fac)
+data.frame(nullTable)
+```
+
+<br>
+
+## Histogram of the null distribution
+
+Draw a histogram of the null distribution of the the number of left-handed flowers out of 27 (Figure 6.4-1). Setting ```freq = FALSE``` causes ```hist``` to graph density of observations rather than frequency. In this case, height of bars indicates relative frequency if bars are one unit wide (as in the present case).
+
+```{r eval = TRUE}
+hist(results27, right = FALSE, freq = FALSE, las = 1,
+	    xlim = c(0,27), xlab = "Number of left-handed flowers", main = "")
+```
+
+Or
+
+```{r eval = TRUE}
+ggplot(data.frame(results27), aes(x = results27)) +
+    geom_histogram(aes(y = ..density..), fill = "white", col = "black", 
+        boundary = 0, closed = "left", bins = 28, binwidth = 1) +
+    scale_x_continuous(limits = c(0,28)) +
+    labs(x = "Number of right-handed toads", y = "Density") + 
+    theme_classic()
+```
+
+<br>
+
+## Probability of 6 or fewer
+
+Calculate the fraction of results in the null distribution having 6 or fewer left-handed flowers.
+
+```{r eval = TRUE}
+frac6orLess <- sum(results27 <= 6)/length(results27)
+frac6orLess
+```
+
+<br>
+
+## $P$-value
+
+Calculate the $P$-value. This won't be exact because 10,000 times is not large enough for extreme accuracy
+
+```{r eval = TRUE}
+2 * frac6orLess
+```
+
+

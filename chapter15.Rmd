@@ -1,0 +1,145 @@
+---
+title: "Resources for Chapter 15: <br>Comparing means of more than two groups"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+<br> 
+
+# Chapter links
+
+You can watch a video of the singing mouse [here](https://datadryad.org/resource/doi:10.5061/dryad.v43b) (from Assignment Problem 31). Good luck hearing its 20 kHz song with human ears!
+
+<br>
+
+# R lab
+
+A lab on how to carry out ANOVA in R, and related topics, is available [here](RLabs/R_tutorial_ANOVA.html).
+
+<br>
+
+# Learn R by example
+
+We used R to analyze all examples in chapter 15. We've put the code [here](RExamples/Rcode_Chapter_15.html) so that you can too.
+
+<br> 
+
+# Data
+
+Download a .zip file with all the data for chapter 15 in .csv format [here](DataZipFiles/chapter15.zip). 
+
+Download a .zip file with all data sets in the book [here](DataZipFiles/Data.zip). 
+
+All data sets and their sources are listed individually below.
+
+Disclaimer: Most data sets used in the book are grabbed from graphs and tables in the original publications, and the values may not be exact. Contact the original authors for the raw data.
+
+<br> 
+
+## Data for examples
+
+[Example 15.1. Knees who say night](Data/chapter15/chap15e1KneesWhoSayNight.csv) 
+
+Wright Jr., K. P. and C. A. Czeisler 2002. *Science* 297: 571.  
+
+[Example 15.6. Walking sticks](Data/chapter15/chap15e6WalkingStickFemurs.csv) 
+
+Nosil, P. and B. J. Crespi. 2006. *Proceedings of the National Academy of Sciences* 103: 9090-9095.
+
+<br>
+
+## Data for problem sets
+
+[01. Caffeine and nectar](Data/chapter15/chap15q01HoneybeeCaffeine.csv) 
+
+Singaravelan, N., G. Nee’man, M. Inbar, and I. Izhaki. 2005. *Journal of Chemical Ecology* 31:2791-2804.
+
+[03. Exam repeatability](Data/chapter15/chap15q03ExamGrades.csv) 
+
+These data are unpublished.
+
+[04. Plant population persistence](Data/chapter15/chap15q04PlantPopulationPersistence.csv) 
+
+Molofsky, J. and J.-B. Ferdy. 2005. *Proceedings of the National Academy of Sciences (USA)* 102: 3726-3731. 
+
+[07. Disorders and gene expression](Data/chapter15/chap15q07DisordersAndGeneExpression.csv) 
+
+Tkachev, D., et al. 2003. *Lancet* 362: 798-805. 
+
+[09. Hippocampal volume loss](Data/chapter15/chap15q09HippocampalVolumeRatio.csv) 
+
+Cook, M. J., et al. 1993. *The Lancet* 342: 1391-1394.
+
+[11. Dung beetles](Data/chapter15/chap15q11DungBeetleCondition.csv) 
+
+Kotiaho, J. S., L. W. Simmons and J. L. Tomkins. 2001. *Nature* 410: 684-686. 
+
+[13. *Ricketsiella* and aphid color](Data/chapter15/chap15q13RicketsiellaColor.csv) 
+
+Tsuchida, T., et al. 2010. *Science* 330: 1102-1104.
+
+[14. Tsetse fly learning](Data/chapter15/chap15q14TsetseLearning.csv) 
+
+Bouyer, J., et al. 2007. *Biology Letters* 3: 113-116. 
+
+[15. Eelgrass genetic diversity](Data/chapter15/chap15q15EelgrassGenotypes.csv) 
+
+Reusch, T. B. H., A. Ehlers, A. Hämmerli, and B. Worm. 2005. *Proceedings of the National Academy of Sciences* 102: 2826-2831. 
+
+[17. *Daphnia* resistance](Data/chapter15/chap15q17DaphniaResistance.csv) 
+
+Hairston N. G., Jr., et al. 1999. *Nature* 401: 446. 
+
+[20. Walking stick heads](Data/chapter15/chap15q20WalkingStickHeads.csv) 
+
+Nosil, P. and B. J. Crespi. 2006. *Proceedings of the National Academy of Sciences* 103: 9090-9095.
+
+[21. Lodgepole pine cones](Data/chapter15/chap15q21LodgepolePineCones.csv) 
+
+Edelaar, P. and C. W. Benkman. 2006. *Journal of Evolutionary Biology* 19: 1651-1659. 
+
+[22. Lizard sprint speed](Data/chapter15/chap15q22LizardSprintSpeed.csv) 
+
+Huey, R. B. and A. E. Dunham. 1987. *Evolution* 42: 1116-1120. 
+
+[23. Mosquito poisoning](Data/chapter15/chap15q23MalariaFungusVenom.csv) 
+
+Fang,  W., et al.. 2011. *Science* 331: 1074-1077. 
+
+[24. Meaningless math](Data/chapter15/chap15q24NonsenseMathEffect.csv) 
+
+Eriksson, K. 2012. *Judgment and Decision Making* 7:746–749.
+
+[25. Fly self-medication](Data/chapter15/chap15q25FlySelfMedication.csv) 
+
+Kacsoh, B. Z., Z. R. Lynch, N. T. Mortimer, and T. A. Schlenke. 2013. *Science* 339: 947-950.
+
+[27. Fiddler crab claws](Data/chapter15/chap15q27FiddlerCrabFans.csv) 
+
+Darnell, M. Z., and P. Munguia. 2011. *American Naturalist* 178: 419-428.
+
+[29. *Tribolium* lifespan](Data/chapter15/chap15q29Tribolium.csv) 
+
+Khan, I., et al. 2018. *The American Naturalist* 191: 306-317.
+
+[30. HIV fitness](Data/chapter15/chap15q30HIVmutation.csv) 
+
+Theys, K., et al. 2018. *PLoS Genetics* 14(6): e1007420.
+
+[31. Singing mice](Data/chapter15/chap15q31singingMice.csv) 
+
+Pasch, B., B. M. Bolker, and S. M. Phelps. 2013. *The American Naturalist* 182: E161–E173.

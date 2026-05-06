@@ -1,0 +1,309 @@
+---
+title: "Describing data: R code for Chapter 3 examples"
+author:
+
+<!--  output: html_document -->
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Download the R code on this page as a single file <a href="../wp-content/rcode/chap03.r">here</a>.
+<div style="width:650px; padding:6px; border:2px solid black; bgcolor=" #ffffff""="">
+
+<br>
+
+### New methods on this page
+Click on a function argument for a short description of its meaning. The variable names are plucked from the examples further below.
+
+<b>Sample mean</b>, assuming that there are no missing (NA) entries:
+
+<b>Standard deviation</b>, assuming that there are no missing (NA) entries:
+
+<b>Calculate a statistic by group</b>, assuming that there are no missing (NA) entries:
+
+<b>Obtain a subset of data from a data frame</b>:
+<code>subset(spiderData, treatment == )</code>
+
+<b>Other new methods</b>:
+Variance and coefficient of variation.
+Median and interquartile range.
+Round to a preferred number of decimals.
+Cumulative frequency distribution.
+Table of descriptive statistics by group.
+Mean and standard deviation from a frequency table.
+
+</div>
+
+<br>
+
+### Example 3.1. <a href="../wp-content/data/chapter03/chap03e1GlidingSnakes.csv">Gliding snakes</a>
+<em><b>Sample mean</b>, <b>standard deviation</b>, <b>variance</b> and <b>coefficient of variation</b> of undulation rate of 8 gliding paradise tree snakes, in Hz</em>.
+
+Read and inspect the data.
+
+```{r eval = FALSE}
+snakeData <- read.csv(url("http://whitlockschluter.zoology.ubc.ca/wp-content/data/chapter03/chap03e1GlidingSnakes.csv"))
+head(snakeData)
+```
+
+<strong>Draw a histogram</strong> of the data.
+
+```{r eval = FALSE}
+hist(snakeData$undulationRateHz, right = FALSE)
+```
+
+Commands for a fancier histogram are shown here
+
+```{r eval = FALSE}
+hist(snakeData$undulationRateHz, right = FALSE, las = 1, col = "firebrick", 	
+	breaks = seq(0.8,2.2,by=0.2), xlab = "Undulation rate (Hz)", 
+	ylab = "Frequency", main = "")
+```
+
+
+Calculate the <strong>mean, standard deviation</strong> and <strong>variance</strong> of the undulation rates.
+
+```{r eval = FALSE}
+mean(snakeData$undulationRate)
+sd(snakeData$undulationRate)
+var(snakeData$undulationRate)
+```
+
+Calculate the <strong>coefficient of variation</strong>.
+
+```{r eval = FALSE}
+100 * sd(snakeData$undulationRate)/mean(snakeData$undulationRate)
+```
+
+
+***
+
+
+<br>
+
+### Table 3.1-2. <a href="../wp-content/data/chapter03/chap03t1_2ConvictionsFreq.csv">Numbers of convictions</a>
+<i><b>Mean and standard deviation from a frequency table</b>. The data are from Chapter 2</i>.
+
+Read and inspect the data. It is a frequency table of the number of convictions.
+
+```{r eval = FALSE}
+convictionsFreq <- read.csv(url("http://whitlockschluter.zoology.ubc.ca/wp-content/data/chapter03/chap03t1_2ConvictionsFreq.csv"))
+head(convictionsFreq)
+```
+
+Calculate the <b>mean and standard deviation from the frequency table</b>. First, use the <code>rep</code> command to "repeat" each value in the table, the number of times according to its frequency. Here, we store the result in <code>convictions</code>.
+
+```{r eval = FALSE}
+convictions <- rep(convictionsFreq$convictions, convictionsFreq$frequency)
+```
+
+Then, calculate mean and standard deviation on the result.
+
+```{r eval = FALSE}
+mean(convictions)
+sd(convictions)
+```
+
+
+***
+
+
+<br>
+
+### Example 3.2. <a href="../wp-content/data/chapter03/chap03e2SpiderAmputation.csv">Spider running speed</a>
+<em><b>Median</b>, <b>interquartile range</b>, and <b>box plot</b> of running speed (cm/s) of male <i>Tidarren</i> spiders. We also include below the <b>cumulative frequency distribution</b> of running speed before amputation.
+</em>
+
+Read and inspect the data. The data are in "long" format. One variable indicates running speed, and a second variable gives treatment (before vs after amputation). Therefore, every individual spider is on two rows, once for its before-amputation measurement and one for its after-amputation measurement.
+
+```{r eval = FALSE}
+spiderData <- read.csv(url("http://whitlockschluter.zoology.ubc.ca/wp-content/data/chapter03/chap03e2SpiderAmputation.csv"))
+head(spiderData)
+```
+
+<strong>Box plot</strong> of the data. Begin by ordering the treatment levels so that the "before" amputation measurements come before the "after" measurements in the plot.
+
+```{r eval = FALSE}
+spiderData$treatment <- factor(spiderData$treatment, levels = c("before", "after"))
+boxplot(speed ~ treatment, data = spiderData)
+```
+
+Instructions for a fancier box plot, made with additional options, is shown here
+
+```{r eval = FALSE}
+par(bty = "l")
+boxplot(speed ~ treatment, data = spiderData, ylim = c(0,max(spiderData$speed)),
+	col = "goldenrod1", boxwex = 0.5, whisklty = 1, las = 1,
+	xlab = "Amputation treatment", ylab = "Running speed (cm/s)")
+```
+
+
+<strong>Extract the before-amputation data</strong> using <code>subset</code>. Note the double equal sign "==" needed in the logical statement, which indicates "is equal to" in R. Save the result in a new data frame named <code>speedBefore</code>.
+
+```{r eval = FALSE}
+speedBefore <- subset(spiderData, treatment == "before") 
+speedBefore
+```
+
+Calculate the <strong>sample median</strong> of before-amputation running speed.
+
+```{r eval = FALSE}
+median(speedBefore$speed)
+```
+
+<strong>Calculate the first and third quartiles</strong> of before-amputation running speed (0.25 and 0.75 quantiles). Type 5 reproduces the method we use in the book to calculate quartiles.
+
+```{r eval = FALSE}
+quantile(speedBefore$speed, probs = c(0.25, 0.75), type = 5)
+```
+
+Determine the <strong>interquartile range</strong> of before-amputation running speed. Type 5 reproduces the method we use in the book to calculate quartiles.
+
+```{r eval = FALSE}
+IQR(speedBefore$speed, type = 5)
+```
+
+<b>Draw a cumulative frequency distribution</b> of running speed before amputation (Figure 3.4-1).
+
+```{r eval = FALSE}
+plot( ecdf(speedBefore$speed), verticals = TRUE,
+	ylab = "Cumulative relative frequency", 
+	xlab = "Running speed before amputation (cm/s)")
+```
+
+Instructions for a slightly more polished cumulative frequency distribution are here
+
+```{r eval = FALSE}
+par(bty = "l")
+plot( ecdf(speedBefore$speed), verticals = TRUE,  
+	las = 1, main = "", do.points = FALSE,
+	ylab = "Cumulative relative frequency", 
+	xlab = "Running speed before amputation (cm/s)" )
+```
+
+
+***
+
+
+<br>
+
+### Example 3.3. <a href="../wp-content/data/chapter03/chap03e3SticklebackPlates.csv">Stickleback lateral plates</a>
+<em>Draw <b>multiple histograms</b> and <b>produce a table of descriptive statistics by group</b> for plate numbers of three stickleback genotypes. We also include a <b>table of frequencies and proportions</b> of stickleback genotypes.</em>
+
+Download and inspect the data.
+
+```{r eval = FALSE}
+sticklebackData <- read.csv(url("http://whitlockschluter.zoology.ubc.ca/wp-content/data/chapter03/chap03e3SticklebackPlates.csv"))
+head(sticklebackData)
+```
+
+<strong>Draw multiple histograms</strong> of number of plates, one histogram per genotype. Begin by setting the preferred order of the three genotypes in the figure. Here, we use the <code>lattice</code> package to draw the histograms, so it must be loaded first.
+
+```{r eval = FALSE}
+sticklebackData$genotype <- factor(sticklebackData$genotype, 
+	levels = c("MM","Mm","mm"))
+library(lattice)
+histogram(~ plates | genotype, data = sticklebackData, breaks = seq(0,70,by=2), 
+	  layout = c(1, 3), col = "firebrick")
+```
+
+Commands to draw multiple histograms in base R, without using the <code>lattice</code> package, are here
+
+```{r eval = FALSE}
+oldpar = par(no.readonly = TRUE) # make backup of default graph settings
+par(mfrow = c(3,1), las = 1, oma = c(4, 6, 2, 6), mar = c(2, 5, 4, 2)) # adjust margins
+hist(sticklebackData$plates[sticklebackData$genotype == "MM"], right = FALSE, 
+	  breaks = seq(0,70,by=2), main = "MM", col = "firebrick",
+	  las = 1, ylab = "Frequency")
+hist(sticklebackData$plates[sticklebackData$genotype == "Mm"], right = FALSE, 
+	  breaks = seq(0,70,by=2), main = "MM", col = "firebrick",
+	  las = 1, ylab = "Frequency")
+hist(sticklebackData$plates[sticklebackData$genotype == "mm"], right = FALSE, 
+	  breaks = seq(0,70,by=2), main = "MM", col = "firebrick",
+	  las = 1, ylab = "Frequency")
+mtext("Number of lateral plates", side = 1, outer = TRUE, padj = 1.5)
+par(oldpar) # revert to default graph settings
+```
+
+
+<strong>Make a table of descriptive statistics by group</strong> using <code>tapply</code>. The commands below assume that the variables contain no missing (NA) elements. We need to calculate all the statistics, one at a time. Save them so that we can put them all together in a table afterward.
+
+To begin, get the sample sizes by group (genotype):
+
+```{r eval = FALSE}
+n <- tapply(sticklebackData$plates, INDEX = sticklebackData$genotype, FUN = length)
+n
+```
+
+Next, calculate the mean number of plates by group. Let's round the results to 1 decimal place to make it easier to read them when we place into a table. To accomplish this, set <code>digits = 1</code> in the <code>round</code> function.
+
+```{r eval = FALSE}
+meanPlates <- tapply(sticklebackData$plates, INDEX = sticklebackData$genotype, 
+	FUN = mean)
+meanPlates <- round(meanPlates, digits = 1)
+meanPlates
+```
+
+Repeat for medians.
+
+```{r eval = FALSE}
+medianPlates <- tapply(sticklebackData$plates, INDEX = sticklebackData$genotype, 
+	FUN = median)
+medianPlates
+```
+
+Repeat for standard deviations, including rounding.
+
+```{r eval = FALSE}
+sdPlates <- tapply(sticklebackData$plates, INDEX = sticklebackData$genotype, FUN = sd)
+sdPlates <- round(sdPlates, 1) 
+sdPlates
+```
+
+Finally, the interquartile range by group.
+
+```{r eval = FALSE}
+iqrPlates <- tapply(sticklebackData$plates, INDEX = sticklebackData$genotype, 
+	FUN = IQR, type = 5)
+iqrPlates
+```
+
+<strong>Make the table by assembling all the results in a new data frame</strong> (data frames can be used as tables for display purposes).
+
+```{r eval = FALSE}
+sticklebackTable <- data.frame(genotype = names(n), n = n, 
+	mean = meanPlates, median = medianPlates, 
+	sd = sdPlates, iqrange = iqrPlates)
+sticklebackTable
+```
+
+We can <b>make a table of frequencies and proportions</b> of the stickleback genotypes (Table 3.5-1). Below, we first generate a frequency table of genotypes (the <code>dnn</code> argument names the variable in the table).
+
+```{r eval = FALSE}
+sticklebackFreq <- table(sticklebackData$genotype, dnn = "genotype")
+sticklebackFreq
+```
+
+We then convert the table to a data frame so that we can include the proportions in the table too.
+
+```{r eval = FALSE}
+sticklebackFreq <- data.frame(sticklebackFreq)
+sticklebackFreq
+```
+
+Finally, we <strong>calculate the proportions</strong> and put them into the data frame. To convert frequencies to proportions, divide the frequencies by the sum of the frequencies.
+
+```{r eval = FALSE}
+sticklebackFreq$proportion <- sticklebackFreq$Freq / sum(sticklebackFreq$Freq)
+sticklebackFreq
+```
+
+The table would look even nicer if you round the proportions before including them in the table (give this a try).

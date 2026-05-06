@@ -1,0 +1,107 @@
+<h2>Likelihood: R code for Chapter 20 examples</h2>
+Download the R code on this page as a single file <a href="../wp-content/rcode/chap20.r">here</a>
+<div style="width:650px; padding:6px; border:2px solid black; bgcolor=" #ffffff""="">
+<h3>New methods on this page</h3>
+Click on a function argument for a short description of its meaning. The variable names are plucked from the examples further below.
+
+<b>Binomial log-likelihood of a value for the probability of success</b>:
+<code>dbinom([tippy title = "23" width = "300" header = "off"] <font color="003399">Observed number of successes.</font>[/tippy], [tippy title = "size = 32" width = "300" header = "off"] <font color="003399">Number of trials.</font>[/tippy], [tippy title="p = 0.5" width = "300" header = "off"] <font color="003399">Probability of success.</font>[/tippy], [tippy title="log = TRUE" width = "300" header = "off"] <font color="003399">Instructs the function to provide the log-likelihood (instead of the likelihood).</font>[/tippy])</code>
+
+<b>Other new methods</b>:
+Log-likelihood curve.
+Log-likelihood ratio test.
+Likelihood-based 95% confidence interval.
+
+</div>
+<h3>Example 20.3 <a href="../wp-content/data/chapter20/chap20e1UnrulyPassengers.csv">Unruly passengers</a></h3>
+<em><b>Maximum likelihood estimation</b> of the proportion of parasitic wasp individuals that choose the mated butterflies in a choice test. Below, we also apply the <b>log-likelihood ratio test</b> to these data</em>.
+
+Read and inspect the data.
+<pre>wasps &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter20/chap20e3UnrulyPassengers.csv"))
+head(wasps)
+</pre>
+<strong>Frequency table</strong> of the data.
+<pre>table(wasps)
+</pre>
+<strong>The likelihood and log-likelihood</strong> of <i>p</i> = 0.5.
+<pre>dbinom(23, size = 32, p = 0.5)
+dbinom(23, size = 32, p = 0.5, log = TRUE)
+</pre>
+The <strong>log-likelihood of a range of values</strong> of <i>p</i> (Table 20.3-1).
+<pre>proportion &lt;- seq(0.1, 0.9, by = 0.1)
+logLike &lt;- dbinom(23, size = 32, p = proportion, log = TRUE)
+data.frame(Proportion = proportion, Loglikelihood = logLike)
+</pre>
+The <strong>log-likelihood</strong> calculated using a narrower range of values for <i>p</i> (Table 20.3-2). The additional quantity <code>dlogLike</code> is the difference between each likelihood and the maximum.
+<pre>proportion &lt;- seq(0.4, 0.9, by = 0.01)
+logLike &lt;- dbinom(23, size = 32, p = proportion, log = TRUE)
+dlogLike &lt;- logLike - max(logLike)
+data.frame(Proportion = proportion, Loglikelihood = logLike, diffLogLike = dlogLike)
+</pre>
+The <strong>maximum likelihood estimate</strong>.
+<pre>pHat &lt;- proportion[logLike == max(logLike)]
+pHat
+</pre>
+The <strong>log-likelihood curve</strong> (Figure 20.3-1).
+<pre>plot(logLike ~ proportion, lwd = 2, las = 1, type = "l", bty = "l", 
+	xlab = "Hypothesized proportion, p", ylab = "Log-likelihood")
+abline(logLike[proportion == pHat], 0, lty = 2)
+</pre>
+The <strong>likelihood-based 95% confidence interval</strong>.
+<pre>lower &lt;- max( proportion[proportion &lt;= pHat &amp; logLike &lt;= max(logLike) - 1.92] )
+upper &lt;- min( proportion[proportion &gt;= pHat &amp; logLike &lt;= max(logLike) - 1.92] )
+c(lower = lower, upper = upper)
+</pre>
+
+<hr class="short">
+
+The <b>log-likelihood ratio test</b> to test the null hypothesis that the population proportion of wasps choosing mated female butterflies is 0.5. <code>G</code> is the test statistic and <code>P</code> is the <i>P</i>-value.
+<pre>G &lt;- 2 * ( dbinom(23, size = 32, p = pHat, log = TRUE)
+	 - dbinom(23, size = 32, p = 0.5, log = TRUE) )
+G
+P &lt;- 1 - pchisq(G, 1)
+P
+</pre>
+
+<hr>
+
+<h3>Example 20.4 <a href="../wp-content/data/chapter20/chap20e4ConservationScoop.csv">Conservation Scoop</a></h3>
+<em><b>Maximum likelihood estimation</b> of elephant population size using mark-recapture data</em>.
+
+Read and inspect the data on the 74 individuals collected in the second sample.
+<pre>elephant &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter20/chap20e4ConservationScoop.csv"))
+head(elephant)
+</pre>
+<strong>Frequency table</strong> of the 74 individuals in the second sample.
+<pre>table(elephant)
+</pre>
+Quantities needed for the likelihood calculations.
+<pre>m &lt;-  27     # size of first sample (total marked individuals)
+n2 &lt;- 74     # size of second sample
+Y &lt;-  15     # number of recaptures in second sample
+</pre>
+Choose a range of values of <code>N</code> to try. <code>N</code> is the (unknown) total number of individuals in the population. <code>N</code> must be at least <code>n2 + m - Y</code> (86, in the current example).
+<pre>N &lt;-  90:250 # The values of N to try
+</pre>
+<strong>Likelihood and log-likelihood</strong>.
+<pre>like &lt;-     choose(m, Y) *  choose(N - m, n2 - Y) /  choose(N, n2)
+logLike &lt;- lchoose(m, Y) + lchoose(N - m, n2 - Y) - lchoose(N, n2)
+</pre>
+Likelihood and log-likelihood can also be obtained using <strong>R's built-in function</strong> for the hypergeometric distribution.
+<pre>like &lt;-    dhyper(Y, m, N - m, n2)
+logLike &lt;- dhyper(Y, m, N - m, n2, log = TRUE)
+</pre>
+The <strong>maximum likelihood estimate</strong> of elephant population size.
+<pre>Nhat &lt;- N[logLike == max(logLike)]
+Nhat
+</pre>
+The <strong>log-likelihood curve</strong> (Figure 20.4-1).
+<pre>plot(logLike ~ N, lwd = 2, las = 1, type = "l", bty = "l", 
+	xlab = "Population size estimate, N", ylab = "Log-likelihood")
+abline(logLike[N == Nhat], 0, lty = 2)
+</pre>
+The <strong>likelihood-based 95% confidence interval</strong> for elephant population size.
+<pre>lower &lt;- max(N[N &lt;= Nhat &amp; logLike &lt;= max(logLike) - 1.92])
+upper &lt;- min(N[N &gt;= Nhat &amp; logLike &lt;= max(logLike) - 1.92])
+c(lower = lower, upper = upper)
+</pre>

@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>R code for example in Chapter 7:  Analyzing proportions</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-4');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R code for example in Chapter 7: <br>Analyzing proportions</h1>
+
+</div>
+
+
+<hr />
+<p>We used R to analyze all examples in Chapter 7. We put the code here so that you can too.</p>
+<p><br> Also see our <a href="https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_Frequency_data.html">lab on how to carry out frequency analaysis in R</a>.</p>
+<p><br></p>
+<div id="new-methods-on-this-page" class="section level1">
+<h1>New methods on this page</h1>
+<p>These are the core commands that produce the new methods described in Chapter 7. The variable names are plucked from the examples further below.</p>
+<ul>
+<li>
+<p>Calculating binomial probabilities:</p>
+<pre class="r"><code>    dbinom(6, size = 27, prob = 0.25)</code></pre>
+<li>
+<p>Binomial test:</p>
+<pre class="r"><code>    binom.test(10, n = 25, p = 0.061)</code></pre>
+<li>
+<p>Agresti-Coull 95% confidence interval for the proportion:</p>
+<pre class="r"><code>    binom.confint(131, n = 169, method = &quot;ac&quot;)</code></pre>
+<li>
+Other new methods:
+<ul>
+<li>
+Install an R package.
+<li>
+Sampling distribution of a proportion by repeated sampling from a known population.
+</ul>
+</ul>
+<hr />
+<p><br></p>
+</div>
+<div id="load-required-packages" class="section level1">
+<h1>Load required packages</h1>
+<p>We’ll use the <code>ggplot2</code> add on package to draw many plots, and the <code>binom</code> package to calculate a confidence interval for a proportion using the Agresti-Coull method. They need to be loaded only once per session.</p>
+<p>You might need to install the <code>binom</code> package on your computer if you have not already done so.</p>
+<pre class="r"><code>install.packages(&quot;binom&quot;, dependencies = TRUE) # only if not yet installed</code></pre>
+<pre class="r"><code>library(binom)
+library(ggplot2)</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="binomial-distribution" class="section level1">
+<h1>7.1 Binomial distribution</h1>
+<p><em><strong>Calculate a binomial probability</strong>, the probability of obtaining <span class="math inline">\(X\)</span> successes in <span class="math inline">\(n\)</span> trials when trials are independent and probability of success <span class="math inline">\(p\)</span> is the same for every trial. </em></p>
+<p><br></p>
+<div id="binomial-probability" class="section level2">
+<h2>Binomial probability</h2>
+<p>This uses Example 6.4 on mirror image flowers. The probability of getting exactly 6 left-handed flowers when <span class="math inline">\(n = 27\)</span> and <span class="math inline">\(p = 0.25\)</span> is</p>
+<pre class="r"><code>dbinom(6, size = 27, prob = 0.25)</code></pre>
+<pre><code>## [1] 0.171883</code></pre>
+<p><br></p>
+</div>
+<div id="table-of-probabilities" class="section level2">
+<h2>Table of probabilities</h2>
+<p>Tabulate the probability distribution of all possible values for the number of left-handed flowers out of 27 (Table 7.1-1).</p>
+<pre class="r"><code>xsuccesses &lt;- 0:27
+probx &lt;- dbinom(xsuccesses, size = 27, prob = 0.25) 
+probTable &lt;- data.frame(xsuccesses, probx)
+probTable</code></pre>
+<pre><code>##    xsuccesses        probx
+## 1           0 4.233057e-04
+## 2           1 3.809751e-03
+## 3           2 1.650892e-02
+## 4           3 4.585812e-02
+## 5           4 9.171623e-02
+## 6           5 1.406316e-01
+## 7           6 1.718830e-01
+## 8           7 1.718830e-01
+## 9           8 1.432358e-01
+## 10          9 1.007956e-01
+## 11         10 6.047736e-02
+## 12         11 3.115500e-02
+## 13         12 1.384667e-02
+## 14         13 5.325641e-03
+## 15         14 1.775214e-03
+## 16         15 5.128395e-04
+## 17         16 1.282099e-04
+## 18         17 2.765311e-05
+## 19         18 5.120947e-06
+## 20         19 8.085705e-07
+## 21         20 1.078094e-07
+## 22         21 1.197882e-08
+## 23         22 1.088984e-09
+## 24         23 7.891188e-11
+## 25         24 4.383993e-12
+## 26         25 1.753597e-13
+## 27         26 4.496403e-15
+## 28         27 5.551115e-17</code></pre>
+<p><br></p>
+</div>
+<div id="histogram-of-probability-distribution" class="section level2">
+<h2>Histogram of probability distribution</h2>
+<p>This illustrates the binomial distribution for the number of left-handed flowers when <span class="math inline">\(n = 27\)</span> and <span class="math inline">\(p = 0.25\)</span> (Figure 7.1-1).</p>
+<!--
+
+```r
+barplot(height = probx, names.arg = xsuccesses, space = 0, las = 1,
+    col = "firebrick", ylab = "Probability", xlab = "Number of left-handed flowers")
+```
+
+<img src="Rcode_Chapter_7_files/figure-html/unnamed-chunk-8-1.png" width="480" />
+
+or -->
+<pre class="r"><code>ggplot(probTable, aes(x = xsuccesses, y = probx)) + 
+    geom_bar(stat = &quot;identity&quot;, fill = &quot;firebrick&quot;, col = &quot;black&quot;) +
+    labs(x = &quot;Number of left-handed flowers&quot;, y = &quot;Probability&quot;) +
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_7_files/figure-html/unnamed-chunk-9-1.png" width="480" /></p>
+<hr />
+<p><br></p>
+</div>
+<div id="sampling-distribution-of-a-proportion" class="section level2">
+<h2>Sampling distribution of a proportion</h2>
+<p>Compare sampling distributions for the proportion based on <span class="math inline">\(n = 10\)</span> and <span class="math inline">\(n = 100\)</span> (Figure 7.1-2).</p>
+<p>Take a large number of random samples of <span class="math inline">\(n = 10\)</span> from a population having probability of success <span class="math inline">\(p = 0.25\)</span>. Convert to proportions by dividing by the sample size. Do the same for the larger sample size <span class="math inline">\(n = 100\)</span>. The following commands use 10,000 random samples.</p>
+<pre class="r"><code>successes10 &lt;- rbinom(10000, size = 10, prob = 0.25)
+proportion10 &lt;- successes10 / 10
+successes100 &lt;- rbinom(10000, size = 100, prob = 0.25)
+proportion100 &lt;- successes100 / 100</code></pre>
+<!--
+The ```par(mfrow = c(2,1))``` command sets up a graph window that will plot both graphs arranged in 2 rows and 1 column.
+
+
+```r
+par(mfrow = c(2,1))
+hist(proportion10, breaks = 10, right = FALSE, xlim = c(0,1),
+    xlab = "Sample proportion", col = "firebrick", main = "")
+hist(proportion100, breaks = 20, right = FALSE, xlim = c(0,1),
+    xlab = "Sample proportion", col = "firebrick", main = "")
+```
+
+<img src="Rcode_Chapter_7_files/figure-html/unnamed-chunk-11-1.png" width="480" />
+
+```r
+par(mfrow = c(1,1))
+```
+or
+
+-->
+<pre class="r"><code>ggplot(data = data.frame(proportion10), aes(x = proportion10)) + 
+    stat_bin(aes(y=..count../sum(..count..)), fill = &quot;firebrick&quot;, col = &quot;black&quot;,
+             boundary = 0, closed = &quot;left&quot;, binwidth = 0.1) +
+    labs(x = &quot;Sample proportion&quot;, y = &quot;Probability&quot;) + 
+    coord_cartesian(xlim = c(0, 1)) +
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_7_files/figure-html/unnamed-chunk-12-1.png" width="480" /></p>
+<pre class="r"><code>ggplot(data = data.frame(proportion100), aes(x = proportion100)) + 
+    stat_bin(aes(y=..count../sum(..count..)), fill = &quot;firebrick&quot;, col = &quot;black&quot;,
+             boundary = 0, closed = &quot;left&quot;, binwidth = 0.01) +
+    labs(x = &quot;Sample proportion&quot;, y = &quot;Probability&quot;) + 
+    coord_cartesian(xlim = c(0, 1)) +
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_7_files/figure-html/unnamed-chunk-12-2.png" width="480" /></p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-7.2.-sex-and-the-x" class="section level1">
+<h1>Example 7.2. Sex and the X</h1>
+<p><em>The <strong>binomial test</strong>, used to test whether spermatogenesis genes in the mouse genome occur with unusual frequency on the X chromosome.</em></p>
+<p><br></p>
+<div id="read-and-inspect-data" class="section level2">
+<h2>Read and inspect data</h2>
+<p>Each row in the data file represents a different spermatogenesis gene.</p>
+<pre class="r"><code>mouseGenes &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter07/chap07e2SexAndX.csv&quot;), stringsAsFactors = FALSE)
+head(mouseGenes)</code></pre>
+<pre><code>##   chromosome onX
+## 1          4  no
+## 2          4  no
+## 3          6  no
+## 4          6  no
+## 5          6  no
+## 6          7  no</code></pre>
+<p><br></p>
+</div>
+<div id="tabulate-number-of-genes" class="section level2">
+<h2>Tabulate number of genes</h2>
+<p>Tally the number of spermatogenesis genes on the X-chromosome and the number not on the X-chromosome.</p>
+<pre class="r"><code>table(mouseGenes$onX)</code></pre>
+<pre><code>## 
+##   no  yes 
+##   15   10</code></pre>
+<p><br></p>
+</div>
+<div id="calculate-probabilities" class="section level2">
+<h2>Calculate probabilities</h2>
+<p>Calculate the binomial probabilities of all possible outcomes under the null hypothesis (Table 7.2-1). Under the binomial distribution with <span class="math inline">\(n = 25\)</span> and <span class="math inline">\(p = 0.061\)</span>, the number of successes can be any integer between 0 and 25.</p>
+<pre class="r"><code>xsuccesses &lt;- 0:25
+probx &lt;- dbinom(xsuccesses, size = 25, prob = 0.061)
+data.frame(xsuccesses, probx)</code></pre>
+<pre><code>##    xsuccesses        probx
+## 1           0 2.073193e-01
+## 2           1 3.367007e-01
+## 3           2 2.624760e-01
+## 4           3 1.307255e-01
+## 5           4 4.670757e-02
+## 6           5 1.274386e-02
+## 7           6 2.759585e-03
+## 8           7 4.865905e-04
+## 9           8 7.112305e-05
+## 10          9 8.727323e-06
+## 11         10 9.071211e-07
+## 12         11 8.035781e-08
+## 13         12 6.090306e-09
+## 14         13 3.956429e-10
+## 15         14 2.203032e-11
+## 16         15 1.049510e-12
+## 17         16 4.261188e-14
+## 18         17 1.465509e-15
+## 19         18 4.231266e-17
+## 20         19 1.012696e-18
+## 21         20 1.973624e-20
+## 22         21 3.052667e-22
+## 23         22 3.605629e-24
+## 24         23 3.055193e-26
+## 25         24 1.653947e-28
+## 26         25 4.297797e-31</code></pre>
+<p><br></p>
+</div>
+<div id="calculate-p-value" class="section level2">
+<h2>Calculate <span class="math inline">\(P\)</span>-value</h2>
+<p>Use these probabilities to calculate the <span class="math inline">\(P\)</span>-value corresponding to an observed 10 spermatogenesis genes on the X chromosome. Remember to multiply the probability of 10 or more successes by 2 for the two-tailed test result.</p>
+<pre class="r"><code>2 * sum(probx[xsuccesses &gt;= 10])</code></pre>
+<pre><code>## [1] 1.987976e-06</code></pre>
+<p><br></p>
+</div>
+<div id="rs-binomial-test" class="section level2">
+<h2>R’s binomial test</h2>
+<p>For a faster result, try R’s built-in binomial test. The resulting <span class="math inline">\(P\)</span>-value is slightly different from our own calculation. In the book, we get the two-tailed probability by multiplying the one-tailed probability by 2. However, computer programs may calculate the probability of extreme results at the “other” tail with a different method. The output of <code>binom.test()</code> includes a confidence interval for the proportion using the Clopper-Pearson method, which is more conservative than the Agresti-Coull method.</p>
+<pre class="r"><code>binom.test(10, n = 25, p = 0.061)</code></pre>
+<pre><code>## 
+##  Exact binomial test
+## 
+## data:  10 and 25
+## number of successes = 10, number of trials = 25, p-value =
+## 9.94e-07
+## alternative hypothesis: true probability of success is not equal to 0.061
+## 95 percent confidence interval:
+##  0.2112548 0.6133465
+## sample estimates:
+## probability of success 
+##                    0.4</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-7.3.-she-turtles" class="section level1">
+<h1>Example 7.3. She-turtles</h1>
+<p><em><strong>Standard error and 95% confidence interval for a proportion</strong> using the Agresti-Coull method for the confidence interval.</em></p>
+<p><br></p>
+<div id="read-and-inspect-data-1" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>turtles &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter07/chap07e3GreenTurtleSex.csv&quot;), stringsAsFactors = FALSE)
+head(turtles)</code></pre>
+<pre><code>##    Sex
+## 1 male
+## 2 male
+## 3 male
+## 4 male
+## 5 male
+## 6 male</code></pre>
+<p><br></p>
+<p>Frequency table of female and male offspring number.</p>
+<pre class="r"><code>turtleTable &lt;- table(turtles$Sex)
+turtleTable</code></pre>
+<pre><code>## 
+## female   male 
+##    131     38</code></pre>
+<p><br></p>
+</div>
+<div id="calculate-proportion" class="section level2">
+<h2>Calculate proportion</h2>
+<p>Estimate the proportion of offspring that are female.</p>
+<pre class="r"><code>n &lt;- sum(turtleTable)
+n</code></pre>
+<pre><code>## [1] 169</code></pre>
+<pre class="r"><code>X &lt;- turtleTable[1]
+pHat &lt;-  X / n
+pHat</code></pre>
+<pre><code>##    female 
+## 0.7751479</code></pre>
+<p><br></p>
+</div>
+<div id="standard-error-of-proportion" class="section level2">
+<h2>Standard error of proportion</h2>
+<pre class="r"><code>sqrt( (pHat * (1 - pHat))/n )</code></pre>
+<pre><code>##     female 
+## 0.03211422</code></pre>
+<p><br></p>
+</div>
+<div id="agresti-coull-95-ci" class="section level2">
+<h2>Agresti-Coull 95% CI</h2>
+<p>First, calculate the Agresti-Coull 95% confidence interval for the population proportion using the formula in the book.</p>
+<pre class="r"><code>pPrime &lt;- (X + 2)/(n + 4)
+pPrime</code></pre>
+<pre><code>##    female 
+## 0.7687861</code></pre>
+<pre class="r"><code>lower &lt;- pPrime - 1.96 * sqrt( (pPrime * (1 - pPrime))/(n + 4) )
+upper &lt;- pPrime + 1.96 * sqrt( (pPrime * (1 - pPrime))/(n + 4) )
+c(lower = lower, upper = upper)</code></pre>
+<pre><code>## lower.female upper.female 
+##    0.7059596    0.8316126</code></pre>
+<p>Second, use the <code>binom</code> package. The result will be very slightly different from the one you calculated above because the formula we use in the book takes a slight shortcut.</p>
+<pre class="r"><code>binom.confint(X, n = n, method = &quot;ac&quot;)</code></pre>
+<pre><code>##          method   x   n      mean    lower     upper
+## 1 agresti-coull 131 169 0.7751479 0.706202 0.8318634</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

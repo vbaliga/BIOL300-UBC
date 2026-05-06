@@ -1,0 +1,433 @@
+---
+title: "Introduction: <br>Brief introduction to using R"
+author: "Whitlock and Schluter"
+
+#output: html_document
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+This brief intro is not meant to teach you everything about R. In fact, this document itself will teach you almost nothing about using R to do statistics. This page is meant to help you get a copy of R up and running, and teach you how to give commands to R to make it do what you want. We’ll also introduce some of the most commonly-used data types, operations, and functions. We’ll suggest some commands to try so that you can get used to the basics of R.
+
+***
+
+## Try out the command line
+
+R is a command line program, which means that you interact with it by typing commands on the line with the “>” prompt. There are no menus or keyboard shortcuts in R.
+
+Open R (or Rstudio) and you should see a window (called the Console) with some plain text indicating the version of R and copyright information. At the bottom of this will be a prompt – it looks like a “greater than” sign:
+
+```{r eval = FALSE}
+>
+```
+
+Click the console window at the prompt to put the cursor there. Now you type R commands. Try it out by typing 2+2 at the prompt and hit the return key on your keyboard.
+
+```{r eval = FALSE}
+ 2+2
+```
+
+(We show the prompt here, but you don’t type it.) You should have gotten an answer that looks like:
+
+```{r}
+ 2+2
+```
+
+
+The answer is 4. The [1] just tells us that this is the first part, or “element”, of the answer. (This particular answer has only one part, but later we’ll show you that answers can have more than one element.)
+
+***
+
+## Basic arithmetic in R
+
+Of course, R can do more than addition. R does multiplication (with the asterisk * ), division (with / ), subtraction (with - ), and exponents (with ^ ). Pieces of the calculation that are in parentheses will be evaluated before operations outside the parentheses. So, for example, try the following commands:
+
+```{r eval = FALSE}
+2+3
+2 * 3
+2 ^ 3
+2 / 3
+2^(4+)
+(2^4) + 1
+```
+
+You should obtain the following answers:
+
+```{r echo = FALSE}
+ 2+3
+
+ 2 * 3
+
+ 2 ^ 3
+
+ 2 / 3
+
+ 2^(4+1)
+
+ (2^4) + 1
+
+```
+
+***
+
+## Functions
+
+R has many functions that contain instructions for doing something to an argument. (An “argument” of a function is just the name of the variable you want it to work on, and any additional options you might want to set.) Functions in R do many, many things, including basic arithmetic like square roots, logs, and exponentiation.
+
+In R, you use a function by typing its name on the command line of the console, followed by one or more arguments in parentheses.
+
+For example, the function sqrt( ) takes square roots. Type in:
+
+```{r eval = FALSE}
+ sqrt(4)
+```
+
+You should see the following answer
+
+```{r echo= FALSE}
+  sqrt(4)
+```
+
+To take the natural log of a number (log base e), use log( ):
+
+```{r}
+ log(1.4)
+```
+
+And to find the value of e raised to the power of the argument, use exp( ):
+
+```{r}
+ exp(0.3364722)
+```
+
+The function log( ) can take more than one argument, separated by commas. By default, log( ) uses base e, but by adding an argument you can tell the function to use a different base. For example, to find the log base 10 of 100, type:
+
+```{r eval = FALSE}
+ log(100, base = 10)
+```
+
+Your answer should be
+
+```{r echo= FALSE}
+  log(100, base = 10)
+```
+
+If you provide the arguments in precisely the order that R expects, then you can give the arguments without naming them.
+
+```{r}
+ log(100, 10)
+```
+
+Otherwise, you need to name the arguments (and when you name them, you can use them in any order).
+
+```{r}
+ log(base = 10, x = 100) 
+```
+
+***
+
+## Using variables
+
+R is much more than a fancy calculator. You can store values (numerical, categorical, true/false, etc.) as variables. We can assign a value to a variable with either <- or =. (The <- (less than, hyphen) is meant to look like an arrow pointing to the left. It means that whatever is on the right is assigned to the variable at the left.) Equals ( = ) does the same thing&mdash;it assigns whatever is to the right of the = to the variable on the left of the equals sign. Try this:
+
+```{r}
+ y <- 5
+```
+
+This won't return any answer, but it has assigned the value 5 to the variable y. You can see that this is true by entering y:
+
+```{r}
+ y
+```
+
+Or try something similar with = :
+
+```{r}
+ x = 6
+ x
+```
+
+The expression on the right hand side can be more elaborate:
+
+```{r}
+ z = y ^ x + 4
+ z
+```
+
+Note that this last command used the stored values of y and x on the right-hand side, and R remembered their values from above.
+
+There are rules for naming variables. Variable names are case-sensitive, so the variable Y is different from the variable y.
+
+```{r}
+ y = 5
+ y
+```
+```{r eval=FALSE}
+Y
+```
+```{r echo = FALSE}
+"Error: object Y not found"
+```
+
+
+Variables can be combinations of letters and numbers (and some symbols), but they have to start with a letter.
+
+```{r}
+ my_variable = 17
+ my_variable
+```
+
+
+```{r eval=FALSE}
+ 2bOrNot2Be = 2
+```
+```{r echo = FALSE}
+"Error: unexpected symbol in 2bOrNot2Be"
+```
+
+R has several data structures, which let you store a set of data together with one name. We won't go through all of them here, but let’s have a look at the most basic of these, the vector. A vector is just a collection of elements. We can combine a bunch of elements into a vector using the c( ) function. Type the following into the command line.
+
+```{r eval= FALSE}
+ c(4, 1.5, 17, 6)
+```
+
+R just tells you the contents of the vector you created. It has four elements. The first element is 4.0, the second is 1.5, and so on.
+
+
+```{r echo = FALSE}
+c(4, 1.5, 17, 6)
+```
+
+If we assign this vector to a name, we can use it in later calculations. Let’s call this one "trial" (we could have named it anything we want, almost).
+
+```{r}
+ trial = c(4, 1.5, 17, 6)
+```
+
+To get and use one of the elements in this vector, we take the vector name and add square brackets containing a number indicating which element we want. For example, to get the third element of trial, enter:
+
+```{r eval = FALSE}
+ trial[3]
+```
+
+You should see
+
+```{r echo= FALSE}
+ trial[3]
+```
+
+The great thing about vectors is that we can do operations on the elements all at once. To add 7 to every number in the vector, just type:
+
+```{r eval = FALSE}
+ trial + 7
+```
+
+You should get
+
+```{r echo= FALSE}
+ trial + 7
+```
+
+To take the square root of each number in the vector:
+
+```{r}
+ sqrt(trial)
+```
+
+Vectors can be used to store categorical values as well:
+
+```{r}
+myShoppingVector = c("carrots", "milk", "dental floss")
+myShoppingVector
+myShoppingVector[3]
+```
+
+
+***
+
+## Statistical functions
+
+We can use a vector to store data on a single variable from a sample. Then we can carry out statistical operations on the contents all at once. For example, sum( ) adds up all everything in a vector, as long as all those elements are numbers. Try the following:
+
+```{r eval = FALSE}
+ sum(trial)
+```
+
+You should get
+
+```{r echo = FALSE}
+ sum(trial)
+```
+
+The function length( ) tells you how any elements are in the vector.
+
+```{r} 
+length(trial)
+```
+
+The function mean( ) gives the average of the numbers in a vector (as long as the vector is all numbers):
+
+```{r eval = FALSE}
+ mean(trial)
+```
+
+You should get
+
+```{r echo = FALSE}
+ mean(trial)
+```
+
+This is the same as adding up all the numbers and dividing by how many numbers there are. This example shows that you can use two functions in the same formula:
+
+```{r}
+ sum(trial)/length(trial)
+```
+
+***
+
+## Missing values
+
+Sometimes not all individuals in a data set have measurements for all variables. The default method to tell R about a missing value is to put NA in place of the value in a vector.
+
+```{r}
+ vectorWithMissingValues = c(1, 2, 3, NA, 5)
+```
+
+Watch what happens when you try to take the sum.
+
+```{r eval = FALSE}
+ sum(vectorWithMissingValues)
+```
+
+By default, R gives you a missing value back.
+
+```{r echo = FALSE}
+ sum(vectorWithMissingValues)
+```
+
+When there are missing values, some functions (including sum and mean) need to be told to ignore them. That’s what the extra input na.rm=TRUE (for "NA remove is true") does in the sum below.
+
+```{r}
+sum(vectorWithMissingValues, na.rm = TRUE)
+```
+
+***
+
+## Comments
+
+It’s very useful to write comments in a record of the R commands you use for a data analysis project. If you put # on a line in R, it will ignore everything on the line after the #. R will ignore the whole line if the line begins with #. This allows you to write comments to your future self or others describing what you are doing when writing R code.
+
+***
+
+## Read a data from a file
+
+The most convenient way to read data into R is to have the data stored in a comma-delimited text file. For example, we've put the locust serotonin measurements used in Figure 2.1-2 into a text file named "chap02f1_2locustSerotonin.csv". The first few lines of the text file look like the following.
+
+```{r eval = FALSE}
+"serotoninLevel","treatmentTime"
+5.3,"0"
+4.6,"0"
+4.5,"0"
+4.3,"0"
+4.2,"0"
+3.6,"0"
+...
+```
+
+The first line contains the names of the two variables in the data, and the remaining lines are the data. Numbers are numbers, and categories are in quotations (sometimes numbers can be used to identify categories, as in this example).
+
+Let's read these data into R. First, click here to access the online file. Save the text file to your computer.
+
+To read such data into R, use the read.csv command. When you enter the following command in your R console, a window will pop up, which you can use to navigate to the folder containing your downloaded file. Select the file and you are done.
+
+```{r}
+locustData = read.csv("../Data/chapter02/chap02f1_2locustSerotonin.csv")
+```
+
+When R reads your data using read.csv, the results are assigned to a type of R object called a data frame. A data frame is just a list of vectors, which are your variables.
+
+To see the first few lines of the data frame locustData, type
+
+```{r eval = FALSE}
+head(locustData)
+```
+
+The results should look like the following. The variable names are at the top, and the first few rows of the data frame (indexed by the row numbers 1, 2, etc) are printed.
+
+```{r echo = FALSE}
+head(locustData)
+```
+
+(What do you think happens if you enter the command tail(locustData) instead?)
+
+The following function will tell you how many rows are in the data frame.
+
+```{r}
+nrow(locustData)
+```
+
+To grab one of the variables from a data frame, use the name of the data frame, the symbol"$", and the variable name. For example, to access the variable serotoninLevel, enter the following:
+
+```{r eval = FALSE}
+locustData$serotoninLevel
+```
+
+The results should look something like the following:
+
+```{r echo = FALSE}
+locustData$serotoninLevel
+```
+
+These are all the values of the variable serotoninLevel. The results use more than one line to print, so each line begins with the index of the next element. In the output above, 6.7 is the 20th element of the vector locustData$serotoninLevel (you might see a different number on your screen, depending on the width of your computer window).
+
+locustData$serotoninLevel is just a vector, and you already know about vectors. For example, to calculate the mean of the values in this vector, you would use the same command as you used earlier.
+
+```{r}
+mean(locustData$serotoninLevel)
+```
+
+***
+
+## Get help
+
+R has many functions, and it is sometimes difficult to figure out how the command you need works, and even what command to use. There are several ways to get help in R.
+
+```{r eval = FALSE}
+ ?topic
+```
+
+or enter
+
+```{r eval = FALSE}
+ help(topic)
+```
+
+where "topic" refers to a specific command. For example, to get detailed help on how to calculate a sum, enter
+
+```{r}
+?sum
+```
+
+or enter
+
+```{r}
+help(sum)
+```
+
+Either help command will open a manual page about the function. These help pages are useful, but sometimes very terse and take some practice interpreting. Another solution is to use Google.
+
+***
+
+## Google
+
+There is a large community of R users out there, and there is a good chance at least one of them has already answered your question online. Try googling your question. For example, have a look at what comes up when you type "how do i calculate a mean in R" (without the quotations) in a Google search. This works surprisingly often.

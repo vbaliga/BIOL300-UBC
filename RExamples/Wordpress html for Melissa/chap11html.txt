@@ -1,0 +1,58 @@
+<h2>Inference for a normal population: R code for Chapter 11 examples</h2>
+Download the R code on this page as a single file <a href="../wp-content/rcode/chap11.r">here</a>.
+<div style="width:650px; padding:6px; border:2px solid black; bgcolor=" #ffffff""="">
+<h3>New methods on this page</h3>
+Click on a function argument for a short description of its meaning. The variable names are plucked from the examples further below.
+
+<b>One-sample <i>t</i>-test</b>:
+<code>t.test([tippy title = "heat$temperature" width = "300" header = "off"] <font color="003399">The name of a vector of the numerical variable, measured on all individuals in the sample.</font>[/tippy], [tippy title = "mu = 98.6" width = "300" header = "off"] <font color="003399">Specifies the mean stated by the null hypothesis.</font>[/tippy])</code>
+
+<b>Other new methods</b>:
+Confidence intervals for the variance and the standard deviation.
+
+</div>
+<h3>Example 11.2. <a href="../wp-content/data/chapter11/chap11e2Stalkies.csv">Stalk-eyed flies</a></h3>
+<em><b>Confidence intervals for the population mean, variance, and standard deviation</b> using eye span measurements from a sample of stalk-eyed flies</em>.
+
+Read and inspect the data.
+<pre>stalkie &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter11/chap11e2Stalkies.csv"))
+stalkie
+</pre>
+<strong>Histogram</strong> with options
+<pre>hist(stalkie$eyespan, right = FALSE, col = "firebrick", las = 1, 
+	xlab = "Eye span (mm)", ylab = "Frequency", main = "")
+</pre>
+<strong>95% confidence interval for the mean</strong>. Adding <code>$conf.int</code> after the function <code>t.test</code> causes R to give the 95% confidence interval for the mean.
+<pre>t.test(stalkie$eyespan)$conf.int
+</pre>
+<strong>99% confidence interval for the mean</strong>. Adding the argument <code>conf.level=0.99</code> changes the confidence level of the confidence interval.
+<pre>t.test(stalkie$eyespan, conf.level = 0.99)$conf.int
+</pre>
+<strong>95% confidence interval for variance</strong>. R has no built-in function for the confidence interval of a variance, so must we compute it using the formula in the book:
+<pre>df &lt;- length(stalkie$eyespan) - 1
+varStalkie &lt;- var(stalkie$eyespan)
+lower = varStalkie * df / qchisq(0.05/2, df, lower.tail = FALSE)
+upper = varStalkie * df / qchisq(1 - 0.05/2, df, lower.tail = FALSE)
+c(lower = lower, variance = varStalkie, upper = upper)
+</pre>
+<strong>95% confidence interval for standard deviation</strong>. Calculated from the confidence interval of the variance, which we just calculated above.
+<pre>c(lower = sqrt(lower), std.dev = sqrt(varStalkie), upper = sqrt(upper))
+</pre>
+
+<hr>
+
+<h3>Example 11.3. <a href="../wp-content/data/chapter11/chap11e3Temperature.csv">Human body temperature</a></h3>
+<em>Uses a <b>one-sample <i>t</i>-test</b> to compare body temperature in a random sample of people with the "expected" temperature 98.6 °F</em>.
+
+Read and inspect the data.
+<pre>heat &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter11/chap11e3Temperature.csv"))
+head(heat)
+</pre>
+<strong>Histogram</strong> with options.
+<pre>hist(heat$temperature, right = FALSE, breaks = seq(97, 100.5, by = 0.5),
+	col = "firebrick", las = 1, xlab = "Body temperature (degrees F)", 
+	ylab = "Frequency", main = "")
+</pre>
+<strong>One-sample <em>t</em>-test</strong> can be calculate using <code>t.test</code>. The <code>mu</code> arguemtn gives the value stated in the null hypothesis.
+<pre>t.test(heat$temperature, mu = 98.6)
+</pre>

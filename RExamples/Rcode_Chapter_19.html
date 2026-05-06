@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+
+<title>R code for example in Chapter 19:  Computer-intensive methods</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-4');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R code for example in Chapter 19: <br>Computer-intensive methods</h1>
+
+</div>
+
+
+<hr />
+<p><br></p>
+<p>We used R to analyze all examples in Chapter 19. We put the code here so that you can too.</p>
+<div id="new-methods-on-this-page" class="section level1">
+<h1>New methods on this page</h1>
+<ul>
+<li>
+<p>Calculate a <em>P</em>-value for a χ<sup>2</sup> goodness-of-fit test using simulation:</p>
+<pre class="r"><code>chisq.test(observedFreq, simulate.p.value = TRUE, B = 10000)</code></pre>
+<li>
+<p>Calculate a bootstrap standard error:</p>
+<pre class="r"><code>boot(chimp$asymmetryScore, boot.median, R = 10000)</code></pre>
+<li>
+Other new methods:
+<ul>
+<li>
+Bootstrap 95% confidence interval.
+</ul>
+</ul>
+<hr />
+</div>
+<div id="load-required-packages" class="section level1">
+<h1>Load required packages</h1>
+<p>We need <code>ggplot2</code> for ordinary graphs. The <code>boot</code> package is for bootstrap estimation.</p>
+<pre class="r"><code>library(ggplot2)
+library(boot)</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="example-19.1-two-digit-psychic" class="section level1">
+<h1>Example 19.1 Two-digit “psychic”</h1>
+<p><em><strong>Hypothesis testing using simulation</strong> to determine whether all two-digit numbers occur with equal probability when people choose two-digit numbers haphazardly</em>.</p>
+<div id="read-and-examine-data" class="section level2">
+<h2>Read and examine data</h2>
+<p>Each row is the two-digit number chosen by a different individual.</p>
+<pre class="r"><code>haphazard &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter19/chap19e1TwoDigitNumbers.csv&quot;), stringsAsFactors = FALSE)
+head(haphazard)</code></pre>
+<pre><code>##   numberSelected
+## 1             10
+## 2             10
+## 3             10
+## 4             10
+## 5             10
+## 6             11</code></pre>
+<p><br></p>
+</div>
+<div id="histogram" class="section level2">
+<h2>Histogram</h2>
+<p>Plot the frequency distribution of two-digit numbers chosen by volunteers (Figure 19.1-1).</p>
+<pre class="r"><code>ggplot(data = haphazard, aes(x = numberSelected)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 1, 
+        closed = &quot;left&quot;, boundary = 0) + 
+    scale_x_continuous(breaks = seq(from = 10, to = 100, by = 10)) +
+    labs(x = &quot;Number thought of by volunteer&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_19_files/figure-html/unnamed-chunk-5-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="frequency-table" class="section level2">
+<h2>Frequency table</h2>
+<p>Table the two-digit numbers chosen by volunteers. Notice that many numbers between 0 and 99 are not represented in the data.</p>
+<pre class="r"><code>table(haphazard$numberSelected)</code></pre>
+<pre><code>## 
+## 10 11 12 13 14 15 16 17 21 22 23 24 25 26 27 28 31 32 33 34 35 36 37 42 43 44 
+##  5 17 24 12  7  4  4  5 18 45 34  9  4  4 16  3  1  3  5  2  3  5  7  2  5  2 
+## 45 46 47 51 52 53 54 55 56 57 61 62 63 64 65 66 67 71 72 73 77 81 84 86 87 95 
+##  2  3  7  4  3  2  3  5  5  3  3  1  3  3  1  2  3  1  2  2  1  2  2  3  2  1</code></pre>
+<p>To make sure that numbers not chosen are nevertheless included in the calculations, we must convert the variable to a factor and specify all possible categories.</p>
+<pre class="r"><code>factorData &lt;- factor(haphazard$numberSelected, levels = 10:99)
+observedFreq &lt;- table(factorData)
+observedFreq</code></pre>
+<pre><code>## factorData
+## 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 
+##  5 17 24 12  7  4  4  5  0  0  0 18 45 34  9  4  4 16  3  0  0  1  3  5  2  3 
+## 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 
+##  5  7  0  0  0  0  2  5  2  2  3  7  0  0  0  4  3  2  3  5  5  3  0  0  0  3 
+## 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 
+##  1  3  3  1  2  3  0  0  0  1  2  2  0  0  0  1  0  0  0  2  0  0  2  0  3  2 
+## 88 89 90 91 92 93 94 95 96 97 98 99 
+##  0  0  0  0  0  0  0  1  0  0  0  0</code></pre>
+<p><br></p>
+</div>
+<div id="test-statistic" class="section level2">
+<h2>Test statistic</h2>
+<p>Here, we are using the <span class="math inline">\(\chi^2\)</span> goodness-of-fit statistic. We are lazy and use the <code>chisq.test()</code> function to do the calculations. R will give you a warning because of the low expected frequencies. This is exactly why we need to use simulation instead of the <span class="math inline">\(\chi^2\)</span> goodness-of-fit-test.</p>
+<pre class="r"><code>chiData &lt;- chisq.test(observedFreq)$statistic</code></pre>
+<pre><code>## Warning in chisq.test(observedFreq): Chi-squared approximation may be incorrect</code></pre>
+<pre class="r"><code>chiData</code></pre>
+<pre><code>## X-squared 
+##      1231</code></pre>
+<p><br></p>
+</div>
+<div id="simulate-a-single-random-sample" class="section level2">
+<h2>Simulate a single random sample</h2>
+<p>We’ll need to know the sample size (number of rows, in this case) to run the simulation.</p>
+<pre class="r"><code>n &lt;- nrow(haphazard)
+n</code></pre>
+<pre><code>## [1] 315</code></pre>
+<p>Simulate <span class="math inline">\(n\)</span> numbers from 10 to 99 (with replacement), where <span class="math inline">\(n\)</span> is the number of individuals in the sample.</p>
+<pre class="r"><code>randomTwoDigit &lt;- sample(10:99, size = n, replace = TRUE)</code></pre>
+<p><br></p>
+</div>
+<div id="statistic-for-simulated-sample" class="section level2">
+<h2>Statistic for simulated sample</h2>
+<p>Remember to convert data to a factor to make sure that all categories are included in the calculations. Under the null hypothesis, the expected frequency is the same for all numbers.</p>
+<pre class="r"><code>randomTwoDigit &lt;- factor(randomTwoDigit, levels = 10:99)
+observedFreq &lt;- table(randomTwoDigit)
+expectedFreq &lt;- n/length(10:99)
+chiSim &lt;- sum( (observedFreq - expectedFreq)^2 / expectedFreq )
+chiSim</code></pre>
+<pre><code>## [1] 92.14286</code></pre>
+<p><br></p>
+</div>
+<div id="repeat-many-times" class="section level2">
+<h2>Repeat many times</h2>
+<p>The following is a loop repeated <code>nSim</code> times. In each iteration <code>i</code>, a random sample of numbers is simulated, a frequency table is calculated, and the <span class="math inline">\(\chi^2\)</span> statistic is computed. The statistic is saved in the <code>i</code><sup>th</sup> element of the vector <code>results</code>.</p>
+<pre class="r"><code>nSim &lt;- 10000
+results &lt;- vector()
+for(i in 1:nSim){
+    randomTwoDigit &lt;- sample(10:99, size = n, replace = TRUE)
+    randomTwoDigit &lt;- factor(randomTwoDigit, levels = 10:99)
+    simFreq &lt;- table(randomTwoDigit)
+    expectedFreq &lt;- n/length(10:99)
+    results[i] &lt;- sum( (simFreq - expectedFreq)^2 / expectedFreq )
+    }</code></pre>
+<p><br></p>
+</div>
+<div id="null-distribution-of-chi2" class="section level2">
+<h2>Null distribution of <span class="math inline">\(\chi^2\)</span></h2>
+<p>Plot the frequency distribution of <span class="math inline">\(\chi^2\)</span> values from the simulation (Figure 19.1-2). This is the simulated null distribution for the test statistic.</p>
+<pre class="r"><code>nullData &lt;- data.frame(results)
+ggplot(data = nullData, aes(x = results)) + 
+    geom_histogram(fill = &quot;white&quot;, col = &quot;black&quot;, binwidth = 2, 
+        closed = &quot;left&quot;, boundary = 0) + 
+    scale_x_continuous(breaks = seq(from = 40, to = 160, by = 20)) +
+    labs(x = expression(paste(&quot;Simulated &quot;, chi^2)), y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_19_files/figure-html/unnamed-chunk-13-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="p-value" class="section level2">
+<h2><em>P</em>-value</h2>
+<p>The <span class="math inline">\(P\)</span>-value is the fraction of simulated <span class="math inline">\(\chi^2\)</span> values equalling or exceeding the observed value of the test statistic in the data.</p>
+<pre class="r"><code>P &lt;- sum(results &gt;= chiData)
+P</code></pre>
+<pre><code>## [1] 0</code></pre>
+<p><br></p>
+</div>
+<div id="built-in-method" class="section level2">
+<h2>Built-in method</h2>
+<p>R also has a built-in method to simulate the null distribution and calculate the <span class="math inline">\(P\)</span>-value. Using it simply involves providing a couple of arguments to the <code>chisq.test()</code> function. <code>B</code> is the number of iterations desired. If you don’t provide the probabilities of each outcome under the null hypothesis as an argument, R assumes that all the categories are equiprobable under the null hypothesis.</p>
+<pre class="r"><code>factorData &lt;- factor(haphazard$numberSelected, levels = 10:99)
+observedFreq &lt;- table(factorData)
+chisq.test(observedFreq, simulate.p.value = TRUE, B = 10000)</code></pre>
+<pre><code>## 
+##  Chi-squared test for given probabilities with simulated p-value (based
+##  on 10000 replicates)
+## 
+## data:  observedFreq
+## X-squared = 1231, df = NA, p-value = 9.999e-05</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-19.2-chimp-language-centers" class="section level1">
+<h1>Example 19.2 Chimp language centers</h1>
+<p><em><strong>Bootstrap estimation of the median</strong> asymmetry score for Brodmann’s area 44 in chimpanzees</em>.</p>
+<p><br></p>
+<div id="read-and-examine-data-1" class="section level2">
+<h2>Read and examine data</h2>
+<pre class="r"><code>chimp &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter19/chap19e2ChimpBrains.csv&quot;), stringsAsFactors = FALSE)
+head(chimp)</code></pre>
+<pre><code>##    chimpName sex asymmetryScore
+## 1     Austin   M           0.30
+## 2 Carmichael   M           0.16
+## 3      Chuck   M          -0.24
+## 4      Dobbs   M          -0.25
+## 5     Donald   M           0.36
+## 6      Hoboh   M           0.17</code></pre>
+<p><br></p>
+</div>
+<div id="histogram-1" class="section level2">
+<h2>Histogram</h2>
+<p>Histogram of asymmetry scores of the 20 chimps (Figure 19.2-1).</p>
+<pre class="r"><code>ggplot(data = chimp, aes(x = asymmetryScore)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 0.25, 
+        closed = &quot;left&quot;, boundary = 0) + 
+    labs(x = &quot;Brodmann‘s area 44 asymmetry score&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_19_files/figure-html/unnamed-chunk-17-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="test-statistic-1" class="section level2">
+<h2>Test statistic</h2>
+<p>Calculate the median asymmetry score from the data. The median is our test statistic.</p>
+<pre class="r"><code>median(chimp$asymmetryScore)</code></pre>
+<pre><code>## [1] 0.14</code></pre>
+<p><br></p>
+</div>
+<div id="single-bootstrap-replicate" class="section level2">
+<h2>Single bootstrap replicate</h2>
+<p>Obtain a single bootstrap replicate. This involves sampling (with replacement) from the actual data. Calculate the median of this bootstrap replicate.</p>
+<pre class="r"><code>bootSample &lt;- sample(chimp$asymmetryScore, size = nrow(chimp), replace = TRUE)
+median(bootSample)</code></pre>
+<pre><code>## [1] 0.12</code></pre>
+<p><br></p>
+</div>
+<div id="repeat-many-times-1" class="section level2">
+<h2>Repeat many times</h2>
+<p>Repeat this process many times. The following is a loop repeated <code>B</code> times. In each iteration, the bootstrap replicate estimate (median) is recalculated and saved in the results vector <code>bootMedian</code>.</p>
+<pre class="r"><code>B &lt;- 10000
+bootMedian &lt;- vector()
+for(i in 1:B){
+    bootSample &lt;- sample(chimp$asymmetryScore, size = nrow(chimp), replace = TRUE)
+    bootMedian[i] &lt;- median(bootSample)
+    }</code></pre>
+<p><br></p>
+</div>
+<div id="bootstrap-replicate-estimates" class="section level2">
+<h2>Bootstrap replicate estimates</h2>
+<p>Draw a histogram of the bootstrap replicate estimates for median asymmetry (Figure 19.2-2).</p>
+<p>Note: your results won’t be the identical to the one in Figure 19.2-2, because 10,000 random samples is not large enough to obtain the sampling distribution with extreme accuracy. Increase <code>B</code> in the above loop for greater accuracy.</p>
+<pre class="r"><code>bootResults &lt;- data.frame(bootMedian)
+ggplot(data = bootResults, aes(x = bootMedian)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 0.01, 
+        closed = &quot;left&quot;, boundary = 0) + 
+    labs(x = &quot;Bootstrap replicate estimates of the median asymmetry&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_19_files/figure-html/unnamed-chunk-21-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="mean-of-bootstrap-replicate-estimates" class="section level2">
+<h2>Mean of bootstrap replicate estimates</h2>
+<p>Calculate the mean of the bootstrap replicate estimates.</p>
+<pre class="r"><code>mean(bootMedian)</code></pre>
+<pre><code>## [1] 0.1425</code></pre>
+<p><br></p>
+</div>
+<div id="bootstrap-standard-error" class="section level2">
+<h2>Bootstrap standard error</h2>
+<p>The bootstrap standard error is the standard deviation of the bootstrap replicate estimates.</p>
+<pre class="r"><code>sd(bootMedian)</code></pre>
+<pre><code>## [1] 0.08683657</code></pre>
+<p><br></p>
+</div>
+<div id="bootstrap-confidence-interval" class="section level2">
+<h2>Bootstrap confidence interval</h2>
+<p>Use the percentiles of the bootstrap replicate estimates to obtain a bootstrap 95% confidence interval for the population median.</p>
+<pre class="r"><code>quantile(bootMedian, probs = c(0.025, 0.975))</code></pre>
+<pre><code>##   2.5%  97.5% 
+## -0.075  0.310</code></pre>
+<p><br></p>
+</div>
+<div id="use-boot-package" class="section level2">
+<h2>Use <code>boot</code> package</h2>
+<p>Use the <code>boot</code> package in R for bootstrap estimation.</p>
+<p>To begin, we need to define a new R function to tell the <code>boot</code> package what statistic we want to estimate, which is the median in this example. Let’s call the new function <code>boot.median()</code>. The syntax required by the package is not too complex, but our function must include a counter as an argument (as usual, we call it <code>i</code>).</p>
+<pre class="r"><code>boot.median &lt;- function(x, i){ median(x[i]) }</code></pre>
+<p>Use the <code>boot()</code> function of the <code>boot</code> package to obtain many bootstrap replicate estimates and calculate the bootstrap standard error.</p>
+<pre class="r"><code>bootChimp &lt;- boot(chimp$asymmetryScore, boot.median, R = 10000)
+bootChimp</code></pre>
+<pre><code>## 
+## ORDINARY NONPARAMETRIC BOOTSTRAP
+## 
+## 
+## Call:
+## boot(data = chimp$asymmetryScore, statistic = boot.median, R = 10000)
+## 
+## 
+## Bootstrap Statistics :
+##     original   bias    std. error
+## t1*     0.14 0.002988  0.08433429</code></pre>
+<p><br></p>
+</div>
+<div id="histogram-of-bootstrap-replicate-estimates" class="section level2">
+<h2>Histogram of bootstrap replicate estimates</h2>
+<pre class="r"><code>medianBootChimp &lt;- data.frame(medianChimp = bootChimp$t)
+ggplot(data = medianBootChimp, aes(x = medianChimp)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 0.01, 
+        closed = &quot;left&quot;, boundary = 0) + 
+    labs(x = &quot;Bootstrap replicate estimates of the median asymmetry&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_19_files/figure-html/unnamed-chunk-27-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="bootstrap-confidence-interval-1" class="section level2">
+<h2>Bootstrap confidence interval</h2>
+<p>Get the bootstrap 95% confidence interval for the population median. We show two methods. The percentile method is already familiar, but <code>boot</code> also provides an improved method, called “bias corrected and accelerated”.</p>
+<pre class="r"><code>boot.ci(bootChimp, type = &quot;perc&quot;)</code></pre>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 10000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = bootChimp, type = &quot;perc&quot;)
+## 
+## Intervals : 
+## Level     Percentile     
+## 95%   (-0.075,  0.310 )  
+## Calculations and Intervals on Original Scale</code></pre>
+<pre class="r"><code>boot.ci(bootChimp, type = &quot;bca&quot;)</code></pre>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 10000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = bootChimp, type = &quot;bca&quot;)
+## 
+## Intervals : 
+## Level       BCa          
+## 95%   (-0.16,  0.30 )  
+## Calculations and Intervals on Original Scale</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="figure-19.2-3-sexual-cannibalism-revisited" class="section level1">
+<h1>Figure 19.2-3 Sexual cannibalism revisited</h1>
+<p><em><strong>Bootstrap estimation of the difference between medians of two groups</strong>, using times to mating (in hours) of female sagebrush crickets that were either starved or fed (data are from Example 13.5). We show the method <strong>using R’s <code>boot</code> package</strong></em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>cannibalism &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter13/chap13e5SagebrushCrickets.csv&quot;), stringsAsFactors = FALSE)
+head(cannibalism)</code></pre>
+<pre><code>##   feedingStatus timeToMating
+## 1       starved          1.9
+## 2       starved          2.1
+## 3       starved          3.8
+## 4       starved          9.0
+## 5       starved          9.6
+## 6       starved         13.0</code></pre>
+<p>Calculate the <strong>observed difference</strong> between the sample medians of the two groups.</p>
+<pre class="r"><code>twoMedians &lt;- tapply(cannibalism$timeToMating, cannibalism$feedingStatus, median)
+diffMedian &lt;- twoMedians[2] -  twoMedians[1]
+diffMedian</code></pre>
+<pre><code>## starved 
+##    -9.8</code></pre>
+<p><br></p>
+</div>
+<div id="function-to-calculate-test-statistic" class="section level2">
+<h2>Function to calculate test statistic</h2>
+<p>Define a new function to calculate the difference between the medians of the bootstrap replicate estimates. Let’s call it <code>boot.diffMedian</code>.</p>
+<pre class="r"><code>boot.diffMedian &lt;- function(x, i){
+    twoMedians &lt;- tapply(x$timeToMating[i], x$feedingStatus[i], median)
+    diffMedian &lt;- twoMedians[2] -  twoMedians[1]
+    }</code></pre>
+<p><br></p>
+</div>
+<div id="run-boot" class="section level2">
+<h2>Run <code>boot()</code></h2>
+<p>Obtain the many bootstrap replicate estimates and get the bootstrap standard error.</p>
+<pre class="r"><code>bootResults &lt;- boot(cannibalism, boot.diffMedian, R = 10000)
+bootResults</code></pre>
+<pre><code>## 
+## ORDINARY NONPARAMETRIC BOOTSTRAP
+## 
+## 
+## Call:
+## boot(data = cannibalism, statistic = boot.diffMedian, R = 10000)
+## 
+## 
+## Bootstrap Statistics :
+##     original    bias    std. error
+## t1*     -9.8 -7.367895    19.16629</code></pre>
+<p><br></p>
+</div>
+<div id="histogram-of-bootstrap-replicate-estimates-1" class="section level2">
+<h2>Histogram of bootstrap replicate estimates</h2>
+<p>Histogram of the difference between two medians (Figure 19.2-3).</p>
+<pre class="r"><code>diffBootMedians &lt;- data.frame(diffMedians = bootResults$t)
+ggplot(data = diffBootMedians, aes(x = diffMedians)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 5, 
+        closed = &quot;left&quot;, boundary = 0) + 
+    labs(x = &quot;Bootstrap replicate difference in median&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_19_files/figure-html/unnamed-chunk-33-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="bootstrap-confidence-interval-2" class="section level2">
+<h2>Bootstrap confidence interval</h2>
+<p>Obtain the bootstrap 95% confidence interval for the difference between the population medians, using the percentile and the “bca” method.</p>
+<pre class="r"><code>boot.ci(bootResults, type = &quot;perc&quot;)</code></pre>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 10000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = bootResults, type = &quot;perc&quot;)
+## 
+## Intervals : 
+## Level     Percentile     
+## 95%   (-60.6,  12.2 )  
+## Calculations and Intervals on Original Scale</code></pre>
+<pre class="r"><code>boot.ci(bootResults, type = &quot;bca&quot;)</code></pre>
+<pre><code>## BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+## Based on 10000 bootstrap replicates
+## 
+## CALL : 
+## boot.ci(boot.out = bootResults, type = &quot;bca&quot;)
+## 
+## Intervals : 
+## Level       BCa          
+## 95%   (-54.2,  14.9 )  
+## Calculations and Intervals on Original Scale</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

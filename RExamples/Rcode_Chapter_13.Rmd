@@ -1,0 +1,369 @@
+---
+title: "R code for examples in Chapter 13: <br>Handling violations of assumptions"
+author: 
+
+#output: html_document
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 5, fig.height=4)
+```
+
+*** 
+
+We used R to analyze all examples in Chapter 13. We put the code here so that you can too.
+
+<br>
+Also see our [lab on comparing two means using R](https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_Comparing_means_of_2_groups.html).
+
+<br>
+
+# New methods on this page
+
+<ul>
+<li>Data transformations:
+
+```{r eval = FALSE}
+marine$lnBiomassRatio <- log(marine$biomassRatio)
+```
+
+<li>Quantile plots:
+
+```{r eval = FALSE}
+qqnorm(marine$biomassRatio, datax = TRUE)
+```
+
+<li>Mann-Whitney *U*-test (R uses the equivalent Wilcoxon rank-sum test):
+
+```{r eval = FALSE}
+wilcox.test(timeToMating ~ feedingStatus, data = cannibalism)
+```
+
+<li>Other new methods:
+<ul>
+<li>Shapiro-Wilk test of normality.
+<li>Sign test.
+<li>Permutation test.
+</ul>
+</ul>
+
+***
+
+# Load required packages 
+
+We'll use the ```ggplot2``` add on package to make graphs, and ```dplyr``` to calculate summary statistics by group.
+
+```{r message = FALSE}
+library(ggplot2)
+library(dplyr)
+```
+
+***
+
+<br>
+
+# Example 13.1. Marine reserves
+
+***The normal quantile plot**, **Shapiro-Wilk test of normality**, and the **log transformation**, investigating the ratio of biomass between marine reserves and non-reserve control areas*.
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+marine <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter13/chap13e1MarineReserve.csv"), stringsAsFactors = FALSE)
+head(marine)
+```
+
+<br>
+
+## Histogram
+
+A histogram visualizes the frequency distribution of biomass ratio (Figure 13.1-4).
+
+```{r eval = TRUE}
+hist(marine$biomassRatio, right = FALSE, col = "firebrick", 
+     las = 1, xlab = "Biomass ratio", main = "")
+```
+
+or
+
+```{r eval = TRUE}
+ggplot(marine, aes(biomassRatio)) + 
+    geom_histogram(fill = "firebrick", col = "black", binwidth = 0.5, 
+        boundary = 0, closed = "left") + 
+    labs(x = "Biomass ratio", y = "Frequency") + 
+    theme_classic()
+```
+
+<br>
+
+## Normal quantile plot
+
+The line in the normal quantile plot of Figure 13.1-4 passes through the first and 3rd quartiles of the data.
+
+```{r eval = TRUE}
+qqnorm(marine$biomassRatio, col = "firebrick", pch = 16, las = 1,
+       datax = TRUE, xlab = "Biomass ratio")
+qqline(marine$biomassRatio, datax = TRUE, lwd = 2)
+```
+
+<br>
+
+## Shapiro-Wilk test
+
+A test of the goodness of fit of the normal distribution to data.
+
+```{r eval = TRUE}
+shapiro.test(marine$biomassRatio)
+```
+
+<br>
+
+## Natural log-transformation
+
+The function ```log()``` takes the natural logarithm of all the elements of a vector or variable. The following command saves the result as a new variable in the original data frame, ```marine```.
+
+```{r eval = TRUE}
+marine$lnBiomassRatio <- log(marine$biomassRatio)
+```
+
+<br>
+
+## Histogram
+
+A histogram of the data after log-transformation of marine biomass ratio (Figure 13.3-2).
+
+```{r eval = TRUE}
+hist(marine$lnBiomassRatio, right = FALSE, col = "firebrick", 
+     las = 1, xlab = "Log biomass ratio", main = "",
+     breaks = seq(-0.25, 1.5, by = 0.25))
+```
+
+or
+
+```{r eval = TRUE}
+ggplot(marine, aes(lnBiomassRatio)) + 
+    geom_histogram(fill = "firebrick", col = "black", binwidth = 0.25, 
+        boundary = 0, closed = "left") + 
+    labs(x = "Log biomass ratio", y = "Frequency") + 
+    theme_classic()
+```
+
+<br>
+
+## 95% CI of the mean
+
+Confidence interval for the mean of the log-transformed data.
+
+```{r eval = TRUE}
+t.test(marine$lnBiomassRatio)$conf.int
+```
+
+<br>
+
+## Back-transform 95% CI
+
+Transform the lower and upper limits of the confidence interval back to the original untransformed scale (```exp()``` is the inverse of the natural log function).
+
+```{r eval = TRUE}
+exp( t.test(marine$lnBiomassRatio)$conf.int )
+```
+
+***
+
+<br>
+
+# Example 13.4. Sexual conflict
+
+***The sign test**, comparing the numbers of species in 25 pairs of closely related insect taxa*.
+
+<br>
+
+## Read and inspect data.
+
+```{r eval = TRUE}
+conflict <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter13/chap13e4SexualConflict.csv"), stringsAsFactors = FALSE)
+head(conflict)
+```
+
+<br>
+
+## Histogram
+
+A histogram of the difference in numbers of species (Figure 13.4-1).
+
+```{r eval = TRUE}
+hist(conflict$difference, right = FALSE, col = "firebrick",
+	breaks = 50, xlab = "Difference in species number", las = 1)
+```
+
+<br>
+
+## Frequencies
+
+Count up the frequency of differences that are below, equal to, and above zero. 
+
+The command below creates a new variable in the data frame called ```conflictZero``` to indicate whether each difference is below, equal to, or above 0. 
+
+```{r eval = TRUE}
+conflictZero <- cut(conflict$difference, breaks = c(-Inf, 0, 1, Inf), 
+    labels = c("below","equal","above"), right = FALSE)
+table(conflictZero)
+```
+
+<br>
+
+## Sign test
+
+The sign test is just a binomial test. The output includes a confidence interval for the proportion using the Clopper-Pearson method, which isn't covered in the book.
+
+```{r eval = TRUE}
+binom.test(7, n = 25, p = 0.5)
+```
+
+***
+
+<br>
+
+# Example 13.5. Cricket cannibalism
+
+***The Wilcoxon rank-sum test (equivalent to the Mann-Whitney *U*-test)** comparing times to mating (in hours) of starved and fed female sagebrush crickets. We also apply the **permutation test** to the same data*.
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+cannibalism <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter13/chap13e5SagebrushCrickets.csv"), stringsAsFactors = FALSE)
+head(cannibalism)
+```
+
+<br>
+
+## Multiple histograms
+
+The following commands produce Figure 13.5-1. We begin by ordering the categories of the feeding status variable so that "starved" comes before "fed" in the histogram.
+
+```{r eval = TRUE}
+cannibalism$feedingStatus <- factor(cannibalism$feedingStatus, 
+    levels = c("starved", "fed"))
+
+ggplot(cannibalism, aes(x = timeToMating)) + 
+    geom_histogram(fill = "firebrick", col = "black", binwidth = 20, 
+        boundary = 0, closed = "left") +
+    facet_wrap( ~ feedingStatus, ncol = 1, scales = "free_y") +
+    labs(x = "Time to mating (hours)", y = "Frequency") + 
+    theme_classic()
+```
+
+<br>
+
+## Wilcoxon rank-sum test
+
+This test, available in R, is equivalent to the Mann-Whitney *U*-test.
+
+```{r eval = TRUE}
+wilcox.test(timeToMating ~ feedingStatus, data = cannibalism)
+```
+
+***
+
+<br>
+
+# Permutation test
+
+***Permutation test** of the difference between mean time to mating of starved and fed crickets*.
+
+<br>
+
+## Observed value
+
+Begin by calculating the **observed difference between means** (starved minus fed). The difference is -18.25734 in this data set.
+
+```{r eval = TRUE}
+cricketMeans <- summarize(group_by(cannibalism, feedingStatus), 
+                  timeToMating = mean(timeToMating, na.rm = TRUE))
+cricketMeans <- as.data.frame(cricketMeans)
+cricketMeans
+
+diffMeans <- cricketMeans$timeToMating[1] - cricketMeans$timeToMating[2]
+diffMeans
+```
+
+<br>
+
+## Number of permutations
+
+Decide on the number of permutations. We use 10K here. 
+
+```{r eval = TRUE}
+nPerm <- 10000
+```
+
+<br>
+
+## Run a loop
+
+Create a loop to permute the data many times (the number of times determined by ```nperm```). In the following loop, ```i``` is a counter that climbs from 1 to ```nPerm``` by 1. In each iteration, the permuted difference is saved in the object ```permResult```.
+
+```{r eval = TRUE}
+permResult <- vector() # initializes
+for(i in 1:nPerm){
+	# step 1: permute the times to mating
+	cannibalism$permSample <- sample(cannibalism$timeToMating, replace = FALSE)
+	# step 2: calculate difference betweeen means
+	permSampleMean <- as.data.frame(summarize(group_by(cannibalism, feedingStatus), 
+                  permMean = mean(permSample, na.rm = TRUE)))
+	permResult[i] <- permSampleMean$permMean[1] - permSampleMean$permMean[2]
+	}
+```
+
+<br>
+
+## Plot null distribution
+
+Make a histogram of the permuted differences (Figure 13.8-1).
+
+```{r eval = TRUE}
+hist(permResult, right = FALSE, breaks = 100)
+```
+
+or
+
+```{r eval = TRUE}
+ggplot(data.frame(permResult), aes(permResult)) + 
+    geom_histogram(fill = "white", col = "black", binwidth = 1, 
+        boundary = 0, closed = "left") + 
+    labs(x = "Permuted difference in treatment means (hours)", y = "Frequency") + 
+    theme_classic()
+```
+
+<br>
+
+## Approximate $P$-value
+
+Use the null distribution to calculate an approximate *P*-value. This is the twice the proportion of the permuted means that fall below the observed difference in means, ```diffMeans``` (-18.25734 in this example). The following code calculates the *number* of permuted means falling below ```diffMeans```.
+
+```{r eval = TRUE}
+sum(as.numeric(permResult <= diffMeans))
+```
+
+These commands obtain the *fraction* of permuted means falling below ```diffMeans```.
+
+```{r eval = TRUE}
+sum(as.numeric(permResult <= diffMeans)) / nPerm
+```
+
+Finally, multiply by 2 to get the *P*-value for a two-sided test. The value won't be identical to the one in the book, or to the value you obtain, because 10,000 iterations is not large enough for extreme accuracy.
+
+```{r eval = TRUE}
+2 * ( sum(as.numeric(permResult <= diffMeans)) / nPerm )
+```
+

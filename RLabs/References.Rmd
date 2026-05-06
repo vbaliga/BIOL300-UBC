@@ -1,0 +1,77 @@
+---
+title: "R labs: <br>References"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<br>
+
+# Data
+
+**Countries data** comes from 
+World Health Organization:  http://apps.who.int/gho/data/node.imr
+
+https://datahub.io/dataset/countries-continents/resource/aa08c34c-57e8-4e15-bd36-969bee26aba5
+
+rest from http://apps.who.int/gho/data/node.imr#ndx-R
+
+Cell phone data from:
+"Countries Compared by Media > Telecoms > Mobile cellular subscriptions > Per 100 people. International Statistics at NationMaster.com", International Telecommunication Union, World Telecommunication/ICT Development Report and database, and World Bank estimates. Aggregates compiled by NationMaster. Retrieved from http://www.nationmaster.com/country-info/stats/Media/Telecoms/Mobile-cellular-subscriptions/Per-100-people
+
+Ecological footprint:
+"Countries Compared by Environment > Ecological footprint. International Statistics at NationMaster.com", World Wide Fund for Nature (WWF), Living Planet Report 2000, Gland, Switzerland: 2000, and Redefining Progress. Aggregates compiled by NationMaster. Retrieved from http://www.nationmaster.com/country-info/stats/Environment/Ecological-footprint
+
+**Oswego data** from 
+Gross MB. Oswego County revisited. *Public Health Reports* 1976;91:160-70. 
+and [the CDC](https://www.cdc.gov/eis/casestudies/xoswego.401-303.student.pdf)
+
+<br>
+
+# Other references
+
+Allison, T., and D. V. Cicchetti. 1976. Sleep in mammals: ecological and constitutional correlates. Science. 194:732-4.
+
+Barnsley, R. H., A. H. Thompson, and P. Legault. 1992. Family planning: Football style. The relative age effect in football. *Int. Rev. for Sci. of Sport* 27:77-86.
+
+Bumpus, H. C. 1899. The elimination of the unfit as illustrated by the introduced sparrow, *Passer domesticus*. *Biol. Lecture. Woods Hole Marine Biol. Stat.* 6:209-226.  https://www.fieldmuseum.org/blog/hermon-bumpus-and-house-sparrows
+
+Fox, A. T., R. D. Palmer, and P. Davies. 2002. Do “Shufflebottoms” bottom-shuffle? Arch. Dis. Child. 87:552-554.
+ 
+Healy, A. F. 1976. Detection errors on the word *the*: Evidence for reading units larger than letters. *Journbal of Experimental Psychology: Human Perception and Performance* 2:235-242.
+
+Jmaiff Blackstock, L. K., W. Wang, S. Vemula, B. T. Jaeger, and X.-F. Li. 2017. Sweetened swimming pools and hot tubs. *Environ. Sci. Technol. Lett.* 4:149-153 DOI: 10.1021/acs.estlett.7b00043
+
+Kebede, A., J. C. Mccann, A. E. Kiszewski, and Y. Ye-Ebiyo. 2005. New evidence of the effects of agro-ecologic change on malaria transmission. *Am. J. Trop. Med. Hyg.*, 73:676–680.
+
+Lundin-Olsson, L. L. Nyborg, and Y. Gustafson. 1997. “Stops walking when talking” as a predictor of falls in elderly people. *The Lancet* 349: 617.
+
+Lynfield, Y. L., and P. MacWilliams. 1970. Shaving and hair growth. *The Journal of Investigative Dermatology* 55:170-172.
+
+McCusker, R. R., B. A. Goldberger, and E. J. Cone. 2003. Caffeine content of specialty coffees. *Journal of Analytical Toxicology* 27:520-522.
+
+Muchhala, N. 2006. Nectar bat stows huge tongue in its rib cage. *Nature* 444:701–702.
+
+Nordfjäll, K., Å. Larefalk, P. Lindgren, D. Holmberg, and Göran Roos. 2005. Telomere length and heredity: Indications of paternal inheritance. *PNAS* 102:16374–16378.
+
+Opler, J. E., and R. S. Siegler. 2007. Representational change and children’s numerical estimation. *Cognitive Psychology* 55:169-195
+ 
+Shirasu-Hiza, M. M., M. S. Dionne, L. N. Pham, J. S. Ayres, and D. S. Schneider. 2007. Interactions between circadian rhythm and immunity in *Drosophila melanogaster*. *Current Biology* 17:R353-5
+
+Skogvall, E., and B. H.Linqvist. 1999. Modeling the occurrence of cardiac arrest as a Poisson process. *Annals of Emergency Medicine* 33:409-417.
+
+Williams T. M., L. A. Fuiman , M. Horning, and  R. W. Davis.  2004. The cost of foraging by a marine predator, the Weddell seal *Leptonychotes weddellii*: pricing by the stroke. *Journal of Experimental Biology* 207:973-982.
+
+Wilson, A. d. C., and R. E. Nisbett. 1978. The accuracy of verbal reports about the effects of stimuli on evaluations and behavior. *Social Psychology* 41:118-131.
+

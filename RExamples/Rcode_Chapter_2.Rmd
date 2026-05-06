@@ -1,0 +1,558 @@
+---
+title: "R code for examples in Chapter 2: <br>Displaying data"
+author: 
+
+#output: html_document
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+<!--
+knitr:: seems to be the best way to control figure dimensions with ggplots. 
+It may be necessary to force a different width and height for individual plots 
+in base R, e.g., see mosaicplot() and plot() used for scatter plot of guppy data
+-->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 5, fig.height=4)
+suppressPackageStartupMessages(library(ggplot2))
+```
+
+***
+
+We used R to analyze all examples in Chapter 2. We put the code here so that you can too.
+
+<br> 
+Also see our [lab on graphics using R](https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_Graphics.html).
+
+<br>
+
+# New methods on this page
+
+<ul>
+<li>Read data from a comma-separated (.csv) file into a data frame.
+
+```{r eval = FALSE}
+locustData <- read.csv(chap02f1_2locustSerotonin.csv, stringsAsFactors = FALSE)
+```
+
+<li>Inspect data in a data frame. 
+
+```{r eval = FALSE}
+head(locustData)
+nrow(locustData)
+```
+
+<li>Strip chart relating a numeric variable to a categorical variable:
+
+```{r eval = FALSE}
+ggplot(data = locustData, aes(x = treatmentTime, y = serotoninLevel)) + 
+    geom_jitter()
+```
+
+<li>Frequency table:
+
+```{r eval = FALSE}
+table(tigerData$activity)
+```
+
+<li>Bar graph for count data:
+
+```{r eval = FALSE}
+ggplot(data = educationSpending, aes(x = as.character(year), 
+      y = spendingPerStudent)) + 
+    geom_bar(stat = "identity")
+```
+
+<li>Histogram for a numeric variable:
+
+```{r eval = FALSE}
+ggplot(data = zikaData, aes(x = biparietalDiamMm)) + 
+    geom_histogram()
+```
+
+<li>Scatter plot showing association between two numeric variables:
+
+```{r eval = FALSE}
+ggplot(data = guppyFatherSonData, aes(x = fatherOrnamentation, 
+      y = sonAttractiveness)) + 
+    geom_point()
+```
+
+<li>Other new methods:
+<ul>
+<li>Load an R package.
+<li>Make a contingency table.
+<li>Create a multiple-histogram plot.
+<li>Make a line plot.
+</ul>
+</ul>
+ 
+***
+
+<br>
+
+# Load required package 
+
+We'll use the ```ggplot2``` add on package to draw some of the plots. It needs to be loaded only once per session.
+
+```{r eval = FALSE}
+library(ggplot2)
+```
+
+***
+
+<br>
+
+# Figure 2.1-2. Locust serotonin
+
+***Strip chart** of serotonin levels in the central nervous system of desert locusts that were experimentally crowded for 0 (the control group), 1, and 2 hours.*
+
+<br>
+
+## Read data from .csv file
+
+The ```read.csv()``` command grabs the data from a file on the book web site and stores in the data frame ```locustData```.
+
+```{r eval = TRUE}
+locustData <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter02/chap02f1_2locustSerotonin.csv"), stringsAsFactors = FALSE)
+```
+
+***
+
+<br>
+
+## Show the first few lines of data
+
+To check that the data were read correctly and determine the number of cases (rows) in the data.
+
+```{r eval = TRUE}
+head(locustData)
+nrow(locustData)
+```
+
+<br>
+
+## Draw a stripchart
+
+The ```ggplot()``` code stitches together multiple components here shown on different lines: the data and variables; the strip chart itself (with options specifying color and size of dots and width of strips); the axis labels, and the theme. We convert ```treatmentTime``` to a character variable for best results.
+```{r eval = TRUE}
+meanLevel <- tapply(locustData$serotoninLevel, locustData$treatmentTime,mean)
+
+ggplot(data = locustData, aes(x = as.character(treatmentTime), y = serotoninLevel)) +
+    geom_jitter(color = "firebrick", size = 3, width = 0.15) +
+    labs(x = "Treatment time (hours)", y = "Serotonin (pmoles)") + 
+    theme_classic()
+```
+
+***
+
+<br>
+
+# Figure 2.1-3. Education spending
+
+*A **bar graph** of education spending per student in different years in British Columbia.*
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+educationSpending <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter02/chap02f1_3EducationSpending.csv"), stringsAsFactors = FALSE)
+
+head(educationSpending)
+```
+
+<br>
+
+## Bar graph
+
+In this example, the actual bar heights are provided in the data frame, so we use ```stat = "identity"```. We convert year to a categorial variable for best results. 
+
+```{r eval = TRUE}
+ggplot(data = educationSpending, aes(x = as.character(year), y = spendingPerStudent)) + 
+    geom_bar(stat = "identity", fill = "firebrick") +
+    labs(x = "", y = "Education spending ($ per student)") +
+    theme_classic()
+```
+
+***
+
+<br>
+
+# Example 2.2A. Deaths from tigers
+
+***Frequency table** and **bar graph** showing activities of 88 people at the time they were killed by tigers near Chitwan National Park, Nepal, from 1979 to 2006.*
+
+<br>
+
+
+## Read and inspect data
+
+We store the data into a data frame named ```tigerData```.
+
+```{r eval = TRUE}
+tigerData <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter02/chap02e2aDeathsFromTigers.csv"), stringsAsFactors = FALSE)
+
+head(tigerData)
+```
+
+<br>
+
+## Frequency table
+
+This is a basic frequency table. R will arrange the categories in alphabetical order by default. Use ```sort()``` to order categories from most to least frequent. The last step, ```data.frame()``` arranges the frequencies in a column.
+
+```{r eval = TRUE}
+tigerTable <- table(tigerData$activity)
+tigerTable <- sort(tigerTable, decreasing = TRUE)
+data.frame(tigerTable, row.names = 1)
+```
+
+<br>
+
+## Frequency table
+
+We can instead use ```factor()``` to make a new activity variable whose categories ("levels") are ordered by frequency.
+
+```{r eval = TRUE}
+tigerTable <- table(tigerData$activity)
+tigerData$activity_ordered <- factor(tigerData$activity, 
+    levels = names(sort(tigerTable, decreasing = TRUE)) )
+data.frame(table(tigerData$activity_ordered), row.names = 1)
+```
+<br>
+
+## Bar graph
+
+In this example, ```ggplot()``` tallies the frequency in each category from the data using ```stat = "count"```. We'll use the new, ordered activity variable created in the previous step. We also add an option to rotate the axis labels so they fit on the page.
+
+```{r eval = TRUE}
+ggplot(data = tigerData, aes(x = activity_ordered)) + 
+    geom_bar(stat = "count", fill = "firebrick") +
+    labs(x = "Activity", y = "Frequency") +
+    theme_classic() +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+***
+
+<br>
+
+# Example 2.2B. Effects of Zika virus
+
+***Frequency table** and **histogram** illustrating the frequency distribution of head diameters of fetuses of pregnant women infected with the Zika virus. *
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+zikaData <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter02/chap02e2bZikaBiparietalDiameter.csv"), stringsAsFactors = FALSE)
+
+head(zikaData)
+```
+
+<br>
+
+
+## Frequency table
+
+To make a frequency table for a numeric variable we need to place observations into bins. THe variables head width ranges from 61 to 92. 
+
+```{r eval = TRUE}
+range(zikaData$biparietalDiamMm)
+```
+
+So let's make bins of width 5 from 60 to 95. The option ```right = FALSE``` ensures that abundance value 70 (for example) is counted in the 70-75 bin rather than in the 65-70 bin.
+
+```{r eval = TRUE}
+zikaTable <- table(cut(zikaData$biparietalDiamMm, 
+    breaks = seq(00, 95, by=5), right = FALSE))
+data.frame(zikaTable, row.names = 1)
+```
+
+<br>
+
+## Histogram
+
+A quick histogram in base R can be obtained as follows
+
+```{r eval = TRUE}
+hist(zikaData$biparietalDiamMm, right = FALSE, col = "firebrick")
+```
+
+Or use the ```ggplot()``` method. The option ```boundary = 0``` puts bars between the bin cut points. The option ```closed = left``` ensures that abundance value 70 (for example) is counted in the 70-75 bin rather than in the 65-70 bin. 
+
+```{r eval = TRUE}
+ggplot(data = zikaData, aes(x = biparietalDiamMm)) + 
+    geom_histogram(fill = "firebrick", col = "black", binwidth = 5, 
+        boundary = 0, closed = "left") + 
+    labs(x = "Head diamater (mm)", y = "Frequency") + 
+    theme_classic()
+```
+
+***
+
+<br>
+
+# Figure 2.2-5. Salmon body size
+
+***Histograms** of body mass of 228 female sockeye salmon sampled from Pick Creek in Alaska. The same data are plotted for three different interval widths: 0.1 kg, 0.3 kg, and 0.5 kg.*
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+salmonSizeData <- read.csv("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter02/chap02f2_5SalmonBodySize.csv", stringsAsFactors = FALSE)
+
+head(salmonSizeData)
+```
+
+<br>
+
+## Histograms, testing different bin widths
+
+Comparing the effect of setting bin width to 0.1, 0.3, and 0.5 kg.
+
+```{r eval = TRUE}
+ggplot(data = salmonSizeData, aes(x = massKg)) + 
+    geom_histogram(fill = "firebrick", col = "black", binwidth = 0.1, 
+        boundary = 0, closed = "left") + 
+    labs(x = "Body mass (kg)", y = "Frequency") + 
+    theme_classic()
+
+ggplot(data = salmonSizeData, aes(x = massKg)) + 
+    geom_histogram(fill = "firebrick", col = "black", binwidth = 0.3, 
+        boundary = 0, closed = "left") + 
+    labs(x = "Body mass (kg)", y = "Frequency") + 
+    theme_classic()
+
+ggplot(data = salmonSizeData, aes(x = massKg)) + 
+    geom_histogram(fill = "firebrick", col = "black", binwidth = 0.5, 
+        boundary = 0, closed = "left") + 
+    labs(x = "Body mass (kg)", y = "Frequency") + 
+    theme_classic()
+```
+
+***
+
+<br>
+
+# Example 2.3A. Bird malaria
+
+***Contingency table**, **grouped bar plot**, and **mosaic plot** showing the association between egg removal treatment and incidence of malaria in female great tits*.
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+birdMalariaData <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter02/chap02e3aBirdMalaria.csv"), stringsAsFactors = FALSE)
+
+head(birdMalariaData)
+```
+
+<!-- 
+## Order treatment categories
+
+The ```factor()``` command allows us to order the levels so that the category "Egg removal" comes before "Control" in tables and graphs (categories are otherwise ordered alphabetically by defauly).
+
+```{r eval = TRUE}
+birdMalariaData$treatment_ordered <- factor(birdMalariaData$treatment, 
+	  levels= c("Egg removal", "Control"))
+```
+-->
+
+<br>
+
+## Contingency table
+
+Use ```table()``` with the names of two categorical variables as arguments, beginning with the response variable.
+
+```{r eval = TRUE}
+birdMalariaTable <- table(birdMalariaData$response, birdMalariaData$treatment)
+birdMalariaTable
+```
+
+<br>
+
+## Add row and column sums
+
+To add row and column totals to the table, use the following.
+
+```{r eval = TRUE}
+addmargins(birdMalariaTable, margin = c(1,2), FUN = sum, quiet = TRUE)
+```
+
+<br>
+
+## Grouped bar graph
+
+In a grouped bar graph, ```ggplot()``` uses the argument ```fill``` for the response variable (here named ```response```). The argument ```position``` controls the placement of bars. ```scale_fill_manual``` is optional but it allows control of the colors used.
+
+```{r eval = TRUE}
+ggplot(birdMalariaData, aes(x = treatment, fill = response)) + 
+    geom_bar(stat = "count", position = position_dodge2(preserve="single")) +
+    scale_fill_manual(values=c("firebrick", "goldenrod1")) +
+    labs(x = "Treatment", y = "Frequency") +
+    theme_classic()
+```
+
+<br>
+
+## Mosaic plot
+
+Mosaic plots are easiest in base R rather than ```ggplot()```. The ```t()``` command flips (transposes) the table to ensure that the explanatory variable is along the horizontal axis.
+
+```{r eval = TRUE, fig.width = 5, fig.height = 5}
+mosaicplot( t(birdMalariaTable), col = c("firebrick", "goldenrod1"), 
+	  sub = "Treatment", ylab = "Relative frequency", main = "")
+```
+
+***
+
+<br>
+
+# Figure 2.3-3. Guppy fathers and sons
+
+***Scatter plot** of the relationship between the ornamentation of male guppies and the average attractiveness of their sons*.
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+guppyFatherSonData <- read.csv("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter02/chap02f3_3GuppyFatherSonAttractiveness.csv", stringsAsFactors = FALSE)
+
+head(guppyFatherSonData)
+```
+
+<br>
+
+## Scatter plot
+
+A quick scatter plot can be made simply with base R's ```plot()``` command. The tilde (~) relates the response variable ```sonAttractiveness``` to the explanatory variable ```fatherOrnamentation```.
+
+```{r eval = TRUE, fig.width = 6, fig.height = 5}
+plot(sonAttractiveness ~ fatherOrnamentation, data = guppyFatherSonData,
+     pch = 16, col = "firebrick")
+```
+
+In ```ggplot()```, the commands for a scatter plot are as follows.
+
+```{r eval = TRUE}
+ggplot(data = guppyFatherSonData, aes(x = fatherOrnamentation, y = sonAttractiveness)) + 
+    geom_point(size = 3, col = "firebrick") + 
+    labs(x = "Father's ornamentation", y = "Son's attractiveness") + 
+    theme_classic()
+```
+
+***
+
+<br>
+
+# Example 2.3B.Human hemoglobin
+
+***Strip chart**, **violin plot**, and **multiple histograms** showing hemoglobin concentration in men living at high altitude in three different parts of the world and in a sea level population (USA)*.
+
+<br>
+
+
+## Read and inspect data
+
+```{r eval = TRUE}
+hemoglobinData <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter02/chap02e3bHumanHemoglobinElevation.csv"), stringsAsFactors = FALSE)
+
+head(hemoglobinData)
+```
+
+<br>
+
+
+## Table of sample sizes
+
+```{r eval = TRUE}
+table(hemoglobinData$population)
+```
+
+<br>
+
+
+## Strip chart
+
+```{r eval = TRUE}
+ggplot(data = hemoglobinData, aes(x = population, y = hemoglobin)) +
+    geom_jitter(color = "firebrick", shape = 1, size = 3, width = 0.15) +
+    labs(x = "Male population", y = "Hemoglobin concentration (g/dL)") + 
+    theme_classic()
+```
+
+<br>
+
+
+## Violin plot
+
+A violin plot using ```ggplot()```, like that in Figure 2.3-4.
+
+```{r eval = TRUE}
+ggplot(data = hemoglobinData, aes(y = hemoglobin, x = population)) + 
+    geom_violin(fill = "goldenrod1", col = "black") + 
+    labs(x = "Male population", y = "Hemoglobin concentration (g/dL)") + 
+    stat_summary(fun.y = mean,  geom = "point", color = "black") +
+    theme_classic()
+```
+
+<br>
+
+## Multiple histograms
+
+Shows the association between hemoglobin and population using stacked histograms all having the same x-axis (Figure 2.3-5). The ```facet_wrap()``` function indicates the groups (in this case populations), with the tilde "~" indicating that they represent another explanatory variable.
+
+```{r eval = TRUE}
+ggplot(data = hemoglobinData, aes(x = hemoglobin)) + 
+    geom_histogram(fill = "firebrick", binwidth = 1, col = "black", 
+          boundary = 0, closed = "left") +
+    labs(x = "Hemoglobin concentration (g/dL)", y = "Frequency") + 
+    theme_classic() +
+    facet_wrap( ~ population, ncol = 1, scales = "free_y", strip.position = "right")
+```
+
+***
+
+<br>
+
+# Example 2.4A. Measles outbreaks
+
+***Line graph** showing confirmed cases of measles in England and Wales from 1995 to 2011. Annual counts are quarterly.*
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+measlesData <- read.csv("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter02/chap02f4_1MeaslesOutbreaks.csv", stringsAsFactors = FALSE)
+
+head(measlesData)
+```
+
+<br>
+
+## Draw a line graph
+
+The graph in this example consists of both points and lines, and so both ```geom_line()``` and ```geom_point()``` are included.
+
+```{r eval = TRUE}
+ggplot(data = measlesData, aes(x = yearByQuarter, y = confirmedCases)) +
+    geom_line() +
+    geom_point(color = "firebrick") +
+    labs(x = "Year", y = "Number of new measles cases") + 
+    theme_classic()
+```
+
+

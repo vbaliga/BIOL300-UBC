@@ -1,0 +1,161 @@
+---
+title: "Resources for Chapter 7: <br>Analyzing proportions"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+<br> 
+
+# Chapter links
+
+You can read more about the setting of Problem 5 about the cancer of the cast and crew of John's Wayne's movie [here](http://www.straightdope.com/columns/read/374/did-john-wayne-die-of-cancer-caused-by-a-radioactive-movie-set).
+
+For Problem 21, a description of the toast experiment is [here](http://www.counton.org/thesum/issue-07/issue-07-page-05.htm)
+
+The youtube [video](http://www.youtube.com/watch?v=k-Fp7flAWMA&list=SP45865A763BAB32CA&index=5) for Problem 27 describes the experiment.
+
+The catfish who hunt pigeons (Problem 29) can be seen in this [video](https://www.youtube.com/watch?v=UZwPG_x6QEk).
+
+
+<br>
+
+# R lab
+
+A lab on how to carry out frequency analaysis in R, and related topics, is available [here](RLabs/R_tutorial_Frequency_data.html).
+
+<br>
+
+# Learn R by example
+
+We used R to analyze all examples in chapter 79. We've put the code [here](RExamples/Rcode_Chapter_7.html) so that you can too.
+
+
+<br> 
+
+# Data
+
+Download a .zip file with all the data for chapter 7 in .csv format [here](DataZipFiles/chapter07.zip). 
+
+Download a .zip file with all data sets in the book [here](DataZipFiles/Data.zip). 
+
+All data sets and their sources are listed individually below.
+
+Disclaimer: Most data sets used in the book are grabbed from graphs and tables in the original publications, and the values may not be exact. Contact the original authors for the raw data.
+
+<br> 
+
+## Data for examples
+
+[Example 7.2. Sex and the X chromosome](Data/chapter07/chap07e2SexAndX.csv) 
+
+Wang, P. J., J. R. McCarrey, F. Yang, and D. C. Page. 2001. *Nature Genetics* 27: 422–426.
+
+[Example 7.3. She turtles](Data/chapter07/chap07e3GreenTurtleSex.csv) 
+
+Jensen, M. P. et al. 2018. *Current Biology* 28:154-159.
+
+<br>
+
+## Data for problem sets
+
+[02. Which ear for questions](Data/chapter07/chap07q2QuestionEar.csv) 
+
+Marzoli, D., and L. Tommasi. 2009. *Naturwissenschaften* 96:1099–1106.
+
+[04. Honesty wallets](Data/chapter07/chap07q04LostWallets.csv) 
+
+Devlin, H. 2009. The Times. www.thetimes.co.uk/tto/news/uk/article1967384.ece [link](http://www.thetimes.co.uk/tto/news/uk/article1967384.ece)  www.thetimes.co.uk/tto/news/uk/article1967384.ece. Accessed August 4, 2019.
+
+[05. John Wayne](Data/chapter07/chap07q05GenghisKhanCancer.csv) 
+
+Adams, C. 1984. Straight Dope. www.straightdope.com/columns/read/374/did-john-wayne-die-of-cancer-caused-by-a-radioactive-movie-set. [link](http://www.straightdope.com/columns/read/374/did-john-wayne-die-of-cancer-caused-by-a-radioactive-movie-set) Accessed August 4, 2019.
+
+[06. Cocaine on dollar bills](Data/chapter07/chap07q06CocaineDollars.csv) 
+
+Jenkins, A. J. 2001. *Forensic Science International* 121:189–193.
+
+[08. Eyelash mites](Data/chapter07/chap07q08FollicleMites.csv) 
+
+Abd-El-Al, A. M., A. M. Bayoumy, and E. A. Abou Salem. 1997. *Journal of the Egyptian Society of Parasitology* 27:183-95.
+
+[09. Garden spider cannibalism](Data/chapter07/chap07q09GardenSpiderCannibalism.csv) 
+
+Elgar, M.A., and D.R. Nash. 1988. *Animal Behaviour* 36:1511-1517.
+
+[10. Range shifts with climate change](Data/chapter07/chap07q10ClimateRangeShifts.csv) 
+
+Parmesan, C., et al. 1999. *Nature* 399: 579–583.
+
+[12. Mouse fetal testosterone](Data/chapter07/chap07q12FetalTestosterone.csv) 
+
+vom Saal, F. S., and F. H. Bronson. 1980. *Science* 208: 597–599.
+
+[15. Christmas deaths](Data/chapter07/chap07q15WaitingForChristmas.csv) 
+
+Young, D. C., and E. M. Hade. 2004. *Journal of the American Medical Association* 292: 3012–3016.
+
+[16. Plant chemical defenses](Data/chapter07/chap07q16Latex.csv) 
+
+Farrell, B. D., D. E. Dussord, and C. Mitter. 1991. *The American Naturalist* 138: 881–900.
+
+[18. Food injuries](Data/chapter07/chap07q18CutsFromFood.csv) 
+
+Winder, B., et al. 2002. *Applied Ergonomics* 33: 433–438
+
+[19. Finding love through pets](Data/chapter07/chap07q19LoveThroughPets.csv) 
+
+Royal Society for the Prevention of Cruelty to Animals. 2005. www.expertguide.com.au/news/article.aspx?ID=273  [link](http://www.expertguide.com.au/news/article.aspx?ID=273). Accessed Aug 4, 2019.
+
+[21. Butter side down](Data/chapter07/chap07q21ButterSideDown.csv) 
+
+The Sum. 2001. *The Sum* www.counton.org/thesum/issue-07/issue-07-page-05.htm  [link](www.counton.org/thesum/issue-07/issue-07-page-05.htm) Accessed Aug 4, 2019.
+
+[22. Surgical site infections](Data/chapter07/chap07q22SurgicalSiteInfections.csv) 
+
+Coello, C. A., et al. 2005. *Journal of Hospital Infection* 60: 93–103.
+
+[24. Helping at the nest](Data/chapter07/chap07q24HelpingAtNest.csv) 
+
+Russell, A. F., and B. J. Hatchwell. 2001. *Proceedings of the Royal Society of London, Series B, Biological Sciences* 268, 2169-2174.
+
+[25. Dog food pâté](Data/chapter07/chap07q25DogFoodPate.csv)  
+
+Bohannon, J., R. Goldstein, and A. Herschkowitsch. 2009. *American Association of Wine Economics Working Paper #36*.
+
+[26. Suicide season](Data/chapter07/chap07q26SuicideSeason.csv) 
+
+Valtonen, H., et al. 2006. *Journal of Affective Disorders* 90:201–207.
+
+[27. Roadkill](Data/chapter07/chap07q27RoadKill.csv) 
+
+Rober, M. 2012. www.youtube.com/watch?v=k-Fp7flAWMA&amp;list=SP45865A763BAB32CA&amp;index=5 [link](http://www.youtube.com/watch?v=k-Fp7flAWMA&amp;list=SP45865A763BAB32CA&amp;index=5). Accessed August 4, 2019.
+
+[29. Catfish hunting](Data/chapter07/chap07q29CatfishHunting.csv) 
+
+Cucherousset, J., et al. 2012. *PLoS ONE* 7:e50840.
+
+[31. Leaning trees](Data/chapter07/chap07q31equatorLeaningTrees.csv)
+
+Johns, J. W., et al. 2017. *Worldwide hemisphere‐dependent lean in Cook pines. *Ecology* 98: 2482-2484.
+
+[32. Bombardier beetles](Data/chapter07/chap07q32toadVomitsBeetle.csv)
+
+Sugiura, S., and T. Sato. 2018. *Biology Letters* 14: 20170647.
+
+[33. Alzheimer in neurosurgeons](Data/chapter07/chap07q33neurosurgeonAlzheimer.csv)
+
+Lollis, S. S., et al. 2010. *Journal of Neurosurgery* 113: 474-478.

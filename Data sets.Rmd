@@ -1,0 +1,25 @@
+---
+title: "Data sets with Whitlock and Schluter, <em>The Analysis of Biological Data</em>"
+author: 
+
+output:
+  html_document:
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<br>
+
+Data sets are available for nearly all of the problems and examples in *The Analysis of Biological Data*. 
+
+<br> 
+
+Disclaimer: Most data sets used in the book are grabbed from graphs and tables in the original publications, and the values may not be exact. Contact the original authors for the raw data.
+
+<br> 
+
+The data are available in one folder in this [.zip file](../DataZipFiles/Data.zip). You can find individual data sets from the chapter resource pages, linked at the top right in the navigation bar. You'll find references for each data set there as well.

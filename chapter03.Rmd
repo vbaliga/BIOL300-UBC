@@ -1,0 +1,128 @@
+---
+title: "Resources for Chapter 3: <br>Describing data"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+<br> 
+
+# Chapter links
+
+Videos of the flying snakes [here](https://www.youtube.com/watch?v=16aGSx9gFO4) (maybe skip ahead to 1:45 min) and [here](https://www.youtube.com/watch?v=UX7z3F-R9qM).
+
+The popcorn data in Problem 31 comes from [this video](https://www.reddit.com/r/dataisbeautiful/comments/8uo1q9/popcorn_analytics_oc/).
+
+<br>
+
+# R lab
+
+A lab on how to calculate basic descriptive statistics in R, and related topics, is available [here](RLabs/R_tutorial_Describing_data.html).
+
+<br>
+
+# R code for book examples
+
+R code to analyze all examples in chapter 3 is available [here](RExamples/Rcode_Chapter_3.html).
+
+<br> 
+
+# Data
+
+Download a .zip file with all the data for chapter 3 in .csv format [here](). 
+
+Download a .zip file with all data sets in the book [here](). 
+
+All data sets and their sources are listed individually below.
+
+Disclaimer: Most data sets used in the book are grabbed from graphs and tables in the original publications, and the values may not be exact. Contact the original authors for the raw data.
+
+<br> 
+
+## Data for examples
+
+[Example 3.1. Gliding snakes](Data/chapter03/chap03e1GlidingSnakes.csv)
+
+Socha, J. J. 2002. *Nature* 418: 603-604.
+
+[Table 3.1-2 Criminal convictions](Data/chapter03/chap03t1.2ConvictionsFreq.csv)
+<br>The full data set we analyzed is [here](Data/chapter02/chap02q12and22CriminalConvictions.csv).
+
+Farrington, D. P. 1994. *Cambridge Study in Delinquent Development [Great Britain], 1961-1981.* 2nd ICPSR ed. Inter-university Consortium for Political and Social Research, Ann Arbor, MI. [Data link](https://www.icpsr.umich.edu/icpsrweb/NACJD/studies/8488#)
+
+[Example 3.2. Amputated spiders](Data/chapter03/chap03e2SpiderAmputation.csv)
+
+Ramos, M., D. J. Irschick, and T. E. Christenson. 2004. *Proceedings of the National Academy of Sciences, USA *101: 4883–4887.
+
+[Example 3.3. Stickleback lateral plates](Data/chapter03/chap03e3SticklebackPlates.csv)
+
+Colosimo, P. F., et al. 2004. *PLOS Biology* 2: 635–641.
+
+<br>
+
+## Data for problem sets
+
+[01. Systolic blood pressure](Data/chapter03/chap03q01SystolicBP.csv)
+
+These data are hypothetical.
+
+[02. Systolic blood pressure, larger sample](Data/chapter03/chap03q02SystolicBP.csv)
+
+These data are hypothetical.
+
+[06. Kenya finches](Data/chapter03/chap03q04KenyaFinches.csv)
+
+Schluter, D. 1988. *Ecological Monographs* 58: 229-249. 
+
+[07. Amputated spiders](Data/chapter03/chap03e2SpiderAmputation.csv)
+
+Ramos, M., D. J. Irschick, and T. E. Christenson. 2004. *Proceedings of the National Academy of Sciences, USA *101: 4883–4887.
+
+[09. Rigor mortis](Data/chapter03/chap03q09Rigormortis.csv)
+
+Pounder, D. J. 1995. Postmortem changes and time of death. University of Dundee. [http://www.dundee.ac.uk/forensicmedicine/llb/timedeath.htm](http://www.dundee.ac.uk/forensicmedicine/llb/timedeath.htm) 
+
+[15. Vasopressin voles](Data/chapter03/chap03q15VasopressinVoles.csv) 
+
+Lim, M. M., et al. 2004. *Nature* 429:754-757. 
+
+[16. Diet breadth El Verde](Data/chapter03/chap03q16DietBreadthElVerde.csv) 
+
+Waide R. B., and W. B. Reagan, eds. 1996. *The food web of a tropical rainforest*. University of Chicago Press, Chicago. 
+
+[20. Sparrow reproduction](Data/chapter03/chap03q20SparrowReproductiveSuccess.csv) 
+
+Jensen, H., et al. 2004. *Journal of Animal Ecology* 73: 599-611. 
+
+[22. Yeast mutant growth rate](Data/chapter03/chap03q22YeastMutantGrowth.csv) 
+
+Steinmetz, L. M., et al. 2002. *Nature Genetics* 1:400-404.
+
+[23. Zebra fish boldness](Data/chapter03/chap03q23ZebraFishBoldness.csv) 
+
+Norton, W. H. J., et al. 2011. *Journal of Neuroscience* 31:13796-13807.
+
+[27. Gliding snakes](Data/chapter03/chap03e1GlidingSnakes.csv)
+
+Socha, J. J. 2002. *Nature* 418: 603-604.
+
+[28. Sea urchin bindin](Data/chapter03/chap03q28SeaUrchinBindin.csv) 
+
+Palumbi, S. R. 1999. *Proceedings of the National Academy of Sciences* 96: 12632-12637.
+
+[31. Popcorn times](Data/chapter03/chap03q31popcorn.csv) 
+
+u/sp__ace 2018. *Popcorn analytics*.  [www.reddit.com/r/dataisbeautiful/comments/8uo1q9/popcorn_analytics_oc/](https://www.reddit.com/r/dataisbeautiful/comments/8uo1q9/popcorn_analytics_oc/). Accessed July 30, 2019.

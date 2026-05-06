@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>R code for example in Chapter 18:  Multiple explanatory variables</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-4');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R code for example in Chapter 18: <br>Multiple explanatory variables</h1>
+
+</div>
+
+
+<hr />
+<p>We used R to analyze all examples in Chapter 18. We put the code here so that you can too.</p>
+<p><br></p>
+<div id="new-methods-on-this-page" class="section level1">
+<h1>New methods on this page</h1>
+<ul>
+<li>
+<p>Fit a linear model for two fixed factors:</p>
+<pre class="r"><code>algaeFullModel &lt;- lm(sqrtArea ~ height * herbivores, data = algae)</code></pre>
+<li>
+<p>Residual plot:</p>
+<pre class="r"><code>plot(residuals(moleRatNoInteractModel) ~ fitted(moleRatNoInteractModel))</code></pre>
+<li>
+Other new methods:
+<ul>
+<li>
+Linear model for randomized block design.
+<li>
+Linear model for one categorical and one numeric variable (ANCOVA).
+<li>
+Interaction plot.
+<li>
+Visualize fit of null and full models to the data.
+<li>
+Type I and Type III sums of squares.
+</ul>
+</ul>
+<hr />
+</div>
+<div id="load-required-packages" class="section level1">
+<h1>Load required packages</h1>
+<p>We need <code>ggplot2</code> for ordinary graphs. The <code>nlme</code> package fits models having a random effect. Include the <code>car</code> package to allow tests using Type 3 sums of squares. The <code>tidyr</code> package is optional – it provides one way to make a two-way table of data. You might need to install these additional packages on your computer if you have not already done so.</p>
+<pre class="r"><code>install.packages(&quot;car&quot;, dependencies = TRUE)    # only if not yet installed
+install.packages(&quot;tidyr&quot;, dependencies = TRUE)  # only if not yet installed</code></pre>
+<pre class="r"><code>library(ggplot2)
+library(nlme)
+library(car)
+library(tidyr) # optional</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="figure-18.1-1-linear-regression" class="section level1">
+<h1>Figure 18.1-1 Linear regression</h1>
+<p><em><strong>Compare the fits of the null and univariate regression models</strong> to data on the relationship between stability of plant biomass production and the initial number of plant species assigned to plots. The data are from Example 17.3</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>prairie &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter17/chap17e3PlantDiversityAndStability.csv&quot;), stringsAsFactors = FALSE)
+head(prairie)</code></pre>
+<pre><code>##   nSpecies biomassStability
+## 1        1             7.47
+## 2        1             6.74
+## 3        1             6.61
+## 4        1             6.40
+## 5        1             5.67
+## 6        1             5.26</code></pre>
+<p><br></p>
+</div>
+<div id="log-transformation" class="section level2">
+<h2>Log-transformation</h2>
+<p>Log-transform <code>biomassStability</code>.</p>
+<pre class="r"><code>prairie$logStability &lt;- log(prairie$biomassStability)
+head(prairie)</code></pre>
+<pre><code>##   nSpecies biomassStability logStability
+## 1        1             7.47     2.010895
+## 2        1             6.74     1.908060
+## 3        1             6.61     1.888584
+## 4        1             6.40     1.856298
+## 5        1             5.67     1.735189
+## 6        1             5.26     1.660131</code></pre>
+<p><br></p>
+</div>
+<div id="fit-reduced-model" class="section level2">
+<h2>Fit reduced model</h2>
+<p>In simple linear regression, the null or “reduced” model is a line whose slope is 0. To accomplish this, use a formula having a constant only. Leave <code>nSpecies</code> out of the formula. Show the fit in a scatter plot. You’ll need to specify a formula in <code>geom_smooth()</code> to force R to draw a line with no slope rather than the linear regression line. The formula is the same as in the preceding <code>lm()</code> command but uses “y” instead of the name of the y-variable. For these data, <code>ggplot()</code> won’t include “0” on the x-axis unless you tell it to.</p>
+<pre class="r"><code>prairieNullModel &lt;- lm(logStability ~ 1, data = prairie)
+
+ggplot(prairie, aes(nSpecies, logStability)) + 
+    geom_point(size = 3, shape = 1, col = &quot;firebrick&quot;) + 
+    geom_smooth(method = &quot;lm&quot;, formula = y ~ 1,
+        se = FALSE, col = &quot;black&quot;) +
+    xlim(0,16) +
+    labs(x = &quot;Species number treatment&quot;, y = &quot;Log-transformed ecosystem stability&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_18_files/figure-html/unnamed-chunk-7-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="fit-full-model" class="section level2">
+<h2>Fit full model</h2>
+<p>Now includes the treatment variable <code>nSpecies</code> in the formula. Show the fit in a scatter plot.</p>
+<pre class="r"><code>prairieRegression &lt;- lm(logStability ~ nSpecies, data = prairie)
+
+ggplot(prairie, aes(nSpecies, logStability)) + 
+    geom_point(size = 3, shape = 1, col = &quot;firebrick&quot;) + 
+    geom_smooth(method = &quot;lm&quot;, se = FALSE, col = &quot;black&quot;) +
+    xlim(0,16) +
+    labs(x = &quot;Species number treatment&quot;, y = &quot;Log-transformed ecosystem stability&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_18_files/figure-html/unnamed-chunk-8-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="f-test-of-improvement-in-fit" class="section level2">
+<h2><span class="math inline">\(F\)</span>-test of improvement in fit</h2>
+<p>This test determines whether the full (regression) model is a significant improvement in fit to the data.</p>
+<pre class="r"><code>anova(prairieRegression)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: logStability
+##            Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
+## nSpecies    1  5.5169  5.5169  45.455 2.733e-10 ***
+## Residuals 159 19.2980  0.1214                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="figure-18.1-2.-generalizing-regression" class="section level1">
+<h1>Figure 18.1-2. Generalizing regression</h1>
+<p><em><strong>Compare the fits of the null and single-factor ANOVA model</strong> to data on phase shift in the circadian rhythm of melatonin production in participants given alternative light treatments. The data are from Example 15.1</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data-1" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>circadian &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter15/chap15e1KneesWhoSayNight.csv&quot;), stringsAsFactors = FALSE)
+head(circadian)</code></pre>
+<pre><code>##   treatment shift
+## 1   control  0.53
+## 2   control  0.36
+## 3   control  0.20
+## 4   control -0.37
+## 5   control -0.60
+## 6   control -0.64</code></pre>
+<p><br></p>
+</div>
+<div id="set-order-of-groups" class="section level2">
+<h2>Set order of groups</h2>
+<p>For tables and graphs.</p>
+<pre class="r"><code>circadian$treatment &lt;- factor(circadian$treatment, 
+      levels = c(&quot;control&quot;, &quot;knee&quot;,&quot;eyes&quot;)) </code></pre>
+<p><br></p>
+</div>
+<div id="fit-null-model-to-data" class="section level2">
+<h2>Fit null model to data</h2>
+<p>In single-factor ANOVA, the null model fits the same mean to all groups. To accomplish, include only a constant in the model formula and leave out the treatment variable. Visualize the model fit (Figure 18.1-2 left).</p>
+<pre class="r"><code>circadianNullModel &lt;- lm(shift ~ 1, data = circadian)
+
+ggplot(circadian, aes(x = treatment, y = shift)) +
+    geom_point(color = &quot;firebrick&quot;, size = 3) +
+    geom_hline(yintercept = predict(circadianNullModel)) + 
+    labs(x = &quot;Light treatment&quot;, y = &quot;Shift in circadian rhythm (h)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_18_files/figure-html/unnamed-chunk-12-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="fit-full-model-to-data" class="section level2">
+<h2>Fit full model to data</h2>
+<p>Now include the treatment variable in the formula. Visualise the model fit (using <code>visreg()</code>. This is not an exact replica of Figure 18.1-2 right).</p>
+<pre class="r"><code>circadianAnova &lt;- lm(shift ~ treatment, data = circadian)
+
+ggplot(circadian, aes(x = treatment, y = shift)) +
+    geom_point(color = &quot;firebrick&quot;, size = 3) +
+    stat_summary(fun.y= mean, geom = &quot;crossbar&quot;,
+        fun.ymin=mean, fun.ymax=mean, width = .4, color = &quot;black&quot;) +
+    labs(x = &quot;Light treatment&quot;, y = &quot;Shift in circadian rhythm (h)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_18_files/figure-html/unnamed-chunk-13-1.png" width="480" /></p>
+<!-- 
+visreg(circadianAnova, xvar = "treatment", data = circadian,
+       points = list(pch = 16, cex = 1.5, col = c("firebrick")),
+       line=list(col="black"), band = FALSE, whitespace = 0.5,
+       xlab = "Treatment", ylab = "Shift in circadian rhythm (h)")
+-->
+<p><br></p>
+</div>
+<div id="f-test-of-improvement-in-fit-1" class="section level2">
+<h2><span class="math inline">\(F\)</span>-test of improvement in fit</h2>
+<p>Test of whether the full model is a significant improvement over the null model.</p>
+<pre class="r"><code>anova(circadianAnova)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: shift
+##           Df Sum Sq Mean Sq F value   Pr(&gt;F)   
+## treatment  2 7.2245  3.6122  7.2894 0.004472 **
+## Residuals 19 9.4153  0.4955                    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-18.2.-zooplankton" class="section level1">
+<h1>Example 18.2. Zooplankton</h1>
+<p><em><strong>Analyze data from a randomized block experiment</strong>, which measured the effects of fish abundance (the factor of interest) on zooplankton diversity. Treatments were repeated at 5 locations in a lake (blocks)</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data-2" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>zooplankton &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter18/chap18e2ZooplanktonDepredation.csv&quot;), stringsAsFactors = FALSE)
+zooplankton</code></pre>
+<pre><code>##    treatment diversity block
+## 1    control       4.1     1
+## 2        low       2.2     1
+## 3       high       1.3     1
+## 4    control       3.2     2
+## 5        low       2.4     2
+## 6       high       2.0     2
+## 7    control       3.0     3
+## 8        low       1.5     3
+## 9       high       1.0     3
+## 10   control       2.3     4
+## 11       low       1.3     4
+## 12      high       1.0     4
+## 13   control       2.5     5
+## 14       low       2.6     5
+## 15      high       1.6     5</code></pre>
+<p><br></p>
+</div>
+<div id="set-order-of-groups-1" class="section level2">
+<h2>Set order of groups</h2>
+<pre class="r"><code>zooplankton$treatment &lt;- factor(zooplankton$treatment, levels = c(&quot;control&quot;,&quot;low&quot;,&quot;high&quot;))</code></pre>
+<p><br></p>
+</div>
+<div id="table-and-graph-of-data" class="section level2">
+<h2>Table and graph of data</h2>
+<p>Only one measurement is available for each combination of treatment and block. <code>tapply()</code> in base R is one way to present a 2-way table of (Table 18.2-1). Another way is to use <code>spread()</code> in the <code>tidyr</code> package.</p>
+<pre class="r"><code>tapply(zooplankton$diversity, list(Treatment = zooplankton$treatment, 
+    Location = zooplankton$block), unique)</code></pre>
+<pre><code>##          Location
+## Treatment   1   2   3   4   5
+##   control 4.1 3.2 3.0 2.3 2.5
+##   low     2.2 2.4 1.5 1.3 2.6
+##   high    1.3 2.0 1.0 1.0 1.6</code></pre>
+<pre class="r"><code># or
+spread(data = zooplankton, key = block, value = diversity)</code></pre>
+<pre><code>##   treatment   1   2   3   4   5
+## 1   control 4.1 3.2 3.0 2.3 2.5
+## 2       low 2.2 2.4 1.5 1.3 2.6
+## 3      high 1.3 2.0 1.0 1.0 1.6</code></pre>
+<p>The following is code to display the data in a graph (not in the book, but probably should be). Lines connect values from different treatments in the same block.</p>
+<pre class="r"><code>ggplot(zooplankton, aes(x = treatment, y = diversity)) +  
+    geom_line(aes(group = block)) +
+    geom_point(size = 5, col = &quot;firebrick&quot;, alpha = 0.5) + 
+    labs(x = &quot;Treatment&quot;, y = &quot;Zooplankton diversity (D)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_18_files/figure-html/unnamed-chunk-18-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="fit-null-model" class="section level2">
+<h2>Fit null model</h2>
+<p>A blocking variable is typically analyzed as a random effect. We use <code>lme()</code> command from the <code>nlme</code> package. The fixed effect part of the formula (here, only a constant) is similar to a fixed-effect formula in <code>lm()</code>. The random effect is included in a second formula afterward. The structure <code>1|block</code> indicates that we are fitting a random intercept (a constant) for each level of the <code>block</code> variable.</p>
+<p>We leave out here the visualization of the null model fit.</p>
+<pre class="r"><code>zoopNullModel &lt;- lme(diversity ~ 1, random = ~ 1| block, data = zooplankton)</code></pre>
+<p><br></p>
+</div>
+<div id="fit-the-full-model" class="section level2">
+<h2>Fit the full model</h2>
+<p>The equation for the full model also includes the fixed treatment variable. The random effect part of the formula is unchanged.</p>
+<pre class="r"><code>zoopRBModel &lt;- lme(diversity ~ treatment, random = ~ 1| block, data = zooplankton)</code></pre>
+<p>To visualize this model fit we drew lines between the predicted values and overlaid the points. Only 4 lines are visible because one is lying over a second line.</p>
+<pre class="r"><code>ggplot(zooplankton, aes(x = treatment, y = diversity)) +  
+    geom_line(aes(y = predict(zoopRBModel), group = block)) +
+    geom_point(size = 5, col = &quot;firebrick&quot;, alpha = 0.5) + 
+    labs(x = &quot;Treatment&quot;, y = &quot;Zooplankton diversity (D)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_18_files/figure-html/unnamed-chunk-21-1.png" width="480" /></p>
+<p>Alternatively, the following commands make a plot in base R.</p>
+<pre class="r"><code>interaction.plot(zooplankton$treatment, zooplankton$block, 
+      response = predict(zoopRBModel), ylim = range(zooplankton$diversity),
+      trace.label = &quot;Block&quot;, las = 1, 
+      xlab = &quot;Treatment&quot;, ylab = &quot;Zooplankton diversity (D)&quot;)
+points(diversity ~ treatment, data = zooplankton, 
+      pch = as.numeric(zooplankton$block))</code></pre>
+<p><img src="Rcode_Chapter_18_files/figure-html/unnamed-chunk-22-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="f-test-of-improvement-in-fit-2" class="section level2">
+<h2><span class="math inline">\(F\)</span> test of improvement in fit</h2>
+<p>This test indicates whether the full model is a significant improvement over the null model. This represents the test of treatment effect. Notice that R will not test the random (block) effect of an <code>lme()</code> model.</p>
+<pre class="r"><code>anova(zoopRBModel)</code></pre>
+<pre><code>##             numDF denDF   F-value p-value
+## (Intercept)     1     8 116.69518  &lt;.0001
+## treatment       2     8  16.36595  0.0015</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-18.3-intertidal-interaction" class="section level1">
+<h1>Example 18.3 Intertidal interaction</h1>
+<p><em><strong>Analyze data from a factorial experiment</strong> investigating the effects of herbivore presence, height above low tide, and the interaction between these factors, on abundance of a red intertidal alga using <strong>two-factor ANOVA</strong></em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data-3" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>algae &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter18/chap18e3IntertidalAlgae.csv&quot;), stringsAsFactors = FALSE)
+head(algae)</code></pre>
+<pre><code>##   height herbivores  sqrtArea
+## 1    low      minus  9.405573
+## 2    low      minus 34.467736
+## 3    low      minus 46.673485
+## 4    low      minus 16.642139
+## 5    low      minus 24.377498
+## 6    low      minus 38.350604</code></pre>
+<p><br></p>
+</div>
+<div id="fit-the-no-interaction-model." class="section level2">
+<h2>Fit the no-interaction model.</h2>
+<p>Note that we use <code>lm()</code> because both factors are fixed effects. To plot the model fit, save the model predicted values to the data frame in a new variable (here named <code>fit0</code>). Use <code>stat_summary()</code> to plot them.</p>
+<pre class="r"><code>algaeNoInteractModel &lt;- lm(sqrtArea ~ height + herbivores, data = algae)
+
+algae$fit0 &lt;- predict(algaeNoInteractModel)
+
+ggplot(data = algae, aes(x = herbivores, y = sqrtArea,
+        fill = height, color = height, shape = height)) + 
+    geom_jitter(size = 3, position = position_dodge2(width = 0.7)) +
+    scale_colour_manual(values = c(&quot;firebrick&quot;, &quot;black&quot;)) +
+    scale_shape_manual(values = c(16, 15)) +
+    stat_summary(aes(group = height, y = fit0), fun.y = mean, geom = &quot;line&quot;,
+        linetype=&quot;dashed&quot;, size = 1) +
+    labs(x = &quot;Herbivory treatment&quot;, y = &quot;Square-root surface area (cm)&quot;) +
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_18_files/figure-html/unnamed-chunk-25-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="fit-the-full-model-1" class="section level2">
+<h2>Fit the full model</h2>
+<p>In the formula below, <code>height * herbivores</code> is short for <code>height + herbivores + height:herbivores</code>. The last term is the interaction term. To plot the model fit, save the model predicted values to the data frame in a new variable (here named <code>fit1</code>). Use <code>stat_summary()</code> to plot them.</p>
+<pre class="r"><code>algaeFullModel &lt;- lm(sqrtArea ~ height * herbivores, data = algae)
+algae$fit1 &lt;- predict(algaeFullModel)</code></pre>
+<p>To visualize the model fit,</p>
+<pre class="r"><code>ggplot(data = algae, aes(x = herbivores, y = sqrtArea,
+        fill = height, color = height, shape = height)) + 
+    geom_jitter(size = 3, position = position_dodge2(width = 0.7)) +
+    scale_colour_manual(values = c(&quot;firebrick&quot;, &quot;black&quot;)) +
+    scale_shape_manual(values = c(16, 15)) +
+    stat_summary(aes(group = height, y = fit1), fun.y = mean, geom = &quot;line&quot;,
+        linetype=&quot;dashed&quot;, size = 1) +
+    labs(x = &quot;Herbivory treatment&quot;, y = &quot;Square-root surface area (cm)&quot;) +
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_18_files/figure-html/unnamed-chunk-27-1.png" width="480" /></p>
+<p>The following commands work in base R.</p>
+<pre class="r"><code>interaction.plot(algae$herbivores, algae$height, response = predict(algaeFullModel), 
+      ylim = range(algae$sqrtArea), trace.label = &quot;Height&quot;, las = 1,
+      ylab = &quot;Square root surface area (cm)&quot;, xlab = &quot;Herbivore treatment&quot;)
+adjustAmount &lt;- 0.05
+points(sqrtArea ~ c(jitter(as.numeric(as.factor(herbivores)), 
+        factor = 0.2) + adjustAmount), 
+      data = subset(algae, height == &quot;low&quot;), pch = 15)
+points(sqrtArea ~ c(jitter(as.numeric(as.factor(herbivores)), 
+        factor = 0.2) - adjustAmount), 
+      data = subset(algae, height == &quot;mid&quot;), pch = 16, col = &quot;firebrick&quot;)</code></pre>
+<p><img src="Rcode_Chapter_18_files/figure-html/unnamed-chunk-28-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="test-improvement-in-fit" class="section level2">
+<h2>Test improvement in fit</h2>
+<p>This generates an <span class="math inline">\(F\)</span> test of whether the full model with the interaction term is a signifcantly better fit than the reduced model that lacks the interaction term. <code>anova()</code> can compare two specific models as long as one is a reduced version of the other.</p>
+<pre class="r"><code>anova(algaeNoInteractModel, algaeFullModel)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: sqrtArea ~ height + herbivores
+## Model 2: sqrtArea ~ height * herbivores
+##   Res.Df   RSS Df Sum of Sq      F   Pr(&gt;F)   
+## 1     61 16888                                
+## 2     60 14270  1      2617 11.003 0.001549 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p><br></p>
+</div>
+<div id="test-all-terms" class="section level2">
+<h2>Test all terms</h2>
+<p>Most commonly, this is done using either Type III sums of squares (see discussion in the book) or Type I sums of squares (which is the default in R). In the present example the two methods give the same answer, because the design is completely balanced, but this will not generally happen when the design is not balanced.</p>
+<p>Here is how to test all model terms using Type III sums of squares. We need to include a <code>contrasts</code> argument for the two categorical variables in the <code>lm()</code> command. Then we need to load the <code>car</code> package and use its <code>Anova()</code> command. Note that “A” is in upper case in <code>Anova()</code> - a very subtle but important difference.</p>
+<pre class="r"><code>algaeFullModelTypeIII &lt;- lm(sqrtArea ~ height * herbivores, data = algae, 
+      contrasts = list(height = contr.sum, herbivores = contr.sum))
+Anova(algaeFullModelTypeIII, type = &quot;III&quot;) # note &quot;A&quot; in Anova is capitalized</code></pre>
+<pre><code>## Anova Table (Type III tests)
+## 
+## Response: sqrtArea
+##                   Sum Sq Df  F value    Pr(&gt;F)    
+## (Intercept)        33381  1 140.3509 &lt; 2.2e-16 ***
+## height                89  1   0.3741  0.543096    
+## herbivores          1512  1   6.3579  0.014360 *  
+## height:herbivores   2617  1  11.0029  0.001549 ** 
+## Residuals          14271 60                       
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Here is how we test all model terms using “Type I” (sequential) sums of squares. Note that “a” is in lower case in <code>anova()</code>.</p>
+<pre class="r"><code>anova(algaeFullModel)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: sqrtArea
+##                   Df  Sum Sq Mean Sq F value   Pr(&gt;F)   
+## height             1    89.0   88.97  0.3741 0.543096   
+## herbivores         1  1512.2 1512.18  6.3579 0.014360 * 
+## height:herbivores  1  2617.0 2616.96 11.0029 0.001549 **
+## Residuals         60 14270.5  237.84                    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p><br></p>
+</div>
+<div id="residual-plot" class="section level2">
+<h2>Residual plot</h2>
+<p>This plots the residuals from the full model against the predicted (fitted) values.</p>
+<pre class="r"><code>plot( residuals(algaeFullModel) ~ fitted(algaeFullModel) )
+abline(0,0)</code></pre>
+<p><img src="Rcode_Chapter_18_files/figure-html/unnamed-chunk-32-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="normal-quantile-plot-of-residuals." class="section level2">
+<h2>Normal quantile plot of residuals.</h2>
+<pre class="r"><code>qqnorm(residuals(algaeFullModel), pch = 16, col = &quot;firebrick&quot;, 
+      las = 1, ylab = &quot;Residuals&quot;, xlab = &quot;Normal quantile&quot;, main = &quot;&quot;)</code></pre>
+<p><img src="Rcode_Chapter_18_files/figure-html/unnamed-chunk-33-1.png" width="480" /></p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-18.4-mole-rat-layabouts" class="section level1">
+<h1>Example 18.4 Mole-rat layabouts</h1>
+<p><em><strong>Analyze a factor while adjusting for a covariate</strong>, comparing energy expenditure of two castes of naked mole-rat while adjusting for differences in body mass using <strong>analysis of covariance ANCOVA</strong></em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data-4" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>moleRat &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter18/chap18e4MoleRatLayabouts.csv&quot;), stringsAsFactors = FALSE)
+head(moleRat)</code></pre>
+<pre><code>##    caste   lnMass lnEnergy
+## 1 worker 3.850148 3.688879
+## 2 worker 3.988984 3.688879
+## 3 worker 4.110874 3.688879
+## 4 worker 4.174387 3.663562
+## 5 worker 4.248495 3.871201
+## 6 worker 4.262680 3.850148</code></pre>
+<p><br></p>
+</div>
+<div id="scatter-plot" class="section level2">
+<h2>Scatter plot</h2>
+<pre class="r"><code>ggplot(moleRat, aes(lnMass, lnEnergy, colour = caste, shape = caste)) + 
+    geom_point(size = 3) + 
+    scale_colour_manual(values = c(&quot;firebrick&quot;, &quot;firebrick&quot;)) +
+    scale_shape_manual(values = c(16, 1)) +
+    labs(x = &quot;ln(body mass)&quot;, y = &quot;ln(daily energy expenditure)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_18_files/figure-html/unnamed-chunk-35-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="fit-reduced-model-1" class="section level2">
+<h2>Fit reduced model</h2>
+<p>Fit models to the data, beginning with the model lacking an interaction term. Use <code>lm()</code> because caste and mass are fixed effects. Save the predicted values in the data frame.</p>
+<pre class="r"><code>moleRatNoInteractModel &lt;- lm(lnEnergy ~ lnMass + caste, data = moleRat)
+moleRat$fit0 &lt;- predict(moleRatNoInteractModel)
+
+ggplot(moleRat, aes(lnMass, lnEnergy, colour = caste, 
+        shape = caste, linetype=caste)) + 
+    geom_line(aes(y = fit0), size = 1, color = &quot;black&quot;) +
+    geom_point(size = 3) + 
+    scale_colour_manual(values = c(&quot;firebrick&quot;, &quot;firebrick&quot;)) +
+    scale_shape_manual(values = c(16, 1)) +
+    labs(x = &quot;ln(body mass)&quot;, y = &quot;ln(daily energy expenditure)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_18_files/figure-html/unnamed-chunk-36-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="fit-the-full-model-2" class="section level2">
+<h2>Fit the full model</h2>
+<p>THe full model includes the interaction term. To visualize, we can save the predcted values in the data frame as above. However, <code>geom_smooth(method = "lm", ...)</code> will automatically plot the full model.</p>
+<pre class="r"><code>moleRatFullModel &lt;- lm(lnEnergy ~ lnMass * caste, data = moleRat)
+
+ggplot(moleRat, aes(lnMass, lnEnergy, colour = caste, 
+        shape = caste, linetype=caste)) + 
+    geom_smooth(method = &quot;lm&quot;, size = 1, se = FALSE, col = &quot;black&quot;) +
+    geom_point(size = 3) + 
+    scale_colour_manual(values = c(&quot;firebrick&quot;, &quot;firebrick&quot;)) +
+    scale_shape_manual(values = c(16, 1)) +
+    labs(x = &quot;ln(body mass)&quot;, y = &quot;ln(daily energy expenditure)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_18_files/figure-html/unnamed-chunk-37-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="test-improvement-in-fit-1" class="section level2">
+<h2>Test improvement in fit</h2>
+<p>The command below explicitly compares the models with and without the interaction term. The only test conducted is whether the full model, with an interaction term, is a significantly better fit than the reduced model, which does not include the interaction term.</p>
+<pre class="r"><code>anova(moleRatNoInteractModel, moleRatFullModel)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: lnEnergy ~ lnMass + caste
+## Model 2: lnEnergy ~ lnMass * caste
+##   Res.Df    RSS Df Sum of Sq      F Pr(&gt;F)
+## 1     32 2.8145                           
+## 2     31 2.7249  1  0.089557 1.0188 0.3206</code></pre>
+<p><br></p>
+</div>
+<div id="test-of-differenct-intercepts" class="section level2">
+<h2>Test of differenct intercepts</h2>
+<p>We can test for different intercepts if we assume that the regression slopes are equal, i.e., that no interaction term is present. Most commonly this is done using either “Type III” sums of squares (see footnote 5 on p 618 of the book) or “Type I” sums of squares (the default in R). The two methods do not give identical answers here because the design is not balanced (in a balanced design, each value of the x-variable would have the same number of y-observations from each group).</p>
+<p>Test using “Type III” sums of squares. We need to include a <code>contrasts</code> argument for the categorical variable in the <code>lm()</code> command. Then we use the <code>Anova()</code> command from the <code>car</code> package. Note that “A” is in upper case in <code>Anova()</code>.</p>
+<pre class="r"><code>moleRatNoInteractModelTypeIII &lt;- lm(lnEnergy ~ lnMass + caste, data = moleRat, 
+    contrasts = list(caste = contr.sum))
+Anova(moleRatNoInteractModelTypeIII, type = &quot;III&quot;) # note &quot;A&quot; in Anova is capitalized</code></pre>
+<pre><code>## Anova Table (Type III tests)
+## 
+## Response: lnEnergy
+##              Sum Sq Df F value    Pr(&gt;F)    
+## (Intercept) 0.00111  1  0.0126    0.9112    
+## lnMass      1.88152  1 21.3923 5.887e-05 ***
+## caste       0.63747  1  7.2478    0.0112 *  
+## Residuals   2.81450 32                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>Test using “Type I” (sequential) sums of squares. Make sure that the covariate (<code>lnMass</code>) comes before the factor (caste) in the <code>lm()</code> formula, as shown, because we want to test the caste difference after statistically controlling for size. Note that “a” is in lower case in <code>anova()</code>.</p>
+<pre class="r"><code>moleRatNoInteractModel &lt;- lm(lnEnergy ~ lnMass + caste, data = moleRat)
+anova(moleRatNoInteractModel)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: lnEnergy
+##           Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
+## lnMass     1 1.31061 1.31061 14.9013 0.0005178 ***
+## caste      1 0.63747 0.63747  7.2478 0.0111984 *  
+## Residuals 32 2.81450 0.08795                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p><br></p>
+</div>
+<div id="residual-plot-1" class="section level2">
+<h2>Residual plot</h2>
+<pre class="r"><code>plot( residuals(moleRatNoInteractModel) ~ fitted(moleRatNoInteractModel) )
+abline(0,0)</code></pre>
+<p><img src="Rcode_Chapter_18_files/figure-html/unnamed-chunk-41-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="normal-quantile-plot-of-residuals" class="section level2">
+<h2>Normal quantile plot of residuals</h2>
+<pre class="r"><code>qqnorm(residuals(moleRatNoInteractModel), pch = 16, col = &quot;firebrick&quot;, 
+    las = 1, ylab = &quot;Residuals&quot;, xlab = &quot;Normal quantile&quot;, main = &quot;&quot;)</code></pre>
+<p><img src="Rcode_Chapter_18_files/figure-html/unnamed-chunk-42-1.png" width="480" /></p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

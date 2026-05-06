@@ -1,0 +1,50 @@
+---
+title: "Resources for Chapter 1: <br>Statistics and samples"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+<br> 
+
+# Chapter links
+
+A very nice video showing the distinction between correlation and causation is available on youtube [here](https://www.youtube.com/watch?v=gxSUqr3ouYA).
+
+Many, many wacky examples of correlations which do not seem consistent with causation are illustrated [here](http://tylervigen.com/spurious-correlations). For example, [this one](http://tylervigen.com/view_correlation?id=2941) shows the strong relationship between the number of people killed by venomous spiders and the number of letters in the winning word in the National Spelling Bee.
+
+A wonderful [xkcd comic](https://xkcd.com/552/) on correlation vs. causation.
+
+A link to the [random number generator](https://www.random.org/integers/) mentioned in footnote 5.
+
+<br>
+
+
+
+# R labs
+
+Two introductory labs introduce you to the basics of the statistical package R. They are [Intro to R, Part 1](RLabs/R_tutorial_Intro_to_R_1.html) and [Intro to R, Part 2](RLabs/R_tutorial_Intro_to_R_2.html). These introductions are necessary to prepare for the more specific later tutorials. 
+
+<br>
+
+# Data
+
+Chapter 1 has no associated data sets.
+
+Download a .zip file with all data sets in the book [here](DataZipFiles/Data.zip). 
+
+Disclaimer: Most data sets used in the book are grabbed from graphs and tables in the original publications, and the values may not be exact. Contact the original authors for the raw data.
+

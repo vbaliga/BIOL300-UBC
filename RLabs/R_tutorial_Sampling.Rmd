@@ -1,0 +1,161 @@
+---
+title: "<em>Labs using R</em>: <br>4b. Sampling"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<br>
+<p style="color:red">
+*Unlike the rest of these labs, this lab depends on having some physiacl objects prepared in a class setting ahead of time and requires a class of 12 or more to work properly.*
+</p>
+
+*This lab is part of a series designed to accompany a course using *The Analysis of Biological Data*. The rest of the labs can be found [here](index.html). This lab is based on topics in Chapter 1  of ABD.*
+
+
+<br>
+
+# Learning outcomes
+
+*	Explore the importance of random sampling
+
+*	Understand the sampling distribution of an estimate
+
+*	Investigate sampling error and sampling bias
+
+*	Practice creating data files.
+
+<br> 
+
+If you have not already done so, download [the zip file containing Data, R scripts, and other resources for these labs](ABDLabs.zip). Remember to start RStudio from the "ABDLabs.Rproj" file in that folder to make these exercises work more seamlessly.
+
+
+***
+<br>
+
+# Learning the tools
+
+To do the activities in this lab, you'll need to read [lab 4a, on making data files for R.](R_tutorial_Making_data_files.html)
+<br>
+
+
+
+***
+<br>
+
+# Activities and Questions
+
+<br>
+
+
+In this lab you will be given a container of 25 cowrie shells. Think of this collection of shells as the complete population that you care about. You will work with a small group to take samples from this population to estimate the mean length of these shells.  
+
+Follow these steps:
+
+<br>
+
+## Make a sample
+
+1.	Get a piece of calendar paper, and make sure that there are spots labeled from 1 to 25 on squares of the calendar paper.
+
+2.	Sample five shells from this container. Put them in spots 1 through 5 on the paper. This is your sample.
+
+3.	For each shell that you have sampled, measure the length of the shell in millimeters, and write these lengths down on the paper by that shell.
+
+4.	Open a new data file in the spreadsheet program, and on the first row add a variable name (e.g., “length”). Enter the lengths of your five shells. Save the file with a title something like “First sample.csv”.
+
+5.	Import this first sample data into R. Using R, calculate the mean of the lengths of these five shells. Record this mean.
+<br>
+
+## Find the mean of the population
+
+6.	Next we will calculate the mean of the population of shells in your container. Take each remaining shell one by one, measure its length, and record it on the sheet beside the next available number. Set the shell there on the calendar paper as well.
+
+7.	Open another data file in the spreadsheet program. Add the lengths of all the shells (including the first five) into this file in a single column named “length.” Save this file named as something like “Full population shells.csv”.
+
+8.	Import this data set to R. Name this as you like, but later in these instructions we will refer to the imported R object as “**population_data**”. Use R to calculate the mean of the full population.
+
+9.	Give your TA the mean of your first sample and the mean of your population, for later full class use.
+
+**Question 1.** Is the mean of your sample the same as the mean of the population as a whole? What about the standard deviation? Suggest reasons why the sample mean and the population mean might differ.
+
+<br>
+
+## Make a random sample and estimate the population mean
+
+10.	In step 1, we made a sample, but it was not necessarily a random sample. Let’s now randomly sample from the population. You should have each shell next to a unique number on your sheet. To take a random sample, all members of the population must have the same chance of being chosen for our sample. In R, the function **sample.int()** randomly chooses integers from a given range. To randomly sample 5 individuals from 25 possibilities, we can use:
+
+```{r}
+sample.int(n = 25, size = 5)
+```
+
+This tells R to give us a set of 5 numbers randomly chosen from the integers 1 to 25. (When you run this line you will almost certainly get a different output. It is randomly choosing numbers, so we expect different answers each time.) Generate a set of 5 random numbers this way. Use these numbers to tell you which 5 shells to include in your sample.
+
+11.	Use R to calculate the mean of the shell lengths for these 5 shells in your random sample. The result is an estimate of the mean shell length in your population.
+
+12.	Make another random sample of 5 shells, and calculate the mean of this sample. Did you get a different number from the mean of the first sample?  Why do you think the second sample mean is different from the first?
+
+<br>
+
+## Making a distribution of sample means
+
+The estimates you obtained from your random samples in steps 10 and 12 are just two of many values that you might have obtained. By chance, each sample is likely to be different from other samples, with a  different sample mean. The frequency distribution of estimates that you might obtain when sampling randomly from a population, and their probabilities of occurrence, is called the sampling distribution of the estimate. To explore the sampling distribution for the sample mean, let’s randomly sample from your population of shells several times. Each sample is going to have five shells, and we’ll calculate the mean of each sample. 
+
+In real life situations, you won’t have the whole population to work with, and you won’t be able to take many random samples. As a result, you won’t be able to glimpse the sampling distribution. But in this artificial scenario we can create multiple samples from our population to see what the sampling distribution might look like.
+
+13.	Taking each sample by hand is tedious. To speed up this process, we have written a short R function to sample from your list of shell lengths in your population. This will have the computer do the steps that you did in the previous steps.
+
+The function is called **mean_from_a_sample**, and it is in the script “LearningTheToolsWeek4.R”. Paste this full command into the R console and hit return. Make sure you copy the whole function, including the closing curly bracket  }.
+
+Call this function by entering
+
+```{r eval=FALSE}
+> mean_from_a_sample(population_data$length, sample_size  = 5)
+```
+
+where “population_data” is the list of all the lengths of the shells from your population and 5 is the sample size. Running this will give you the mean length of a random sample of 5 shells.
+
+14.	To make a vector with the means of 1000 random samples of the shell lengths, run the following:
+
+```{r eval = FALSE}
+sample_mean_length = rep(0,1000)
+for(i in 1:1000) sample_mean_length[i] = 
+      mean_from_a_sample(population_data$length,5)
+```
+
+This creates a vector called **sample_mean_length** and fills it with 1000 means of independent random samples.
+
+15.	Plot a histogram that shows the distribution of the means of these random samples. (Note: in order to use <code>ggplot</code> to make a ghistogram, the data have to be in a data frame. Use the line of code below to change your vector into a data frame.)
+
+```{r eval = FALSE}
+samples = data.frame(meanLength=sample_mean_length)
+```
+
+**Question 2.** Describe the shape of this distribution. Does it resemble a normal distribution? Does every sample return the same value of the mean? Why, or why not?
+
+16. Calculate the mean of the distribution of sample means.
+
+**Question 3.** How does the mean of the distribution of sample means compare to the true mean of the population? Are they approximately equal? Are your the sample means unbiased estimates of the population mean?
+
+<br>
+
+## Sampling bias
+
+17.	Compare the mean of your first sample to the distribution of sample means obtained from the random samples. Is your first sample mean unusual in any way?
+
+18.	From your TA, get the list of the means from the first samples of each group, and the population means for each group. Load these data into a data frame in R. 
+
+19.	Create a new variable from the difference between a student group’s first sample mean and their population mean. Call this new variable “**first_sample_error**”. What is the average error of these first samples?
+
+**Question 4.** Remember that these first samples were not necessarily random samples, unlike the other samples that we made today. Is there any pattern to the first samples that you think might result from this lack of randomness? If so, why might this have happened?

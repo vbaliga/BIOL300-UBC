@@ -1,0 +1,147 @@
+---
+title: "Resources for Chapter 2: <br>Displaying data"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+<br> 
+
+# Chapter links
+
+The color blindness simulator [Coblis](https://www.color-blindness.com/coblis-color-blindness-simulator/)
+
+Some misleading [graphs](https://www.buzzfeednews.com/article/katienotopoulos/graphs-that-lied-to-us#2956kjp). 
+
+<br>
+
+# R lab
+
+A lab on how to create graphs in R, and related topics, is available [here](RLabs/R_tutorial_Graphics.html).
+
+<br>
+
+# R code for book examples
+
+R code to analyze all examples in chapter 2 is available [here](RExamples/Rcode_Chapter_2.html).
+
+<br> 
+
+# Data
+
+Download a .zip file with all the data for chapter 2 in .csv format [here](DataZipFiles/chapter02.zip). 
+
+Download a .zip file with all data sets in the book [here](DataZipFiles/Data.zip). 
+
+All data sets and their sources are listed individually below.
+
+Disclaimer: Most data sets used in the book are grabbed from graphs and tables in the original publications, and the values may not be exact. Contact the original authors for the raw data.
+
+<br> 
+
+## Data for examples
+
+[Example 2.2A. Deaths from tigers](Data/chapter02/chap02e2aDeathsFromTigers.csv) 
+
+Gurunga, B., et al. 2008. *Biological Conservation* 141: 3069–3078.
+
+[Example 2.2B. Effects of Zika virus](Data/chapter02/chap02e2bZikaBiparietalDiameter.csv) 
+
+Brasil, P., et al. 2016. *New England Journal of Medicine* 375: 2321-2334.
+
+[Figure 2.2-5. Salmon body mass](Data/chapter02/chap02f2_5SalmonBodySize.csv)
+
+Hendry, A. P., O. K. Berg, and T. P. Quinn. 1999. Condition dependence and adaptation-by-time: breeding date, life history, and energy allocation in a population of salmon. *Oikos* 85: 499–514.
+
+[Example 2.3A. Bird malaria](Data/chapter02/chap02e3aBirdMalaria.csv) 
+
+Oppliger, A., P. Christe, and H. Richner. 1996. *Nature* 381: 565.
+
+[Figure 2.3-3. Guppy father and son comparison](Data/chapter02/chap02f3_3GuppyFatherSonAttractiveness.csv)
+
+Brooks, R. 2000. Negative genetic correlation between male sexual attractiveness and survival. *Nature* 406: 67–70.
+
+[Example 2.3B. Human hemoglobin and elevation](Data/chapter02/chap02e3bHumanHemoglobinElevation.csv) 
+
+Beall, C. M., et al. 2002. *Proceedings of the National Academy of Sciences (USA)* 99: 17215–17218.
+
+[Figure 2.4-1. Measles outbreaks](Data/chapter02/chap02f4_1MeaslesOutbreaks.csv) 
+
+Jansen, V. A. A., N. Stollenwerk, H. J. Jensen, M. E. Ramsay, W. J. Edmunds, and C. J. Rhodes 2003. Measles outbreaks in a population with declining vaccine uptake. *Science* 301: 804.
+
+<br>
+
+## Data for problem sets
+
+[05. Fish fry survival](Data/chapter02/chap02q05FrySurvival.csv)
+
+Miller, L. M., T. Close, and A. R. Kapuscinski. 2004. *Molecular Ecology* 13: 3379–3388.
+
+[06. Endangered species](Data/chapter02/chap02q06EndangeredSpecies2018.csv)
+
+U.S. Fish & Wildlife Service. 2018. Listed Animals. U.S. Fish & Wildlife Service ECOS Environmental Conservation Online System. [Data link](https://ecos.fws.gov/ecp0/reports/ad-hoc-species-report?kingdom=V&kingdom=I&status=E&status=T&status=EmE&status=EmT&status=EXPE&status=EXPN&status=SAE&status=SAT&fcrithab=on&fstatus=on&fspecrule=on&finvpop=on&fgroup=on&header=Listed+Animals). Accessed August 27, 2018. 
+
+[07. Famine and schizophrenia](Data/chapter02/chap02q07FamineSchizophrenia.csv)
+
+St. Clair, D., et al. 2005. *Journal of the American Medical Association* 294: 557–562.
+
+[10. Synesthesia](Data/chapter02/chap02q10Synesthetes.csv) 
+
+Saenz, M., and C. Koch. 2008. *Current Biology* 18: R650-R651.
+
+[12. Convictions and income](Data/chapter02/chap02q12ConvictionsAndIncome.csv) 
+
+Farrington, D. P. 1994. *Cambridge Study in Delinquent Development [Great Britain], 1961-1981.* 2nd ICPSR ed. Inter-university Consortium for Political and Social Research, Ann Arbor, MI. [link](https://www.icpsr.umich.edu/icpsrweb/NACJD/studies/8488#) 
+
+[15. Moths to light](Data/chapter02/chap02q15MothsToLight.csv) 
+
+Altermatt F., and D. Ebert. 2016. *Biology Letters* 12: 20160111.
+
+[17. Anemone personality](Data/chapter02/chap02q17AnemonePersonality.csv) 
+
+Briffa, M., and J. Greenaway. 2011. *PLoS ONE* 6:e21963.
+
+[19. Firefly spermatophore mass](Data/chapter02/chap02q19FireflySpermatophoreMass.csv) 
+
+Cratsley, C. K., and S. M. Lewis. 2003. *Behavioral Ecology* 14: 135-140. 
+
+[22. Criminal convictions](Data/chapter02/chap02q22CriminalConvictions.csv) 
+
+Farrington, D. P. 1994. *Cambridge Study in Delinquent Development [Great Britain], 1961-1981*. 2nd ICPSR ed. Inter-university Consortium for Political and Social Research, Ann Arbor, MI. [Data link](https://www.icpsr.umich.edu/icpsrweb/NACJD/studies/8488#) 
+
+[26. Neotropical tree photosynthesis](Data/chapter02/chap02q26NeotropicalTreePhotosynthesis.csv) 
+
+Wheelwright, N. T., and B. A. Logan. 2004. *Proceedings of the National Academy of Sciences (USA)* 101: 8051-8055. 
+
+[28. Sneakers and cannibalism](Data/chapter02/chap02q28SneakerCannibalism.csv) 
+
+Gray, S. M., L. M. Dill, and J. S. McKinnon. 2007. *American Naturalist* 169:258–263.
+
+[32. Toxoplasma and accidents](Data/chapter02/chap02q32ToxoplasmaAccidents.csv) 
+
+Flegr, J., et al. 2002. BMC Infectious Diseases 2: 11.
+
+[33. ADHD and birth month](Data/chapter02/chap02q33BirthMonthADHD.csv) 
+
+Morrow, R. L., et al. 2012. *Canadian Medical Association Journal* 184: 755-762.
+
+[35. Food intake and lifespan](Data/chapter02/chap02q35FoodReductionLifespan.csv) 
+
+Mattison, J. A., et al. 2012. *Nature* 489: 318-321
+
+[37. Number of hurricanes](Data/chapter02/chap02q37Hurricanes.csv) 
+
+Data taken from [http://en.wikipedia.org/wiki/2010_Atlantic_hurricane_season](http://en.wikipedia.org/wiki/2010_Atlantic_hurricane_season) and similar articles for other years.

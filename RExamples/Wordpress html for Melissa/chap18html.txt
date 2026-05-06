@@ -1,0 +1,252 @@
+<h2>Multiple explanatory variables: R code for Chapter 18 examples</h2>
+Download the R code on this page as a single file <a href="../wp-content/rcode/chap18.r">here</a>
+<div style="width:650px; padding:6px; border:2px solid black; bgcolor=" #ffffff""="">
+<h3>New methods on this page</h3>
+Click on a function argument for a short description of its meaning. The variable names are plucked from the examples further below.
+
+<b>Fit a linear model for two fixed factors</b>:
+<code>algaeFullModel &lt;- lm([tippy title = "sqrtArea ~ height * herbivores" width = "300" header = "off"] <font color="003399">A model formula. <code>height * herbivores</code> is shorthand for <code>height + herbivores + height:herbivores</code>, where the first two terms are the main effects and <code>height:herbivores<code> is the interaction.</code></code></font><code><code>[/tippy], [tippy title = "data = algae" width = "300" header = "off"] <font color="003399">The name of the data frame containing the variables named in the formula.</font>[/tippy])</code></code></code>
+
+<code><code><b>Residual plot</b>:
+<code>plot([tippy title = "residuals(moleRatNoInteractModel)" width = "300" header = "off"] <font color="003399">The first part of the formula refers to the residuals for each of the data points.</font>[/tippy] ~ [tippy title = "fitted(moleRatNoInteractModel)" width = "300" header = "off"] <font color="003399">The second part of the formula refers to the fitted (predicted) values for each of the data points.</font>[/tippy])</code>
+
+<b>Other new methods</b>:
+Linear model for randomized block design.
+Linear model for one categorical and one numeric variable (ANCOVA).
+Interaction plot.
+Visualize fit of null and full models to the data.
+Type I and Type III sums of squares.
+
+</code></code></div>
+<code><code>
+<h3>Figure 18.1-1 <a href="../wp-content/data/chapter17/chap17e3PlantDiversityAndStability.csv">Modeling with linear regression</a></h3>
+<em><b>Compare the fits of the null and univariate regression models</b> to data on the relationship between stability of plant biomass production and the initial number of plant species assigned to plots. The data are from Example 17.3</em>.
+
+Read and inspect data.
+<pre>prairie &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter17/chap17e3PlantDiversityAndStability.csv"))
+head(prairie)
+</pre>
+<strong>Take the log-transformation</strong> of stability.
+<pre>prairie$logStability &lt;- log(prairie$biomassStability)
+head(prairie)
+</pre>
+<strong>Fit the null model to the data</strong>, which in simple linear regression is a line of 0 slope.
+<pre>prairieNullModel &lt;- lm(logStability ~ 1, data = prairie)
+</pre>
+<strong>Fit the full model</strong>, which includes the treatment variable.
+<pre>prairieRegression &lt;- lm(logStability ~ nSpecies, data = prairie)
+</pre>
+<strong>Scatter plot to compare models visually</strong>.
+<pre>plot(logStability ~ nSpecies, data = prairie, bty = "l", col="firebrick", 
+	pch = 1, las = 1, cex = 1.5, xlim = c(0,16), xaxp = c(0,16,8), 
+	xlab = "Species number treatment", 
+	ylab = "Log-transformed ecosystem stability")
+abline(prairieNullModel, lty = 2)
+abline(prairieRegression)
+</pre>
+<strong>The <i>F</i>-test of improvement in fit</strong> of the full (regression) model.
+<pre>anova(prairieRegression)
+</pre>
+
+<hr>
+
+<h3>Figure 18.1-2. <a href="../wp-content/data/chapter15/chap15e1KneesWhoSayNight.csv">Generalizing linear regression</a></h3>
+<em><b>Compare the fits of the null and single-factor ANOVA model</b> to data on phase shift in the circadian rhythm of melatonin production in participants given alternative light treatments. The data are from Example 15.1</em>.
+
+Read and inspect data.
+<pre>circadian &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter15/chap15e1KneesWhoSayNight.csv"))
+</pre>
+<strong>Set the order of groups</strong> for tables and graphs.
+<pre>circadian$treatment &lt;- factor(circadian$treatment, 
+	levels = c("control", "knee","eyes")) 
+</pre>
+<strong>Fit the null model to the data</strong>. In single-factor ANOVA, this fits a constant (grand mean) to all groups.
+<pre>circadianNullModel &lt;- lm(shift ~ 1, data = circadian)
+</pre>
+<strong>Fit the full model to the data</strong>, which includes the treatment effect.
+<pre>circadianAnova &lt;- lm(shift ~ treatment, data = circadian)
+</pre>
+<strong>Strip chart to compare models visually</strong>. The dashed line is the null model. The value <code>adjustAmount</code> is used to control the width of the horizontal line segments.
+<pre>par(bty="l")
+adjustAmount &lt;- 0.15
+stripchart(shift ~ treatment, data = circadian, method = "jitter",
+	vertical = TRUE, las = 1, pch = 1, xlab = "Light treatment",
+	ylab = "Shift in circadian rhythm (h)", col = "firebrick", 
+	cex = 1.2)
+
+xpts &lt;- as.numeric(circadian$treatment)
+ypts &lt;- predict(circadianNullModel)
+segments(xpts - adjustAmount, ypts, xpts + adjustAmount, ypts, lty = 2)
+
+xpts &lt;- as.numeric(circadian$treatment)
+ypts &lt;- predict(circadianAnova)
+segments(xpts - adjustAmount, ypts, xpts + adjustAmount, ypts, col = "firebrick")
+</pre>
+<strong><i>F</i>-test of improvement in fit</strong> of the full model.
+<pre>anova(circadianAnova)
+</pre>
+
+<hr>
+
+<h3>Example 18.2. <a href="../wp-content/data/chapter18/chap18e2ZooplanktonDepredation.csv">Zooplankton depredation</a></h3>
+<em><b>Analyze data from a randomized block experiment</b>, which measured the effects of fish abundance (the factor of interest) on zooplankton diversity. Treatments were repeated at 5 locations in a lake (blocks)</em>.
+
+Read and inspect data.
+<pre>zooplankton &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter18/chap18e2ZooplanktonDepredation.csv"))
+head(zooplankton)
+</pre>
+<strong>Set the order of groups</strong> in tables and plots.
+<pre>zooplankton$treatment &lt;- factor(zooplankton$treatment, levels = c("control","low","high"))
+</pre>
+<strong>Table of the data</strong> (Table 18.2-1). One measurement is available from each combination of treatment and block
+<pre>tapply(zooplankton$diversity, list(Treatment = zooplankton$treatment, 
+	Location = zooplankton$block), unique)
+</pre>
+A <strong>blocking variable is typically analyzed as a random effect</strong>. We need to load the <code>nlme</code> package.
+<pre>library(nlme)
+</pre>
+<strong>Fit the null model</strong>, which includes block but leaves out the treatment variable.
+<pre>zoopNullModel &lt;- lme(diversity ~ 1, random = ~ 1| block, data = zooplankton)
+</pre>
+<strong>Fit the full model</strong>, which includes treatment.
+<pre>zoopRBModel &lt;- lme(diversity ~ treatment, random = ~ 1| block, data = zooplankton)
+</pre>
+<strong>Visualize model fits, beginning with the null model</strong>. The result here differs from that in the book, which shows block means. Lines are coincident when we analyze the data using <code>lme</code>, which estimates hardly any variance among the block means.
+<pre>interaction.plot(zooplankton$treatment, zooplankton$block, 
+	response = predict(zoopNullModel), ylim = range(zooplankton$diversity),
+	trace.label = "Block", las = 1)
+points(zooplankton$treatment, zooplankton$diversity, 
+	pch = as.numeric(zooplankton$block))
+</pre>
+<strong>Visualize model fits, continuing with the full model</strong>. With the treatment term included, <code>lme</code> estimates that there is indeed variation among block means.
+<pre>interaction.plot(zooplankton$treatment, zooplankton$block, 
+	response = predict(zoopRBModel), ylim = range(zooplankton$diversity),
+	trace.label = "Block", las = 1)
+points(zooplankton$treatment, zooplankton$diversity, 
+	pch = as.numeric(zooplankton$block))
+</pre>
+<strong><i>F-</i>-test of improvement in fit</strong> of the full model. This represents the test of treatment effect. Notice that R will not test the random (block) effect of an <code>lme</code> model.
+<pre>anova(zoopRBModel)
+</pre>
+
+<hr>
+
+<h3>Example 18.3 <a href="../wp-content/data/chapter18/chap18e3IntertidalAlgae.csv">Intertidal interaction zone</a></h3>
+<em><b>Analyze data from a factorial experiment</b> investigating the effects of herbivore presence, height above low tide, and the interaction between these factors, on abundance of a red intertidal alga using <b>two-factor ANOVA</b></em>.
+
+Read and inspect the data.
+<pre>algae &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter18/chap18e3IntertidalAlgae.csv"))
+head(algae)
+</pre>
+<strong>Fit the null model having both main effects but no interaction term</strong>. Note that we use <code>lm</code> because both factors are fixed effects.
+<pre>algaeNoInteractModel &lt;- lm(sqrtArea ~ height + herbivores, data = algae)
+</pre>
+<strong>Fit the full model</strong>, with interaction term included.
+<pre>algaeFullModel &lt;- lm(sqrtArea ~ height * herbivores, data = algae)
+</pre>
+<strong>Visualize the model fits, beginning with the no-interaction model</strong>.
+<pre>interaction.plot(algae$herbivores, algae$height, response = predict(algaeNoInteractModel), 
+	ylim = range(algae$sqrtArea), trace.label = "Height", las = 1,
+	ylab = "Square root surface area (cm)", xlab = "Herbivore treatment")
+adjustAmount = 0.05
+points(sqrtArea ~ c(jitter(as.numeric(herbivores), factor = 0.2) + adjustAmount), 
+	data = subset(algae, height == "low"))
+points(sqrtArea ~ c(jitter(as.numeric(herbivores), factor = 0.2) - adjustAmount), 
+	data = subset(algae, height == "mid"), pch = 16)
+</pre>
+<strong>Visualize the model fits, continuing with the full model including the interaction term</strong>.
+<pre>interaction.plot(algae$herbivores, algae$height, response = predict(algaeFullModel), 
+	ylim = range(algae$sqrtArea), trace.label = "Height", las = 1,
+	ylab = "Square root surface area (cm)", xlab = "Herbivore treatment")
+adjustAmount = 0.05
+points(sqrtArea ~ c(jitter(as.numeric(herbivores), factor = 0.2) + adjustAmount), 
+	data = subset(algae, height == "low"))
+points(sqrtArea ~ c(jitter(as.numeric(herbivores), factor = 0.2) - adjustAmount), 
+	data = subset(algae, height == "mid"), pch = 16)
+</pre>
+<strong>Test the improvement in fit</strong> of the model including the interaction term.
+<pre>anova(algaeNoInteractModel, algaeFullModel)
+</pre>
+<strong>Test all terms in the model in a single ANOVA table</strong>. Most commonly, this is done using either "Type III" sums of squares (see footnote 5 on p 618 of the book) or "Type I" sums of squares (which is the default in R). In the present example the two methods give the same answer, because the design is completely balanced, but this will not generally happen when the design is not balanced.
+
+Here is how to test all model terms using <strong>"Type III" sums of squares</strong>. We need to include a <code>contrasts</code> argument for the two categorical variables in the <code>lm</code> command. Then we need to load the <code>car</code> package and use its <code>Anova</code> command. Note that "A" is in upper case in <code>Anova</code> - a very subtle difference.
+<pre>algaeFullModelTypeIII &lt;- lm(sqrtArea ~ height * herbivores, data = algae, 
+	contrasts = list(height = contr.sum, herbivores = contr.sum))
+library(car)
+Anova(algaeFullModelTypeIII, type = "III") # note "A" in Anova is capitalized
+</pre>
+Here is how we test all model terms using <strong>"Type I" (sequential) sums of squares</strong>. Note that "a" is in lower case in <code>anova</code>.
+<pre>anova(algaeFullModel)
+</pre>
+<strong>A residual plot</strong> from the full model.
+<pre>plot( residuals(algaeFullModel) ~ fitted(algaeFullModel) )
+abline(0,0)
+</pre>
+<strong>A normal quantile plot of the residuals</strong>.
+<pre>qqnorm(residuals(algaeNoInteractModel), pch = 16, col = "firebrick", 
+	las = 1, ylab = "Residuals", xlab = "Normal quantile", main = "")
+</pre>
+
+<hr>
+
+<h3>Example 18.4 <a href="../wp-content/data/chapter18/chap18e4MoleRatLayabouts.csv">Mole-rat layabouts</a></h3>
+<em><b>Analyze a factor while adjusting for a covariate</b>, comparing energy expenditure of two castes of naked mole-rat while adjusting for differences in body mass using <b>analysis of covariance ANCOVA</b></em>.
+
+Read and inspect the data.
+<pre>moleRat &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter18/chap18e4MoleRatLayabouts.csv"))
+head(moleRat)
+</pre>
+We are going to <strong>sort the data</strong> according to the value of the ln of body mass. This simplifies graphing of the model fits. The graph commands below assume that the data are sorted in this way.
+<pre>moleRatSorted &lt;- moleRat[ order(moleRat$lnMass), ]
+</pre>
+<strong>Scatter plot</strong> of the data.
+<pre>plot(lnEnergy ~ lnMass, data = moleRat, type = "n", las = 1, bty = "l")
+points(lnEnergy ~ lnMass, data = subset(moleRatSorted, caste == "worker"), 
+	pch = 1, col = "firebrick")
+points(lnEnergy ~ lnMass, data = subset(moleRatSorted, caste == "lazy"), 
+	pch = 16, col = "firebrick")
+</pre>
+Fit models to the data, <strong>beginning with the model lacking an interaction term</strong>. Use <code>lm</code> because caste and mass are fixed effects. Save the predicted values in the data frame.
+<pre>moleRatNoInteractModel &lt;- lm(lnEnergy ~ lnMass + caste, data = moleRatSorted)
+moleRatSorted$predictedNoInteract &lt;- predict(moleRatNoInteractModel)
+</pre>
+<strong>Fit the full model, which includes the interaction term</strong>. Again, save the predicted values in the data frame.
+<pre>moleRatFullModel &lt;- lm(lnEnergy ~ lnMass * caste, data = moleRatSorted)
+moleRatSorted$predictedInteract &lt;- predict(moleRatFullModel)
+</pre>
+<strong>Visualize the model fits</strong>, beginning with the fit of the no-interaction model. Redraw the scatter plot (see commands above), if necessary, before issuing the following commands.
+<pre>lines(predictedNoInteract ~ lnMass, data = subset(moleRatSorted, 
+	caste == "worker"), lwd = 1.5)
+lines(predictedNoInteract ~ lnMass, data = subset(moleRatSorted, 
+	caste == "lazy"), lwd = 1.5)
+</pre>
+<strong>Visualize the fit of the full model</strong>, including the interaction term. Redraw the scatter plot, if necessary, before issuing the following commands.
+<pre>lines(predictedInteract ~ lnMass, data = subset(moleRatSorted, 
+	caste == "worker"), lwd = 1.5, lty = 2)
+lines(predictedInteract ~ lnMass, data = subset(moleRatSorted, 
+	caste == "lazy"), lwd = 1.5, lty = 2)
+</pre>
+<strong>Test the improvement in fit of the full model</strong>, including the interaction term. This is a test of the interaction term only.
+<pre>anova(moleRatNoInteractModel, moleRatFullModel)
+</pre>
+<strong>Test for differences</strong> in ln body mass between castes, <strong>assuming that no interaction term</strong> is present in the mole rat population (i.e., assuming that the two castes hve equal slopes). Most commonly this is done using either "Type III" sums of squares (see footnote 5 on p 618 of the book) or "Type I" sums of squares (the default in R). The two methods do not give identical answers here because the design is not balanced (in a balanced design, each value of the x-variable would have the same number of y-observations from each group).
+
+Test using <strong>"Type III" sums of squares</strong>. We need to include a <code>contrasts</code> argument for the categorical variable in the <code>lm</code> command. Then we need to load the <code>car</code> package and use its <code>Anova</code> command. Note that "A" is in upper case in <code>Anova()</code>.
+<pre>moleRatNoInteractModelTypeIII &lt;- lm(lnEnergy ~ lnMass + caste, data = moleRat, 
+	contrasts = list(caste = contr.sum))
+library(car)
+Anova(moleRatNoInteractModelTypeIII, type = "III") # note "A" in Anova is capitalized
+</pre>
+Test using <strong>"Type I" (sequential) sums of squares</strong>. Make sure that the covariate (lnMass) comes before the factor (caste) in the <code>lm</code> formula, as shown. Note that "a" is in lower case in <code>anova</code>.
+<pre>moleRatNoInteractModel &lt;- lm(lnEnergy ~ lnMass + caste, data = moleRat)
+anova(moleRatNoInteractModel)
+</pre>
+<strong>Residual plot</strong> from the linear model.
+<pre>plot( residuals(moleRatNoInteractModel) ~ fitted(moleRatNoInteractModel) )
+abline(0,0)
+</pre>
+<strong>Normal quantile plot of residuals</strong>.
+<pre>qqnorm(residuals(moleRatNoInteractModel), pch = 16, col = "firebrick", 
+	las = 1, ylab = "Residuals", xlab = "Normal quantile", main = "")
+</pre>
+</code></code>

@@ -1,0 +1,65 @@
+---
+title: "Resources for Chapter X: XXXXXX"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<br> 
+
+## Chapter links
+
+[]()
+
+<br>
+
+## Web visualizations
+
+A web visualization that demonstrates XXXXX [here](http://www.zoology.ubc.ca/~whitlock/Kingfisher/ContingencyAnalysis.htm). 
+
+
+<br>
+
+## R tutorial
+
+A tutorial on how to carry out XXXXX in R, and related topics, is available [here]().
+
+<br>
+
+## R code for book examples
+
+R code to analyze all examples in chapter XX is available [here](R code for WS examples/R_code_Chapter_9.html).
+
+<br> 
+
+## Data
+
+Download a .zip file with all the data for chapter XX in .csv format [here](). 
+
+Download a .zip file with all data sets in the book [here](). 
+
+All data sets and their sources are listed individually below.
+
+Disclaimer: Most data sets used in the book are grabbed from graphs and tables in the original publications, and the values may not be exact. Contact the original authors for the raw data.
+
+<br> 
+
+### Data for examples
+
+
+
+
+<br>
+
+### Data for problem sets

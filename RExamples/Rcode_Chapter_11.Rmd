@@ -1,0 +1,180 @@
+---
+title: "R code for example in Chapter 11: <br>Inference for a normal population"
+author: 
+
+#output: html_document
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 5, fig.height=4)
+```
+
+***
+
+We used R to analyze all examples in Chapter 11. We put the code here so that you can too.
+
+<br>
+Also see our [lab on calculating the confidence interval for the mean using R](https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_Normal_and_sample_means.html).
+
+<br>
+
+# Load required packages 
+
+We'll use the ```ggplot2``` add on package to make graphs.
+
+```{r message = FALSE}
+library(ggplot2)
+```
+
+***
+
+<br>
+
+# New methods on this page
+
+<ul>
+<li>One-sample $t$-test:
+
+```{r eval = FALSE}
+t.test(heat$temperature, mu = 98.6)
+```
+
+<li>Other new methods:
+<ul>
+<li>Confidence intervals for the variance and the standard deviation.
+</ul>
+</ul>
+
+***
+
+<br>
+
+# Example 11.2. Stalk-eyed flies
+
+***Confidence intervals for the population mean, variance, and standard deviation** using eye span measurements from a sample of stalk-eyed flies*.
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+stalkie <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter11/chap11e2Stalkies.csv"), stringsAsFactors = FALSE)
+stalkie
+```
+
+<br>
+
+## Histogram
+
+```{r eval = TRUE}
+hist(stalkie$eyespan, right = FALSE, col = "firebrick", las = 1, 
+	xlab = "Eye span (mm)", ylab = "Frequency", main = "")
+```
+
+or
+
+```{r eval = TRUE}
+ggplot(stalkie, aes(x = eyespan)) + 
+    geom_histogram(fill = "firebrick", col = "black", binwidth = 0.2, 
+        boundary = 0, closed = "left") + 
+    labs(x = "Eye span (mm)", y = "Frequency") + 
+    theme_classic()
+```
+
+<br>
+
+## 95% CI for the mean
+
+Appending ```$conf.int``` after the function ```t.test()``` causes R to give the 95% confidence interval for the mean.
+
+```{r eval = TRUE}
+t.test(stalkie$eyespan)$conf.int
+```
+
+<br>
+
+## 99% CI for the mean
+
+Adding the argument ```conf.level = 0.99``` changes the confidence level of the confidence interval.
+
+```{r eval = TRUE}
+t.test(stalkie$eyespan, conf.level = 0.99)$conf.int
+```
+
+<br>
+
+## 95% CI for variance
+
+Strangely, base R has no built-in function for the confidence interval of a variance, so must we compute it using the formula in the book:
+
+```{r eval = TRUE}
+df <- length(stalkie$eyespan) - 1
+varStalkie <- var(stalkie$eyespan)
+lower = varStalkie * df / qchisq(0.05/2, df, lower.tail = FALSE)
+upper = varStalkie * df / qchisq(1 - 0.05/2, df, lower.tail = FALSE)
+c(lower = lower, variance = varStalkie, upper = upper)
+```
+
+<br>
+
+## 95% CI for std deviation
+
+Take the square root of the confidence limits for the variance.
+
+```{r eval = TRUE}
+c(lower = sqrt(lower), std.dev = sqrt(varStalkie), upper = sqrt(upper))
+```
+
+***
+
+<br>
+
+# Example 11.3. Body temperature
+
+*Uses a **one-sample *t*-test** to compare body temperature in a random sample of people with the "expected" temperature 98.6 °F*.
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+heat <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter11/chap11e3Temperature.csv"), stringsAsFactors = FALSE)
+head(heat)
+```
+
+<br>
+
+## Histogram
+
+```{r eval = TRUE}
+hist(heat$temperature, right = FALSE, breaks = seq(97, 100.5, by = 0.5),
+	col = "firebrick", las = 1, xlab = "Body temperature (°F)", 
+	ylab = "Frequency", main = "")
+```
+
+or
+
+```{r eval = TRUE}
+ggplot(heat, aes(x = temperature)) + 
+    geom_histogram(fill = "firebrick", col = "black", binwidth = 0.5, 
+        boundary = 97, closed = "left") + 
+    xlim(97, 100.5) +
+    labs(x = "Body temperature (°F)", y = "Frequency") + 
+    theme_classic()
+```
+
+<br>
+
+## One-sample *t*-test
+
+Calculate using the R command ```t.test()```. Use the argument ```mu = ``` to set the parameter value stated in the null hypothesis.
+
+```{r eval = TRUE}
+t.test(heat$temperature, mu = 98.6)
+```

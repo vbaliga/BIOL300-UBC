@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+
+<title>R code for example in Chapter 20:  Likelihood</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-4');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R code for example in Chapter 20: <br>Likelihood</h1>
+
+</div>
+
+
+<hr />
+<p>We used R to analyze all examples in Chapter 20. We put the code here so that you can too.</p>
+<p><br></p>
+<div id="new-methods-on-this-page" class="section level1">
+<h1>New methods on this page</h1>
+<ul>
+<li>
+<p>Binomial log-likelihood of a value for the probability of success:</p>
+<pre class="r"><code>dbinom(23, size = 32, p = 0.5, log = TRUE)</code></pre>
+<li>
+Other new methods:
+<ul>
+<li>
+Log-likelihood curve.
+<li>
+Log-likelihood ratio test.
+<li>
+Likelihood-based 95% confidence interval.
+</ul>
+</ul>
+<hr />
+</div>
+<div id="load-required-packages" class="section level1">
+<h1>Load required packages</h1>
+<p>We only need <code>ggplot2</code> for ordinary graphs.</p>
+<pre class="r"><code>library(ggplot2)</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="example-20.3-unruly-passengers" class="section level1">
+<h1>Example 20.3 Unruly passengers</h1>
+<p><em><strong>Maximum likelihood estimation</strong> of the proportion of parasitic wasp individuals that choose the mated butterflies in a choice test. Below, we also apply the <strong>log-likelihood ratio test</strong> to these data</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>wasps &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter20/chap20e3UnrulyPassengers.csv&quot;))
+head(wasps)</code></pre>
+<pre><code>##   choice
+## 1  mated
+## 2  mated
+## 3  mated
+## 4  mated
+## 5  mated
+## 6  mated</code></pre>
+<p><br></p>
+</div>
+<div id="frequency-table" class="section level2">
+<h2>Frequency table</h2>
+<p>Frequency table of wasp choice.</p>
+<pre class="r"><code>table(wasps)</code></pre>
+<pre><code>## wasps
+##   mated unmated 
+##      23       9</code></pre>
+<p><br></p>
+</div>
+<div id="likelihood-and-log-likelihood" class="section level2">
+<h2>Likelihood and log-likelihood</h2>
+<p>The likelihood and log-likelihood of <span class="math inline">\(p\)</span> = 0.5.</p>
+<pre class="r"><code>dbinom(23, size = 32, p = 0.5)</code></pre>
+<pre><code>## [1] 0.00653062</code></pre>
+<pre class="r"><code>dbinom(23, size = 32, p = 0.5, log = TRUE)</code></pre>
+<pre><code>## [1] -5.031253</code></pre>
+<p><br></p>
+</div>
+<div id="log-likelihoods-of-p" class="section level2">
+<h2>Log-likelihoods of <span class="math inline">\(p\)</span></h2>
+<p>The log-likelihood of a range of different values of <span class="math inline">\(p\)</span> (Table 20.3-1) is obtained as follows.</p>
+<pre class="r"><code>proportion &lt;- seq(0.1, 0.9, by = 0.1)
+logLike &lt;- dbinom(23, size = 32, p = proportion, log = TRUE)
+data.frame(Proportion = proportion, Loglikelihood = logLike)</code></pre>
+<pre><code>##   Proportion Loglikelihood
+## 1        0.1    -36.758245
+## 2        0.2    -21.875908
+## 3        0.3    -13.751993
+## 4        0.4     -8.522661
+## 5        0.5     -5.031253
+## 6        0.6     -2.846150
+## 7        0.7     -1.889823
+## 8        0.8     -2.467786
+## 9        0.9     -5.997101</code></pre>
+<p>The log-likelihood calculated using a narrower range of values for <span class="math inline">\(p\)</span> (Table 20.3-2). The additional quantity <code>dlogLike</code> is the difference between each likelihood and the maximum.</p>
+<pre class="r"><code>proportion &lt;- seq(0.4, 0.9, by = 0.01)
+logLike &lt;- dbinom(23, size = 32, p = proportion, log = TRUE)
+dlogLike &lt;- logLike - max(logLike)</code></pre>
+<p>Let’s put the result into a data frame.</p>
+<pre class="r"><code>likeResults &lt;- data.frame(Proportion = proportion, Loglikelihood = logLike, 
+                      diffLogLike = dlogLike)
+head(likeResults)</code></pre>
+<pre><code>##   Proportion Loglikelihood diffLogLike
+## 1       0.40     -8.522661   -6.659833
+## 2       0.41     -8.105995   -6.243167
+## 3       0.42     -7.705601   -5.842773
+## 4       0.43     -7.320925   -5.458097
+## 5       0.44     -6.951463   -5.088635
+## 6       0.45     -6.596754   -4.733925</code></pre>
+<p><br></p>
+</div>
+<div id="maximum-likelihood-estimate" class="section level2">
+<h2>Maximum likelihood estimate</h2>
+<pre class="r"><code>pHat &lt;- proportion[logLike == max(logLike)]
+pHat</code></pre>
+<pre><code>## [1] 0.72</code></pre>
+<p><br></p>
+</div>
+<div id="log-likelihood-curve" class="section level2">
+<h2>Log-likelihood curve</h2>
+<p>The log-likelihood curve (Figure 20.3-1) is plotted below.</p>
+<pre class="r"><code>ggplot(data = likeResults, aes(x = Proportion, y = Loglikelihood)) +
+  geom_line() +
+  geom_hline(yintercept = max(logLike), linetype = &quot;dashed&quot;) +
+  geom_vline(xintercept = pHat, color = &quot;firebrick&quot;, size = 1.5) +
+  labs(y = &quot;Log-likelihood&quot;, 
+    x = expression(paste(&quot;Hypothesized proportion, &quot;, italic(p)))) + 
+  theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_20_files/figure-html/unnamed-chunk-10-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="confidence-interval" class="section level2">
+<h2>Confidence interval</h2>
+<p>An approximate likelihood-based 95% confidence interval is obtained as follows.</p>
+<pre class="r"><code>lower &lt;- max( proportion[proportion &lt;= pHat &amp; logLike &lt;= max(logLike) - 1.92] )
+upper &lt;- min( proportion[proportion &lt;= pHat &amp; logLike &lt;= max(logLike) - 1.92] )
+c(lower = lower, upper = upper)</code></pre>
+<pre><code>## lower upper 
+##  0.55  0.40</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="log-likelihood-ratio-test" class="section level1">
+<h1>Log-likelihood ratio test</h1>
+<p>The <strong>log-likelihood ratio test</strong> to test the null hypothesis that the population proportion of wasps choosing mated female butterflies is 0.5. <code>G</code> is the test statistic and <code>P</code> is the <em>P</em>-value.</p>
+<pre class="r"><code>G &lt;- 2 * ( dbinom(23, size = 32, p = pHat, log = TRUE)
+     - dbinom(23, size = 32, p = 0.5, log = TRUE) )
+G</code></pre>
+<pre><code>## [1] 6.33685</code></pre>
+<pre class="r"><code>P &lt;- 1 - pchisq(G, 1)
+P</code></pre>
+<pre><code>## [1] 0.01182547</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="example-20.4-conservation-scoop" class="section level1">
+<h1>Example 20.4 Conservation Scoop</h1>
+<p><em><strong>Maximum likelihood estimation</strong> of elephant population size using mark-recapture data</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data-1" class="section level2">
+<h2>Read and inspect data</h2>
+<p>The data are on the 74 individuals collected in the second sample.</p>
+<pre class="r"><code>elephant &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter20/chap20e4ConservationScoop.csv&quot;))
+head(elephant)</code></pre>
+<pre><code>##        class
+## 1 recaptured
+## 2 recaptured
+## 3 recaptured
+## 4 recaptured
+## 5 recaptured
+## 6 recaptured</code></pre>
+<p><br></p>
+</div>
+<div id="frequency-table-1" class="section level2">
+<h2>Frequency table</h2>
+<p>The frequency table of the 74 recaptured or unmarked individuals in the second sample.</p>
+<pre class="r"><code>table(elephant)</code></pre>
+<pre><code>## elephant
+## recaptured   unmarked 
+##         15         59</code></pre>
+<p><br></p>
+</div>
+<div id="quantities-needed" class="section level2">
+<h2>Quantities needed</h2>
+<p>These are the quantities needed for the likelihood calculations.</p>
+<pre class="r"><code>m &lt;-  27     # size of first sample (total marked individuals)
+n2 &lt;- 74     # size of second sample
+Y &lt;-  15     # number of recaptures in second sample</code></pre>
+<p>Choose a range of values of <code>N</code> to try. <code>N</code> is the (unknown) total number of individuals in the population. <code>N</code> must be at least <code>n2 + m - Y</code> (86, in the current example).</p>
+<pre class="r"><code>N &lt;-  90:250 # The values of N to try</code></pre>
+<p><br></p>
+</div>
+<div id="likelihood-and-log-likelihood-1" class="section level2">
+<h2>Likelihood and log-likelihood</h2>
+<p>These are the likelihoods and log-likelihood of each <code>N</code>.</p>
+<pre class="r"><code>like &lt;- choose(m, Y) *  choose(N - m, n2 - Y) /  choose(N, n2)
+logLike &lt;- lchoose(m, Y) + lchoose(N - m, n2 - Y) - lchoose(N, n2)</code></pre>
+<p>Likelihood and log-likelihood can also be obtained using R’s built-in function for the hypergeometric distribution.</p>
+<pre class="r"><code>like &lt;- dhyper(Y, m, N - m, n2)
+logLike &lt;- dhyper(Y, m, N - m, n2, log = TRUE)</code></pre>
+<p><br></p>
+</div>
+<div id="maximum-likelihood-estimate-1" class="section level2">
+<h2>Maximum likelihood estimate</h2>
+<p>The maximum likelihood estimate of elephant population size.</p>
+<pre class="r"><code>Nhat &lt;- N[logLike == max(logLike)]
+Nhat</code></pre>
+<pre><code>## [1] 133</code></pre>
+<p><br></p>
+</div>
+<div id="log-likelihood-curve-1" class="section level2">
+<h2>Log-likelihood curve</h2>
+<p>The log-likelihood curve (Figure 20.4-1) is produced as follows.</p>
+<pre class="r"><code>likeResults &lt;- data.frame(N, like, logLike)
+ggplot(data = likeResults, aes(x = N, y = logLike)) +
+  geom_line() +
+  labs(y = &quot;Log-likelihood&quot;, 
+    x = expression(paste(&quot;Population size estimate, &quot;, italic(N)))) + 
+  theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_20_files/figure-html/unnamed-chunk-20-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="confidence-interval-1" class="section level2">
+<h2>Confidence interval</h2>
+<p>The likelihood-based 95% confidence interval for elephant population size is approximately as follows.</p>
+<pre class="r"><code>lower &lt;- max(N[N &lt;= Nhat &amp; logLike &lt;= max(logLike) - 1.92])
+upper &lt;- min(N[N &lt;= Nhat &amp; logLike &lt;= max(logLike) - 1.92])
+c(lower = lower, upper = upper)</code></pre>
+<pre><code>## lower upper 
+##   104    90</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,346 @@
+---
+title: "R code for examples in Chapter 3: <br>Describing data"
+author:
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 5, fig.height=4)
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(dplyr))
+```
+
+***
+
+We used R to analyze all examples in Chapter 3. We put the code here so that you can too.
+
+<br>
+Also see our [lab on describing data using R](https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_Describing_data.html).
+
+<br>
+
+# New methods on this page
+
+<ul>
+<li> Sample mean, when there are no missing ```(NA)``` entries:
+
+```{r eval = FALSE}
+mean(snakeData$undulationRate)
+```
+
+<li>Standard deviation, when there are no missing ```(NA)``` entries:
+
+```{r eval = FALSE}
+sd(snakeData$undulationRate)
+```
+
+<li>Calculate a statistic by group, when there are no missing ```(NA)``` entries:
+
+```{r eval = FALSE}
+summarize(group_by(sticklebackData, genotype), Mean = mean(plates))
+```
+
+<li>Extract a subset of data from a data frame:
+
+```{r eval = FALSE}
+subset(spiderData, treatment == "before")
+```
+
+
+<li>Other new methods:
+
+<ul>
+<li>Variance and coefficient of variation.
+<li>Median and interquartile range.
+<li>Round to a preferred number of decimals.
+<li>Cumulative frequency distribution.
+<li>Table of descriptive statistics by group.
+<li>Mean and standard deviation from a frequency table.
+<li>Order categories of a categorical variable in tables and graphs.
+</ul>
+</ul>
+
+***
+
+<br>
+
+# Load required packages
+
+We'll use the ```ggplot2``` package to make plots and the ```dplyr``` package to tabulate summary statistics.
+
+```{r eval = TRUE}
+library(ggplot2)
+library(dplyr)
+```
+
+***
+
+<br>
+
+# Example 3.1-1. Gliding snakes
+
+***Sample mean**, **standard deviation**, **variance** and **coefficient of variation** of undulation rate of 8 gliding paradise tree snakes, in Hz*.
+
+<br> 
+
+## Read and inspect data
+
+```{r eval = TRUE}
+snakeData <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter03/chap03e1GlidingSnakes.csv"), stringsAsFactors = FALSE)
+
+head(snakeData)
+```
+
+<br>
+
+## Histogram 
+
+This is the histogram of Figure 3.1-1.
+
+```{r eval = TRUE}
+ggplot(data = snakeData, aes(x = undulationRateHz)) + 
+    geom_histogram(fill = "firebrick", col = "black", 
+          breaks = seq(0.8, 2.2, by = 0.2), boundary = 0, closed = "left") + 
+    labs(x = "Undulation rate (Hz)", y = "Frequency") + 
+    theme_classic()
+```
+
+<br> 
+
+## Mean, standard deviation, variance
+
+Calculate the **mean, standard deviation** and **variance** of the undulation rates.
+
+```{r eval = TRUE}
+mean(snakeData$undulationRate)
+sd(snakeData$undulationRate)
+var(snakeData$undulationRate)
+```
+
+<br>
+
+## Coefficient of variation.
+
+```{r eval = TRUE}
+100 * sd(snakeData$undulationRate)/mean(snakeData$undulationRate)
+```
+
+***
+
+<br>
+
+# Table 3.1-2. Numbers of convictions
+
+<i>**Mean and standard deviation from a frequency table**. The data are from Chapter 2</i>.
+
+<br>
+
+## Read and inspect the data. 
+
+The data are stored as a frequency table of the number of convictions.
+
+```{r eval = TRUE}
+convictionsFreq <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter03/chap03t1_2ConvictionsFreq.csv"), stringsAsFactors = FALSE)
+head(convictionsFreq)
+```
+
+<br>
+
+## ```rep()``` command
+
+First, use the ```rep()``` command to repeat each value in the table, the number of times according to frequency. Here, we store the result in ```convictions```.
+
+```{r eval = TRUE}
+convictions <- rep(convictionsFreq$convictions, convictionsFreq$frequency)
+```
+
+<br> 
+
+## Mean and standard deviation
+
+```{r eval = TRUE}
+mean(convictions)
+sd(convictions)
+```
+
+These operations won't work if there are missing values in the data set. If missing values are present it is necessary to add an argument to the command as follows. 
+
+```{r eval = TRUE}
+mean(convictions, na.rm = TRUE)
+sd(convictions, na.rm = TRUE)
+```
+
+***
+
+<br>
+
+# Example 3.2. Spider running speed
+
+***Median**, **interquartile range**, and **box plot** of running speed (cm/s) of male <i>Tidarren</i> spiders.
+*
+
+<br>
+
+## Read and inspect data
+
+The data are in "long" format. One variable indicates running speed, and a second variable gives treatment (before vs after amputation). Therefore, every individual spider is on two rows, once for its before-amputation measurement and one for its after-amputation measurement.
+
+```{r eval = TRUE}
+spiderData <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter03/chap03e2SpiderAmputation.csv"), stringsAsFactors = FALSE)
+head(spiderData)
+```
+
+<br>
+
+## Box plot
+
+Begin by ordering the treatment levels so that the "before" amputation measurements come before the "after" measurements in the plot.
+
+```{r eval = TRUE}
+spiderData$treatment <- factor(spiderData$treatment, levels = c("before", "after"))
+
+ggplot(spiderData, aes(x = treatment, y = speed)) + 
+    geom_boxplot(fill = "goldenrod1") +
+    theme_classic()
+```
+
+<br>
+
+## Sample median
+
+First, extract the before-amputation data using ```subset()```. Note the double equal sign "==" needed in the logical statement, which indicates "is equal to" in R. Save the result in a new data frame named ```speedBefore```.
+
+```{r eval = TRUE}
+speedBefore <- subset(spiderData, treatment == "before") 
+speedBefore
+```
+
+## Sample median
+
+```{r eval = TRUE}
+median(speedBefore$speed)
+```
+
+<br>
+
+## First and third quartiles
+
+Calculate the first and third quartiles of before-amputation running speed (0.25 and 0.75 quantiles). Type = 5 reproduces the method we use in the book to calculate quartiles.
+
+```{r eval = TRUE}
+quantile(speedBefore$speed, probs = c(0.25, 0.75), type = 5)
+```
+
+<br>
+
+## Interquartile range
+
+Calculate the interquartile range of before-amputation running speed. The argument ```type = 5``` reproduces the method we use in the book to calculate quartiles.
+
+```{r eval = TRUE}
+IQR(speedBefore$speed, type = 5)
+```
+
+***
+
+<br>
+
+# Example 3.3. Stickleback lateral plates
+
+*Draw **multiple histograms** and **produce a table of descriptive statistics by group** for plate numbers of three stickleback genotypes. We also include a **table of frequencies and proportions** of stickleback genotypes.*
+
+<br>
+
+## Download and inspect the data.
+
+```{r eval = TRUE}
+sticklebackData <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter03/chap03e3SticklebackPlates.csv"), stringsAsFactors = FALSE)
+head(sticklebackData)
+```
+
+<br>
+
+## Order genotypes
+
+Begin by setting the preferred order of the three genotypes in the figure.
+
+```{r eval = TRUE}
+sticklebackData$genotype <- factor(sticklebackData$genotype, 
+	  levels = c("MM","Mm","mm"))
+```
+
+<br>
+
+## Multiple histograms
+
+One histogram per genotype, stacked vertically, all using the same x-axis scale.
+
+```{r eval = TRUE}
+ggplot(sticklebackData, aes(x = plates)) + 
+    geom_histogram(fill = "firebrick", col = "black", 
+        boundary = 0, closed = "left", binwidth = 2) +
+    labs(x = "Number of lateral plates", y = "Frequency") + 
+    facet_wrap( ~ genotype, ncol = 1, scales = "free_y") +
+    theme_classic()
+```
+
+<br>
+
+## Statistics by group
+
+We'll use the ```summarize()``` command from the ```dplyr``` package. The commands below assume that the variables contain no missing ```(NA)``` elements. The ```n()``` function calculates the number of cases. The function ```round(x, digits = 1)``` rounds the contents of x to the desired number of decimal places (here, 1). 
+
+```{r eval = TRUE}
+sticklebackTable <- summarize(group_by(sticklebackData, genotype), 
+    n = n(),
+    Mean = round( mean(plates), digits = 1 ),
+    Median = median(plates),
+    Std.dev = round( sd(plates), digits = 1),
+    Interq.range = IQR(plates, type = 5))
+
+data.frame(sticklebackTable)
+```
+
+<br>
+
+# Figure 3.4-1. Spider running speed
+
+**Draw a cumulative frequency distribution** of running speed before amputation.
+
+<br>
+
+## Cumulative frequency distribution
+
+```{r eval = TRUE}
+ggplot(speedBefore, aes(x = speed)) + 
+	stat_ecdf(color = "firebrick", size = 1.5) +
+	labs(x = "Running speed before amputation (cm/s)", 
+		y = "Cumulative relative frequency") + 
+	theme_classic()
+```
+
+<br>
+
+# Table 3.5-1. Genotype frequencies
+
+**Make a table of frequencies and proportions** of the stickleback genotypes. Here we used ```summarize()``` from the ```dplyr``` package
+
+<br>
+
+## Make table
+
+```{r eval = TRUE}
+sticklebackTable <- summarize(group_by(sticklebackData, genotype), 
+    n = n())
+sticklebackTable$Proportion <- sticklebackTable$n/sum(sticklebackTable$n)
+data.frame(sticklebackTable)
+```
+
+The table would look even better if you rounded the proportions (give this a try).
+

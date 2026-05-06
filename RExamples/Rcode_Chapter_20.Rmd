@@ -1,0 +1,272 @@
+---
+title: "R code for example in Chapter 20: <br>Likelihood"
+author: 
+
+#output: html_document
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 5, fig.height=4)
+```
+
+***
+
+We used R to analyze all examples in Chapter 20. We put the code here so that you can too.
+
+<br>
+
+# New methods on this page
+
+<ul>
+<li>Binomial log-likelihood of a value for the probability of success:
+
+```{r eval = FALSE}
+dbinom(23, size = 32, p = 0.5, log = TRUE)
+```
+
+<li>Other new methods:
+<ul>
+<li>Log-likelihood curve.
+<li>Log-likelihood ratio test.
+<li>Likelihood-based 95% confidence interval.
+</ul>
+</ul>
+
+***
+
+# Load required packages 
+
+We only need ```ggplot2``` for ordinary graphs.
+
+```{r message = FALSE}
+library(ggplot2)
+```
+
+***
+
+<br>
+
+# Example 20.3 Unruly passengers
+
+***Maximum likelihood estimation** of the proportion of parasitic wasp individuals that choose the mated butterflies in a choice test. Below, we also apply the **log-likelihood ratio test** to these data*.
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+wasps <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter20/chap20e3UnrulyPassengers.csv"))
+head(wasps)
+```
+
+<br>
+
+## Frequency table
+
+Frequency table of wasp choice.
+
+```{r eval = TRUE}
+table(wasps)
+```
+
+<br>
+
+## Likelihood and log-likelihood
+
+The likelihood and log-likelihood of $p$ = 0.5.
+
+```{r eval = TRUE}
+dbinom(23, size = 32, p = 0.5)
+dbinom(23, size = 32, p = 0.5, log = TRUE)
+```
+
+<br>
+
+## Log-likelihoods of $p$
+
+The log-likelihood of a range of different values of $p$ (Table 20.3-1) is obtained as follows.
+
+```{r eval = TRUE}
+proportion <- seq(0.1, 0.9, by = 0.1)
+logLike <- dbinom(23, size = 32, p = proportion, log = TRUE)
+data.frame(Proportion = proportion, Loglikelihood = logLike)
+```
+
+The log-likelihood calculated using a narrower range of values for $p$ (Table 20.3-2). The additional quantity ```dlogLike``` is the difference between each likelihood and the maximum.
+
+```{r eval = TRUE}
+proportion <- seq(0.4, 0.9, by = 0.01)
+logLike <- dbinom(23, size = 32, p = proportion, log = TRUE)
+dlogLike <- logLike - max(logLike)
+```
+
+Let's put the result into a data frame.
+
+```{r eval = TRUE}
+likeResults <- data.frame(Proportion = proportion, Loglikelihood = logLike, 
+                      diffLogLike = dlogLike)
+head(likeResults)
+```
+
+<br>
+
+## Maximum likelihood estimate
+
+```{r eval = TRUE}
+pHat <- proportion[logLike == max(logLike)]
+pHat
+```
+
+<br>
+
+## Log-likelihood curve
+
+The log-likelihood curve (Figure 20.3-1) is plotted below.
+
+```{r eval = TRUE}
+ggplot(data = likeResults, aes(x = Proportion, y = Loglikelihood)) +
+  geom_line() +
+  geom_hline(yintercept = max(logLike), linetype = "dashed") +
+  geom_vline(xintercept = pHat, color = "firebrick", size = 1.5) +
+  labs(y = "Log-likelihood", 
+    x = expression(paste("Hypothesized proportion, ", italic(p)))) + 
+  theme_classic()
+```
+
+<br> 
+
+## Confidence interval
+
+An approximate likelihood-based 95% confidence interval is obtained as follows.
+
+```{r eval = TRUE}
+lower <- max( proportion[proportion <= pHat & logLike <= max(logLike) - 1.92] )
+upper <- min( proportion[proportion <= pHat & logLike <= max(logLike) - 1.92] )
+c(lower = lower, upper = upper)
+```
+
+***
+
+<br> 
+
+# Log-likelihood ratio test
+
+The **log-likelihood ratio test** to test the null hypothesis that the population proportion of wasps choosing mated female butterflies is 0.5. ```G``` is the test statistic and ```P``` is the *P*-value.
+
+```{r eval = TRUE}
+G <- 2 * ( dbinom(23, size = 32, p = pHat, log = TRUE)
+	 - dbinom(23, size = 32, p = 0.5, log = TRUE) )
+G
+P <- 1 - pchisq(G, 1)
+P
+```
+
+
+***
+
+<br>
+
+# Example 20.4 Conservation Scoop
+
+***Maximum likelihood estimation** of elephant population size using mark-recapture data*.
+
+<br>
+
+## Read and inspect data
+
+The data are on the 74 individuals collected in the second sample.
+
+```{r eval = TRUE}
+elephant <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter20/chap20e4ConservationScoop.csv"))
+head(elephant)
+```
+
+<br>
+
+## Frequency table
+
+The frequency table of the 74 recaptured or unmarked individuals in the second sample.
+
+```{r eval = TRUE}
+table(elephant)
+```
+
+<br>
+
+## Quantities needed
+
+These are the quantities needed for the likelihood calculations.
+
+```{r eval = TRUE}
+m <-  27     # size of first sample (total marked individuals)
+n2 <- 74     # size of second sample
+Y <-  15     # number of recaptures in second sample
+```
+
+Choose a range of values of ```N``` to try. ```N``` is the (unknown) total number of individuals in the population. ```N``` must be at least ```n2 + m - Y``` (86, in the current example).
+
+```{r eval = TRUE}
+N <-  90:250 # The values of N to try
+```
+
+<br>
+
+## Likelihood and log-likelihood
+
+These are the likelihoods and log-likelihood of each ```N```.
+
+```{r eval = TRUE}
+like <- choose(m, Y) *  choose(N - m, n2 - Y) /  choose(N, n2)
+logLike <- lchoose(m, Y) + lchoose(N - m, n2 - Y) - lchoose(N, n2)
+```
+
+Likelihood and log-likelihood can also be obtained using R's built-in function for the hypergeometric distribution.
+
+```{r eval = TRUE}
+like <- dhyper(Y, m, N - m, n2)
+logLike <- dhyper(Y, m, N - m, n2, log = TRUE)
+```
+
+<br>
+
+## Maximum likelihood estimate
+
+The maximum likelihood estimate of elephant population size.
+
+```{r eval = TRUE}
+Nhat <- N[logLike == max(logLike)]
+Nhat
+```
+
+<br>
+
+## Log-likelihood curve
+
+The log-likelihood curve (Figure 20.4-1) is produced as follows.
+
+```{r eval = TRUE}
+likeResults <- data.frame(N, like, logLike)
+ggplot(data = likeResults, aes(x = N, y = logLike)) +
+  geom_line() +
+  labs(y = "Log-likelihood", 
+    x = expression(paste("Population size estimate, ", italic(N)))) + 
+  theme_classic()
+```
+
+<br>
+
+## Confidence interval
+
+The likelihood-based 95% confidence interval for elephant population size is approximately as follows.
+
+```{r eval = TRUE}
+lower <- max(N[N <= Nhat & logLike <= max(logLike) - 1.92])
+upper <- min(N[N <= Nhat & logLike <= max(logLike) - 1.92])
+c(lower = lower, upper = upper)
+```

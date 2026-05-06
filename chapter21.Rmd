@@ -1,0 +1,83 @@
+---
+title: "Resources for Chapter 21: <br>Survival analysis"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+<br>
+
+# Learn R by example
+
+We used R to analyze all examples in chapter 21. We've put the code [here](RExamples/Rcode_Chapter_21.html) so that you can too.
+
+<br> 
+
+# Data
+
+Download a .zip file with all the data for chapter 21 in .csv format [here](DataZipFiles/chapter21.zip). 
+
+Download a .zip file with all data sets in the book [here](DataZipFiles/Data.zip). 
+
+All data sets and their sources are listed individually below.
+
+Disclaimer: Most data sets used in the book are grabbed from graphs and tables in the original publications, and the values may not be exact. Contact the original authors for the raw data.
+
+<br> 
+
+## Data for examples
+
+[Example 21.1 Ebola outbreak](Data/chapter21/chap21e1EbolaMalaria.csv) 
+
+Waxman, M., A. R. Aluisio, S. Rege, and A. C. Levine. 2017. *Lancet Infectious Diseases* 17: 654-660.
+
+[Example 21.2 Tumor genetics](Data/chapter21/chap21e2BreastCancer.csv) 
+
+Sørlie, T., et al. 2003. Repeated observation of breast tumor subtypes in independent gene expression data sets. *Proceedings of the National Academy of Sciences USA* 100: 8418–8423.
+
+
+<br>
+
+## Data for problem sets
+
+[12.6 and 12.7 Game of Thrones](Data/chapter21/chap21q7gameOfThrones.csv) 
+
+Lystad R.P. and B.T. Brown. 2018. “Death is certain, the time is not”: mortality and survival in *Game of Thrones*. *Injury Epidemiology* 5:44.
+
+Lystad R.P and B. T. Brown. 2019. Figshare. Available from: [https://dx.doi.org/10.6084/m9.figshare.8259680](https://dx.doi.org/10.6084/m9.figshare.8259680)
+
+[21.8 and 21.9 Siberian jays](Data/chapter21/chap21q9siberianJayLongevity.csv) 
+
+Griesser, M., et al. 2017. *Oikos* 126: 1258-1268.
+
+Griesser, M., et al. 2017. *Dryad Digital Repository*. [https://doi.org/10.5061/dryad.83r81](https://doi.org/10.5061/dryad.83r81)
+
+[21.13 and 21.14 Desert isopods](Data/chapter21/chap21q14desertIsopods.csv) 
+
+Baker, M. B., and S. Rao. 2004. *Ecology* 85: 1039-1051.
+
+[21.15 and 21.16 Worms and immune response](Data/chapter21/chap21q16buffaloHelminthBTB.csv) 
+
+Ezenwa, V. O. and A. E. Jolles. 2015. *Science* 347: 175-177.
+
+Ezenwa, V. O. and A. E. Jolles. 2015. *Dryad Digital Repository*. [https://doi.org/10.5061/dryad.q2m38](https://doi.org/10.5061/dryad.q2m38)
+
+[21.18 Costs of learning](Data/chapter21/chap21q18nematodeLearningAbility.csv) 
+Zwoinska, M. K., et al.  2016. *Evolution* 70: 342-357.
+
+Zwoinska, M. K., et al. 2016. *Dryad Digital Repository*. [https://doi.org/10.5061/dryad.r4g6p](https://doi.org/10.5061/dryad.r4g6p)
+
+

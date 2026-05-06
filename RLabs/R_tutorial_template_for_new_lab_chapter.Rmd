@@ -1,0 +1,69 @@
+---
+title: "Template for lab chapter"
+author: "Whitlock"
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+<br>
+
+# **Goals**
+
+*	goal 1
+
+*	goal 2
+
+*	goal 3
+
+***
+<br>
+
+# **Learning the tools**
+
+
+<br>
+
+## Some h2 text like this
+
+
+<br>
+
+# **R commands summary**
+
+![](formula_summaries/Cont anal summary.png)
+
+
+***
+<br>
+
+# **Activities**
+
+<br>
+
+## 1. 1st activity
+
+
+***
+<br>
+
+# **Questions**
+
+<br>
+1.  
+
+
+<br>
+2.  

@@ -1,0 +1,50 @@
+---
+title: "R code for examples in Whitlock and Schluter"
+author:  
+output:
+  html_document:
+    fig_width: 1
+    
+---
+
+----
+
+These pages show R code to make the figures and analyze every example in the main text of *The Analysis of Biological Data, 3rd ed*. 
+
+Click on a chapter name below to navigate to the R code page for it.
+
+[Chapter 2: Graphic & Tables](Rcode_Chapter_2.html) 
+
+[Chapter 3: Describing data](Rcode_Chapter_3.html)
+
+[Chapter 4: Estimation](Rcode_Chapter_4.html)
+ 
+[Chapter 6: Hypothesis testing](Rcode_Chapter_6.html)
+
+[Chapter 7: Analyzing proportions](Rcode_Chapter_7.html)
+
+[Chapter 8: Frequency data](Rcode_Chapter_8.html)
+
+[Chapter 9: Contingency data](Rcode_Chapter_9.html)
+
+[Chapter 10: Normal data](Rcode_Chapter_10.html)
+
+[Chapter 11: Inference for a normal population](Rcode_Chapter_11.html)
+
+[Chapter 12: Comparing two means](Rcode_Chapter_12.html)
+ 
+[Chapter 13: Non-normal data](Rcode_Chapter_13.html)
+
+[Chapter 15: ANOVA](Rcode_Chapter_15.html)
+
+[Chapter 16: Correlation ](Rcode_Chapter_16.html)
+
+[Chapter 17: Regression](Rcode_Chapter_17.html)
+
+[Chapter 18: Linear models](Rcode_Chapter_18.html)
+
+[Chapter 19: Computer-intensive methods](Rcode_Chapter_19.html)
+
+[Chapter 20: Likelihood](Rcode_Chapter_20.html)
+
+[Chapter 21: Survival analysis](Rcode_Chapter_21.html)

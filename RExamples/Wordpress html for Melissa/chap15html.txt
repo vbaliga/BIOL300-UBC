@@ -1,0 +1,145 @@
+<h2>Comparing means of more than two groups: R code for Chapter 15 examples</h2>
+Download the R code on this page as a single file <a href="../wp-content/rcode/chap15.r">here</a> (make sure to install the "multcomp" package before running).
+<div style="width:650px; padding:6px; border:2px solid black; bgcolor=" #ffffff""="">
+<h3>New methods on this page</h3>
+Click on a function argument for a short description of its meaning. The variable names are plucked from the examples further below.
+
+<b>Fixed effects analysis of variance (ANOVA)</b>:
+<code>[tippy title = "circadianAnova" width = "300" header = "off"] <font color="003399">The R object that will contain the ANOVA model fit.</font>[/tippy] &lt;- lm([tippy title = "shift ~ treatment" width = "300" header = "off"] <font color="003399">A formula indicating the relationship between the response variable and the explanatory (treatment) variable.</font>[/tippy], [tippy title="data = circadian" width = "300" header = "off"] <font color="003399">The name of the data frame containing the response and explanatory variables.</font>[/tippy])</code>
+<code>anova([tippy title = "circadianAnova" width = "300" header = "off"] <font color="003399">The R object created in the previous step.</font>[/tippy])</code>
+
+<b>Unplanned comparisons (Tukey-Kramer tests) using the <code>multcomp</code> package</b>:
+<code>circadianPlanned &lt;- glht( [tippy title = "circadianAnova" width = "300" header = "off"] <font color="003399">The R object resulting from the initial ANOVA model fit using <code>lm</code>.</font>[/tippy],
+&nbsp;&nbsp;&nbsp;&nbsp;linfct = [tippy title = "mcp(treatment = c("knee - control = 0"))" width = "300" header = "off"] <font color="003399">Specification of the planned comparison to be carried out. "knee - control = 0" indicates that the planned comparison is a test that the difference between the means of the "knee" and "control" treatments is zero. </font>[/tippy] )
+summary([tippy title = "circadianPlanned" width = "300" header = "off"] <font color="003399">The planned comparison object created in the previous step.</font>[/tippy])</code>
+<b>Kruskal-Wallis test</b>:
+<code>kruskal.test([tippy title = "shift ~ treatment" width = "300" header = "off"] <font color="003399">A formula indicating the relationship between the response variable and the explanatory (treatment) variable.</font>[/tippy], [tippy title = "data = circadian" width = "300" header = "off"] <font color="003399">The name of the data frame containing the response and explanatory variables.</font>[/tippy])</code>
+
+<b>Other new methods</b>:
+Add standard error bars to a strip chart.
+<i>R</i><sup>2</sup>.
+Planned comparisons.
+Random effects analysis of variance.
+Repeatability.
+
+</div>
+<h3>Example 15.1. <a href="../wp-content/data/chapter15/chap15e1KneesWhoSayNight.csv">Knees who say night</a></h3>
+<em><b>Analysis of variance</b>, comparing phase shift in the circadian rhythm of melatonin production in participants given alternative light treatments. Also, the nonparametric <b>Kruskal-Wallis test</b>. Finally, we use the same data to demonstrate <b>planned comparisons</b> and <b>unplanned comparisons (Tukey-Kramer tests)</b>.
+</em>
+
+Read and inspect the data.
+<pre>circadian &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter15/chap15e1KneesWhoSayNight.csv"))
+</pre>
+<strong>Set the preferred ordering of groups</strong> in tables and graphs.
+<pre>circadian$treatment &lt;- factor(circadian$treatment, 
+	levels = c("control", "knee", "eyes")) 
+</pre>
+<strong>Table of descriptive statistics by treatment group</strong> (Table 15.1-1).
+<pre>meanShift &lt;- tapply(circadian$shift, circadian$treatment, mean)
+sdevShift &lt;- tapply(circadian$shift, circadian$treatment, sd)
+n         &lt;- tapply(circadian$shift, circadian$treatment, length)
+data.frame(mean = meanShift, std.dev = sdevShift, n = n)
+</pre>
+<strong>Strip chart</strong> of circadian rhythm shift by treatment.
+<pre>stripchart(shift ~ treatment, data = circadian, method = "jitter", vertical = TRUE)
+</pre>
+<strong>Add standard error bars</strong> to previous strip chart. This makes use of the descriptive statistics calculated in an earlier step. The error bars are added as line segments, offset along the x-axis by the amount <code>adjustAmount</code>. The means are added using <code>points</code>.
+<pre>seShift &lt;- sdevShift / sqrt(n)
+adjustAmount &lt;- 0.15
+segments( c(1,2,3) + adjustAmount, meanShift - seShift, 
+	  c(1,2,3) + adjustAmount, meanShift + seShift )
+points(meanShift ~ c( c(1,2,3) + adjustAmount ))
+</pre>
+Commands for a stripchart with more options are shown [tippy title="here" width = "680" header = "off"]
+<pre>par(bty="l")
+adjustAmount &lt;- 0.15
+stripchart(shift ~ treatment, data = circadian, method = "jitter",
+	vertical = TRUE, las = 1, pch = 1, xlab = "Light treatment",
+	ylab = "Shift in circadian rhythm (h)", col = "firebrick", 
+	cex = 1.2, ylim = c(-3, 1))
+segments( c(1,2,3) + adjustAmount, meanShift - seShift, 
+	  c(1,2,3) + adjustAmount, meanShift + seShift )
+points(meanShift ~ c( c(1,2,3) + adjustAmount ), pch = 16, col = "firebrick")</pre>
+[/tippy].
+
+<strong>Fixed effects ANOVA table</strong> (Table 15.1-2). This is done in two steps. The first step involves fitting the ANOVA model to the data using <code>lm</code> ("lm" stands for "linear model", of which ANOVA is one type). Then we use the command <code>anova</code> to assemble the ANOVA table.
+<pre>circadianAnova &lt;- lm(shift ~ treatment, data = circadian)
+anova(circadianAnova)
+</pre>
+<strong><i>R</i><sup>2</sup></strong> indicating the fraction of variation in the response variable "explained" by treatment. This is again done in two steps. The first step calculates a bunch of useful quantities from the ANOVA model object previously created with a <code>lm</code> command. The second step shows the <i>R</i><sup>2</sup> value.
+<pre>circadianAnovaSummary &lt;- summary(circadianAnova)
+circadianAnovaSummary$r.squared
+</pre>
+<b>Kruskal-Wallis test</b>, a nonparametric method to compare more than two groups. The method is not needed for the circadian rhythm data, because assumptions of ANOVA are met, but we include it here to demonstrate the method. The formula is the same as that used with <code>lm</code>.
+<pre>kruskal.test(shift ~ treatment, data = circadian)
+</pre>
+
+<hr class="short">
+
+<b>Planned and unplanned comparisons between means</b>. A planned comparison is one planned during the design of the study, before the data were collected. To use the method you need a good justification to focus on a specific comparison of two treatments. Only a small number of planned comparisons are allowed. If you don't have a good prior justification for a specific comparison, use unplanned comparison instead. Unplanned comparisons typically involve testing differences between all pairs of means, and methods provide needed protection against rising Type I errors that would otherwise result from multiple testing.
+
+If you haven't already done so, you'll need to install the <code>multicomp</code> package (this needs to be done just once per computer).
+<pre>install.packages("multcomp", dependencies = TRUE)
+</pre>
+<strong>Planned comparison</strong> between "control" and "knee" treatments. Begin by loading the <code>multicomp</code> package. The commands shown will give the 95% confidence interval and the planned <i>t</i>-test of a difference between the treatment means.
+<pre>library(multcomp)
+circadianPlanned &lt;- glht(circadianAnova, linfct = 
+			mcp(treatment = c("knee - control = 0")))
+confint(circadianPlanned)
+summary(circadianPlanned)
+</pre>
+<b>Unplanned comparisons (Tukey-Kramer tests)</b> between all pairs of means. The raw data for the "Wood-wide web" example (Example 15.4) are not available, so we have used the circadian rhythm data to demonstrate the R method here instead. The output table will say "t" but it is actually "q" as we describe in the book.
+<pre>library(multcomp)
+circadianTukey &lt;- glht(circadianAnova, linfct = mcp(treatment = "Tukey"))
+summary(circadianTukey)
+</pre>
+
+<hr>
+
+<h3>Example 15.6. <a href="../wp-content/data/chapter15/chap15e6WalkingStickFemurs.csv">Walking stick limbs</a></h3>
+<em><b>Random effects ANOVA to estimate variance components</b> and calculate <b>repeatability</b> of measurements of femur length in walking stick insects</em>.
+
+Read and inspect data. Data are in "long" format. Femur length is one column, with another variable indicating specimen identity. Each specimen was measured twice and therefore takes up two rows.
+<pre>walkingstick &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter15/chap15e6WalkingStickFemurs.csv"))
+head(walkingstick)
+</pre>
+<b>Descriptive statistics for each specimen</b>, which we need to produce the strip chart. <code>tapply</code> is used to gets the mean, smallest measurement, largest measurement, and specimen id of each specimen.
+<pre>meanFemur &lt;- tapply(walkingstick$femurLength, walkingstick$specimen, mean)
+minFemur &lt;- tapply(walkingstick$femurLength, walkingstick$specimen, min)
+maxFemur &lt;- tapply(walkingstick$femurLength, walkingstick$specimen, max)
+specimen &lt;- tapply(walkingstick$specimen, walkingstick$specimen, unique)
+</pre>
+<strong>Stripchart</strong>, with line segments connecting the two measurements of
+<pre>stripchart(femurLength ~ specimen, data = walkingstick, 
+	vertical = TRUE, xlab = "Specimen")
+segments(specimen, minFemur, specimen, maxFemur)
+</pre>
+Commands for a prettier figure in which specimens are ordered along the x-axis by mean femur length (Figure 15.6-1) are [tippy title="here" width = "680" header = "off"]
+<pre>par(bty="l") 
+stripchart(minFemur[order(meanFemur, specimen)] ~ c(1:length(specimen)),
+	vertical = TRUE, xaxt = "n", pch = 16, col = "firebrick", las = 1,
+	cex = 1.2, ylim = range(c(minFemur, maxFemur)), ylab = "Femur length (mm)",
+	xlab = "Individual walking sticks")
+stripchart(maxFemur[order(meanFemur, specimen)] ~ c(1:length(specimen)),
+	vertical = TRUE, add = TRUE, pch = 16, col = "firebrick", las = 1, cex = 1.2)
+segments(c(1:length(specimen)), minFemur[order(meanFemur, specimen)], 
+	 c(1:length(specimen)), maxFemur[order(meanFemur, specimen)])
+</pre>
+[/tippy].
+
+<strong>Fit the random effects ANOVA</strong> using <code>lme</code>. The random effects ANOVA function requires two formulas, rather than just one. The first formula (beginning with "<code>fixed =</code>") is for the fixed effect. The walking stick insect example doesn't include a fixed-effect variable, so we just provide a symbol for a constant in the formula ("<code>~ 1</code>"), representing the grand mean. The second formula (beginning with "<code>random =</code>") is for the random effect. In this example, the individual specimens are the random groups, and the second formula indicates this (the "<code>~ 1</code>" in the formula below indicates that each specimen has its own mean). You will need to load the <code>nlme</code> library to begin.
+<pre>library(nlme)
+walkingstickAnova &lt;- lme(fixed = femurLength ~ 1, 
+ 	 	 	 random = ~ 1|specimen, data = walkingstick)
+</pre>
+Obtain the <strong>variance components for the random effects</strong> using <code>VarCorr</code>. The output includes the standard deviation and variance for both components of random variation in the random effects model for this example. The first is the variance among the specimen means. This is the variance among groups, and is confusingly labeled "Intercept" in the output. The second component is the variance among measurements made on the same individuals. This is the within group variance, also known as the error mean square, and is labeled "Residual" in the output.
+<pre>walkingstickVarcomp &lt;- VarCorr(walkingstickAnova)
+walkingstickVarcomp
+</pre>
+Calculate the <b>repeatability</b> of the walking stick femur measurements using the estimates of the variance components.
+<pre>varAmong  &lt;- as.numeric( walkingstickVarcomp[1,1] )
+varWithin &lt;- as.numeric( walkingstickVarcomp[2,1] )
+repeatability &lt;- varAmong / (varAmong + varWithin)
+repeatability
+</pre>
+Note that <code>lme</code> doesn't test the significance of the random effects (whether the specimen means are significantly different from one another), since the method basically assumes the presence of variance among random means. As a result, there is no ANOVA table for random effects.

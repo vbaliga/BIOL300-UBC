@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>Learn R by example, Chapter 9:  Contingency analysis</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-4');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Learn R by example, Chapter 9: <br>Contingency analysis</h1>
+
+</div>
+
+
+<hr />
+<p>We used R to analyze all examples in Chapter 9. We put the code here so that you can too.</p>
+<p><br> Also see our <a href="https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_Contingency_analysis.html">lab on contingency analysis using R</a>.</p>
+<p><br></p>
+<div id="new-methods-on-this-page" class="section level1">
+<h1>New methods on this page</h1>
+<ul>
+<li>
+<p>Relative risk and odds ratio using the <code>epitools</code> package:</p>
+<pre class="r"><code>riskratio(t(cancerTable), rev = &quot;both&quot;, method = &quot;wald&quot;)
+oddsratio(cancerTable, method = &quot;wald&quot;)</code></pre>
+<li>
+<p><span class="math inline">\(\chi^2\)</span> contingency test:</p>
+<pre class="r"><code>chisq.test(worm$fate, worm$infection, correct = FALSE)</code></pre>
+<li>
+<p>Fisher’s exact test:</p>
+<pre class="r"><code>fisher.test(vampire$bitten, vampire$estrous)</code></pre>
+<li>
+Other new methods:
+<ul>
+<li>
+Mosaic plot for a case-control study.
+<li>
+Row and column sums in a contingency table.
+</ul>
+</ul>
+<hr />
+<p><br></p>
+</div>
+<div id="load-required-packages" class="section level1">
+<h1>Load required packages</h1>
+<p>We’ll use the <code>epitools</code> add on package to calculate relative risk and odds ratio. You might need to install it first if you have not already done so.</p>
+<pre class="r"><code>install.packages(&quot;epitools&quot;, dependencies = TRUE) # only if not yet installed</code></pre>
+<pre class="r"><code>library(epitools)</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="figure-9.1-1.-survival-and-gender" class="section level1">
+<h1>Figure 9.1-1. Survival and gender</h1>
+<div id="read-and-inspect-data" class="section level2">
+<h2>Read and inspect data</h2>
+<p>The option <code>stringsAsFactors = FALSE</code> keeps character data in character format rather than convert them to factors, which can sometimes be a little harder to work with.</p>
+<pre class="r"><code>titanic &lt;- read.csv(
+  url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter09/chap09f01Titanic.csv&quot;), 
+  stringsAsFactors = FALSE)
+head(titanic)</code></pre>
+<pre><code>##   gender survival
+## 1    Men Survived
+## 2    Men Survived
+## 3    Men Survived
+## 4    Men Survived
+## 5    Men Survived
+## 6    Men Survived</code></pre>
+<p><br></p>
+</div>
+<div id="contingency-table" class="section level2">
+<h2>Contingency table</h2>
+<p>Next, make a contingency table for the association between survival and gender. R orders the categories of each variable alphabetically, which works here.</p>
+<pre class="r"><code>titanicTable &lt;- table(titanic$survival, titanic$gender, useNA = c(&quot;ifany&quot;))
+titanicTable</code></pre>
+<pre><code>##           
+##             Men Women
+##   Died     1329   109
+##   Survived  338   316</code></pre>
+<p><br></p>
+</div>
+<div id="mosaic-plot" class="section level2">
+<h2>Mosaic plot</h2>
+<p>Pass the table to the <code>mosaicplot()</code> function to make the plot. We flip (transpose) the contingency table (<code>t(titanicTable)</code> so that the mosaic plot produced has the explanatory variable (gender) in the columns and the response variable (survival) in the rows.</p>
+<pre class="r"><code>par(pty = &quot;s&quot;) # makes a square plot
+mosaicplot( t(titanicTable), col = c(&quot;firebrick&quot;, &quot;goldenrod1&quot;), cex.axis = 1, 
+    sub = &quot;Gender&quot;, ylab = &quot;Relative frequency&quot;, main = &quot;&quot;)</code></pre>
+<p><img src="Rcode_Chapter_9_files/figure-html/unnamed-chunk-8-1.png" width="480" /></p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-9.2.-aspirin-and-cancer" class="section level1">
+<h1>Example 9.2. Aspirin and cancer</h1>
+<p><em><strong>Relative risk</strong> and <strong>odds ratio</strong> to estimate association between aspirin treatment and cancer incidence in a 2x2 contingency table</em>.</p>
+<p>Read and inspect the data.</p>
+<pre class="r"><code>cancer &lt;- read.csv(
+  url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter09/chap09e2AspirinCancer.csv&quot;), 
+  stringsAsFactors = FALSE)
+head(cancer)</code></pre>
+<pre><code>##   aspirinTreatment cancer
+## 1          Aspirin Cancer
+## 2          Aspirin Cancer
+## 3          Aspirin Cancer
+## 4          Aspirin Cancer
+## 5          Aspirin Cancer
+## 6          Aspirin Cancer</code></pre>
+<p><br></p>
+<div id="contingency-table-1" class="section level2">
+<h2>Contingency table</h2>
+<p>Next, make a 2 x 2 contingency table showing association between aspirin treatment and cancer incidence (Table 9.2-1). R orders the categories of each variable alphabetically, which works here.</p>
+<pre class="r"><code>cancerTable &lt;- table(cancer$cancer, cancer$aspirinTreatment)
+cancerTable</code></pre>
+<pre><code>##            
+##             Aspirin Placebo
+##   Cancer       1438    1427
+##   No cancer   18496   18515</code></pre>
+<p><br></p>
+</div>
+<div id="mosaic-plot-1" class="section level2">
+<h2>Mosaic plot</h2>
+<p>A mosaic plot showing the association (Figure 9.2-1).</p>
+<pre class="r"><code>par(pty = &quot;s&quot;) # makes a square plot
+mosaicplot( t(cancerTable), col = c(&quot;firebrick&quot;, &quot;goldenrod1&quot;), cex.axis = 1, 
+    sub = &quot;Aspirin treatment&quot;, ylab = &quot;Relative frequency&quot;, main = &quot;&quot;)</code></pre>
+<p><img src="Rcode_Chapter_9_files/figure-html/unnamed-chunk-11-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="relative-risk" class="section level2">
+<h2>Relative risk</h2>
+<p>The relative risk (RR) is the probability of the undesired outcome (cancer) in the treatment group (aspirin) divided by the probability in the control (placebo) group.</p>
+<p>Our contingency table <code>cancerTable</code>, has the undesired outcome in the treatment group in the top left position. The <code>riskratio()</code> function expects the opposite layout, so we need to flip the table and reverse the order of the rows to use it. We can do this all at once with the following arguments to the <code>riskratio()</code> function. The full output of the command is shown below.</p>
+<pre class="r"><code>RR &lt;- riskratio(t(cancerTable), rev = &quot;both&quot;, method = &quot;wald&quot;)
+RR</code></pre>
+<pre><code>## $data
+##          
+##           No cancer Cancer Total
+##   Placebo     18515   1427 19942
+##   Aspirin     18496   1438 19934
+##   Total       37011   2865 39876
+## 
+## $measure
+##          risk ratio with 95% C.I.
+##           estimate     lower   upper
+##   Placebo 1.000000        NA      NA
+##   Aspirin 1.008113 0.9394365 1.08181
+## 
+## $p.value
+##          two-sided
+##           midp.exact fisher.exact chi.square
+##   Placebo         NA           NA         NA
+##   Aspirin  0.8224348    0.8310911  0.8223986
+## 
+## $correction
+## [1] FALSE
+## 
+## attr(,&quot;method&quot;)
+## [1] &quot;Unconditional MLE &amp; normal approximation (Wald) CI&quot;</code></pre>
+<p>Notice that the resulting estimate RR differs slightly from the relative risk value given in the book for these same data (1.007) because rounding error here is reduced.</p>
+<p>To grab the key output, namely the estimate of the relative risk and the 95% confidence interval, use the following command:</p>
+<pre class="r"><code>RR$measure[2,]</code></pre>
+<pre><code>##  estimate     lower     upper 
+## 1.0081129 0.9394365 1.0818098</code></pre>
+<!--
+For step-by-step calculations of the relative risk, see here
+
+
+```r
+x = as.vector(cancerTable)
+names(x) = c("a","c","b","d")
+phat1 = x["a"]/(x["a"] + x["c"])
+phat2 = x["b"]/(x["b"] + x["d"])
+rrHat = unname(phat1/phat2)
+unname(rrHat)
+ 
+# Standard error
+seLnRR = sqrt( 1/x["a"] + 1/x["b"] - 1/(x["a"]+x["c"]) - 1/(x["b"]+x["d"]) )
+unname(seLnRR)
+
+# 95% confidence interval
+Z = qnorm(1 - 0.05/2) # when rounded, is 1.96
+ciLnRR = c(log(rrHat) - Z * seLnRR, log(rrHat) + Z * seLnRR)
+ciRR = exp(ciLnRR) # transform back to ratio scale
+names(ciRR) = c("lower","upper")
+ciRR
+```
+-->
+<p><br></p>
+</div>
+<div id="odds-ratio" class="section level2">
+<h2>Odds ratio</h2>
+<p>To obtain the odds ratio (OR), use the <code>oddsratio()</code> function on <code>cancerTable</code> as is.</p>
+<pre class="r"><code>OR &lt;- oddsratio(cancerTable, method = &quot;wald&quot;)
+OR</code></pre>
+<pre><code>## $data
+##            
+##             Aspirin Placebo Total
+##   Cancer       1438    1427  2865
+##   No cancer   18496   18515 37011
+##   Total       19934   19942 39876
+## 
+## $measure
+##            odds ratio with 95% C.I.
+##             estimate     lower    upper
+##   Cancer    1.000000        NA       NA
+##   No cancer 1.008744 0.9349043 1.088415
+## 
+## $p.value
+##            two-sided
+##             midp.exact fisher.exact chi.square
+##   Cancer            NA           NA         NA
+##   No cancer  0.8224348    0.8310911  0.8223986
+## 
+## $correction
+## [1] FALSE
+## 
+## attr(,&quot;method&quot;)
+## [1] &quot;Unconditional MLE &amp; normal approximation (Wald) CI&quot;</code></pre>
+<p>The resulting output of <code>oddsratio()</code> includes a lot of incidental computations. To grab the essential output for the odds ratio, including the 95% confidence interval, use the following.</p>
+<pre class="r"><code>OR$measure[2, ]</code></pre>
+<pre><code>##  estimate     lower     upper 
+## 1.0087436 0.9349043 1.0884148</code></pre>
+<!--
+For step-by-step calculations of the odds ratio and confidence interval, see here
+
+
+```r
+# First assign the labels a,b,c, and d to the table, as on page 240.
+# Then plug the values into the formula for odds ratio
+x = as.vector(cancerTable)
+names(x) = c("a","c","b","d")
+orHat = unname(x["a"] * x["d"]) / (x["b"] * x["c"])
+unname(orHat)
+```
+
+```
+## [1] 1.008744
+```
+
+```r
+# Standard error of log odds ratio
+seLnOR = sqrt(1/x["a"] + 1/x["b"]+ 1/x["c"] + 1/x["d"])
+unname(seLnOR)
+```
+
+```
+## [1] 0.03878475
+```
+
+```r
+# 95% confidence interval
+Z = qnorm(1 - 0.05/2) # when rounded, is 1.96
+ciLnOR = c(log(orHat) - Z * seLnOR, log(orHat) + Z * seLnOR)
+ciOR = exp(ciLnOR) # transform back to ratio scale
+names(ciOR) = c("lower","upper")
+ciOR
+```
+
+```
+##     lower     upper 
+## 0.9349043 1.0884148
+```
+-->
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-9.3.-toxoplasma-and-driving" class="section level1">
+<h1>Example 9.3. Toxoplasma and driving</h1>
+<p><em><strong>Odds ratio</strong> to estimate association between Toxoplasma infection and driving accidents in a 2 x 2 <strong>case-control study</strong></em>.</p>
+<p>Read and inspect the data.</p>
+<pre class="r"><code>toxoplasma &lt;- read.csv(
+  url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter09/chap09e3ToxoplasmaAndAccidents.csv&quot;), stringsAsFactors = FALSE)
+head(toxoplasma)</code></pre>
+<pre><code>##   condition   accident
+## 1  infected  accidents
+## 2  infected  accidents
+## 3  infected  accidents
+## 4  infected  accidents
+## 5  infected  accidents
+## 6  infected  accidents</code></pre>
+<p><br></p>
+<div id="contingency-table-2" class="section level2">
+<h2>Contingency table</h2>
+<p>First, make the 2 x 2 contingency table (Table 9.3-1). The table that results has the undesired outcome (accidents) for the treatment group (infected) in the top left.</p>
+<pre class="r"><code>toxTable &lt;- table(toxoplasma$accident, toxoplasma$condition)
+toxTable</code></pre>
+<pre><code>##                
+##                 infected uninfected
+##    accidents          61        124
+##    no accidents       16        169</code></pre>
+<p><br></p>
+</div>
+<div id="mosaic-plot-2" class="section level2">
+<h2>Mosaic plot</h2>
+<p>Next, make the mosaic plot for a case-control study (Figure 9.3-1).</p>
+<pre class="r"><code>par(pty = &quot;s&quot;) # makes a square plot
+mosaicplot(toxTable, col=c(&quot;firebrick&quot;, &quot;goldenrod1&quot;), cex.axis = 1.2, 
+sub = &quot;Condition&quot;, dir = c(&quot;h&quot;,&quot;v&quot;), ylab = &quot;Relative frequency&quot;, main = &quot;&quot;)</code></pre>
+<p><img src="Rcode_Chapter_9_files/figure-html/unnamed-chunk-20-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="odds-ratio-1" class="section level2">
+<h2>Odds ratio</h2>
+<p>Odds ratio using <code>epitools</code>.</p>
+<pre class="r"><code>OR &lt;- oddsratio(toxTable, method = &quot;wald&quot;)
+OR$measure[2,]</code></pre>
+<pre><code>## estimate    lower    upper 
+## 5.196069 2.859352 9.442394</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-9.4.-worm-gets-bird" class="section level1">
+<h1>Example 9.4. Worm gets bird</h1>
+<p><em><strong><span class="math inline">\(\chi^2\)</span> contingency test</strong> to test association between trematode infection status of killifish and their fate (eaten or not eaten) in the presence of predatory birds</em>.</p>
+<p>Read and inspect the data.</p>
+<pre class="r"><code>worm &lt;- read.csv(
+  url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter09/chap09e4WormGetsBird.csv&quot;),
+  stringsAsFactors = FALSE)
+head(worm)</code></pre>
+<pre><code>##    infection  fate
+## 1 uninfected eaten
+## 2    lightly eaten
+## 3    lightly eaten
+## 4    lightly eaten
+## 5    lightly eaten
+## 6    lightly eaten</code></pre>
+<p><br></p>
+<div id="contingency-table-3" class="section level2">
+<h2>Contingency table</h2>
+<p>In the contingency table in the book (Table 9.4-1), we ordered the infection categories from uninfected to highly infected. Use <code>factor()</code> to set the order. Then make the contingency table. The <code>addmargins()</code> function adds the row and column sums to the display of the table.</p>
+<pre class="r"><code>worm$infection &lt;- factor(worm$infection, 
+    levels = c(&quot;uninfected&quot;, &quot;lightly&quot;, &quot;highly&quot;))
+wormTable &lt;- table(worm$fate, worm$infection)
+addmargins(wormTable)</code></pre>
+<pre><code>##            
+##             uninfected lightly highly Sum
+##   eaten              1      10     37  48
+##   not eaten         49      35      9  93
+##   Sum               50      45     46 141</code></pre>
+<p><br></p>
+</div>
+<div id="mosaic-plot-3" class="section level2">
+<h2>Mosaic plot</h2>
+<p>Use the table to make the mosaic plot (Figure 9.4-1).</p>
+<pre class="r"><code>par(pty = &quot;s&quot;) # makes a square plot
+mosaicplot( t(wormTable), col = c(&quot;firebrick&quot;, &quot;goldenrod1&quot;), cex.axis = 1, 
+    sub = &quot;Infection status&quot;, ylab = &quot;Relative frequency&quot;, main = &quot;&quot;)</code></pre>
+<p><img src="Rcode_Chapter_9_files/figure-html/unnamed-chunk-24-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="chi2-contingency-test" class="section level2">
+<h2><span class="math inline">\(\chi^2\)</span> contingency test</h2>
+<p>Carry out the <span class="math inline">\(\chi^2\)</span> contingency test. Include the argument <code>correct = FALSE</code> to avoid Yates’ correction. This has no effect except in 2 x 2 tables, but we keep it here for demonstration purposes.</p>
+<pre class="r"><code>saveChiTest &lt;- chisq.test(worm$fate, worm$infection, correct = FALSE)
+saveChiTest</code></pre>
+<pre><code>## 
+##  Pearson&#39;s Chi-squared test
+## 
+## data:  worm$fate and worm$infection
+## X-squared = 69.756, df = 2, p-value = 7.124e-16</code></pre>
+<p>The expected frequencies under null hypothesis are included with the results, but aren’t normally shown. Type <code>saveChiTest$expected</code> to extract them. Include the <code>addmargins()</code> function if you want to see the row and column sums too.</p>
+<pre class="r"><code>addmargins(saveChiTest$expected)</code></pre>
+<pre><code>##            worm$infection
+## worm$fate   uninfected  lightly   highly Sum
+##   eaten       17.02128 15.31915 15.65957  48
+##   not eaten   32.97872 29.68085 30.34043  93
+##   Sum         50.00000 45.00000 46.00000 141</code></pre>
+<!--
+**<i>G</i>-test** applied to the worm-gets-bird data (Section 9.6). R has no simple, built-in function to carry out the <i>G</i>-test with goodness-of-fit data. Code for a command ```g.test``` by Brent Larget is available <a href="http://www.stat.wisc.edu/~st571-1/gtest.R">here</a>. Below, we source this code, which then allows you to use his function ```g.test```.
+
+
+```r
+source("http://www.stat.wisc.edu/~st571-1/gtest.R")
+g.test(wormTable)
+```
+
+```
+## G-Test for Contingency Tables
+## 
+## Data:
+##            
+##             uninfected lightly highly
+##   eaten              1      10     37
+##   not eaten         49      35      9
+## 
+## The test statistic is  77.897 .
+## There are  2  degrees of freedom.
+## The p-value is  0 .
+```
+-->
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-9.5.-vampire-bat-feeding" class="section level1">
+<h1>Example 9.5. Vampire bat feeding</h1>
+<p><em><strong>Fisher’s exact test</strong> of association between estrous status of cows and whether cows were bitten by vampire bats.</em></p>
+<p>Read and inspect the data.</p>
+<pre class="r"><code>vampire &lt;- read.csv(
+  url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter09/chap09e5VampireBites.csv&quot;),
+  stringsAsFactors = FALSE)</code></pre>
+<p><br></p>
+<div id="contingency-table-4" class="section level2">
+<h2>Contingency table</h2>
+<p>Make the 2 x 2 contingency table (Table 9.5-1).</p>
+<pre class="r"><code>vampireTable &lt;- table(vampire$bitten, vampire$estrous)
+vampireTable</code></pre>
+<pre><code>##             
+##              estrous no estrous
+##   bitten          15          6
+##   not bitten       7        322</code></pre>
+<p><br></p>
+</div>
+<div id="chi2-contingency-test-1" class="section level2">
+<h2><span class="math inline">\(\chi^2\)</span> contingency test</h2>
+<p>Get the expected frequencies under null hypothesis of independence using <code>chisq.test()</code>. R complains because of the violation of assumptions. Just in case you hadn’t noticed.</p>
+<pre class="r"><code>saveTest &lt;- chisq.test(vampire$bitten, vampire$estrous, correct = FALSE) </code></pre>
+<pre><code>## Warning in chisq.test(vampire$bitten, vampire$estrous, correct = FALSE):
+## Chi-squared approximation may be incorrect</code></pre>
+<pre class="r"><code>saveTest$expected</code></pre>
+<pre><code>##               vampire$estrous
+## vampire$bitten estrous no estrous
+##     bitten        1.32      19.68
+##     not bitten   20.68     308.32</code></pre>
+<p><br></p>
+</div>
+<div id="fishers-exact-test" class="section level2">
+<h2>Fisher’s exact test</h2>
+<p>The output includes an estimate of the odds ratio, but it uses a different method than is used in our book.</p>
+<pre class="r"><code>fisher.test(vampire$bitten, vampire$estrous)</code></pre>
+<pre><code>## 
+##  Fisher&#39;s Exact Test for Count Data
+## 
+## data:  vampire$bitten and vampire$estrous
+## p-value &lt; 2.2e-16
+## alternative hypothesis: true odds ratio is not equal to 1
+## 95 percent confidence interval:
+##   29.94742 457.26860
+## sample estimates:
+## odds ratio 
+##   108.3894</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

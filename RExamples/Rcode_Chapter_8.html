@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>R code for examples in Chapter 8:  Fitting probability models to frequency data</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-4');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R code for examples in Chapter 8: <br>Fitting probability models to frequency data</h1>
+
+</div>
+
+
+<hr />
+<p>We used R to analyze all examples in Chapter 8. We put the code here so that you can too.</p>
+<p><br> Also see our <a href="https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_Frequency_data.html">lab on analyzing frequency data using R</a>.</p>
+<p><br></p>
+<div id="new-methods-on-this-page" class="section level1">
+<h1>New methods on this page</h1>
+<p>These are the core commands that produce the new methods described in Chapter 8. The variable names are plucked from the examples further below.</p>
+<ul>
+<li>
+<p><span class="math inline">\(\chi^2\)</span> goodness-of-fit test:</p>
+<pre class="r"><code>chisq.test(birthDayTable, p = c(52,52,52,52,52,53,53)/366))</code></pre>
+<li>
+<p>Calculate Poisson probabilities:</p>
+<pre class="r"><code>dpois(0:20, lambda = meanExtinctions)</code></pre>
+<li>
+Other new methods:
+<ul>
+<li>
+Divide individuals into groups based on a numeric variable using <code>cut()</code>.
+</ul>
+</ul>
+<hr />
+<p><br></p>
+</div>
+<div id="load-required-packages" class="section level1">
+<h1>Load required packages</h1>
+<p>We’ll use the <code>ggplot2</code> add-on package to draw many plots.</p>
+<pre class="r"><code>library(ggplot2)</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="example-8.1.-no-weekend-getaway" class="section level1">
+<h1>Example 8.1. No weekend getaway</h1>
+<p><em><strong>Fit the proportional model</strong> to frequency data.</em></p>
+<p><br></p>
+<div id="read-and-inspect-the-data" class="section level2">
+<h2>Read and inspect the data</h2>
+<p>Each row represents a single birth, and shows the day of the week of birth.</p>
+<pre class="r"><code>birthDay &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter08/chap08e1DayOfBirth2016.csv&quot;), stringsAsFactors = FALSE)
+head(birthDay)</code></pre>
+<pre><code>##        day
+## 1   Friday
+## 2   Monday
+## 3 Thursday
+## 4  Tuesday
+## 5   Friday
+## 6   Friday</code></pre>
+<p>Put the days of the week in the correct order for tables and graphs.</p>
+<pre class="r"><code>birthDay$day &lt;- factor(birthDay$day, levels = c(&quot;Sunday&quot;, &quot;Monday&quot;,
+    &quot;Tuesday&quot;, &quot;Wednesday&quot;,&quot;Thursday&quot;,&quot;Friday&quot;,&quot;Saturday&quot;))</code></pre>
+<p><br></p>
+</div>
+<div id="frequency-table" class="section level2">
+<h2>Frequency table</h2>
+<p>Tabulate the numbers of births on each day of the week (Table 8.1-1).</p>
+<pre class="r"><code>birthDayTable &lt;- table(birthDay$day)
+addmargins(birthDayTable)</code></pre>
+<pre><code>## 
+##    Sunday    Monday   Tuesday Wednesday  Thursday    Friday  Saturday 
+##        14        26        34        21        27        38        20 
+##       Sum 
+##       180</code></pre>
+<p><br></p>
+</div>
+<div id="bar-graph" class="section level2">
+<h2>Bar graph</h2>
+<p>This produces a graph like that in Figure 8.1-1.</p>
+<pre class="r"><code>ggplot(birthDay, aes(x = day)) + 
+    geom_bar(stat=&quot;count&quot;, fill = &quot;firebrick&quot;) +
+    labs(x = &quot;&quot;, y = &quot;Frequency&quot;) +
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_8_files/figure-html/unnamed-chunk-7-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="chi2-goodness-of-fit-test" class="section level2">
+<h2><span class="math inline">\(\chi^2\)</span> goodness-of-fit test</h2>
+<p>The vector <span class="math inline">\(p\)</span> is the expected proportions rather than the expected frequencies, and they must sum to 1 (R nevertheless uses the expected frequencies when calculating the <span class="math inline">\(\chi^2\)</span> statistic).</p>
+<pre class="r"><code>chisq.test(birthDayTable, p = c(52,52,52,52,52,53,53)/366)</code></pre>
+<pre><code>## 
+##  Chi-squared test for given probabilities
+## 
+## data:  birthDayTable
+## X-squared = 15.795, df = 6, p-value = 0.0149</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-8.3.-gene-content" class="section level1">
+<h1>Example 8.3. Gene content</h1>
+<p><em><strong>Goodness-of-fit of the proportional model</strong> to data with two categories.</em></p>
+<p>Read and inspect the data. Each row is a different gene with its chromosome indicated.</p>
+<pre class="r"><code>geneContent &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter08/chap08e3GeneContentX.csv&quot;), stringsAsFactors = FALSE)
+head(geneContent)</code></pre>
+<pre><code>##       name chr        description
+## 1   TSPAN6   X        tetraspanin
+## 2     TNMD   X        tenomodulin
+## 3     DPM1  20 dolichyl-phosphate
+## 4    SCYL3   1               SCY1
+## 5 C1orf112   1         chromosome
+## 6      FGR   1                FGR</code></pre>
+<p>Make a new variable to indicate whether genes are on the X chromosome. Order the categories as desired for tables and graphs.</p>
+<pre class="r"><code>geneContent$XnotX &lt;- geneContent$chr
+geneContent$XnotX[geneContent$chr != &quot;X&quot;] &lt;- &quot;NotX&quot;
+geneContent$XnotX &lt;- factor(geneContent$XnotX, levels = c(&quot;X&quot;,&quot;NotX&quot;))</code></pre>
+<p><br></p>
+<div id="frequency-table-1" class="section level2">
+<h2>Frequency table</h2>
+<p>The table shows the number of genes on the X and on other chromosomes.</p>
+<pre class="r"><code>geneContentTable &lt;- table(geneContent$XnotX)
+data.frame(addmargins(geneContentTable))</code></pre>
+<pre><code>##   Var1  Freq
+## 1    X   839
+## 2 NotX 18789
+## 3  Sum 19628</code></pre>
+<p><br></p>
+</div>
+<div id="chi2-goodness-of-fit-test-1" class="section level2">
+<h2><span class="math inline">\(\chi^2\)</span> goodness-of-fit test</h2>
+<p>Test of the proportional model.</p>
+<pre class="r"><code>chisq.test(geneContentTable, p = c(1020.7, 18607.3)/sum(geneContentTable) )</code></pre>
+<pre><code>## 
+##  Chi-squared test for given probabilities
+## 
+## data:  geneContentTable
+## X-squared = 34.12, df = 1, p-value = 5.183e-09</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-8.4.-mass-extinctions" class="section level1">
+<h1>Example 8.4. Mass extinctions</h1>
+<p><em><strong>Goodness-of-fit of the Poisson probability model</strong> to frequency data on number of marine invertebrate extinctions per time block in the fossil record.</em></p>
+<p>Read and inspect the data. Each row is a time block, with the observed number of extinctions listed.</p>
+<pre class="r"><code>extinctData &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter08/chap08e4MassExtinctions.csv&quot;), stringsAsFactors = FALSE)
+head(extinctData)</code></pre>
+<pre><code>##   numberOfExtinctions
+## 1                   1
+## 2                   1
+## 3                   1
+## 4                   1
+## 5                   1
+## 6                   1</code></pre>
+<p><br></p>
+<div id="frequency-table-2" class="section level2">
+<h2>Frequency table</h2>
+<p>This table tallies the number of time blocks falling in each number-of-extinctions category. First make a new variable with number of extinctions as a factor so that missing categories are nevertheless included in the table (e.g., no time blocks have exactly 13 extinctions).</p>
+<pre class="r"><code>extinctData$nExtinctCategory &lt;- factor(extinctData$numberOfExtinctions,
+    levels = c(0:20))                                          
+extinctTable &lt;- table(extinctData$nExtinctCategory)
+data.frame(addmargins(extinctTable))</code></pre>
+<pre><code>##    Var1 Freq
+## 1     0    0
+## 2     1   13
+## 3     2   15
+## 4     3   16
+## 5     4    7
+## 6     5   10
+## 7     6    4
+## 8     7    2
+## 9     8    1
+## 10    9    2
+## 11   10    1
+## 12   11    1
+## 13   12    0
+## 14   13    0
+## 15   14    1
+## 16   15    0
+## 17   16    2
+## 18   17    0
+## 19   18    0
+## 20   19    0
+## 21   20    1
+## 22  Sum   76</code></pre>
+<p><br></p>
+</div>
+<div id="mean-number-of-extinctions" class="section level2">
+<h2>Mean number of extinctions</h2>
+<p>The mean number of extinctions per time block must be estimated from the data.</p>
+<pre class="r"><code>meanExtinctions &lt;- mean(extinctData$numberOfExtinctions)
+meanExtinctions</code></pre>
+<pre><code>## [1] 4.210526</code></pre>
+<p><br></p>
+</div>
+<div id="expected-frequencies" class="section level2">
+<h2>Expected frequencies</h2>
+<p>Calculate expected frequencies under the Poisson distribution using the estimated mean. Don’t forget that the Poisson distribution also includes the number-of-extinctions categories 21, 22, 23, and so on.</p>
+<pre class="r"><code>expectedProportion &lt;- dpois(0:20, lambda = meanExtinctions)
+expectedFrequency &lt;- expectedProportion * 76</code></pre>
+<p>Show the frequency distribution in a histogram (Figure 8.4-2). Superimpose a curve of the expected frequencies.</p>
+<pre class="r"><code>hist(extinctData$numberOfExtinctions, right = FALSE, breaks = seq(0, 21, 1),
+    xlab = &quot;Number of extinctions&quot;, col = &quot;firebrick&quot;, las = 1)
+lines(expectedFrequency ~ c(0:20 + 0.5), lwd = 2) </code></pre>
+<p><img src="Rcode_Chapter_8_files/figure-html/unnamed-chunk-17-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="table-of-frequencies" class="section level2">
+<h2>Table of frequencies</h2>
+<p>Make a table of observed and expected frequencies, saving results in a data frame (Table 8.4-3).</p>
+<pre class="r"><code>extinctFreq &lt;- data.frame(nExtinct = 0:20, obsFreq = as.vector(extinctTable), 
+    expFreq = expectedFrequency)
+extinctFreq</code></pre>
+<pre><code>##    nExtinct obsFreq      expFreq
+## 1         0       0 1.127730e+00
+## 2         1      13 4.748338e+00
+## 3         2      15 9.996501e+00
+## 4         3      16 1.403018e+01
+## 5         4       7 1.476861e+01
+## 6         5      10 1.243672e+01
+## 7         6       4 8.727524e+00
+## 8         7       2 5.249639e+00
+## 9         8       1 2.762968e+00
+## 10        9       2 1.292616e+00
+## 11       10       1 5.442596e-01
+## 12       11       1 2.083290e-01
+## 13       12       0 7.309790e-02
+## 14       13       0 2.367543e-02
+## 15       14       1 7.120431e-03
+## 16       15       0 1.998718e-03
+## 17       16       2 5.259783e-04
+## 18       17       0 1.302733e-04
+## 19       18       0 3.047328e-05
+## 20       19       0 6.753081e-06
+## 21       20       1 1.421701e-06</code></pre>
+<p>The low expected frequencies will violate the assumptions of the <span class="math inline">\(\chi^2\)</span> test, so we will need to group categories. Create a new variable that groups the extinctions into fewer categories.</p>
+<pre class="r"><code>extinctFreq$groups &lt;- cut(extinctFreq$nExtinct, 
+    breaks = c(0, 2:8, 21), right = FALSE,
+    labels = c(&quot;0 or 1&quot;,&quot;2&quot;,&quot;3&quot;,&quot;4&quot;,&quot;5&quot;,&quot;6&quot;,&quot;7&quot;,&quot;8 or more&quot;))
+extinctFreq</code></pre>
+<pre><code>##    nExtinct obsFreq      expFreq    groups
+## 1         0       0 1.127730e+00    0 or 1
+## 2         1      13 4.748338e+00    0 or 1
+## 3         2      15 9.996501e+00         2
+## 4         3      16 1.403018e+01         3
+## 5         4       7 1.476861e+01         4
+## 6         5      10 1.243672e+01         5
+## 7         6       4 8.727524e+00         6
+## 8         7       2 5.249639e+00         7
+## 9         8       1 2.762968e+00 8 or more
+## 10        9       2 1.292616e+00 8 or more
+## 11       10       1 5.442596e-01 8 or more
+## 12       11       1 2.083290e-01 8 or more
+## 13       12       0 7.309790e-02 8 or more
+## 14       13       0 2.367543e-02 8 or more
+## 15       14       1 7.120431e-03 8 or more
+## 16       15       0 1.998718e-03 8 or more
+## 17       16       2 5.259783e-04 8 or more
+## 18       17       0 1.302733e-04 8 or more
+## 19       18       0 3.047328e-05 8 or more
+## 20       19       0 6.753081e-06 8 or more
+## 21       20       1 1.421701e-06 8 or more</code></pre>
+<p>Then sum up the observed and expected frequencies within the new categories.</p>
+<pre class="r"><code>obsFreqGroup &lt;- tapply(extinctFreq$obsFreq, extinctFreq$groups, sum)
+expFreqGroup &lt;- tapply(extinctFreq$expFreq, extinctFreq$groups, sum)
+data.frame(obs = obsFreqGroup, exp = expFreqGroup)</code></pre>
+<pre><code>##           obs       exp
+## 0 or 1     13  5.876068
+## 2          15  9.996501
+## 3          16 14.030177
+## 4           7 14.768608
+## 5          10 12.436722
+## 6           4  8.727524
+## 7           2  5.249639
+## 8 or more   9  4.914760</code></pre>
+<p>The expected frequency for the last category, “8 or more”, doesn’t yet include the expected frequencies for the categories 21, 22, 23, and so on. However, the expected frequencies must sum to 76. In the following, we recalculate the expected frequency for the last group, expFreqGroup[length(expFreqGroup)], as 76 minus the sum of the expected frequencies for all the other groups.</p>
+<pre class="r"><code>expFreqGroup[length(expFreqGroup)] = 76 - sum(expFreqGroup[1:(length(expFreqGroup)-1)])
+data.frame(obs = obsFreqGroup, exp = expFreqGroup)</code></pre>
+<pre><code>##           obs       exp
+## 0 or 1     13  5.876068
+## 2          15  9.996501
+## 3          16 14.030177
+## 4           7 14.768608
+## 5          10 12.436722
+## 6           4  8.727524
+## 7           2  5.249639
+## 8 or more   9  4.914761</code></pre>
+<p><br></p>
+</div>
+<div id="goodness-of-fit-test" class="section level2">
+<h2>Goodness of fit test</h2>
+<p>Finally, we are ready to carry out the <span class="math inline">\(\chi^2\)</span> goodness-of-fit test. R gives us a warning here because one of the expected frequencies is less than 5. However, we have been careful to meet the assumptions of the <span class="math inline">\(\chi^2\)</span> test, so let’s persevere. Once again, R doesn’t know that we’ve estimated a parameter from the data (the mean), so it won’t use the correct degrees of freedom when calculating the <span class="math inline">\(P\)</span>-value. As before, we need to grab the <span class="math inline">\(\chi^2\)</span> value calculated by chisq.test and recalculate <span class="math inline">\(P\)</span> using the correct degrees of freedom. Since the number of categories is now 8, the correct degrees of freedom is 8 - 1 - 1 = 6.</p>
+<p>Ignore the warning from the next command, because we are following the rules for expected frequencies.</p>
+<pre class="r"><code>saveChiTest &lt;- chisq.test(obsFreqGroup, p = expFreqGroup/76)</code></pre>
+<pre><code>## Warning in chisq.test(obsFreqGroup, p = expFreqGroup/76): Chi-squared
+## approximation may be incorrect</code></pre>
+<pre class="r"><code>saveChiTest</code></pre>
+<pre><code>## 
+##  Chi-squared test for given probabilities
+## 
+## data:  obsFreqGroup
+## X-squared = 23.95, df = 7, p-value = 0.001163</code></pre>
+<p>The above uses the wrong degrees of freedom for the <span class="math inline">\(\chi^2\)</span> statistic, so yields the wrong <span class="math inline">\(P\)</span>-value. Here’s how to make things right:</p>
+<pre class="r"><code>pValue &lt;- 1 - pchisq(saveChiTest$statistic, df = 6)
+unname(pValue)</code></pre>
+<pre><code>## [1] 0.0005334919</code></pre>
+<p><br></p>
+</div>
+<div id="variancemean-ratio" class="section level2">
+<h2>Variance:mean ratio</h2>
+<pre class="r"><code>var(extinctData$numberOfExtinctions) / meanExtinctions</code></pre>
+<pre><code>## [1] 3.257333</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

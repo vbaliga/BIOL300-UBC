@@ -1,0 +1,158 @@
+<h2>Handling violations of assumptions: R code for Chapter 13 examples</h2>
+Download the R code on this page as a single file <a href="../wp-content/rcode/chap13.r">here</a>.
+<div style="width:650px; padding:6px; border:2px solid black; bgcolor=" #ffffff""="">
+<h3>New methods on this page</h3>
+Click on a function argument for a short description of its meaning. The variable names are plucked from the examples further below.
+
+<b>Data transformations</b>:
+<code>[tippy title = "marine$lnBiomassRatio" width = "300" header = "off"] <font color="003399">Creates a new variable named <code>lnBiomassRatio</code> in the data frame <code>marine</code>.</font>[/tippy] &lt;- [tippy title = "log" width = "300" header = "off"] <font color="003399">Takes the natural logarithm of all the elements in the data vector. Use <code>asin(sqrt(data))</code> for the arcsine transformation and <code>sqrt(data + 1/2)</code> for the square root transformation.</font>[/tippy] ( [tippy title = "marine$biomassRatio" width = "300" header = "off"] <font color="003399">The data vector (variable) to be transformed.</font>[/tippy] )</code>
+
+<b>Quantile plots</b>:
+<code>qqnorm([tippy title = "marine$biomassRatio" width = "300" header = "off"] <font color="003399">A vector of numerical variables; the data.</font>[/tippy], [tippy title = "datax = TRUE" width = "300" header = "off"] <font color="003399">Puts the data values on the x-axis instead of the y-axis (the default).</font>[/tippy])</code>
+
+<b>Mann-Whitney <i>U</i>-test</b> (R uses the equivalent Wilcoxon rank-sum test):
+<code>wilcox.test([tippy title = "timeToMating ~ feedingStatus" width = "300" header = "off"] <font color="003399">A formula relating the response variable <code>timeToMating</code> to the explanatory variable <code>feedingStatus</code>.</font>[/tippy], [tippy title = "data = cannibalism" width = "300" header = "off"] <font color="003399">The name of the data frame containing the variables.</font>[/tippy])</code>
+
+<code><!-- COMMENTED OUT - we've done this in earlier chapters
+<b>Sampling values from a vector</b>:
+<code>sample([tippy title = "cannibalism$timeToMating" width = "300" header = "off"] <font color="003399">A vector to sample from.</font>[/tippy], [tippy title = "replace = FALSE" width = "300" header = "off"] <font color="003399">When "replace = FALSE" the sampling is done without replacement -- that is, no individual will be sampled more than once. If replace = TRUE, sampling is with replacement (each sampled individual is chosen independently, and the same individual in the source could be chosen more than once).</font>[/tippy])</code>
+--></code>
+
+<b>Other new methods</b>:
+Shapiro-Wilk test of normality.
+Sign test.
+Permutation test.
+
+</div>
+<h3>Example 13.1. <a href="../wp-content/data/chapter13/chap13e1MarineReserve.csv">Biomass in marine reserves</a></h3>
+<em><b>The normal quantile plot</b>, <b>Shapiro-Wilk test of normality</b>, and the <b>log transformation</b>, investigating the ratio of biomass between marine reserves and non-reserve control areas</em>.
+
+Read and inspect the data.
+<pre>marine &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter13/chap13e1MarineReserve.csv"))
+head(marine)
+</pre>
+<strong>Histogram</strong> of biomass ratio (Figure 13.1-4).
+<pre>hist(marine$biomassRatio, right = FALSE, col = "firebrick", las = 1)
+</pre>
+<strong>Normal quantile plot</strong> of biomass ratio data.
+<pre>qqnorm(marine$biomassRatio, datax = TRUE)
+</pre>
+Commands for a normal quantile plot with more options (Figure 13.1-4) are [tippy title="here" width = "680" header = "off"]
+<pre>qqnorm(marine$biomassRatio, datax = TRUE, pch = 16, col = "firebrick", 
+	las = 1, ylab = "Biomass ratio", xlab = "Normal quantile", main = "")
+</pre>
+[/tippy].
+
+<b>Shapiro-Wilk test</b> of normality.
+<pre>shapiro.test(marine$biomassRatio)
+</pre>
+
+<hr class="short">
+
+<em><b>Natural log-transformation</b> and resulting confidence interval of the a mean of marine biomass ratio</em>.
+
+<b>Log-transformation</b>. The function <code>log()</code> takes the natural logarithm of all the elements of a vector or variable. The following command puts the results into a new variable in the same data frame, <code>marine</code>.
+<pre>marine$lnBiomassRatio &lt;- log(marine$biomassRatio)
+</pre>
+<strong>Histogram of the log-transformed</strong> marine biomass ratio (Figure 13.3-2) .
+<pre>hist(marine$lnBiomassRatio, right = FALSE, col = "firebrick", las = 1)
+</pre>
+<strong>95% confidence interval of the mean</strong> using the log-transformed data.
+<pre>t.test(marine$lnBiomassRatio)$conf.int
+</pre>
+<strong>Back-transform lower and upper limits of confidence interval</strong> (<code>exp</code> is the inverse of the log function).
+<pre>exp( t.test(marine$lnBiomassRatio)$conf.int )
+</pre>
+
+<hr>
+
+<h3>Example 13.4. <a href="../wp-content/data/chapter13/chap13e4SexualConflict.csv">Sexual conflict and speciation</a></h3>
+<em><b>The sign test</b>, comparing the numbers of species in 25 pairs of closely related insect taxa</em>.
+
+Read and inspect the data.
+<pre>conflict &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter13/chap13e4SexualConflict.csv"))
+head(conflict)
+</pre>
+<strong>Histogram</strong> of the difference in numbers of species (Figure 13.4-1).
+<pre>hist(conflict$difference, right = FALSE, col = "firebrick",
+	breaks = 50, xlab = "Difference in species number", las = 1)
+</pre>
+<strong>Count up the frequency of differences that are below, equal to, and above zero</strong>. The first command below creates a new variable called <code>zero</code> in the data frame and sets all elements to "equal". This is just to get started. The next two commands overwrite those elements corresponding to taxon pairs with a difference greater than zero, or less than zero, respectively.
+<pre>conflict$zero &lt;- "equal"
+conflict$zero[conflict$difference &gt; 0] &lt;- "above"
+conflict$zero[conflict$difference &lt; 0] &lt;- "below"
+conflict$zero &lt;- factor(conflict$zero, levels = c("below", "equal", "above"))
+table(conflict$zero)
+</pre>
+<b>Sign test</b>. The sign test is just a binomial test. The result includes a confidence interval for the proportion using the Clopper-Pearson method, which isn't covered in the book.
+<pre>binom.test(7, n = 25, p = 0.5)
+</pre>
+
+<hr>
+
+<h3>Example 13.5. <a href="../wp-content/data/chapter13/chap13e5SagebrushCrickets.csv">Cricket sexual cannibalism</a></h3>
+<em><b>The Wilcoxon rank-sum test (equivalent to the Mann-Whitney <i>U</i>-test)</b> comparing times to mating (in hours) of starved and fed female sagebrush crickets. We also apply the <b>permutation test</b> to the same data</em>.
+
+Read and inspect data.
+<pre>cannibalism &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter13/chap13e5SagebrushCrickets.csv"))
+head(cannibalism)
+</pre>
+<strong>Multiple histograms</strong> (Figure 13.5-1) using the <code>lattice</code> package
+<pre>library(lattice)
+histogram( ~ timeToMating | feedingStatus, data = cannibalism,
+	layout = c(1,2), col = "firebrick", breaks = seq(0, 100, by = 20),
+	type = "count", xlab = "Time to mating (hours)", ylab = "Frequency")
+</pre>
+Commands for multiple histograms in basic R are [tippy title="here" width = "680" header = "off"]
+<pre>oldpar = par(no.readonly = TRUE) # make backup of default graph settings
+par(mfrow = c(2,1), oma = c(4, 6, 2, 6), mar = c(3, 4, 3, 2))
+hist(cannibalism$timeToMating[cannibalism$feedingStatus == "starved"],
+	col = "firebrick", las = 1, breaks = seq(0, 100, by = 20), 
+	main = "starved", ylab = "Frequency")
+hist(cannibalism$timeToMating[cannibalism$feedingStatus == "fed"],
+	col = "firebrick", las = 1, breaks = seq(0, 100, by = 20), 
+	main = "fed", ylab = "Frequency")
+mtext("Time to mating (hours)", side = 1, outer = TRUE, padj = 0)
+par(oldpar) # revert to default graph settings
+</pre>
+[/tippy].
+
+<strong>Wilcoxon rank-sum test</strong> (equivalent to Mann-Whitney <i>U</i>-test)
+<pre>wilcox.test(timeToMating ~ feedingStatus, data = cannibalism)
+</pre>
+
+<hr class="short">
+
+<em><b>Permutation test</b> of the difference between mean time to mating of starved and fed crickets</em>.
+
+Begin by calculating the <strong>observed difference between means</strong> (starved minus fed). The difference is -18.25734 in this data set.
+<pre>cricketMeans &lt;- tapply(cannibalism$timeToMating, cannibalism$feedingStatus, mean)
+cricketMeans
+diffMeans &lt;- cricketMeans[2] - cricketMeans[1]
+diffMeans
+</pre>
+Decide on the <strong>number of permutations</strong>.
+<pre>nPerm &lt;- 10000
+</pre>
+Create a <strong>loop to permute the data many times</strong> (determined by <code>nperm</code>). In the loop, <code>i</code> is just a counter that goes from 1 to <code>nPerm</code> by 1; each permuted difference is saved in the <code>permResult</code>.
+<pre>permResult &lt;- vector() # initializes
+for(i in 1:nPerm){
+	# step 1: permute the times to mating
+	permSample &lt;- sample(cannibalism$timeToMating, replace = FALSE)
+	# step 2: calculate difference betweeen means
+	permMeans &lt;- tapply(permSample, cannibalism$feedingStatus, mean)
+	permResult[i] &lt;- permMeans[2] - permMeans[1]
+	}
+</pre>
+<strong>Plot null distribution</strong> based on the permuted differences (Figure 13.8-1).
+<pre>hist(permResult, right = FALSE, breaks = 100)
+</pre>
+<strong>Use the null distribution to calculate an approximate <i>P</i>-value</strong>. This is the twice the proportion of the permuted means that fall below the observed difference in means, <code>diffMeans</code> (-18.25734 in this example). The following code calculates the <i>number</i> of permuted means falling below <code>diffMeans</code>.
+<pre>sum(as.numeric(permResult &lt;= diffMeans))
+</pre>
+These commands obtain the <i>fraction</i> of permuted means falling below <code>diffMeans</code>.
+<pre>sum(as.numeric(permResult &lt;= diffMeans)) / nPerm
+</pre>
+Finally, multiply by 2 to get the <i>P</i>-value for a two-sided test.
+<pre>2 * ( sum(as.numeric(permResult &lt;= diffMeans)) / nPerm )
+</pre>

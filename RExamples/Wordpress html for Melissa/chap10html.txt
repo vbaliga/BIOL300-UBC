@@ -1,0 +1,73 @@
+<h2>The normal distribution: R code for Chapter 10 examples</h2>
+Download the R code on this page as a single file <a href="../wp-content/rcode/chap10.r">here</a>.
+<div style="width:650px; padding:6px; border:2px solid black; bgcolor=" #ffffff""="">
+<h3>New methods on this page</h3>
+Click on a function argument for a short description of its meaning. The variable names are plucked from the examples further below.
+
+<b>Probabilities under the normal curve</b>:
+<code>pnorm([tippy title = "157.5" width = "300" header = "off"] <font color="003399">The value of Y. pnorm will find the probability of a value less than this number.</font>[/tippy], [tippy title = "mean = 177.6" width = "300" header = "off"] <font color="003399">The mean of the normal distribution (177.6 in this case).</font>[/tippy], [tippy title="sd = 9.7" width = "300" header = "off"] <font color="003399">The standard deviation of the normal distribution.</font>[/tippy])</code>
+
+<b>Other new methods</b>:
+Normal approximation to a binomial distribution.
+
+</div>
+<h3>Example 10.4. One small step for man?</h3>
+<b>Calculate probabilities under the normal curve</b>. The command <code>pnorm(Y)</code> gives the probability of obtaining a value <b><i>less than</i></b> <i>Y</i> under the normal distribution. The arguments <code>mean</code> and <code>sd</code> give the mean and standard deviate of the desired normal distribution.
+
+Pr[Height &lt; 157.5]
+<pre>pnorm(157.5, mean = 177.6, sd = 9.7)
+</pre>
+Pr[Height &gt; 190.54]
+<pre>1 - pnorm(190.54, mean = 177.6, sd = 9.7)
+</pre>
+Pr[Height &lt; 157.5 or Height &gt; 190.54]
+<pre>pnorm(157.5, mean = 177.6, sd = 9.7) + 1 - pnorm(190.54, mean = 177.6, sd = 9.7)
+</pre>
+
+<hr>
+
+<h3>Figure 10.6. <a href="../wp-content/data/chapter10/chap10e6AgesAtDeathSpanishFlu1918.csv">Ages at death during the Spanish flu</a></h3>
+<em><b>Demonstration of the central limit theorem</b>, using the distribution of sample mean age at death in samples from a highly non-normal distribution: the frequency distribution of age at death in Switzerland in 1918 during the Spanish flu epidemic</em>.
+
+Read and inspect the data.
+<pre>flu &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter10/chap10e6AgesAtDeathSpanishFlu1918.csv"))
+head(flu)
+</pre>
+<strong>Histogram showing the frequency distribution</strong> of ages at death in Switzerland in 1918 during the Spanish flu epidemic.
+<pre>hist(flu$age, right = FALSE)
+</pre>
+Commands for a histogram with more options are [tippy title="here" width = "680" header = "off"]
+<pre>hist(flu$age, right = FALSE, breaks = seq(0,102,2), col = "firebrick", las = 1, 
+	xlab = "Age at death (yrs)", ylab = "Frequency", main = "")
+</pre>
+[/tippy].
+
+Demonstrate the <strong>central limit theorem</strong>. Treat the age at death measurements from Switzerland in 1918 as the population. Take a large number of random samples, each of size <i>n</i>, from the population of age at death measurements and plot the sample means. Note: your results won't be the identical to the one in Figure 10.6-2, because 10,000 random samples is not large enough for extreme accuracy. Change <i>n</i> below to another number and rerun to see the effects of sample size on the shape of the distribution of sample means.
+<pre>n &lt;- 4
+results &lt;- vector()
+for(i in 1:10000){
+	AgeSample &lt;- sample(flu$age, size = n, replace = FALSE)
+	results[i] &lt;- mean(AgeSample)
+	}
+</pre>
+<strong>Histogram of the sample means</strong>, with options.
+<pre>hist(results, right = FALSE, breaks = 50, col = "firebrick", las = 1, 
+	xlab = "Mean age at death (yrs)", ylab = "Frequency", main = "")
+</pre>
+
+<hr>
+
+<h3>Example 10.7. The only good bug is a dead bug</h3>
+<em><b>Normal approximation to the binomial distribution</b> applied to the brown recluse spider example</em>.
+
+The <i>P</i>-value from the binomial test is <i>P</i> = 2 Pr[<i>X</i> ≥ 31], which is the same as 2 (1 - Pr[<i>X</i> &lt; 30]), since Pr[<i>X</i> ≥ 31] = 1 - Pr[<i>X</i> &lt; 30]. We can use the normal approximation as follows. Remember that <i>n</i> = 41 and <i>p</i> = 0.5.
+<pre>spiderProb &lt;- 1 - pnorm( (30 + 1/2 - 41 * 0.5) / sqrt(41 * 0.50 * 0.5))
+Pvalue &lt;- 2 * spiderProb
+Pvalue
+</pre>
+Compare with the result obtained when using the binomial distribution, <code>dbinom</code>, which we encountered in the Chapter 7 R page.
+<pre>2 * sum( dbinom(31:41, size = 41, prob = 0.5) )
+</pre>
+Or use <code>pbinom</code>.
+<pre>2 * (1 - pbinom(30, size = 41, prob = 0.5))
+</pre>

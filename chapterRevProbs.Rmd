@@ -1,0 +1,155 @@
+---
+title: "Resources for Review Problems"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+<br> 
+
+This file links to all the data sets for all three Review Problem sets in Whitlock and Schluter.
+
+<br>
+
+# Data
+
+Download a .zip file with all the data for the review problems in .csv format [here](DataZipFiles/DataReviewProbs.zip). 
+
+Download a .zip file with all data sets in the book [here](DataZipFiles/Data.zip). 
+
+All data sets and their sources are listed individually below.
+
+Disclaimer: Most data sets used in the book are grabbed from graphs and tables in the original publications, and the values may not be exact. Contact the original authors for the raw data.
+
+<br> 
+
+## Review Problems 1
+
+[R1.02. Syndactyly and smoking](Data/review1/rev1q2FingerDefectsSmoking.csv) 
+
+Man, L. X. and B. Chang. 2006. *Plastic and reconstructive surgery* 117: 301-308.
+
+[R1.03. Seedling distribution](Data/review1/rev1q3PineSeedlings.csv) 
+
+These data are hypothetical.
+
+[R1.09. Heart attacks and chest pain](Data/review1/rev1q9ChestPain.csv) 
+
+Brieger, D., et al. 2004. *Chest* 126: 461–469.
+
+[R1.10. Cod recruitment](Data/review1/rev1q10CodRecruitment.csv) Cod recruitment
+
+Beaugrand, G., et al. 2003. *Nature* 426: 661–664.
+
+[R1.11. Wine judging](Data/review1/rev1q11WineOrderPreference.csv) 
+
+Mantonakis, A.,  P. Rodero, I. Lesschaeve, and R. Hastie. 2009. *Psychological Science* 20: 1309-1312.
+
+[R1.13. Smoking and strokes](Data/review1/rev1q13CostFreeQuitSmoking.csv) 
+
+Papadakis, S., et al. 2011. *BMJ Open* 1: e000366. Data at [http://www.datadryad.org/handle/10255/dryad.35443](http://www.datadryad.org/handle/10255/dryad.35443).
+
+[R1.14. Birds of the Lesser Antilles](Data/review1/rev1q14LesserAntillesBirds.csv) 
+
+Ricklefs, R. E., and E. Bermingham. 2001. *Science* 294: 1522–1524.
+
+<br>
+
+## Review Problems 2
+
+[R2.03. Climbing plants](Data/review2/rev2q03ClimbingVines.csv) 
+
+Gianoli, E. 2004. *Proceedings of the Royal Society of London, Series B, Biological Sciences.* 271: 2011–2015.
+
+[R2.04. Tobacco genetics](Data/review2/rev2q04Tobacco.csv) 
+
+East, E. M. 1916. *Genetics* 1: 164–176.
+
+[R2.05. Butterfly mating success](Data/review2/rev2q05MultipleMating.csv) 
+
+Elgar, M. A., and N. E. Pierce. 1988. Pages 59-75 in Clutton-Brock, T. H. (editor). *Reproductive success: studies of selection and adaptation in contrasting breeding systems*. The University of Chicago Press, Chicago.
+
+[R2.06. Territories and hormones](Data/review2/rev2q06TerritoryAndHormones.csv) 
+
+White, S. A., T. Nguyen, and R. D. Fernald. 2002. *The Journal of Experimental Biology* 205: 2567–2581.
+
+[R2.07. National No Smoking Day](Data/review2/rev2q07NoSmokingDay.csv) 
+
+Waters, A. J., M. J. Jarvis, and S. R. Sutton. 1998. *Nature* 394: 137. 
+
+[R2.09. Pitcher plant odors](Data/review2/rev2q09PitcherPlantOdor.csv) 
+
+Di Giusto, B., et al. 2010. *Journal of Ecology* 98: 845-856.
+
+[R2.13. Gesturing](Data/review2/rev2q13BlindGestures.csv) 
+
+Iverson, J. M., and S. Goldin-Meadow. 1998. *Nature* 396: 228.
+
+[R2.14. Knuckle cracking](Data/review2/rev2q14KnuckleCracking.csv) 
+
+de Weber, K., M. Olszewski, and R. Ortolano. 2011. *Journal of the American Board of Family Medicine* 24: 169 –174.
+
+[R2.15. Returns are faster](Data/review2/rev2q15ReturnTrip.csv) 
+
+van de Ven, N., L. van Rijswijk, and M. M. Roy. 2011. *Psychonomic Bulletin & Review* 18: 827–832.
+
+[R2.16. Zebrafish shyness](Data/review2/rev2q16ZebrafishAggression.csv) 
+
+Norton, W. H. J., et al. 2011. *Journal of Neuroscience* 31: 13796-13807.
+
+<br> 
+
+##  Review Problems 3
+
+[R3.01. Horse walking in cave art](Data/review3/rev3q01WalkingPosture.csv) 
+
+Horvath, G., et al. 2012. *PLoS ONE* 7: e49786.
+
+[R3.05. Worm lifespan](Data/review3/rev3q05WormLifespan.csv) 
+
+Gems, D., et al. 1998. *Genetics* 150:129-155.
+
+[R3.06. Mendel's data](Data/review3/rev3q06MendelPeas.csv) 
+
+Mendel, G. 1866. *Abh. Brünn* 4:3–47.
+
+[R3.07. Contraception and thrombosis](Data/review3/rev3q07ThrombosisContraceptives.csv) 
+
+van Hylckama Vlieg, A., et al. 2009. *British Medical Journal* 339: b2921.
+
+[R3.08. Oxygen consumption](Data/review3/rev3q08OxygenConsumption.csv) 
+
+Hayes, J. P., and C. S. O'Connor. 1999. *Evolution* 53: 1280-1287.
+
+[R3.09. CO2 and growth rate](Data/review3/rev3q09CO2PlantGrowth.csv) 
+
+Collins S., and G. Bell. 2004. *Nature* 431: 566–569.
+
+[R3.10. Leanness and heat loss](Data/review3/rev3q10HeatLossLeanness.csv) 
+
+Sloan, R. E. G., and W. R. Keatinge. 1973. *Journal of Applied Physiology* 35: 371–375
+
+[R3.13. Naked mole rat genetics](Data/review3/rev3q13MoleRatGenetics.csv) 
+
+Edrey, Y. H., et al.. 2012. *Aging Cell* 11: 213-222.
+
+[R3.14. Needle length and obesity](Data/review3/rev3q14ObesityAndNeedles.csv)
+
+Middleman, A. B., R. Anding, and C. Tung. 2010. *Pediatrics* 125: e508–e512.
+
+[R3.16. Sex ratio and social factors](Data/review3/rev3q16SexRatio.csv) 
+
+West, S. A., and B. C. Sheldon. 2002. *Science* 295: 1695–1688.

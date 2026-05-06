@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>R code for example in Chapter 17:  Regression</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-4');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R code for example in Chapter 17: <br>Regression</h1>
+
+</div>
+
+
+<hr />
+<p>We used R to analyze all examples in Chapter 16. We put the code here so that you can too.</p>
+<p>Also see our <a href="https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_Correlation_Regression.html">R lab on linear regression</a>.</p>
+<p><br></p>
+<div id="new-methods-on-this-page" class="section level1">
+<h1>New methods on this page</h1>
+<ul>
+<li>
+<p>Linear regression:</p>
+<pre class="r"><code>lionRegression &lt;- lm(ageInYears ~ proportionBlack, data = lion)
+summary(lionRegression)</code></pre>
+<li>
+<p>95% confidence interval for the slope:</p>
+<pre class="r"><code>confint(lionRegression)</code></pre>
+<li>
+<p>Predict mean y on a regression line corresponding to a given x-value:</p>
+<pre class="r"><code>predict(lionRegression, data.frame(proportionBlack = 0.50), se.fit = TRUE)</code></pre>
+<li>
+<p>ANOVA test of zero regression slope:</p>
+<pre class="r"><code>anova(prairieRegression)</code></pre>
+<li>
+Other new methods:
+<ul>
+<li>
+95% confidence bands.
+<li>
+95% prediction intervals.
+<li>
+Scatter plot smoothing.
+<li>
+Nonlinear regression.
+<li>
+Logistic regression.
+</ul>
+</ul>
+<hr />
+</div>
+<div id="load-required-packages" class="section level1">
+<h1>Load required packages</h1>
+<p>If you want to try the <code>geom_spline()</code> function for scatter plot smoothing using splines, you need to install the <code>ggformula</code> package on your computer. Load the <code>MASS</code> package for logistic regression.</p>
+<pre class="r"><code>install.packages(&quot;binom&quot;, dependencies = TRUE) # optional</code></pre>
+<p>Load the <code>ggplot2</code> package for graphs.</p>
+<pre class="r"><code>library(ggplot2)
+library(ggformula) # optional
+library(MASS)</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="example-17.1.-lion-noses" class="section level1">
+<h1>Example 17.1. Lion noses</h1>
+<p><em><strong>Estimate a linear regression</strong> and <strong>calculate predicted values and their uncertainty</strong> for the relationship between lion age and proportion of black on the lion nose</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>lion &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter17/chap17e1LionNoses.csv&quot;), stringsAsFactors = FALSE)
+head(lion)</code></pre>
+<pre><code>##   proportionBlack ageInYears
+## 1            0.21        1.1
+## 2            0.14        1.5
+## 3            0.11        1.9
+## 4            0.13        2.2
+## 5            0.12        2.6
+## 6            0.13        3.2</code></pre>
+<p><br></p>
+</div>
+<div id="scatter-plot" class="section level2">
+<h2>Scatter plot</h2>
+<p>This command produces the plot in Figure 17.1-1.</p>
+<pre class="r"><code>ggplot(lion, aes(proportionBlack, ageInYears)) + 
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    labs(x = &quot;Proportion black&quot;, y = &quot;Age (years)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-8-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="fit-regression-line" class="section level2">
+<h2>Fit regression line</h2>
+<p>Fit the linear regression to the data using least squares. Use <code>lm()</code>, which was also used for ANOVA. Save the results into a model object, and then use other commands to extract the quantities wanted.</p>
+<pre class="r"><code>lionRegression &lt;- lm(ageInYears ~ proportionBlack, data = lion)</code></pre>
+<p>Slope and intercept of the best fit line, along with their standard errors, are extracted with the <code>summary()</code> function. Extract just the coefficients with <code>coef(lionRegression)</code>.</p>
+<pre class="r"><code>summary(lionRegression)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = ageInYears ~ proportionBlack, data = lion)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -2.5449 -1.1117 -0.5285  0.9635  4.3421 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)       0.8790     0.5688   1.545    0.133    
+## proportionBlack  10.6471     1.5095   7.053 7.68e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.669 on 30 degrees of freedom
+## Multiple R-squared:  0.6238, Adjusted R-squared:  0.6113 
+## F-statistic: 49.75 on 1 and 30 DF,  p-value: 7.677e-08</code></pre>
+<p><br></p>
+</div>
+<div id="ci-for-intercept-and-slope" class="section level2">
+<h2>95&amp; CI for intercept and slope</h2>
+<pre class="r"><code>confint(lionRegression)</code></pre>
+<pre><code>##                      2.5 %    97.5 %
+## (Intercept)     -0.2826733  2.040686
+## proportionBlack  7.5643082 13.729931</code></pre>
+<p><br></p>
+</div>
+<div id="add-line-to-scatter-plot" class="section level2">
+<h2>Add line to scatter plot</h2>
+<p>Overlay the least squares regression line onto the plot (Figure 17.1-4) using <code>geom_smooth()</code>.</p>
+<pre class="r"><code>ggplot(lion, aes(proportionBlack, ageInYears)) + 
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    geom_smooth(method = &quot;lm&quot;, se = FALSE, col = &quot;black&quot;) +
+    labs(x = &quot;Proportion black&quot;, y = &quot;Age (years)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-12-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="use-line-to-predict" class="section level2">
+<h2>Use line to predict</h2>
+<p>Use the regression line for prediction. For example, here is how to predict mean lion age corresponding to a value of 0.50 of proportion black in the nose.</p>
+<pre class="r"><code>yhat &lt;- predict(lionRegression, data.frame(proportionBlack = 0.50), se.fit = TRUE)
+data.frame(yhat)</code></pre>
+<pre><code>##        fit    se.fit df residual.scale
+## 1 6.202566 0.3988321 30       1.668764</code></pre>
+<p>In the output, predicted age is indicated by <code>fit</code> and the standard error of the predicted mean age is <code>se.fit</code></p>
+<p><br></p>
+</div>
+<div id="confidence-bands" class="section level2">
+<h2>95% confidence bands</h2>
+<p>The 95% confidence bands measure uncertainty of the predicted mean values on the regression line corresponding to each x-value (Figure 17.2-1, left). The confidence limits are the upper and lower edge of the shaded area in the following plot.</p>
+<pre class="r"><code>ggplot(lion, aes(proportionBlack, ageInYears)) + 
+    geom_smooth(method = &quot;lm&quot;, se = TRUE, col = &quot;black&quot;) +
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    labs(x = &quot;Proportion black&quot;, y = &quot;Age (years)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-14-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="prediction-interval" class="section level2">
+<h2>95% Prediction interval</h2>
+<p>The 95% prediction intervals show the 95% confidence intervals for the predicted value of a new (future) individual, given its value for the x-variable (Figure 17.2-1, right). The prediction interval is wider than the confidence bands because predicting the age of a new individual lion age from the proportion black in its nose has higher uncertainty than predicting the mean age of all lions having that proportion of black on their noses.</p>
+<pre class="r"><code>lion2 = data.frame(lion, predict(lionRegression, interval = &quot;prediction&quot;))</code></pre>
+<pre><code>## Warning in predict.lm(lionRegression, interval = &quot;prediction&quot;): predictions on current data refer to _future_ responses</code></pre>
+<pre class="r"><code>ggplot(lion2, aes(proportionBlack, ageInYears)) + 
+    geom_ribbon(aes(ymin = lwr, ymax = upr, fill=&#39;prediction&#39;), 
+        fill = &quot;black&quot;, alpha = 0.2) +
+    geom_smooth(method = &quot;lm&quot;, se = FALSE, col = &quot;black&quot;) +
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    labs(x = &quot;Proportion black&quot;, y = &quot;Age (years)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-15-1.png" width="480" /></p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-17.3.-prairie-home-campion" class="section level1">
+<h1>Example 17.3. Prairie home campion</h1>
+<p><em><strong>Test the null hypothesis of zero regression slope</strong>. The data are from an experiment investigating the effect of plant species diversity on the stability of plant biomass production</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data-1" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>prairie &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter17/chap17e3PlantDiversityAndStability.csv&quot;), stringsAsFactors = FALSE)
+head(prairie)</code></pre>
+<pre><code>##   nSpecies biomassStability
+## 1        1             7.47
+## 2        1             6.74
+## 3        1             6.61
+## 4        1             6.40
+## 5        1             5.67
+## 6        1             5.26</code></pre>
+<p><br></p>
+</div>
+<div id="log-transform" class="section level2">
+<h2>Log-transform</h2>
+<p>Log-transform stability and include the new variable in the data frame. Inspect the data frame once again to make sure the function worked as intended.</p>
+<pre class="r"><code>prairie$logStability &lt;- log(prairie$biomassStability)
+head(prairie)</code></pre>
+<pre><code>##   nSpecies biomassStability logStability
+## 1        1             7.47     2.010895
+## 2        1             6.74     1.908060
+## 3        1             6.61     1.888584
+## 4        1             6.40     1.856298
+## 5        1             5.67     1.735189
+## 6        1             5.26     1.660131</code></pre>
+<p><br></p>
+</div>
+<div id="scatter-plot-with-line" class="section level2">
+<h2>Scatter plot with line</h2>
+<p>These commands produce the plot Figure 17.3-1.</p>
+<pre class="r"><code>ggplot(prairie, aes(nSpecies, logStability)) + 
+    geom_point(size = 3, col = &quot;firebrick&quot;, shape = 1) + 
+    geom_smooth(method = &quot;lm&quot;, se = FALSE, col = &quot;black&quot;) +
+    xlim(0,16) +
+    labs(x = &quot;Species number treatment&quot;, 
+        y = &quot;Log-transformed ecosystem stability&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-18-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="least-squares-regression" class="section level2">
+<h2>Least squares regression</h2>
+<p>Fit the least squares linear regression to the data using <code>lm()</code>. Save the results into a model object, and then use <code>summary()</code> to extract the intercept and slope of the fitted regression line.</p>
+<pre class="r"><code>prairieRegression &lt;- lm(logStability ~ nSpecies, data = prairie)
+summary(prairieRegression)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = logStability ~ nSpecies, data = prairie)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -0.97148 -0.25984 -0.00234  0.23100  1.03237 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 1.198294   0.041298  29.016  &lt; 2e-16 ***
+## nSpecies    0.032926   0.004884   6.742 2.73e-10 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.3484 on 159 degrees of freedom
+## Multiple R-squared:  0.2223, Adjusted R-squared:  0.2174 
+## F-statistic: 45.45 on 1 and 159 DF,  p-value: 2.733e-10</code></pre>
+<p><br></p>
+</div>
+<div id="t-test-of-regression-slope" class="section level2">
+<h2><span class="math inline">\(t\)</span>-test of regression slope</h2>
+<p>This is provided as part of the output of the <code>summary()</code> command immediately above.</p>
+<p><br></p>
+</div>
+<div id="ci-of-regression-slope" class="section level2">
+<h2>95% CI of regression slope</h2>
+<pre class="r"><code>confint(prairieRegression)</code></pre>
+<pre><code>##                  2.5 %     97.5 %
+## (Intercept) 1.11673087 1.27985782
+## nSpecies    0.02328063 0.04257117</code></pre>
+<p><br></p>
+</div>
+<div id="anova-test" class="section level2">
+<h2>ANOVA test</h2>
+<p>This method produces the ANOVA table (Table 17.3-2), which includes a test of the null hypothesis that the regression slope is zero.</p>
+<pre class="r"><code>anova(prairieRegression)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Response: logStability
+##            Df  Sum Sq Mean Sq F value    Pr(&gt;F)    
+## nSpecies    1  5.5169  5.5169  45.455 2.733e-10 ***
+## Residuals 159 19.2980  0.1214                      
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p><br></p>
+</div>
+<div id="r2" class="section level2">
+<h2><span class="math inline">\(R^2\)</span></h2>
+<p>The <span class="math inline">\(R^2\)</span> associated with the regression is part of the output of the <code>summary</code> command.</p>
+<pre class="r"><code>summary(prairieRegression)$r.squared</code></pre>
+<pre><code>## [1] 0.2223217</code></pre>
+<!--
+***
+
+<br>
+
+# Figure 17.5-2. Tail feather outlier
+
+***Examine the effect on an outlier on linear regression**. The data are percentage of white in the tail feathers of the dark-eyed junco at sites at different latitudes*.
+
+Read and inspect data.
+
+
+```r
+junco <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter17/chap17f5_2JuncoOutlier.csv"), stringsAsFactors = FALSE)
+head(junco)
+```
+
+```
+##   latitude percentWhiteTail
+## 1     33.7             46.2
+## 2     32.8             45.2
+## 3     32.9             44.0
+## 4     33.7             42.6
+## 5     34.3             42.5
+## 6     35.5             40.9
+```
+
+**Scatter plot** of all the data.
+
+
+```r
+plot(percentWhiteTail ~ latitude, data = junco)
+```
+
+<img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-24-1.png" width="480" />
+
+Commands for a more elaborate scatter plot using more options (Figure 17.5-2) are here
+
+
+```r
+plot(percentWhiteTail ~ latitude, data = junco, pch = 16, col="firebrick", 
+    las = 1, cex = 1.5, bty = "l", xlab = "Latitude (degrees N)", 
+    ylab = "Percent white in tail")
+```
+
+<img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-25-1.png" width="480" />
+
+
+Add regression lines to the scatter plot, calculated both with and without the outlier. You may need to redraw the scatter plot using the above commands before executing the following functions.
+
+
+```r
+juncoRegression <- lm(percentWhiteTail ~ latitude, data = junco)
+plot(percentWhiteTail ~ latitude, data = junco, pch = 16, col="firebrick", 
+    las = 1, cex = 1.5, bty = "l", xlab = "Latitude (degrees N)", 
+    ylab = "Percent white in tail")
+abline(juncoRegression, col = "red", lwd = 2)
+```
+
+<img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-26-1.png" width="480" />
+
+
+
+```r
+juncoRegressionNoOut <- lm(percentWhiteTail ~ latitude, 
+    data = junco, subset = percentWhiteTail < 38)
+plot(percentWhiteTail ~ latitude, data = junco, pch = 16, col="firebrick", 
+    las = 1, cex = 1.5, bty = "l", xlab = "Latitude (degrees N)", 
+    ylab = "Percent white in tail")
+```
+
+<img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-27-1.png" width="480" />
+
+```r
+##abline(juncoRegressionNoOut, lwd = 2) ###Mike: this line is not rendering well. I think its mostly because the plot is done on all data while the regression is only on a subset. 
+```
+-->
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="figure-17.5-3.-detecting-nonlinearity" class="section level1">
+<h1>Figure 17.5-3. Detecting nonlinearity</h1>
+<p><em><strong>Detect a nonlinear relationship graphically</strong>, using data on surface area of desert pools and the number of fish species present</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data-2" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>desertFish &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter17/chap17f5_3DesertPoolFish.csv&quot;), stringsAsFactors = FALSE)
+head(desertFish)</code></pre>
+<pre><code>##   poolArea nFishSpecies
+## 1        9            1
+## 2       20            1
+## 3       30            1
+## 4       50            1
+## 5      200            1
+## 6       60            2</code></pre>
+<p><br></p>
+</div>
+<div id="scatter-plot-with-line-1" class="section level2">
+<h2>Scatter plot with line</h2>
+<p>The plot reveals the poor fit of a straight line (Figure 17.5-3 left).</p>
+<pre class="r"><code>ggplot(desertFish, aes(poolArea, nFishSpecies)) + 
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    geom_smooth(method = &quot;lm&quot;, se = FALSE, col = &quot;black&quot;) +
+    labs(x = expression(Area~(m^2)), y = &quot;Number of species&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-29-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="scatter-plot-smoothing" class="section level2">
+<h2>Scatter plot smoothing</h2>
+<p>This code for Figure 17.5-3 (right) uses <code>geom_spline()</code>, which requires the <code>ggformula</code> package, which extends <code>ggplot()</code>. The <code>df</code>option controls the degree of smoothing: a larger number results in a more wiggly curve. Otherwise try using ```geom_smooth(method = “loess”) instead.</p>
+<pre class="r"><code>ggplot(desertFish, aes(poolArea, nFishSpecies)) + 
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    geom_spline(col = &quot;black&quot;, df = 2) +
+    labs(x = expression(Area~(m^2)), y = &quot;Number of species&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-30-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="log-transformed-data-figure-17.6-2" class="section level2">
+<h2>Log-transformed data (Figure 17.6-2)</h2>
+<p>We log-transformed both variables and saved the results (<code>ln_nFishSpecies</code>, <code>ln_poolArea</code>) in the data frame. Then we made a new scatter plot with the log-transformed variables and added the line to the plot.</p>
+<pre class="r"><code>desertFish$ln_nFishSpecies &lt;- log(desertFish$nFishSpecies)
+desertFish$ln_poolArea &lt;- log(desertFish$poolArea)
+ggplot(desertFish, aes(ln_poolArea, ln_nFishSpecies)) + 
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    geom_smooth(method = &quot;lm&quot;, se = FALSE, col = &quot;black&quot;) +
+    labs(x = &quot;Ln(area)&quot;, y = &quot;Ln(number of species)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-31-1.png" width="480" /></p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="figure-17.5-4-residual-plots" class="section level1">
+<h1>Figure 17.5-4 Residual plots</h1>
+<p><em><strong>Using residual plots</strong> to detect non-normality and unequal variance.</em></p>
+<p><br></p>
+<div id="blue-tit-cap-color" class="section level2">
+<h2>Blue tit cap color</h2>
+<p>The plot on the left is from a data set of blue tit cap color of offspring and parents. To begin, read and inspect the data.</p>
+<pre class="r"><code>capColor &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter17/chap17f5_4BlueTitCapColor.csv&quot;), stringsAsFactors = FALSE)
+head(capColor)</code></pre>
+<pre><code>##   midparentColorScore offspringColorScore
+## 1               -0.62               -0.33
+## 2               -0.27               -0.17
+## 3               -0.25               -0.23
+## 4               -0.12               -0.49
+## 5                0.12               -0.59
+## 6                0.18               -0.55</code></pre>
+<p>A quick residual plot can be obtained by plotting an <code>lm()</code> object with the ``plot()``` functon.</p>
+<pre class="r"><code>capColorRegression &lt;- lm(offspringColorScore ~ midparentColorScore, data = capColor)
+plot(capColorRegression, which = 1)</code></pre>
+<p><img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-33-1.png" width="480" /></p>
+<p>Our Figure 17.5-4 can be reproduced using the following commands. First, fit the linear regression model using <code>lm()</code> and save the residuals in the data frame. Then plot the residuals against the explanatory variable using <code>ggplot()</code>.</p>
+<pre class="r"><code>capColorRegression &lt;- lm(offspringColorScore ~ midparentColorScore, data = capColor)
+capColor$residuals &lt;- residuals(capColorRegression)
+ggplot(capColor, aes(midparentColorScore, residuals)) + 
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    geom_hline(yintercept=0, color = &quot;black&quot;) +
+    labs(x = &quot;Midparent color score&quot;, y = &quot;Residuals&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-34-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="cockroach-neurons" class="section level2">
+<h2>Cockroach neurons</h2>
+<p>Figure 17.5-4 (right) can be reproduced as follows. The data are firing rates of cockroach neurons at different temperatures. Begin by reading and inspecting the data.</p>
+<pre class="r"><code>roach &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter17/chap17f5_4CockroachNeurons.csv&quot;), stringsAsFactors = FALSE)
+head(roach)</code></pre>
+<pre><code>##   temperature   rate
+## 1        11.9 155.03
+## 2        14.4 142.33
+## 3        15.3 140.11
+## 4        16.4 142.65
+## 5        17.9 135.24
+## 6        20.4 130.16</code></pre>
+<p>Next, fit the linear regression model using <code>lm()</code> and save the residuals in the data frame. Then plot the residuals against the explanatory variable.</p>
+<pre class="r"><code>roachRegression &lt;- lm(rate ~ temperature, data = roach)
+roach$residuals &lt;- residuals(roachRegression)
+ggplot(roach, aes(temperature, residuals)) + 
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    geom_hline(yintercept=0, color = &quot;black&quot;) +
+    labs(x = expression(Temperature~(degree*C)), y = &quot;Residuals&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-36-1.png" width="480" /></p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="figure-17.6-3.-iris-pollination" class="section level1">
+<h1>Figure 17.6-3. Iris pollination</h1>
+<p><em><strong>Use a square root transformation</strong> to improve the fit to assumptions of linear regression. The data are number of pollen grains received and floral tube length of an iris species</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data-3" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>iris &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter17/chap17f6_3IrisPollination.csv&quot;))
+head(iris)</code></pre>
+<pre><code>##   tubeLengthMm grainsDeposited
+## 1           38             299
+## 2           54             205
+## 3           53             167
+## 4           55             122
+## 5           64             129
+## 6           64              64</code></pre>
+<p><br></p>
+</div>
+<div id="residual-plot-untransformed-data" class="section level2">
+<h2>Residual plot untransformed data</h2>
+<p>A quick residual plot can be obtained by plotting an <code>lm()</code> object with the ``plot()``` command..</p>
+<pre class="r"><code>irisRegression &lt;- lm(grainsDeposited ~ tubeLengthMm, data = iris)
+plot(irisRegression, which = 1)</code></pre>
+<p><img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-38-1.png" width="480" /></p>
+<p>Our Figure 17.6-3 (left) can be reproduced with the following commands. We first fit the linear regression model using <code>lm()</code> and save the residuals in the data frame. Then we plot the residuals against the explanatory variable using <code>ggplot()</code>.</p>
+<pre class="r"><code>irisRegression &lt;- lm(grainsDeposited ~ tubeLengthMm, data = iris)
+iris$residuals &lt;- residuals(irisRegression)
+ggplot(iris, aes(tubeLengthMm, residuals)) + 
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    geom_hline(yintercept=0, color = &quot;black&quot;) +
+    labs(x = &quot;Floral tube length (mm)&quot;, y = &quot;Residuals&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-39-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="square-root-transformation" class="section level2">
+<h2>Square root transformation</h2>
+<p>We square-root transformed the single variable <code>grainsDeposited</code> and saved the resulting new variable (<code>sqRootGrains</code>) to the data frame.</p>
+<pre class="r"><code>iris$sqRootGrains &lt;- sqrt(iris$grainsDeposited + 1/2)</code></pre>
+<p><br></p>
+</div>
+<div id="residual-plot-transformed-data" class="section level2">
+<h2>Residual plot transformed data</h2>
+<p>To make Our Figure 17.6-3 (right) we fitted a linear regression to the tranformed y-variable with <code>lm()</code> and saved the residuals to the data fraom. Then we replotted the residuals.</p>
+<pre class="r"><code>irisRegressionSqrt &lt;- lm(sqRootGrains ~ tubeLengthMm, data = iris)
+iris$residuals &lt;- residuals(irisRegressionSqrt)
+ggplot(iris, aes(tubeLengthMm, residuals)) + 
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    geom_hline(yintercept=0, color = &quot;black&quot;) +
+    labs(x = &quot;Floral tube length (mm)&quot;, y = &quot;Residuals&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-41-1.png" width="480" /></p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="figure-17.8-1.-phytoplankton-growth" class="section level1">
+<h1>Figure 17.8-1. Phytoplankton growth</h1>
+<p><em><strong>Fit a nonlinear regression curve having an asymptote</strong> (Michaelis-Menten curve). The data are the relationship between population growth rate of a phytoplankton in culture and the concentration of iron in the medium</em>.</p>
+<p><br></p>
+<div id="read-and-examine-data" class="section level2">
+<h2>Read and examine data</h2>
+<pre class="r"><code>phytoplankton &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter17/chap17f8_1IronAndPhytoplanktonGrowth.csv&quot;), stringsAsFactors = FALSE)
+head(phytoplankton)</code></pre>
+<pre><code>##   ironConcentration phytoGrowthRate
+## 1        0.01096478            0.00
+## 2        0.02398833            0.50
+## 3        0.02818383            0.35
+## 4        0.07244360            1.04
+## 5        0.07585776            0.97
+## 6        0.11481536            1.19</code></pre>
+<p><br></p>
+</div>
+<div id="scatter-plot-1" class="section level2">
+<h2>Scatter plot</h2>
+<pre class="r"><code>ggplot(phytoplankton, aes(ironConcentration, phytoGrowthRate)) + 
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    labs(x = expression(paste(&quot;Iron concentration (&quot;, mu, &quot;mol)&quot;)), 
+         y = &quot;Specific growth rate (no./day)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-43-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="fit-a-michaelis-menten-curve" class="section level2">
+<h2>Fit a Michaelis-Menten curve</h2>
+<p>Use the <code>nls</code> (nonlinear least squares) to fit the curve. Provide a formula that also includes symbols (letters) for the parameters to be estimated. We use “a” and “b” to indicate the parameters of the Michaelis-Menten curve to estimate. The function includes an argument providing an initial guess of parameter values. The value of the initial guess is not so important – here we choose <code>a=1</code> and <code>b=1</code> as initial guesses. The first function below carried out the model fit and save the results in an R object named <code>phytoCurve</code>.</p>
+<pre class="r"><code>phytoCurve &lt;- nls(phytoGrowthRate ~ a*ironConcentration / ( b+ironConcentration), 
+    data = phytoplankton, list(a = 1, b = 1))</code></pre>
+<p>Use the <code>summary</code> command to view the parameter estimates, including standard errors and <em>t</em>-tests of null hypotheses that parameter values are zero.</p>
+<pre class="r"><code>summary(phytoCurve)</code></pre>
+<pre><code>## 
+## Formula: phytoGrowthRate ~ a * ironConcentration/(b + ironConcentration)
+## 
+## Parameters:
+##   Estimate Std. Error t value Pr(&gt;|t|)    
+## a  1.94164    0.06802  28.545 1.14e-11 ***
+## b  0.07833    0.01120   6.994 2.29e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.1133 on 11 degrees of freedom
+## 
+## Number of iterations to convergence: 6 
+## Achieved convergence tolerance: 6.672e-06</code></pre>
+<p>Many of the functions that can be used to extract results from a saved <code>lm</code> object work in the same way when applied to an <code>nls</code> object, such as <code>predict</code>, <code>residuals</code>, and <code>coef</code>.</p>
+<p><br></p>
+</div>
+<div id="add-curve-to-scatter-plot" class="section level2">
+<h2>Add curve to scatter plot</h2>
+<p>The function <code>geom_smooth()</code> has a nonlinear least squares method that allows you to input the same formula as in the <code>nls()</code> command above.</p>
+<pre class="r"><code>ggplot(phytoplankton, aes(ironConcentration, phytoGrowthRate)) + 
+    geom_smooth(method = &quot;nls&quot;, method.args = 
+        list(formula = y ~ a * x / (b + x), start = list(a = 1, b = 1)), 
+              data = phytoplankton, se = FALSE, col = &quot;black&quot;) + 
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    labs(x = expression(paste(&quot;Iron concentration (&quot;, mu, &quot;mol)&quot;)), 
+         y = &quot;Specific growth rate (no./day)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-46-1.png" width="480" /></p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="figure-17.8-2.-pond-productivity" class="section level1">
+<h1>Figure 17.8-2. Pond productivity</h1>
+<p><em><strong>Fit a quadratic curve</strong> to the relationship between the number of plant species present in ponds and pond productivity</em>.</p>
+<p><br></p>
+<div id="read-and-examine-data." class="section level2">
+<h2>Read and examine data.</h2>
+<pre class="r"><code>pondProductivity &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter17/chap17f8_2PondPlantsAndProductivity.csv&quot;), stringsAsFactors = FALSE)
+head(pondProductivity)</code></pre>
+<pre><code>##   productivity species
+## 1            4       3
+## 2           11       2
+## 3           10       1
+## 4           10       0
+## 5           12       4
+## 6           15       4</code></pre>
+<p><br></p>
+</div>
+<div id="scatter-plot-with-quadratic-curve" class="section level2">
+<h2>Scatter plot with quadratic curve</h2>
+<p>Provide <code>geom_smooth()</code> with the formula to add the curve to the scatter plot. Wrap the squared term in the formula with <code>I()</code> so that the arithmetic (<code>x^2</code>) is done before it is entered as a term in the model.</p>
+<pre class="r"><code>ggplot(pondProductivity, aes(productivity, species)) + 
+    geom_smooth(method = &quot;lm&quot;, formula = y ~ x + I(x^2), 
+        color = &quot;black&quot;, se = FALSE) +
+    geom_point(size = 3, col = &quot;firebrick&quot;) + 
+    labs(x =&quot;Productivity (g/15 days)&quot;, y = &quot;Number of species&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-48-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="fit-quadratic-function" class="section level2">
+<h2>Fit quadratic function</h2>
+<p>Use <code>lm()</code> to fit a quadratic function to the data. Wrap the squared term with <code>I()</code> so that the arithmetic (<code>productivity^2</code>) is done before it is entered as a term in the model. The results of the model fit are saved in an <code>lm()</code> object <code>productivityCurve</code>. Use <code>summary()</code> to extract estimated cowfficients and standard errors.</p>
+<pre class="r"><code>productivityCurve &lt;- lm(species ~ productivity + I(productivity^2), 
+    data = pondProductivity)
+summary(productivityCurve)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = species ~ productivity + I(productivity^2), data = pondProductivity)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -3.6330 -0.9952 -0.0158  1.4458  3.5215 
+## 
+## Coefficients:
+##                     Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)        1.7535477  1.1118289   1.577 0.126401    
+## productivity       0.2083549  0.0558421   3.731 0.000897 ***
+## I(productivity^2) -0.0020407  0.0005677  -3.595 0.001280 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 1.999 on 27 degrees of freedom
+## Multiple R-squared:  0.3402, Adjusted R-squared:  0.2913 
+## F-statistic: 6.961 on 2 and 27 DF,  p-value: 0.003648</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-17.8.-shrinking-seals" class="section level1">
+<h1>Example 17.8. Shrinking seals</h1>
+<p><strong>Fit a formula-free curve</strong> (cubic spline) to the relationship between body length and age for female fur seals.</p>
+<p><br></p>
+<div id="read-and-inspect-data-4" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>shrink &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter17/chap17e8ShrinkingSeals.csv&quot;), stringsAsFactors = FALSE)
+head(shrink)</code></pre>
+<pre><code>##   ageInDays length
+## 1      5337    131
+## 2      2081    123
+## 3      2085    122
+## 4      4299    136
+## 5      2861    122
+## 6      5052    131</code></pre>
+<p><br></p>
+</div>
+<div id="scatter-plot-with-spline" class="section level2">
+<h2>Scatter plot with spline</h2>
+<p>A small amount of vertical jitter was added to reduce overlap of points.</p>
+<pre class="r"><code>ggplot(shrink, aes(ageInDays, length)) + 
+    geom_jitter(size = 0.3, col = &quot;firebrick&quot;, height = 0.5) + 
+    geom_spline(col = &quot;black&quot;, df = 40) +
+    labs(x = &quot;Female age (days)&quot;, y = &quot;Body length (cm)&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-51-1.png" width="480" /></p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="figure-17.9-1.-guppy-cold-death" class="section level1">
+<h1>Figure 17.9-1. Guppy cold death</h1>
+<p><em><strong>Fit a logistic regression</strong> to the relationship between guppy mortality and duration of exposure to a temperature of 5 degrees C</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data-5" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>guppy &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter17/chap17f9_1GuppyColdDeath.csv&quot;), stringsAsFactors = FALSE)
+head(guppy)</code></pre>
+<pre><code>##   fish exposureDurationMin mortality
+## 1    1                   3         1
+## 2    2                   3         1
+## 3    3                   3         1
+## 4    4                   3         1
+## 5    5                   3         1
+## 6    6                   3         1</code></pre>
+<p><br></p>
+</div>
+<div id="frequency-table" class="section level2">
+<h2>Frequency table</h2>
+<p>Tabulate mortality at different exposure times (Table 17.9-1).</p>
+<pre class="r"><code>table(guppy$mortality, guppy$exposureDurationMin, 
+    dnn = c(&quot;Mortality&quot;,&quot;Exposure (min)&quot;))</code></pre>
+<pre><code>##          Exposure (min)
+## Mortality  3  8 12 18
+##         0 29 16 11  2
+##         1 11 24 29 38</code></pre>
+<p><br></p>
+</div>
+<div id="scatter-plot-logistic-curve" class="section level2">
+<h2>Scatter plot logistic curve</h2>
+<p>The points are jittered sightly to minimize overlap.</p>
+<pre class="r"><code>ggplot(guppy, aes(exposureDurationMin, mortality)) + 
+    geom_smooth(method = &quot;glm&quot;, se = FALSE, color = &quot;black&quot;,
+        method.args = list(family = &quot;binomial&quot;)) +
+    geom_jitter(shape = 1, col = &quot;firebrick&quot;, size = 3,
+        height = 0.02, width = 0.5) + 
+    labs(x = &quot;Duration of exposure (min)&quot;, y = &quot;Mortality&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_17_files/figure-html/unnamed-chunk-54-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="fit-a-logistic-regression" class="section level2">
+<h2>Fit a logistic regression</h2>
+<p>Use <code>summary()</code> to obtain estimates of regression coefficients with standard errors (Table 17.9-2).</p>
+<pre class="r"><code>guppyGlm &lt;- glm(mortality ~ exposureDurationMin, data = guppy,
+    family = binomial(link = logit))
+summary(guppyGlm)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = mortality ~ exposureDurationMin, family = binomial(link = logit), 
+##     data = guppy)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.3332  -0.8115   0.3688   0.7206   1.5943  
+## 
+## Coefficients:
+##                     Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)         -1.66081    0.40651  -4.086 4.40e-05 ***
+## exposureDurationMin  0.23971    0.04245   5.646 1.64e-08 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 209.55  on 159  degrees of freedom
+## Residual deviance: 164.69  on 158  degrees of freedom
+## AIC: 168.69
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<p><br></p>
+</div>
+<div id="confidence-intervals" class="section level2">
+<h2>95% confidence intervals</h2>
+<p>Use <code>confint()</code> to calcaulate approximate 95% confidence intervals of parameters.</p>
+<pre class="r"><code>confint(guppyGlm)</code></pre>
+<pre><code>##                          2.5 %     97.5 %
+## (Intercept)         -2.4964323 -0.8931288
+## exposureDurationMin  0.1614356  0.3288161</code></pre>
+<p><br></p>
+</div>
+<div id="predict-mortality" class="section level2">
+<h2>Predict mortality</h2>
+<p>Use <code>predict()</code> to predict probability of death (mortality) for a 10 min exposure duration, including a standard error of prediction.</p>
+<pre class="r"><code>predictMortality &lt;- predict(guppyGlm, type = &quot;response&quot;, se.fit = TRUE,
+    newdata = data.frame(exposureDurationMin = 10))
+data.frame(predictMortality)</code></pre>
+<pre><code>##         fit     se.fit residual.scale
+## 1 0.6761874 0.04421466              1</code></pre>
+<p><br></p>
+</div>
+<div id="estimate-the-ld50" class="section level2">
+<h2>Estimate the LD50</h2>
+<p>The LD50 is the estimated dose at which half the individuals are predicted to die from exposure. The <code>dose.p()</code> function is from the <code>MASS</code> package.</p>
+<pre class="r"><code>dose.p(guppyGlm, p = 0.50)</code></pre>
+<pre><code>##              Dose       SE
+## p = 0.5: 6.928366 0.841132</code></pre>
+<p><br></p>
+</div>
+<div id="analysis-of-deviance-table" class="section level2">
+<h2>Analysis of deviance table</h2>
+<p>The analysis of deviance table (Table 17.9-3) is analogous to the ANOVA table. It includes a test of the null hypothesis of zero slope.</p>
+<pre class="r"><code>anova(guppyGlm, test = &quot;Chi&quot;)</code></pre>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model: binomial, link: logit
+## 
+## Response: mortality
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##                     Df Deviance Resid. Df Resid. Dev  Pr(&gt;Chi)    
+## NULL                                  159     209.55              
+## exposureDurationMin  1    44.86       158     164.69 2.116e-11 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,435 @@
+---
+title: "R code for example in Chapter 19: <br>Computer-intensive methods"
+author: 
+
+#output: html_document
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 5, fig.height=4)
+```
+
+***
+
+<br>
+
+We used R to analyze all examples in Chapter 19. We put the code here so that you can too.
+
+# New methods on this page
+
+<ul>
+<li>Calculate a *P*-value for a χ<sup>2</sup> goodness-of-fit test using simulation:
+
+```{r eval = FALSE}
+chisq.test(observedFreq, simulate.p.value = TRUE, B = 10000)
+```
+
+<li>Calculate a bootstrap standard error:
+
+```{r eval = FALSE}
+boot(chimp$asymmetryScore, boot.median, R = 10000)
+```
+
+<li>Other new methods:
+<ul>
+<li>Bootstrap 95% confidence interval.
+</ul>
+</ul>
+ 
+***
+
+# Load required packages 
+
+We need ```ggplot2``` for ordinary graphs. The ```boot``` package is for bootstrap estimation.
+
+```{r message = FALSE}
+library(ggplot2)
+library(boot)
+```
+
+***
+
+<br>
+
+# Example 19.1 Two-digit "psychic"
+
+***Hypothesis testing using simulation** to determine whether all two-digit numbers occur with equal probability when people choose two-digit numbers haphazardly*.
+
+## Read and examine data
+
+Each row is the two-digit number chosen by a different individual.
+
+```{r eval = TRUE}
+haphazard <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter19/chap19e1TwoDigitNumbers.csv"), stringsAsFactors = FALSE)
+head(haphazard)
+```
+
+<br>
+
+## Histogram
+
+Plot the frequency distribution of two-digit numbers chosen by volunteers (Figure 19.1-1).
+
+```{r eval = TRUE}
+ggplot(data = haphazard, aes(x = numberSelected)) + 
+    geom_histogram(fill = "firebrick", col = "black", binwidth = 1, 
+        closed = "left", boundary = 0) + 
+    scale_x_continuous(breaks = seq(from = 10, to = 100, by = 10)) +
+    labs(x = "Number thought of by volunteer", y = "Frequency") + 
+    theme_classic()
+```
+
+<br>
+
+## Frequency table
+
+Table the two-digit numbers chosen by volunteers. Notice that many numbers between 0 and 99 are not represented in the data. 
+
+```{r eval = TRUE}
+table(haphazard$numberSelected)
+```
+
+To make sure that numbers not chosen are nevertheless included in the calculations, we must convert the variable to a factor and specify all possible categories.
+
+```{r eval = TRUE}
+factorData <- factor(haphazard$numberSelected, levels = 10:99)
+observedFreq <- table(factorData)
+observedFreq
+```
+
+<br>
+
+## Test statistic 
+
+Here, we are using the $\chi^2$ goodness-of-fit statistic. We are lazy and use the ```chisq.test()``` function to do the calculations. R will give you a warning because of the low expected frequencies. This is exactly why we need to use simulation instead of the $\chi^2$ goodness-of-fit-test.
+
+```{r eval = TRUE}
+chiData <- chisq.test(observedFreq)$statistic
+chiData
+```
+
+<br>
+
+## Simulate a single random sample
+
+We'll need to know the sample size (number of rows, in this case) to run the simulation.
+
+```{r eval = TRUE}
+n <- nrow(haphazard)
+n
+```
+
+Simulate $n$ numbers from 10 to 99 (with replacement), where $n$ is the number of individuals in the sample.
+
+```{r eval = TRUE}
+randomTwoDigit <- sample(10:99, size = n, replace = TRUE)
+```
+
+<br>
+
+## Statistic for simulated sample
+
+Remember to convert data to a factor to make sure that all categories are included in the calculations. Under the null hypothesis, the expected frequency is the same for all numbers.
+
+```{r eval = TRUE}
+randomTwoDigit <- factor(randomTwoDigit, levels = 10:99)
+observedFreq <- table(randomTwoDigit)
+expectedFreq <- n/length(10:99)
+chiSim <- sum( (observedFreq - expectedFreq)^2 / expectedFreq )
+chiSim
+```
+
+<br>
+
+## Repeat many times
+
+The following is a loop repeated ```nSim``` times. In each iteration ```i```, a random sample of numbers is simulated, a frequency table is calculated, and the $\chi^2$ statistic is computed. The statistic is saved in the ```i```<sup>th</sup> element of the vector ```results```.
+
+```{r eval = TRUE}
+nSim <- 10000
+results <- vector()
+for(i in 1:nSim){
+	randomTwoDigit <- sample(10:99, size = n, replace = TRUE)
+	randomTwoDigit <- factor(randomTwoDigit, levels = 10:99)
+	simFreq <- table(randomTwoDigit)
+	expectedFreq <- n/length(10:99)
+	results[i] <- sum( (simFreq - expectedFreq)^2 / expectedFreq )
+	}
+```
+
+<br>
+
+## Null distribution of $\chi^2$
+
+Plot the frequency distribution of $\chi^2$ values from the simulation (Figure 19.1-2). This is the simulated null distribution for the test statistic.
+
+```{r eval = TRUE}
+nullData <- data.frame(results)
+ggplot(data = nullData, aes(x = results)) + 
+    geom_histogram(fill = "white", col = "black", binwidth = 2, 
+        closed = "left", boundary = 0) + 
+    scale_x_continuous(breaks = seq(from = 40, to = 160, by = 20)) +
+    labs(x = expression(paste("Simulated ", chi^2)), y = "Frequency") + 
+    theme_classic()
+```
+
+<br>
+
+## *P*-value
+
+The $P$-value is the fraction of simulated $\chi^2$ values equalling or exceeding the observed value of the test statistic in the data.
+
+```{r eval = TRUE}
+P <- sum(results >= chiData)
+P
+```
+
+<br>
+
+## Built-in method
+
+R also has a built-in method to simulate the null distribution and calculate the $P$-value. Using it simply involves providing a couple of arguments to the ```chisq.test()``` function. ```B``` is the number of iterations desired. If you don't provide the probabilities of each outcome under the null hypothesis as an argument, R assumes that all the categories are equiprobable under the null hypothesis.
+
+```{r eval = TRUE}
+factorData <- factor(haphazard$numberSelected, levels = 10:99)
+observedFreq <- table(factorData)
+chisq.test(observedFreq, simulate.p.value = TRUE, B = 10000)
+```
+
+***
+
+<br>
+
+# Example 19.2 Chimp language centers
+
+***Bootstrap estimation of the median** asymmetry score for Brodmann’s area 44 in chimpanzees*.
+
+<br>
+
+## Read and examine data
+
+```{r eval = TRUE}
+chimp <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter19/chap19e2ChimpBrains.csv"), stringsAsFactors = FALSE)
+head(chimp)
+```
+
+<br>
+
+## Histogram
+
+Histogram of asymmetry scores of the 20 chimps (Figure 19.2-1).
+
+```{r eval = TRUE}
+ggplot(data = chimp, aes(x = asymmetryScore)) + 
+    geom_histogram(fill = "firebrick", col = "black", binwidth = 0.25, 
+        closed = "left", boundary = 0) + 
+    labs(x = "Brodmann‘s area 44 asymmetry score", y = "Frequency") + 
+    theme_classic()
+```
+
+<br>
+
+## Test statistic
+
+Calculate the median asymmetry score from the data. The median is our test statistic.
+
+```{r eval = TRUE}
+median(chimp$asymmetryScore)
+```
+
+<br>
+
+## Single bootstrap replicate
+
+Obtain a single bootstrap replicate. This involves sampling (with replacement) from the actual data. Calculate the median of this bootstrap replicate.
+
+```{r eval = TRUE}
+bootSample <- sample(chimp$asymmetryScore, size = nrow(chimp), replace = TRUE)
+median(bootSample)
+```
+
+<br>
+
+## Repeat many times
+
+Repeat this process many times. The following is a loop repeated ```B``` times. In each iteration, the bootstrap replicate estimate (median) is recalculated and saved in the results vector ```bootMedian```.
+
+```{r eval = TRUE}
+B <- 10000
+bootMedian <- vector()
+for(i in 1:B){
+	bootSample <- sample(chimp$asymmetryScore, size = nrow(chimp), replace = TRUE)
+	bootMedian[i] <- median(bootSample)
+	}
+```
+
+<br>
+
+## Bootstrap replicate estimates
+
+Draw a histogram of the bootstrap replicate estimates for median asymmetry (Figure 19.2-2). 
+
+Note: your results won't be the identical to the one in Figure 19.2-2, because 10,000 random samples is not large enough to obtain the sampling distribution with extreme accuracy. Increase ```B``` in the above loop for greater accuracy.
+
+```{r eval = TRUE}
+bootResults <- data.frame(bootMedian)
+ggplot(data = bootResults, aes(x = bootMedian)) + 
+    geom_histogram(fill = "firebrick", col = "black", binwidth = 0.01, 
+        closed = "left", boundary = 0) + 
+    labs(x = "Bootstrap replicate estimates of the median asymmetry", y = "Frequency") + 
+    theme_classic()
+```
+
+<br>
+
+## Mean of bootstrap replicate estimates
+
+Calculate the mean of the bootstrap replicate estimates.
+
+```{r eval = TRUE}
+mean(bootMedian)
+```
+
+<br>
+
+## Bootstrap standard error
+
+The bootstrap standard error is the standard deviation of the bootstrap replicate estimates.
+
+```{r eval = TRUE}
+sd(bootMedian)
+```
+
+<br> 
+
+## Bootstrap confidence interval
+
+Use the percentiles of the bootstrap replicate estimates to obtain a bootstrap 95% confidence interval for the population median.
+
+```{r eval = TRUE}
+quantile(bootMedian, probs = c(0.025, 0.975))
+```
+
+<br>
+
+## Use ```boot``` package
+
+Use the ```boot``` package in R for bootstrap estimation.
+
+To begin, we need to define a new R function to tell the ```boot``` package what statistic we want to estimate, which is the median in this example. Let's call the new function ```boot.median()```. The syntax required by the package is not too complex, but our function must include a counter as an argument (as usual, we call it ```i```).
+
+```{r eval = TRUE}
+boot.median <- function(x, i){ median(x[i]) }
+```
+
+Use the ```boot()``` function of the ```boot``` package to obtain many bootstrap replicate estimates and calculate the bootstrap standard error.
+
+```{r eval = TRUE}
+bootChimp <- boot(chimp$asymmetryScore, boot.median, R = 10000)
+bootChimp
+```
+
+<br>
+
+## Histogram of bootstrap replicate estimates
+
+```{r eval = TRUE}
+medianBootChimp <- data.frame(medianChimp = bootChimp$t)
+ggplot(data = medianBootChimp, aes(x = medianChimp)) + 
+    geom_histogram(fill = "firebrick", col = "black", binwidth = 0.01, 
+        closed = "left", boundary = 0) + 
+    labs(x = "Bootstrap replicate estimates of the median asymmetry", y = "Frequency") + 
+    theme_classic()
+```
+
+<br>
+
+## Bootstrap confidence interval
+
+Get the bootstrap 95% confidence interval for the population median. We show two methods. The percentile method is already familiar, but ```boot``` also provides an improved method, called "bias corrected and accelerated".
+
+```{r eval = TRUE}
+boot.ci(bootChimp, type = "perc")
+boot.ci(bootChimp, type = "bca")
+```
+
+***
+
+<br>
+
+# Figure 19.2-3 Sexual cannibalism revisited
+
+***Bootstrap estimation of the difference between medians of two groups**, using times to mating (in hours) of female sagebrush crickets that were either starved or fed (data are from Example 13.5). We show the method **using R's ```boot``` package***.
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+cannibalism <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter13/chap13e5SagebrushCrickets.csv"), stringsAsFactors = FALSE)
+head(cannibalism)
+```
+
+Calculate the **observed difference** between the sample medians of the two groups.
+
+```{r eval = TRUE}
+twoMedians <- tapply(cannibalism$timeToMating, cannibalism$feedingStatus, median)
+diffMedian <- twoMedians[2] -  twoMedians[1]
+diffMedian
+```
+
+<br>
+
+## Function to calculate test statistic
+
+Define a new function to calculate the difference between the medians of the bootstrap replicate estimates. Let's call it ```boot.diffMedian```.
+
+```{r eval = TRUE}
+boot.diffMedian <- function(x, i){
+	twoMedians <- tapply(x$timeToMating[i], x$feedingStatus[i], median)
+	diffMedian <- twoMedians[2] -  twoMedians[1]
+	}
+```
+
+<br>
+
+## Run ```boot()```
+
+Obtain the many bootstrap replicate estimates and get the bootstrap standard error.
+
+```{r eval = TRUE}
+bootResults <- boot(cannibalism, boot.diffMedian, R = 10000)
+bootResults
+```
+
+<br>
+
+## Histogram of bootstrap replicate estimates
+
+Histogram of the difference between two medians (Figure 19.2-3).
+
+```{r eval = TRUE}
+diffBootMedians <- data.frame(diffMedians = bootResults$t)
+ggplot(data = diffBootMedians, aes(x = diffMedians)) + 
+    geom_histogram(fill = "firebrick", col = "black", binwidth = 5, 
+        closed = "left", boundary = 0) + 
+    labs(x = "Bootstrap replicate difference in median", y = "Frequency") + 
+    theme_classic()
+```
+
+<br>
+
+## Bootstrap confidence interval
+
+Obtain the bootstrap 95% confidence interval for the difference between the population medians, using the percentile and the "bca" method.
+
+```{r eval = TRUE}
+boot.ci(bootResults, type = "perc")
+boot.ci(bootResults, type = "bca")
+```

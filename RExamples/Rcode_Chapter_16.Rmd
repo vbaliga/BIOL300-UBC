@@ -1,0 +1,248 @@
+---
+title: "R code for examples in Chapter 2: <br>Correlation between numerical variables"
+author: 
+
+#output: html_document
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 5, fig.height=4)
+```
+
+*** 
+
+We used R to analyze all examples in Chapter 16. We put the code here so that you can too.
+
+Also see our [R lab on correlation](https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_Correlation_Regression.html).
+
+<br>
+
+# New methods on this page
+
+<ul>
+<li>Linear correlation:
+
+```{r eval = FALSE}
+cor.test(~ futureBehavior + nVisitsNestling, data = booby)
+```
+
+<li>Spearman rank correlation:
+
+```{r eval = FALSE}
+cor.test(~ impressivenessScore + years, data = trick, method = "spearman")
+```
+</ul>
+
+***
+
+# Load required packages 
+
+We need to load the ```ggplot2``` package for graphs. We might need the ```dplyr``` package for subsetting a data set.
+
+```{r message = FALSE}
+library(ggplot2)
+library(dplyr)
+```
+
+***
+
+<br>
+
+# Example 16.1. Flipping booby
+
+***Estimate a linear correlation** between the number of non-parent adult visits experienced by boobies as chicks and the number of similar behaviors performed by the same birds when adult*.
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+booby <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter16/chap16e1FlippingBird.csv"), stringsAsFactors = FALSE)
+head(booby)
+```
+
+<br>
+
+## Scatter plot
+
+```{r eval = TRUE}
+ggplot(booby, aes(nVisitsNestling, futureBehavior)) + 
+    geom_point(size = 3, col = "firebrick") + 
+    labs(x = "Events experienced while a nestling", y = "Future behavior") + 
+    theme_classic()
+```
+
+<br>
+
+## Correlation coefficient
+
+The ```cor.test``` function computes a number of useful quantities, which we save in the object ```boobyCor```. The quantities can be extracted one at a time or shown all at once. We show the formula method here. 
+
+```{r eval = TRUE}
+boobyCor <- cor.test(~ futureBehavior + nVisitsNestling, data = booby)
+boobyCor
+```
+
+If only the estimated correlation $r$ and its standard error are of interest, they can be obtained as follows. The calculation of standard error uses ```nrow(booby)``` to get the sample size for the correlation, but this will only be true if there are no missing values.
+
+```{r eval = TRUE}
+r <- boobyCor$estimate
+r
+SE <- sqrt( (1 - r^2)/(nrow(booby) - 3) )
+unname(SE)
+```
+
+<br>
+
+## Confidence interval
+
+The 95% confidence interval for the correlation is included in the output of ```cor.test```. It can be extracted from the ```boobyCor``` calculated in an earlier step.
+
+```{r eval = TRUE}
+boobyCor$conf.int
+```
+
+***
+
+<br>
+
+# Example 16.2. Inbreeding wolves
+
+***Test a linear correlation** between inbreeding coefficients of litters of mated wolf pairs and the number of pups surviving their first winter*.
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+wolf <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter16/chap16e2InbreedingWolves.csv"), stringsAsFactors = FALSE)
+head(wolf)
+```
+
+<br>
+
+## Scatter plot
+
+```{r eval = TRUE}
+ggplot(wolf, aes(inbreedCoef, nPups)) + 
+    geom_point(size = 3, col = "firebrick") + 
+    labs(x = "Inbreeding coefficient", y = "Number of pups") + 
+    theme_classic()
+```
+
+<br>
+
+## Test of zero correlation
+
+The results of the test are included in the output of ```cor.test```.
+
+```{r eval = TRUE}
+cor.test(~ nPups + inbreedCoef, data = wolf)
+```
+
+***
+
+<br>
+
+# Figure 16.4-1. Stream invertebrates
+
+***Effect of the range of the data on the correlation coefficient** between population density of (log base 10 of number of individuals per square meter) and body mass (g) of different species of stream invertebrates*.
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+streamInvert <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter16/chap16f4_1StreamInvertebrates.csv"), stringsAsFactors = FALSE)
+head(streamInvert)
+```
+
+<br>
+
+## Scatter plot
+
+```{r eval = TRUE}
+ggplot(streamInvert, aes(log10Mass, log10Density)) + 
+    geom_point(size = 3, col = "firebrick") + 
+    labs(x = "Log body mass", y = "Log population density") + 
+    theme_classic()
+```
+
+<br>
+
+## Effect of the range of the data
+
+Here is the correlation coefficient for the full range of the data. The command uses ```cor.test``` but we extract just the correlation coefficient for this exercise.
+
+```{r eval = TRUE}
+cor.test(~ log10Density + log10Mass, data = streamInvert)$estimate
+```
+
+We want to obtain the correlation coefficient for the subset of the data corresponding to a log10Mass between 0 and 2. First subset the data we using either ```subset()``` in base R or ```filter()``` in the ```dplyr``` package.
+
+```{r eval = TRUE}
+streamInvertReduced <- subset(streamInvert, log10Mass >= 0 & log10Mass <= 2)
+# or
+streamInvertReduced <- filter(streamInvert, log10Mass >= 0, log10Mass <= 2)
+```
+
+Then recalculate the correlation coefficient.
+
+```{r eval = TRUE}
+cor.test(~ log10Density + log10Mass, data = streamInvertReduced)$estimate
+```
+
+***
+
+<br>
+
+# Example 16.5. Indian rope trick
+
+***Spearman rank correlation** between impressiveness score of the Indian rope trick and the number of years elapsed bewteen the witnessing of the trick and the telling of it in writing*.
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+trick <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter16/chap16e5IndianRopeTrick.csv"), stringsAsFactors = FALSE)
+head(trick)
+```
+
+<br>
+
+## Scatter plot
+
+```{r eval = TRUE}
+ggplot(trick, aes(years, impressivenessScore)) + 
+    geom_point(size = 3, col = "firebrick") + 
+    labs(x = "Years elapsed", y = "Impressiveness score") + 
+    theme_classic()
+```
+
+<br>
+
+## Spearman's rank correlation
+
+The correlation is part of the output of the ```cor.test()``` function. See the next section for the result.
+
+```{r eval = FALSE}
+cor.test(~ years + impressivenessScore, data = trick, method = "spearman")
+```
+
+<br>
+
+## Test of zero correlation
+
+In this example, the variable ```impressivenessScore``` is a number score with lots of tied observations. Because of the ties, R will warn you that the *P*-value in the output is not exact.
+
+```{r eval = TRUE}
+cor.test(~ years + impressivenessScore, data = trick, method = "spearman")
+```
+

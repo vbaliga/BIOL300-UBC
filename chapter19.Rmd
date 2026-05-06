@@ -1,0 +1,66 @@
+---
+title: "Resources for Chapter 19: <br>Computer-intensive methods"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+<br>
+
+# Learn R by example
+
+We used R to analyze all examples in chapter 19. We've put the code [here](RExamples/Rcode_Chapter_19.html) so that you can too.
+
+<br> 
+
+# Data
+
+Download a .zip file with all the data for chapter 19 in .csv format [here](DataZipFiles/chapter19.zip). 
+
+Download a .zip file with all data sets in the book [here](DataZipFiles/Data.zip). 
+
+All data sets and their sources are listed individually below.
+
+Disclaimer: Most data sets used in the book are grabbed from graphs and tables in the original publications, and the values may not be exact. Contact the original authors for the raw data.
+
+<br> 
+
+## Data for examples
+
+[Example 19.1. Two-digit psychic](Data/chapter19/chap19e1TwoDigitNumbers.csv) 
+
+Marks, D., 2000. *The Psychology of the Psychic*. Prometheus Books: Amherst, NY.
+
+[Example 19.2. Chimp language centers](Data/chapter19/chap19e2ChimpBrains.csv) 
+
+Cantalupo, C., and W. D. Hopkins. 2001. *Nature* 414: 505. 
+
+<br>
+
+## Data for problem sets
+
+[19.11.Snail love darts ](Data/chapter19/chap19q11LoveDarts.csv) 
+
+Rogers, D. W., and R. Chase. 2001. *Behavioral Ecology and Sociobiology* 50: 122–127.
+
+[19.13. Leaf bacteria](Data/chapter19/chap19q13BacteriaPerLeaf.csv) 
+
+Hirano, S. S., E. V. Nordheim, D. C. Arny, and C. D. Upper. 1982. *Applied and Environmental Microbiology* 44: 695–700.
+
+[19.15. Speed of light](Data/chapter19/chap19q15SpeedOfLight.csv) 
+
+Stigler, S. M. 1977. *Annals of Statistics* 5:1055–1078.
+

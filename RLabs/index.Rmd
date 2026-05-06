@@ -1,0 +1,63 @@
+---
+title: "<em>Labs using R</em>"
+author:  
+output:
+  html_document:
+    fig_width: 1
+    
+    
+---
+
+
+---
+
+
+These labs are intended to accompany a course using *The Analysis of Biological Data* by Whitlock and Schluter. The materials will follow the same order and level as this text. (The labs are designed to be used approximately one per week during a course--there is not a one-to-one correspondence between chapters in ABD and tutorials.)
+
+
+These labs have two main functions. First, they are intended to facilitate active learning in some core concepts in introductory statistics. Second, they introduce a key tool in modern statistics, the widely-used, open source statistic program called R. 
+
+Before using these labs, download [the zip file containing Data, R scripts, and other resources for these labs](ABDLabs.zip). Remember to start RStudio from the "ABDLabs.Rproj" file in that folder to make these exercises work more seamlessly.
+
+
+Some of the exercises in these labs depend on working in a group environment, but other than the lab on *Sampling*, this is not required. An individual working on their own could accomplish the same learning goals with these labs. 
+
+These labs are a work in progress. All comments and suggestions are greatly appreciated. If something is not working or can be improved, please let us know.  Please e-mail <a href="mailto:whitlock@zoology.ubc.ca">Mike Whitlock</a> at whitlock@zoology.ubc.ca with any thoughts you have about how these tutorials can be improved.
+
+Instructors, please e-mail <a href="mailto:whitlock@zoology.ubc.ca">Mike Whitlock</a> for a link to some instructor notes on these labs.
+
+
+Other resources for Whitlock and Schluter *The Analysis of Biological Data* are [available chapter by chapter here](../index.html). 
+
+## R tutorials by topic
+
+[0. Loading R and RStudio](R_tutorial_Loading_R_and_RStudio.html)
+
+[1. Intro to R, Part 1](R_tutorial_Intro_to_R_1.html)
+
+[2. Intro to R, Part 2](R_tutorial_Intro_to_R_2.html)
+
+[3. Graphics](R_tutorial_Graphics.html)
+
+[4a. Making data files for R](R_tutorial_Making_data_files.html)   
+
+[4b. Sampling](R_tutorial_Sampling.html)
+
+[5. Describing data](R_tutorial_Describing_data.html)
+
+[6. Frequency data](R_tutorial_Frequency_data.html)
+
+[7. Contingency analysis](R_tutorial_Contingency_analysis.html)
+
+[8. Normal distribution and sample means](R_tutorial_Normal_and_sample_means.html)
+
+[9. Comparing means of two groups](R_tutorial_Comparing_means_of_2_groups.html)
+
+[10. ANOVA](R_tutorial_ANOVA.html)
+
+[11. Correlation and regression](R_tutorial_Correlation_Regression.html)
+
+[References and data sources for all tutorials](References.html)
+
+<br>
+

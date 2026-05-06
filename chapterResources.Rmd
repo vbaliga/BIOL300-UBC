@@ -1,0 +1,67 @@
+---
+title: "Resources by chapter for *The Analysis of Biological Data*"
+author:  
+output:
+  html_document:
+    fig_width: 1
+    
+---
+
+
+----
+
+
+*The Analysis of Biological Data*, 3rd edition, by Michael Whitlock and Dolph Schluter is an introductory textbook on statistics aimed at biology students. [The main page](index.html) of this website describes all of the types of resources that are available.
+
+All of the resources associated with a particular chapter are available from a chapter resource page. See the list below to take you to the page for a given chapter.
+
+
+***
+
+# Resources by chapter 
+
+[Chapter 1: Statistics and samples](chapter01.html)
+
+[Chapter 2: Graphics](chapter02.html)
+
+[Chapter 3: Describing data](chapter03.html)
+
+[Chapter 4: Estimating with uncertainty](chapter04.html)
+
+[Chapter 5: Probability](chapter05.html)
+
+[Chapter 6: Hypothesis testing](chapter06.html)
+
+[Chapter 7: Analyzing proportions](chapter07.html)
+
+[Chapter 8: Fitting probability models to frequency data](chapter08.html)
+
+[Chapter 9: Contingency analysis](chapter09.html)
+
+[Chapter 10: The normal distribution](chapter10.html)
+
+[Chapter 11: Inference for a normal population](chapter11.html)
+
+[Chapter 12: Comparing two means](chapter12.html)
+
+[Chapter 13: Handling violations of assumptions](chapter13.html)
+
+[Chapter 14: Designing experiments](chapter14.html)
+
+[Chapter 15: Comparing means of more than two groups](chapter15.html)
+
+[Chapter 16: Correlation between numerical variables](chapter16.html)
+
+[Chapter 17: Regression](chapter17.html)
+
+[Chapter 18: Analyzing multiple factors](chapter18.html)
+
+[Chapter 19: Computer-intensive methods](chapter19.html)
+
+[Chapter 20: Likelihood](chapter20.html)
+        
+[Chapter 21: Survival analysis](chapter21.html)
+        
+[Review Problems](chapterRevProbs.html)
+
+

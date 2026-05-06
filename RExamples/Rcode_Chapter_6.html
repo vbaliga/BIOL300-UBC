@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>R code for example in Chapter 6:  Hypothesis testing</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-4');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R code for example in Chapter 6: <br>Hypothesis testing</h1>
+
+</div>
+
+
+<hr />
+<p>We used R to analyze all examples in Chapter 6. We put the code here so that you can too.</p>
+<!--
+Also see our [tutorial on describing data using R](https://whitlockschluter3e.zoology.ubc.ca/Tutorials using R/R_tutorial_Describing_data.html).
+-->
+<p><br></p>
+<div id="new-methods-on-this-page" class="section level1">
+<h1>New methods on this page</h1>
+<ul>
+<li>
+<p>Take a random sample of a categorical variable having two possible outcomes from a theoretical population of known probabilities:</p>
+<pre class="r"><code>sample(c(&quot;L&quot;, &quot;R&quot;), size = 18, prob = c(0.5, 0.5), replace = TRUE)</code></pre>
+<li>
+<p>Create a loop to sample repeatedly a known population to use to generate an approximate null distribution for a test statistic:</p>
+<pre class="r"><code>for(i in 1:10000){
+    temporarySample = sample(c(&quot;L&quot;, &quot;R&quot;), size = 18, prob = c(0.5, 0.5))
+        replace = TRUE)
+    sum(temporarySample == &quot;R&quot;)
+    }</code></pre>
+</ul>
+<hr />
+<p><br></p>
+</div>
+<div id="load-the-required-packages" class="section level1">
+<h1>Load the required packages</h1>
+<p>We’ll use the <code>ggplot2</code> package to draw some of the plots. It needs to be loaded only once per session.</p>
+<pre class="r"><code>library(ggplot2)</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="example-6.2.-toads" class="section level1">
+<h1>Example 6.2. Toads</h1>
+<p><em><strong>Obtain the null distribution for the test statistic</strong> (the number of right-handed toads out of 18). </em></p>
+<p><br></p>
+<div id="a-very-large-number-of-samples" class="section level2">
+<h2>A very large number of samples</h2>
+<p>Sample <span class="math inline">\(n = 18\)</span> toads from a theoretical population in which left- and right- handed individuals occur with equal probability (as stipulated by the null hypothesis). For each sample, the number of right-handed toads is calculated and saved in a vector named <code>results18</code> (the samples themselves are not saved). The results vector is initialized before the loop. The term <code>results18[i]</code> refers to the <code>i</code>th element of <code>results18</code>, where <code>i</code> is a counter. So many iterations might take a few minutes to run on your computer.</p>
+<pre class="r"><code>results18 &lt;- vector()
+for(i in 1:10000){
+      tempSample &lt;- sample(c(&quot;L&quot;, &quot;R&quot;), size = 18, prob = c(0.5, 0.5), replace = TRUE)
+      results18[i] &lt;- sum(tempSample == &quot;R&quot;)
+      }</code></pre>
+<p>Save <code>results18</code> also as a factor with 19 levels, representing each possible integer outcome between 0 and 18. This step is for tables and graphs only – it makes sure that all 19 categories are included in tables and graphs, even categories with no occurrences.</p>
+<pre class="r"><code>factor18 &lt;- factor(results18, levels = 0:18)</code></pre>
+<p><br></p>
+</div>
+<div id="the-relative-frequency-distribution" class="section level2">
+<h2>The relative frequency distribution</h2>
+<p>Tabulate outcomes in the random sampling process (Table 6.2-1). This is the null distribution. Your results will be similar but not identical to the numbers in Table 6.2-1 because 10,000 times is not large enough for extreme accuracy. The <code>table()</code> command calculates the frequencies, and dividing by the length of <code>results18</code> (i.e., the number of elements in the vector, equal to the number of iterations in the loop) yields the proportions (relative frequencies).</p>
+<pre class="r"><code>nullTable &lt;- table(factor18, dnn = &quot;nRightToads&quot;)/length(factor18)
+data.frame(nullTable)</code></pre>
+<pre><code>##    nRightToads   Freq
+## 1            0 0.0000
+## 2            1 0.0000
+## 3            2 0.0007
+## 4            3 0.0030
+## 5            4 0.0133
+## 6            5 0.0316
+## 7            6 0.0722
+## 8            7 0.1214
+## 9            8 0.1686
+## 10           9 0.1898
+## 11          10 0.1588
+## 12          11 0.1239
+## 13          12 0.0667
+## 14          13 0.0344
+## 15          14 0.0110
+## 16          15 0.0037
+## 17          16 0.0009
+## 18          17 0.0000
+## 19          18 0.0000</code></pre>
+<p><br></p>
+</div>
+<div id="histogram-of-the-null-distribution" class="section level2">
+<h2>Histogram of the null distribution</h2>
+<p>This plots the frequency distribution of the number of right-handed toads out of <span class="math inline">\(n = 18\)</span> independent trials (Figure 6.2-1). Setting <code>freq = FALSE</code> causes <code>hist</code> to graph density of observations rather than frequency. In this case, height of bars indicates relative frequency if bars are one unit wide (as in the present case).</p>
+<pre class="r"><code>hist(results18, right = FALSE, freq = FALSE, las = 1,
+        xlim = c(0,18), xlab = &quot;Number of right-handed toads&quot;, main = &quot;&quot;)</code></pre>
+<p><img src="Rcode_Chapter_6_files/figure-html/unnamed-chunk-7-1.png" width="480" /></p>
+<p>or</p>
+<pre class="r"><code>ggplot(data.frame(results18), aes(x = results18)) +
+    geom_histogram(aes(y = ..density..), fill = &quot;white&quot;, col = &quot;black&quot;, 
+        boundary = 0, closed = &quot;left&quot;, bins = 19, binwidth = 1) +
+    scale_x_continuous(limits = c(0,19)) +
+    labs(x = &quot;Number of right-handed toads&quot;, y = &quot;Density&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_6_files/figure-html/unnamed-chunk-8-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="probability-of-14-or-more" class="section level2">
+<h2>Probability of 14 or more</h2>
+<p>Calculate the fraction of samples in the null distribution having 14 or more right-handed toads. This won’t be the exact probability of 14 or more because 10,000 times is not large enough for extreme accuracy.</p>
+<pre class="r"><code>frac14orMore &lt;- sum(results18 &gt;= 14)/length(results18)
+frac14orMore</code></pre>
+<pre><code>## [1] 0.0156</code></pre>
+<p><br></p>
+</div>
+<div id="p-value" class="section level2">
+<h2><span class="math inline">\(P\)</span>-value</h2>
+<p>Calculate the approximate <span class="math inline">\(P\)</span>-value. This won’t be exact because 10,000 times is not large enough for extreme accuracy.</p>
+<pre class="r"><code>2 * frac14orMore</code></pre>
+<pre><code>## [1] 0.0312</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-6.4.-mirror-image-flowers" class="section level1">
+<h1>Example 6.4. Mirror-image flowers</h1>
+<p><em>Determine the <strong>null distribution for the test statistic</strong>, the number of left-handed flowers out of 27.</em></p>
+<p><br></p>
+<div id="a-very-large-number-of-samples-1" class="section level2">
+<h2>A very large number of samples</h2>
+<p>Obtain a very large number of samples of 27 individuals from a theoretical population in which L and R occur in the ratio 1:3, as specified by the null hypothesis. For each sample, the number of “L” is counted and saved in a vector named <code>results27</code> (the samples themselves are not saved).</p>
+<pre class="r"><code>results27 &lt;- vector(mode = &quot;numeric&quot;)
+for(i in 1:10000){
+      tempSample &lt;- sample(c(&quot;L&quot;, &quot;R&quot;), size = 27, prob = c(0.25, 0.75), 
+          replace = TRUE)
+      results27[i] &lt;- sum(tempSample == &quot;L&quot;)
+    }</code></pre>
+<p>Save the results also as a factor. This is to ensure that all categories between 0 and 27 are included in tables and graphs, even those that did not occur in the sampling process.</p>
+<pre class="r"><code>results27fac &lt;- factor(results27, levels = 0:27)</code></pre>
+<p><br></p>
+</div>
+<div id="the-relative-frequency-distribution-1" class="section level2">
+<h2>The relative frequency distribution</h2>
+<p>Tabulate the relative frequency distribution of outcomes. To get relative frequencies, use <code>table()</code> to get frequencies and then divide by the total number of replicates. Your results will be similar but not identical to the numbers in the Chapter because 10,000 iterations is not large enough for extreme accuracy.</p>
+<pre class="r"><code>nullTable &lt;- table(results27fac, dnn = &quot;nRightFlowers&quot;)/length(results27fac)
+data.frame(nullTable)</code></pre>
+<pre><code>##    nRightFlowers   Freq
+## 1              0 0.0008
+## 2              1 0.0049
+## 3              2 0.0154
+## 4              3 0.0456
+## 5              4 0.0939
+## 6              5 0.1370
+## 7              6 0.1687
+## 8              7 0.1766
+## 9              8 0.1412
+## 10             9 0.1022
+## 11            10 0.0580
+## 12            11 0.0334
+## 13            12 0.0154
+## 14            13 0.0043
+## 15            14 0.0021
+## 16            15 0.0003
+## 17            16 0.0001
+## 18            17 0.0001
+## 19            18 0.0000
+## 20            19 0.0000
+## 21            20 0.0000
+## 22            21 0.0000
+## 23            22 0.0000
+## 24            23 0.0000
+## 25            24 0.0000
+## 26            25 0.0000
+## 27            26 0.0000
+## 28            27 0.0000</code></pre>
+<p><br></p>
+</div>
+<div id="histogram-of-the-null-distribution-1" class="section level2">
+<h2>Histogram of the null distribution</h2>
+<p>Draw a histogram of the null distribution of the the number of left-handed flowers out of 27 (Figure 6.4-1). Setting <code>freq = FALSE</code> causes <code>hist</code> to graph density of observations rather than frequency. In this case, height of bars indicates relative frequency if bars are one unit wide (as in the present case).</p>
+<pre class="r"><code>hist(results27, right = FALSE, freq = FALSE, las = 1,
+        xlim = c(0,27), xlab = &quot;Number of left-handed flowers&quot;, main = &quot;&quot;)</code></pre>
+<p><img src="Rcode_Chapter_6_files/figure-html/unnamed-chunk-14-1.png" width="480" /></p>
+<p>Or</p>
+<pre class="r"><code>ggplot(data.frame(results27), aes(x = results27)) +
+    geom_histogram(aes(y = ..density..), fill = &quot;white&quot;, col = &quot;black&quot;, 
+        boundary = 0, closed = &quot;left&quot;, bins = 28, binwidth = 1) +
+    scale_x_continuous(limits = c(0,28)) +
+    labs(x = &quot;Number of right-handed toads&quot;, y = &quot;Density&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_6_files/figure-html/unnamed-chunk-15-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="probability-of-6-or-fewer" class="section level2">
+<h2>Probability of 6 or fewer</h2>
+<p>Calculate the fraction of results in the null distribution having 6 or fewer left-handed flowers.</p>
+<pre class="r"><code>frac6orLess &lt;- sum(results27 &lt;= 6)/length(results27)
+frac6orLess</code></pre>
+<pre><code>## [1] 0.4663</code></pre>
+<p><br></p>
+</div>
+<div id="p-value-1" class="section level2">
+<h2><span class="math inline">\(P\)</span>-value</h2>
+<p>Calculate the <span class="math inline">\(P\)</span>-value. This won’t be exact because 10,000 times is not large enough for extreme accuracy</p>
+<pre class="r"><code>2 * frac6orLess</code></pre>
+<pre><code>## [1] 0.9326</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

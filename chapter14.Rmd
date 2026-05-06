@@ -1,0 +1,34 @@
+---
+title: "Resources for Chapter 14: <br>Designing experiments"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+*** 
+
+<br> 
+
+# Chapter links
+
+Programs to calculate power [here](http://www.divms.uiowa.edu/~rlenth/Power/).
+
+<br> 
+
+# Data
+
+There are no data sets associated with Chapter 14.
+
+Download a .zip file with all data sets in the book [here](DataZipFiles/Data.zip). 
+

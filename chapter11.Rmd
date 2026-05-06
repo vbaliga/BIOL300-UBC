@@ -1,0 +1,116 @@
+---
+title: "Resources for Chapter 11: <br>Inference for a normal population"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+<br> 
+
+# Chapter links
+
+[A Koala bellow](https://soundcloud.com/new-scientist/male-koala-bellow) (See Assignment problem 18)
+
+<br>
+
+
+
+# R lab
+
+A lab calculating the confidence interval of a mean, and related topics, is available [here](RLabs/R_tutorial_Normal_and_sample_means.html).
+
+<br>
+
+# Learn R by example
+
+We used R to analyze all examples in chapter 11. We've put the code [here](RExamples/Rcode_Chapter_11.html) so that you can too.
+
+<br> 
+
+# Data
+
+Download a .zip file with all the data for chapter 11 in .csv format [here](DataZipFiles/chapter11.zip). 
+
+Download a .zip file with all data sets in the book [here](DataZipFiles/Data.zip). 
+
+All data sets and their sources are listed individually below.
+
+Disclaimer: Most data sets used in the book are grabbed from graphs and tables in the original publications, and the values may not be exact. Contact the original authors for the raw data.
+
+<br> 
+
+## Data for examples
+
+[Example 11.2. Stalk-eyed flies](Data/chapter11/chap11e2Stalkies.csv) 
+
+Data provided by Sam Cotton and Kevin Fowler, University College, London.
+
+[Example 11.3. Human body temperature](Data/chapter11/chap11e3Temperature.csv) 
+
+Shoemaker, A. L. 1996. *Journal of Statistics Education* 4 (2).
+
+<br>
+
+## Data for problem sets
+
+[01. Range shifts with climate change](Data/chapter11/chap11q01RangeShiftsWithClimateChange.csv) 
+
+Chen, I-C., et al. 2011. *Science* 333: 1024-1026.
+
+[06. Wolf jaws](Data/chapter11/chap11q06WolfTeeth.csv) 
+
+Whitlock, M. 1996.  *Proceedings of the Royal Society, Series B* 263: 849-853. 
+
+[08. Coconut crabs](Data/chapter11/chap11q08crabFemales.csv) 
+
+Sato, T., et al. 2013. *Aquatic Biology* 19: 143-152.
+
+[13. Syrup swimming](Data/chapter11/chap11q13SyrupSwimming.csv) 
+
+Gettelfinger, B., and E. L. Cussler. 2004. *AIChE Journal* 50: 2646-2647. 
+
+[17. Dolphins clockwise](Data/chapter11/chap11q17DolphinsClockwise.csv) 
+
+Stafne, G. M., and P. R. Manger. 2004. *Physiology &amp; Behavior* 82: 919-926. 
+
+[18. Koala bellows](Data/chapter11/chap11q18KoalaBellows.csv) 
+
+Charlton, B. D., et al. 2012. *Animal Behaviour* 84: 1565-1571.
+
+[19. Banana peels](Data/chapter11/chap11q19bananas.csv) 
+
+Mabuchi, K., K. Tanaka, D. Uchijima, and R. Sakai. 2012.  *Tribology Online* 7: 147-151.
+
+[22. Hurricanes and soil lead](Data/chapter11/chap11q22SoilLeadAndHurricanes.csv) 
+
+Zahran, S., et al. 2010. *Environmental Science and Technology* 44: 4433–4440.
+
+[23. Hurricanes and blood lead](Data/chapter11/chap11q23BloodLeadKatrina.csv) 
+
+Zahran, S., et al. 2010. *Environmental Science and Technology* 44: 4433–4440.
+
+[25. Walking in circles](Data/chapter11/chap11q25WalkingInCircles.csv) 
+
+Souman, J. L., I. Frissen, M. N. Sreenivasa, and M. O. Ernst. 2009. *Current Biology* 19: 1-5. 
+
+[26. Sloth inner ears](Data/chapter11/chap11q26SlothEars.csv) 
+
+Billet, G., et al. 2012. *Proceedings of the Royal Society of London B* 279: 3932–3939.
+
+[27. Climate change and bird elevation](Data/chapter11/chap11q27birdElevation.csv) 
+
+Freeman, B. G., M. N. Scholer, V. Ruiz-Gutierrez, and J. W. Fitzpatrick. 2018.  *Proceedings of the National Academy of Sciences (USA)* 115: 11982-11987.
+

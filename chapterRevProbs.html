@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+
+<title>Resources for Review Problems</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-2');
+</script>
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About this site</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Resources for Review Problems</h1>
+<h4 class="author"></h4>
+
+</div>
+
+
+<hr />
+<p><br></p>
+<p>This file links to all the data sets for all three Review Problem
+sets in Whitlock and Schluter.</p>
+<p><br></p>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>Download a .zip file with all the data for the review problems in
+.csv format <a href="DataZipFiles/DataReviewProbs.zip">here</a>.</p>
+<p>Download a .zip file with all data sets in the book <a
+href="DataZipFiles/Data.zip">here</a>.</p>
+<p>All data sets and their sources are listed individually below.</p>
+<p>Disclaimer: Most data sets used in the book are grabbed from graphs
+and tables in the original publications, and the values may not be
+exact. Contact the original authors for the raw data.</p>
+<p><br></p>
+<div id="review-problems-1" class="section level2">
+<h2>Review Problems 1</h2>
+<p><a href="Data/review1/rev1q2FingerDefectsSmoking.csv">R1.02.
+Syndactyly and smoking</a></p>
+<p>Man, L. X. and B. Chang. 2006. <em>Plastic and reconstructive
+surgery</em> 117: 301-308.</p>
+<p><a href="Data/review1/rev1q3PineSeedlings.csv">R1.03. Seedling
+distribution</a></p>
+<p>These data are hypothetical.</p>
+<p><a href="Data/review1/rev1q9ChestPain.csv">R1.09. Heart attacks and
+chest pain</a></p>
+<p>Brieger, D., et al. 2004. <em>Chest</em> 126: 461–469.</p>
+<p><a href="Data/review1/rev1q10CodRecruitment.csv">R1.10. Cod
+recruitment</a> Cod recruitment</p>
+<p>Beaugrand, G., et al. 2003. <em>Nature</em> 426: 661–664.</p>
+<p><a href="Data/review1/rev1q11WineOrderPreference.csv">R1.11. Wine
+judging</a></p>
+<p>Mantonakis, A., P. Rodero, I. Lesschaeve, and R. Hastie. 2009.
+<em>Psychological Science</em> 20: 1309-1312.</p>
+<p><a href="Data/review1/rev1q13CostFreeQuitSmoking.csv">R1.13. Smoking
+and strokes</a></p>
+<p>Papadakis, S., et al. 2011. <em>BMJ Open</em> 1: e000366. Data at <a
+href="http://www.datadryad.org/handle/10255/dryad.35443">http://www.datadryad.org/handle/10255/dryad.35443</a>.</p>
+<p><a href="Data/review1/rev1q14LesserAntillesBirds.csv">R1.14. Birds of
+the Lesser Antilles</a></p>
+<p>Ricklefs, R. E., and E. Bermingham. 2001. <em>Science</em> 294:
+1522–1524.</p>
+<p><br></p>
+</div>
+<div id="review-problems-2" class="section level2">
+<h2>Review Problems 2</h2>
+<p><a href="Data/review2/rev2q03ClimbingVines.csv">R2.03. Climbing
+plants</a></p>
+<p>Gianoli, E. 2004. <em>Proceedings of the Royal Society of London,
+Series B, Biological Sciences.</em> 271: 2011–2015.</p>
+<p><a href="Data/review2/rev2q04Tobacco.csv">R2.04. Tobacco
+genetics</a></p>
+<p>East, E. M. 1916. <em>Genetics</em> 1: 164–176.</p>
+<p><a href="Data/review2/rev2q05MultipleMating.csv">R2.05. Butterfly
+mating success</a></p>
+<p>Elgar, M. A., and N. E. Pierce. 1988. Pages 59-75 in Clutton-Brock,
+T. H. (editor). <em>Reproductive success: studies of selection and
+adaptation in contrasting breeding systems</em>. The University of
+Chicago Press, Chicago.</p>
+<p><a href="Data/review2/rev2q06TerritoryAndHormones.csv">R2.06.
+Territories and hormones</a></p>
+<p>White, S. A., T. Nguyen, and R. D. Fernald. 2002. <em>The Journal of
+Experimental Biology</em> 205: 2567–2581.</p>
+<p><a href="Data/review2/rev2q07NoSmokingDay.csv">R2.07. National No
+Smoking Day</a></p>
+<p>Waters, A. J., M. J. Jarvis, and S. R. Sutton. 1998. <em>Nature</em>
+394: 137.</p>
+<p><a href="Data/review2/rev2q09PitcherPlantOdor.csv">R2.09. Pitcher
+plant odors</a></p>
+<p>Di Giusto, B., et al. 2010. <em>Journal of Ecology</em> 98:
+845-856.</p>
+<p><a href="Data/review2/rev2q13BlindGestures.csv">R2.13.
+Gesturing</a></p>
+<p>Iverson, J. M., and S. Goldin-Meadow. 1998. <em>Nature</em> 396:
+228.</p>
+<p><a href="Data/review2/rev2q14KnuckleCracking.csv">R2.14. Knuckle
+cracking</a></p>
+<p>de Weber, K., M. Olszewski, and R. Ortolano. 2011. <em>Journal of the
+American Board of Family Medicine</em> 24: 169 –174.</p>
+<p><a href="Data/review2/rev2q15ReturnTrip.csv">R2.15. Returns are
+faster</a></p>
+<p>van de Ven, N., L. van Rijswijk, and M. M. Roy. 2011. <em>Psychonomic
+Bulletin &amp; Review</em> 18: 827–832.</p>
+<p><a href="Data/review2/rev2q16ZebrafishAggression.csv">R2.16.
+Zebrafish shyness</a></p>
+<p>Norton, W. H. J., et al. 2011. <em>Journal of Neuroscience</em> 31:
+13796-13807.</p>
+<p><br></p>
+</div>
+<div id="review-problems-3" class="section level2">
+<h2>Review Problems 3</h2>
+<p><a href="Data/review3/rev3q01WalkingPosture.csv">R3.01. Horse walking
+in cave art</a></p>
+<p>Horvath, G., et al. 2012. <em>PLoS ONE</em> 7: e49786.</p>
+<p><a href="Data/review3/rev3q05WormLifespan.csv">R3.05. Worm
+lifespan</a></p>
+<p>Gems, D., et al. 1998. <em>Genetics</em> 150:129-155.</p>
+<p><a href="Data/review3/rev3q06MendelPeas.csv">R3.06. Mendel’s
+data</a></p>
+<p>Mendel, G. 1866. <em>Abh. Brünn</em> 4:3–47.</p>
+<p><a href="Data/review3/rev3q07ThrombosisContraceptives.csv">R3.07.
+Contraception and thrombosis</a></p>
+<p>van Hylckama Vlieg, A., et al. 2009. <em>British Medical Journal</em>
+339: b2921.</p>
+<p><a href="Data/review3/rev3q08OxygenConsumption.csv">R3.08. Oxygen
+consumption</a></p>
+<p>Hayes, J. P., and C. S. O’Connor. 1999. <em>Evolution</em> 53:
+1280-1287.</p>
+<p><a href="Data/review3/rev3q09CO2PlantGrowth.csv">R3.09. CO2 and
+growth rate</a></p>
+<p>Collins S., and G. Bell. 2004. <em>Nature</em> 431: 566–569.</p>
+<p><a href="Data/review3/rev3q10HeatLossLeanness.csv">R3.10. Leanness
+and heat loss</a></p>
+<p>Sloan, R. E. G., and W. R. Keatinge. 1973. <em>Journal of Applied
+Physiology</em> 35: 371–375</p>
+<p><a href="Data/review3/rev3q13MoleRatGenetics.csv">R3.13. Naked mole
+rat genetics</a></p>
+<p>Edrey, Y. H., et al.. 2012. <em>Aging Cell</em> 11: 213-222.</p>
+<p><a href="Data/review3/rev3q14ObesityAndNeedles.csv">R3.14. Needle
+length and obesity</a></p>
+<p>Middleman, A. B., R. Anding, and C. Tung. 2010. <em>Pediatrics</em>
+125: e508–e512.</p>
+<p><a href="Data/review3/rev3q16SexRatio.csv">R3.16. Sex ratio and
+social factors</a></p>
+<p>West, S. A., and B. C. Sheldon. 2002. <em>Science</em> 295:
+1695–1688.</p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

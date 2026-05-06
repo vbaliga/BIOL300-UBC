@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>R code for example in Chapter 10:  The normal distribution</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-4');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R code for example in Chapter 10: <br>The normal distribution</h1>
+
+</div>
+
+
+<hr />
+<p>We used R to analyze all examples in Chapter 10. We put the code here so that you can too.</p>
+<p><br> Also see our <a href="https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_Normal_and_sample_means.html">lab on the normal distribution using R</a>.</p>
+<p><br></p>
+<div id="new-methods-on-this-page" class="section level1">
+<h1>New methods on this page</h1>
+<ul>
+<li>
+<p>Probabilities under the normal curve:</p>
+<pre class="r"><code>pnorm(157.5, mean = 177.6, sd = 9.7)</code></pre>
+<li>
+Other new methods:
+<ul>
+Normal approximation to a binomial distribution.
+</ul>
+</ul>
+<hr />
+<p><br></p>
+</div>
+<div id="load-required-packages" class="section level1">
+<h1>Load required packages</h1>
+<p>We’ll use the <code>ggplot2</code> add on package to make graphs.</p>
+<pre class="r"><code>library(ggplot2)</code></pre>
+<hr />
+<p><br></p>
+<!--
+NASA excludes anyone under 62 inches in height and anyone over 75 inches from being
+an astronaut pilot (NASA 2004). In metric units, these values for the lower and upper
+height restrictions are 157.5 cm and 190.5 cm, respectively. What fraction of the young
+adult American population is excluded from being an astronaut pilot by these height constraints?
+The distribution of adult heights within a gender and age group is reasonably
+well approximated by a normal distribution, with the mean and standard deviation for
+20- to 29-year-old males in America given by 177.6 cm and 9.7 cm, respectively (McDowell
+et al. 2008). For 20- to 29-year-old American females, the mean height is 163.2 cm with a
+standard deviation of 10.1 cm.
+-->
+</div>
+<div id="example-10.4.-small-step-for-man" class="section level1">
+<h1>Example 10.4. Small step for man?</h1>
+<p><strong><em>Calculate probabilities under the normal curve</em></strong>.</p>
+<p><br></p>
+<div id="adult-men" class="section level2">
+<h2>Adult men</h2>
+<p>The command <code>pnorm(Y)</code> gives the probability of obtaining a value <strong>less than</strong> <code>Y</code> under the normal distribution. Set the arguments <code>mean =</code> and <code>sd =</code> to the mean and standard deviate of the desired normal distribution.</p>
+<p>Here are the calculations for adult men. The numbers here will be slightly different from those in the book because of roundoff errors.</p>
+<p>Pr[Height &lt; 157.5]</p>
+<pre class="r"><code>pTooShort &lt;- pnorm(157.5, mean = 177.6, sd = 9.7)
+pTooShort</code></pre>
+<pre><code>## [1] 0.01912503</code></pre>
+<p>Pr[Height &gt; 190.5]</p>
+<pre class="r"><code>pTooTall &lt;- 1 - pnorm(190.5, mean = 177.6, sd = 9.7)
+pTooTall</code></pre>
+<pre><code>## [1] 0.09177612</code></pre>
+<p>Pr[Height &lt; 157.5 or Height &gt; 190.5]</p>
+<pre class="r"><code>pTooShort + pTooTall</code></pre>
+<pre><code>## [1] 0.1109012</code></pre>
+<p><br></p>
+</div>
+<div id="adult-women" class="section level2">
+<h2>Adult women</h2>
+<!-- 
+Women’s heights
+are approximated by a normal distribution with mean 163.2 cm and standard
+deviation 10.1 cm. These values correspond to height restrictions at 0.56 standard
+deviations below the mean and 2.7 standard deviations above the mean. (Check these
+numbers for yourself.) Using Statistical Table B, the fraction 0.28774 of the women
+are too short to meet NASA’s guidelines and the fraction 0.00347 are too tall. In
+total, the height restrictions exclude 29.1% of young American women from being
+astronaut pilots.
+-->
+<p>Pr[Height &lt; 157.5]</p>
+<pre class="r"><code>pTooShort &lt;- pnorm(157.5, mean = 163.2, sd = 10.1)
+pTooShort</code></pre>
+<pre><code>## [1] 0.2862558</code></pre>
+<p>Pr[Height &gt; 190.5]</p>
+<pre class="r"><code>pTooTall &lt;- 1 - pnorm(190.5, mean = 163.2, sd = 10.1)
+pTooTall</code></pre>
+<pre><code>## [1] 0.003436144</code></pre>
+<p>Pr[Height &lt; 157.5 or Height &gt; 190.5]</p>
+<pre class="r"><code>pTooShort + pTooTall</code></pre>
+<pre><code>## [1] 0.2896919</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="figure-10.6.-spanish-flu" class="section level1">
+<h1>Figure 10.6. Spanish flu</h1>
+<p><em><strong>Demonstration of the central limit theorem</strong>, using the distribution of sample mean age at death in samples from a highly non-normal distribution</em>.</p>
+<p>Read and inspect the data.</p>
+<pre class="r"><code>flu &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter10/chap10e6AgesAtDeathSpanishFlu1918.csv&quot;), stringsAsFactors = FALSE)
+head(flu)</code></pre>
+<pre><code>##   age
+## 1   0
+## 2   0
+## 3   0
+## 4   0
+## 5   0
+## 6   0</code></pre>
+<p><br></p>
+<div id="histogram" class="section level2">
+<h2>Histogram</h2>
+<p>Visualizing the frequency distribution of ages at death in Switzerland in 1918 during the Spanish flu epidemic.</p>
+<pre class="r"><code>hist(flu$age, right = FALSE, col = &quot;firebrick&quot;, breaks = seq(0,102,2), 
+     xlab = &quot;Age at death (yrs)&quot;, las = 1, main = &quot;&quot;)</code></pre>
+<p><img src="Rcode_Chapter_10_files/figure-html/unnamed-chunk-10-1.png" width="480" /></p>
+<p>or</p>
+<pre class="r"><code>ggplot(flu, aes(x = age)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 2, 
+        boundary = 0, closed = &quot;left&quot;) + 
+    labs(x = &quot;Age at death (yrs)&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_10_files/figure-html/unnamed-chunk-11-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="demonstrate-central-limit-theorem" class="section level2">
+<h2>Demonstrate central limit theorem</h2>
+<p>We treat the age at death measurements from Switzerland in 1918 as a population. Then we take a large number of random samples, each of size <span class="math inline">\(n\)</span>, from the population of age at death measurements and plot the sample means.</p>
+<p>Note: your results won’t be the identical to the corresponding panel in Figure 10.6-2, because 10,000 random samples is not large enough for extreme accuracy.</p>
+<p>The code below is for <span class="math inline">\(n = 4\)</span>. Change <span class="math inline">\(n\)</span> to another number and rerun to see the effects of sample size on the shape of the distribution of sample means.</p>
+<pre class="r"><code>n &lt;- 4
+results &lt;- vector()
+for(i in 1:10000){
+    AgeSample &lt;- sample(flu$age, size = n, replace = FALSE)
+    results[i] &lt;- mean(AgeSample)
+    }</code></pre>
+<p><br></p>
+</div>
+<div id="histogram-of-sample-means" class="section level2">
+<h2>Histogram of sample means</h2>
+<pre class="r"><code>hist(results, right = FALSE, breaks = 50, col = &quot;firebrick&quot;, las = 1, 
+    xlab = &quot;Mean age at death (yrs)&quot;, ylab = &quot;Frequency&quot;, main = &quot;&quot;)</code></pre>
+<p><img src="Rcode_Chapter_10_files/figure-html/unnamed-chunk-13-1.png" width="480" /></p>
+<p>or</p>
+<pre class="r"><code>ggplot(data.frame(results), aes(x = results)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 2, 
+        boundary = 0, closed = &quot;left&quot;) + 
+    labs(x = &quot;Mean age at death (yrs)&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_10_files/figure-html/unnamed-chunk-14-1.png" width="480" /></p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-10.7.-dead-bug" class="section level1">
+<h1>Example 10.7. Dead bug</h1>
+<p><em><strong>Normal approximation to the binomial distribution</strong> applied to the cricket preference of the brown recluse spider</em>.</p>
+<p><br></p>
+<div id="normal-approximation" class="section level2">
+<h2>Normal approximation</h2>
+<p>The below differs slighty from the number in the book because of roundoff.</p>
+<pre class="r"><code>spiderProb &lt;- 1 - pnorm( (30 + 1/2 - 41 * 0.5) / sqrt(41 * 0.50 * 0.5))
+Pvalue &lt;- 2 * spiderProb
+Pvalue</code></pre>
+<pre><code>## [1] 0.001787289</code></pre>
+<p><br></p>
+</div>
+<div id="compare-with-exact-result" class="section level2">
+<h2>Compare with exact result</h2>
+<p>Compare with the exact result obtained when using the binomial distribution, <code>dbinom()</code>, which we encountered in the Chapter 7 R page.</p>
+<pre class="r"><code>2 * sum( dbinom(31:41, size = 41, prob = 0.5) )</code></pre>
+<pre><code>## [1] 0.001450491</code></pre>
+<p>You can also use <code>pbinom()</code>.</p>
+<pre class="r"><code>2 * (1 - pbinom(30, size = 41, prob = 0.5))</code></pre>
+<pre><code>## [1] 0.001450491</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

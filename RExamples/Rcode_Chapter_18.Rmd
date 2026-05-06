@@ -1,0 +1,564 @@
+---
+title: "R code for example in Chapter 18: <br>Multiple explanatory variables"
+author: 
+
+#output: html_document
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 5, fig.height=4)
+```
+
+***
+
+We used R to analyze all examples in Chapter 18. We put the code here so that you can too.
+
+<br>
+
+# New methods on this page
+
+<ul>
+<li>Fit a linear model for two fixed factors:
+
+```{r eval = FALSE}
+algaeFullModel <- lm(sqrtArea ~ height * herbivores, data = algae)
+```
+
+<li>Residual plot:
+
+```{r eval = FALSE}
+plot(residuals(moleRatNoInteractModel) ~ fitted(moleRatNoInteractModel))
+```
+
+<li>Other new methods:
+<ul>
+<li>Linear model for randomized block design.
+<li>Linear model for one categorical and one numeric variable (ANCOVA).
+<li>Interaction plot.
+<li>Visualize fit of null and full models to the data.
+<li>Type I and Type III sums of squares.
+</ul>
+</ul>
+ 
+***
+
+# Load required packages 
+
+We need ```ggplot2``` for ordinary graphs. The ```nlme``` package fits models having a random effect. Include the ```car``` package to allow tests using Type 3 sums of squares. The ```tidyr``` package is optional -- it provides one way to make a two-way table of data. You might need to install these additional packages on your computer if you have not already done so.
+
+```{r eval = FALSE}
+install.packages("car", dependencies = TRUE)    # only if not yet installed
+install.packages("tidyr", dependencies = TRUE)  # only if not yet installed
+```
+
+```{r message = FALSE}
+library(ggplot2)
+library(nlme)
+library(car)
+library(tidyr) # optional
+```
+
+***
+
+<br>
+
+# Figure 18.1-1 Linear regression
+
+***Compare the fits of the null and univariate regression models** to data on the relationship between stability of plant biomass production and the initial number of plant species assigned to plots. The data are from Example 17.3*.
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+prairie <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter17/chap17e3PlantDiversityAndStability.csv"), stringsAsFactors = FALSE)
+head(prairie)
+```
+
+<br>
+
+## Log-transformation
+
+Log-transform ```biomassStability```.
+
+```{r eval = TRUE}
+prairie$logStability <- log(prairie$biomassStability)
+head(prairie)
+```
+
+<br>
+
+## Fit reduced model
+
+In simple linear regression, the null or "reduced" model is a line whose slope is 0. To accomplish this, use a formula having a constant only. Leave ```nSpecies``` out of the formula. Show the fit in a scatter plot. You'll need to specify a formula in ```geom_smooth()``` to force R to draw a line with no slope rather than the linear regression line. The formula is the same as in the preceding ```lm()``` command but uses "y" instead of the name of the y-variable. For these data, ```ggplot()``` won't include "0" on the x-axis unless you tell it to.
+
+```{r eval = TRUE}
+prairieNullModel <- lm(logStability ~ 1, data = prairie)
+
+ggplot(prairie, aes(nSpecies, logStability)) + 
+    geom_point(size = 3, shape = 1, col = "firebrick") + 
+    geom_smooth(method = "lm", formula = y ~ 1,
+        se = FALSE, col = "black") +
+    xlim(0,16) +
+    labs(x = "Species number treatment", y = "Log-transformed ecosystem stability") + 
+    theme_classic()
+```
+
+<br>
+
+## Fit full model
+
+Now includes the treatment variable ```nSpecies``` in the formula. Show the fit in a scatter plot. 
+
+```{r eval = TRUE}
+prairieRegression <- lm(logStability ~ nSpecies, data = prairie)
+
+ggplot(prairie, aes(nSpecies, logStability)) + 
+    geom_point(size = 3, shape = 1, col = "firebrick") + 
+    geom_smooth(method = "lm", se = FALSE, col = "black") +
+    xlim(0,16) +
+    labs(x = "Species number treatment", y = "Log-transformed ecosystem stability") + 
+    theme_classic()
+```
+
+<br>
+
+## $F$-test of improvement in fit
+
+This test determines whether the full (regression) model is a significant improvement in fit to the data.
+
+```{r eval = TRUE}
+anova(prairieRegression)
+```
+
+***
+
+<br>
+
+# Figure 18.1-2. Generalizing regression
+
+***Compare the fits of the null and single-factor ANOVA model** to data on phase shift in the circadian rhythm of melatonin production in participants given alternative light treatments. The data are from Example 15.1*.
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+circadian <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter15/chap15e1KneesWhoSayNight.csv"), stringsAsFactors = FALSE)
+head(circadian)
+```
+
+<br>
+
+## Set order of groups
+
+For tables and graphs.
+
+```{r eval = TRUE}
+circadian$treatment <- factor(circadian$treatment, 
+	  levels = c("control", "knee","eyes")) 
+```
+
+<br>
+
+## Fit null model to data
+
+In single-factor ANOVA, the null model fits the same mean to all groups. To accomplish, include only a constant in the model formula and leave out the treatment variable. Visualize the model fit (Figure 18.1-2 left).
+
+```{r eval = TRUE}
+circadianNullModel <- lm(shift ~ 1, data = circadian)
+
+ggplot(circadian, aes(x = treatment, y = shift)) +
+    geom_point(color = "firebrick", size = 3) +
+    geom_hline(yintercept = predict(circadianNullModel)) + 
+    labs(x = "Light treatment", y = "Shift in circadian rhythm (h)") + 
+    theme_classic()
+```
+
+<br>
+
+## Fit full model to data
+
+Now include the treatment variable in the formula. Visualise the model fit (using ```visreg()```. This is not an exact replica of Figure 18.1-2 right).
+
+```{r eval = TRUE}
+circadianAnova <- lm(shift ~ treatment, data = circadian)
+
+ggplot(circadian, aes(x = treatment, y = shift)) +
+    geom_point(color = "firebrick", size = 3) +
+    stat_summary(fun.y= mean, geom = "crossbar",
+        fun.ymin=mean, fun.ymax=mean, width = .4, color = "black") +
+    labs(x = "Light treatment", y = "Shift in circadian rhythm (h)") + 
+    theme_classic()
+```
+
+<!-- 
+visreg(circadianAnova, xvar = "treatment", data = circadian,
+       points = list(pch = 16, cex = 1.5, col = c("firebrick")),
+       line=list(col="black"), band = FALSE, whitespace = 0.5,
+       xlab = "Treatment", ylab = "Shift in circadian rhythm (h)")
+-->
+
+<br>
+
+## $F$-test of improvement in fit
+
+Test of whether the full model is a significant improvement over the null model.
+
+```{r eval = TRUE}
+anova(circadianAnova)
+```
+
+***
+
+<br>
+
+# Example 18.2. Zooplankton
+
+***Analyze data from a randomized block experiment**, which measured the effects of fish abundance (the factor of interest) on zooplankton diversity. Treatments were repeated at 5 locations in a lake (blocks)*.
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+zooplankton <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter18/chap18e2ZooplanktonDepredation.csv"), stringsAsFactors = FALSE)
+zooplankton
+```
+
+<br>
+
+## Set order of groups
+
+```{r eval = TRUE}
+zooplankton$treatment <- factor(zooplankton$treatment, levels = c("control","low","high"))
+```
+
+<br>
+
+## Table and graph of data
+
+Only one measurement is available for each combination of treatment and block. ```tapply()``` in base R is one way to present a 2-way table of (Table 18.2-1). Another way is to use ```spread()``` in the ```tidyr``` package.
+
+```{r eval = TRUE}
+tapply(zooplankton$diversity, list(Treatment = zooplankton$treatment, 
+    Location = zooplankton$block), unique)
+# or
+spread(data = zooplankton, key = block, value = diversity)
+```
+
+The following is code to display the data in a graph (not in the book, but probably should be). Lines connect values from different treatments in the same block.
+
+```{r eval = TRUE}
+ggplot(zooplankton, aes(x = treatment, y = diversity)) +  
+    geom_line(aes(group = block)) +
+    geom_point(size = 5, col = "firebrick", alpha = 0.5) + 
+    labs(x = "Treatment", y = "Zooplankton diversity (D)") + 
+    theme_classic()
+```
+
+<br>
+
+## Fit null model
+
+A blocking variable is typically analyzed as a random effect. We use ```lme()``` command from the ```nlme``` package. The fixed effect part of the formula (here, only a constant) is similar to a fixed-effect formula in ```lm()```. The random effect is included in a second formula afterward. The structure ```1|block``` indicates that we are fitting a random intercept (a constant) for each level of the ```block``` variable.
+
+We leave out here the visualization of the null model fit.
+
+```{r eval = TRUE}
+zoopNullModel <- lme(diversity ~ 1, random = ~ 1| block, data = zooplankton)
+```
+
+<br>
+
+## Fit the full model
+
+The equation for the full model also includes the fixed treatment variable. The random effect part of the formula is unchanged.
+
+```{r eval = TRUE}
+zoopRBModel <- lme(diversity ~ treatment, random = ~ 1| block, data = zooplankton)
+```
+
+To visualize this model fit we drew lines between the predicted values and overlaid the points. Only 4 lines are visible because one is lying over a second line.
+
+```{r eval = TRUE}
+ggplot(zooplankton, aes(x = treatment, y = diversity)) +  
+    geom_line(aes(y = predict(zoopRBModel), group = block)) +
+    geom_point(size = 5, col = "firebrick", alpha = 0.5) + 
+    labs(x = "Treatment", y = "Zooplankton diversity (D)") + 
+    theme_classic()
+```
+
+Alternatively, the following commands make a plot in base R.
+
+```{r eval = TRUE}
+interaction.plot(zooplankton$treatment, zooplankton$block, 
+	  response = predict(zoopRBModel), ylim = range(zooplankton$diversity),
+	  trace.label = "Block", las = 1, 
+	  xlab = "Treatment", ylab = "Zooplankton diversity (D)")
+points(diversity ~ treatment, data = zooplankton, 
+	  pch = as.numeric(zooplankton$block))
+```
+
+<br>
+
+## $F$ test of improvement in fit
+
+This test indicates whether the full model is a significant improvement over the null model. This represents the test of treatment effect. Notice that R will not test the random (block) effect of an ```lme()``` model.
+
+```{r eval = TRUE}
+anova(zoopRBModel)
+```
+
+***
+
+<br>
+
+# Example 18.3 Intertidal interaction
+
+***Analyze data from a factorial experiment** investigating the effects of herbivore presence, height above low tide, and the interaction between these factors, on abundance of a red intertidal alga using **two-factor ANOVA***.
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+algae <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter18/chap18e3IntertidalAlgae.csv"), stringsAsFactors = FALSE)
+head(algae)
+```
+
+<br>
+
+## Fit the no-interaction model. 
+
+Note that we use ```lm()``` because both factors are fixed effects. To plot the model fit, save the model predicted values to the data frame in a new variable (here named ```fit0```). Use ```stat_summary()``` to plot them.
+
+```{r eval = TRUE}
+algaeNoInteractModel <- lm(sqrtArea ~ height + herbivores, data = algae)
+
+algae$fit0 <- predict(algaeNoInteractModel)
+
+ggplot(data = algae, aes(x = herbivores, y = sqrtArea,
+        fill = height, color = height, shape = height)) + 
+    geom_jitter(size = 3, position = position_dodge2(width = 0.7)) +
+    scale_colour_manual(values = c("firebrick", "black")) +
+    scale_shape_manual(values = c(16, 15)) +
+    stat_summary(aes(group = height, y = fit0), fun.y = mean, geom = "line",
+        linetype="dashed", size = 1) +
+    labs(x = "Herbivory treatment", y = "Square-root surface area (cm)") +
+    theme_classic()
+```
+
+<br>
+
+## Fit the full model
+
+In the formula below, ```height * herbivores``` is short for ```height + herbivores + height:herbivores```. The last term is the interaction term. To plot the model fit, save the model predicted values to the data frame in a new variable (here named ```fit1```). Use ```stat_summary()``` to plot them.
+
+```{r eval = TRUE}
+algaeFullModel <- lm(sqrtArea ~ height * herbivores, data = algae)
+algae$fit1 <- predict(algaeFullModel)
+```
+
+To visualize the model fit, 
+
+```{r eval = TRUE}
+ggplot(data = algae, aes(x = herbivores, y = sqrtArea,
+        fill = height, color = height, shape = height)) + 
+    geom_jitter(size = 3, position = position_dodge2(width = 0.7)) +
+    scale_colour_manual(values = c("firebrick", "black")) +
+    scale_shape_manual(values = c(16, 15)) +
+    stat_summary(aes(group = height, y = fit1), fun.y = mean, geom = "line",
+        linetype="dashed", size = 1) +
+    labs(x = "Herbivory treatment", y = "Square-root surface area (cm)") +
+    theme_classic()
+```
+
+The following commands work in base R.
+
+```{r eval = TRUE}
+interaction.plot(algae$herbivores, algae$height, response = predict(algaeFullModel), 
+	  ylim = range(algae$sqrtArea), trace.label = "Height", las = 1,
+	  ylab = "Square root surface area (cm)", xlab = "Herbivore treatment")
+adjustAmount <- 0.05
+points(sqrtArea ~ c(jitter(as.numeric(as.factor(herbivores)), 
+        factor = 0.2) + adjustAmount), 
+	  data = subset(algae, height == "low"), pch = 15)
+points(sqrtArea ~ c(jitter(as.numeric(as.factor(herbivores)), 
+        factor = 0.2) - adjustAmount), 
+	  data = subset(algae, height == "mid"), pch = 16, col = "firebrick")
+```
+
+<br>
+
+## Test improvement in fit
+
+This generates an $F$ test of whether the full model with the interaction term is a signifcantly better fit than the reduced model that lacks the interaction term. ```anova()``` can compare two specific models as long as one is a reduced version of the other.
+
+```{r eval = TRUE}
+anova(algaeNoInteractModel, algaeFullModel)
+```
+
+<br>
+
+## Test all terms
+
+Most commonly, this is done using either Type III sums of squares (see discussion in the book) or Type I sums of squares (which is the default in R). In the present example the two methods give the same answer, because the design is completely balanced, but this will not generally happen when the design is not balanced.
+
+Here is how to test all model terms using Type III sums of squares. We need to include a ```contrasts``` argument for the two categorical variables in the ```lm()``` command. Then we need to load the ```car``` package and use its ```Anova()``` command. Note that "A" is in upper case in ```Anova()``` - a very subtle but important difference.
+
+```{r eval = TRUE}
+algaeFullModelTypeIII <- lm(sqrtArea ~ height * herbivores, data = algae, 
+	  contrasts = list(height = contr.sum, herbivores = contr.sum))
+Anova(algaeFullModelTypeIII, type = "III") # note "A" in Anova is capitalized
+```
+
+Here is how we test all model terms using "Type I" (sequential) sums of squares. Note that "a" is in lower case in ```anova()```.
+
+```{r eval = TRUE}
+anova(algaeFullModel)
+```
+
+<br>
+
+## Residual plot
+
+This plots the residuals from the full model against the predicted (fitted) values.
+
+```{r eval = TRUE}
+plot( residuals(algaeFullModel) ~ fitted(algaeFullModel) )
+abline(0,0)
+```
+
+<br>
+
+## Normal quantile plot of residuals.
+
+```{r eval = TRUE}
+qqnorm(residuals(algaeFullModel), pch = 16, col = "firebrick", 
+	  las = 1, ylab = "Residuals", xlab = "Normal quantile", main = "")
+```
+
+***
+
+<br>
+
+# Example 18.4 Mole-rat layabouts
+
+***Analyze a factor while adjusting for a covariate**, comparing energy expenditure of two castes of naked mole-rat while adjusting for differences in body mass using **analysis of covariance ANCOVA***.
+
+<br>
+
+## Read and inspect data
+
+```{r eval = TRUE}
+moleRat <- read.csv(url("https://whitlockschluter3e.zoology.ubc.ca/Data/chapter18/chap18e4MoleRatLayabouts.csv"), stringsAsFactors = FALSE)
+head(moleRat)
+```
+
+<br>
+
+## Scatter plot
+
+```{r eval = TRUE}
+ggplot(moleRat, aes(lnMass, lnEnergy, colour = caste, shape = caste)) + 
+    geom_point(size = 3) + 
+    scale_colour_manual(values = c("firebrick", "firebrick")) +
+    scale_shape_manual(values = c(16, 1)) +
+    labs(x = "ln(body mass)", y = "ln(daily energy expenditure)") + 
+    theme_classic()
+```
+
+<br>
+
+## Fit reduced model
+
+Fit models to the data, beginning with the model lacking an interaction term. Use ```lm()``` because caste and mass are fixed effects. Save the predicted values in the data frame.
+
+```{r eval = TRUE}
+moleRatNoInteractModel <- lm(lnEnergy ~ lnMass + caste, data = moleRat)
+moleRat$fit0 <- predict(moleRatNoInteractModel)
+
+ggplot(moleRat, aes(lnMass, lnEnergy, colour = caste, 
+        shape = caste, linetype=caste)) + 
+    geom_line(aes(y = fit0), size = 1, color = "black") +
+    geom_point(size = 3) + 
+    scale_colour_manual(values = c("firebrick", "firebrick")) +
+    scale_shape_manual(values = c(16, 1)) +
+    labs(x = "ln(body mass)", y = "ln(daily energy expenditure)") + 
+    theme_classic()
+```
+
+<br>
+
+## Fit the full model
+
+THe full model includes the interaction term. To visualize, we can save the predcted values in the data frame as above. However, ```geom_smooth(method = "lm", ...)``` will automatically plot the full model. 
+
+```{r eval = TRUE}
+moleRatFullModel <- lm(lnEnergy ~ lnMass * caste, data = moleRat)
+
+ggplot(moleRat, aes(lnMass, lnEnergy, colour = caste, 
+        shape = caste, linetype=caste)) + 
+    geom_smooth(method = "lm", size = 1, se = FALSE, col = "black") +
+    geom_point(size = 3) + 
+    scale_colour_manual(values = c("firebrick", "firebrick")) +
+    scale_shape_manual(values = c(16, 1)) +
+    labs(x = "ln(body mass)", y = "ln(daily energy expenditure)") + 
+    theme_classic()
+```
+
+<br>
+
+## Test improvement in fit
+
+The command below explicitly compares the models with and without the interaction term. The only test conducted is whether the full model, with an interaction term, is a significantly better fit than the reduced model, which does not include the interaction term. 
+
+```{r eval = TRUE}
+anova(moleRatNoInteractModel, moleRatFullModel)
+```
+
+<br>
+
+## Test of different intercepts
+
+We can test for different intercepts if we assume that the regression slopes are equal, i.e., that no interaction term is present. Most commonly this is done using either "Type III" sums of squares (see footnote 5 on p 618 of the book) or "Type I" sums of squares (the default in R). The two methods do not give identical answers here because the design is not balanced (in a balanced design, each value of the x-variable would have the same number of y-observations from each group).
+
+Test using "Type III" sums of squares. We need to include a ```contrasts``` argument for the categorical variable in the ```lm()``` command. Then we use the ```Anova()``` command from the ```car``` package. Note that "A" is in upper case in ```Anova()```.
+
+```{r eval = TRUE}
+moleRatNoInteractModelTypeIII <- lm(lnEnergy ~ lnMass + caste, data = moleRat, 
+    contrasts = list(caste = contr.sum))
+Anova(moleRatNoInteractModelTypeIII, type = "III") # note "A" in Anova is capitalized
+```
+
+Test using "Type I" (sequential) sums of squares. Make sure that the covariate (```lnMass```) comes before the factor (caste) in the ```lm()``` formula, as shown, because we want to test the caste difference after statistically controlling for size. Note that "a" is in lower case in ```anova()```.
+
+```{r eval = TRUE}
+moleRatNoInteractModel <- lm(lnEnergy ~ lnMass + caste, data = moleRat)
+anova(moleRatNoInteractModel)
+```
+
+<br>
+
+## Residual plot
+
+```{r eval = TRUE}
+plot( residuals(moleRatNoInteractModel) ~ fitted(moleRatNoInteractModel) )
+abline(0,0)
+```
+
+<br>
+
+## Normal quantile plot of residuals
+
+```{r eval = TRUE}
+qqnorm(residuals(moleRatNoInteractModel), pch = 16, col = "firebrick", 
+	las = 1, ylab = "Residuals", xlab = "Normal quantile", main = "")
+```

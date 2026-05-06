@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="" />
+
+
+<title>R code for example in Chapter 11:  Inference for a normal population</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-4"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-4');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R code for example in Chapter 11: <br>Inference for a normal population</h1>
+
+</div>
+
+
+<hr />
+<p>We used R to analyze all examples in Chapter 11. We put the code here so that you can too.</p>
+<p><br> Also see our <a href="https://whitlockschluter3e.zoology.ubc.ca/RLabs/R_tutorial_Normal_and_sample_means.html">lab on calculating the confidence interval for the mean using R</a>.</p>
+<p><br></p>
+<div id="load-required-packages" class="section level1">
+<h1>Load required packages</h1>
+<p>We’ll use the <code>ggplot2</code> add on package to make graphs.</p>
+<pre class="r"><code>library(ggplot2)</code></pre>
+<hr />
+<p><br></p>
+</div>
+<div id="new-methods-on-this-page" class="section level1">
+<h1>New methods on this page</h1>
+<ul>
+<li>
+<p>One-sample <span class="math inline">\(t\)</span>-test:</p>
+<pre class="r"><code>t.test(heat$temperature, mu = 98.6)</code></pre>
+<li>
+Other new methods:
+<ul>
+<li>
+Confidence intervals for the variance and the standard deviation.
+</ul>
+</ul>
+<hr />
+<p><br></p>
+</div>
+<div id="example-11.2.-stalk-eyed-flies" class="section level1">
+<h1>Example 11.2. Stalk-eyed flies</h1>
+<p><em><strong>Confidence intervals for the population mean, variance, and standard deviation</strong> using eye span measurements from a sample of stalk-eyed flies</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>stalkie &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter11/chap11e2Stalkies.csv&quot;), stringsAsFactors = FALSE)
+stalkie</code></pre>
+<pre><code>##   individual eyespan
+## 1          1    8.69
+## 2          2    8.15
+## 3          3    9.25
+## 4          4    9.45
+## 5          5    8.96
+## 6          6    8.65
+## 7          7    8.43
+## 8          8    8.79
+## 9          9    8.63</code></pre>
+<p><br></p>
+</div>
+<div id="histogram" class="section level2">
+<h2>Histogram</h2>
+<pre class="r"><code>hist(stalkie$eyespan, right = FALSE, col = &quot;firebrick&quot;, las = 1, 
+    xlab = &quot;Eye span (mm)&quot;, ylab = &quot;Frequency&quot;, main = &quot;&quot;)</code></pre>
+<p><img src="Rcode_Chapter_11_files/figure-html/unnamed-chunk-4-1.png" width="480" /></p>
+<p>or</p>
+<pre class="r"><code>ggplot(stalkie, aes(x = eyespan)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 0.2, 
+        boundary = 0, closed = &quot;left&quot;) + 
+    labs(x = &quot;Eye span (mm)&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_11_files/figure-html/unnamed-chunk-5-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="ci-for-the-mean" class="section level2">
+<h2>95% CI for the mean</h2>
+<p>Appending <code>$conf.int</code> after the function <code>t.test()</code> causes R to give the 95% confidence interval for the mean.</p>
+<pre class="r"><code>t.test(stalkie$eyespan)$conf.int</code></pre>
+<pre><code>## [1] 8.471616 9.083940
+## attr(,&quot;conf.level&quot;)
+## [1] 0.95</code></pre>
+<p><br></p>
+</div>
+<div id="ci-for-the-mean-1" class="section level2">
+<h2>99% CI for the mean</h2>
+<p>Adding the argument <code>conf.level = 0.99</code> changes the confidence level of the confidence interval.</p>
+<pre class="r"><code>t.test(stalkie$eyespan, conf.level = 0.99)$conf.int</code></pre>
+<pre><code>## [1] 8.332292 9.223264
+## attr(,&quot;conf.level&quot;)
+## [1] 0.99</code></pre>
+<p><br></p>
+</div>
+<div id="ci-for-variance" class="section level2">
+<h2>95% CI for variance</h2>
+<p>Strangely, base R has no built-in function for the confidence interval of a variance, so must we compute it using the formula in the book:</p>
+<pre class="r"><code>df &lt;- length(stalkie$eyespan) - 1
+varStalkie &lt;- var(stalkie$eyespan)
+lower = varStalkie * df / qchisq(0.05/2, df, lower.tail = FALSE)
+upper = varStalkie * df / qchisq(1 - 0.05/2, df, lower.tail = FALSE)
+c(lower = lower, variance = varStalkie, upper = upper)</code></pre>
+<pre><code>##      lower   variance      upper 
+## 0.07238029 0.15864444 0.58225336</code></pre>
+<p><br></p>
+</div>
+<div id="ci-for-std-deviation" class="section level2">
+<h2>95% CI for std deviation</h2>
+<p>Take the square root of the confidence limits for the variance.</p>
+<pre class="r"><code>c(lower = sqrt(lower), std.dev = sqrt(varStalkie), upper = sqrt(upper))</code></pre>
+<pre><code>##     lower   std.dev     upper 
+## 0.2690359 0.3983020 0.7630553</code></pre>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="example-11.3.-body-temperature" class="section level1">
+<h1>Example 11.3. Body temperature</h1>
+<p><em>Uses a <strong>one-sample <em>t</em>-test</strong> to compare body temperature in a random sample of people with the “expected” temperature 98.6 °F</em>.</p>
+<p><br></p>
+<div id="read-and-inspect-data-1" class="section level2">
+<h2>Read and inspect data</h2>
+<pre class="r"><code>heat &lt;- read.csv(url(&quot;https://whitlockschluter3e.zoology.ubc.ca/Data/chapter11/chap11e3Temperature.csv&quot;), stringsAsFactors = FALSE)
+head(heat)</code></pre>
+<pre><code>##   individual temperature
+## 1          1        98.4
+## 2          2        98.6
+## 3          3        97.8
+## 4          4        98.8
+## 5          5        97.9
+## 6          6        99.0</code></pre>
+<p><br></p>
+</div>
+<div id="histogram-1" class="section level2">
+<h2>Histogram</h2>
+<pre class="r"><code>hist(heat$temperature, right = FALSE, breaks = seq(97, 100.5, by = 0.5),
+    col = &quot;firebrick&quot;, las = 1, xlab = &quot;Body temperature (°F)&quot;, 
+    ylab = &quot;Frequency&quot;, main = &quot;&quot;)</code></pre>
+<p><img src="Rcode_Chapter_11_files/figure-html/unnamed-chunk-11-1.png" width="480" /></p>
+<p>or</p>
+<pre class="r"><code>ggplot(heat, aes(x = temperature)) + 
+    geom_histogram(fill = &quot;firebrick&quot;, col = &quot;black&quot;, binwidth = 0.5, 
+        boundary = 97, closed = &quot;left&quot;) + 
+    xlim(97, 100.5) +
+    labs(x = &quot;Body temperature (°F)&quot;, y = &quot;Frequency&quot;) + 
+    theme_classic()</code></pre>
+<p><img src="Rcode_Chapter_11_files/figure-html/unnamed-chunk-12-1.png" width="480" /></p>
+<p><br></p>
+</div>
+<div id="one-sample-t-test" class="section level2">
+<h2>One-sample <em>t</em>-test</h2>
+<p>Calculate using the R command <code>t.test()</code>. Use the argument <code>mu =</code> to set the parameter value stated in the null hypothesis.</p>
+<pre class="r"><code>t.test(heat$temperature, mu = 98.6)</code></pre>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  heat$temperature
+## t = -0.56065, df = 24, p-value = 0.5802
+## alternative hypothesis: true mean is not equal to 98.6
+## 95 percent confidence interval:
+##  98.24422 98.80378
+## sample estimates:
+## mean of x 
+##    98.524</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

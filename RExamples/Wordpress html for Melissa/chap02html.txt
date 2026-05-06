@@ -1,0 +1,329 @@
+<h2>Displaying data: R code for Chapter 2 examples</h2>
+<code><!-- TEMPLATE --------------------------------------
+# BOXES BEGIN
+<div style="width:650px; padding:6px; border:2px solid black; bgcolor="#FFFFFF"">
+<h3>New methods on this page</h3>
+Click on a function argument for a short description of its meaning. The variable names are plucked from the examples further below.
+
+# Info with popups
+<b>Topic</b>:
+<code>command([tippy title = "arg1" width = "300" header = "off"] <font color="003399">Description.</font>[/tippy], [tippy title = "arg2" width = "300" header = "off"] <font color="003399">Description.</font>[/tippy], [tippy title="arg3" width = "300" header = "off"] <font color="003399">Description.</font>[/tippy])</code>
+
+<b>Other new methods</b>: 
+etc</div>
+# BOXES END
+
+# BEGIN EXPERT POPUPS
+To see how to produce the xxxxx (Figure xxx) click 
+[tippy title="here" width = "680" header = "off"]
+<pre>
+# Note.
+commands...
+</pre>
+[/tippy].
+# END EXPERT POPUPS
+---------------------------------------------------- --></code>
+
+Download the R code on this page as a single file <a href="../wp-content/rcode/chap02.r">here</a>.
+
+<code><!-- ========================================================================================== --></code>
+<div style="width:650px; padding:6px; border:2px solid black; bgcolor=" #ffffff""="">
+<h3>New methods on this page</h3>
+Click on a function argument for a short description of its meaning. The variable names are plucked from the examples further below.
+
+<b>Read data</b> from a comma-separated (.csv) file into a data frame. R will take columns having only numbers and make them numeric variables in the data frame. Columns having characters will be converted to [tippy title = "factor" width = "300" header = "off"] <font color="003399">A factor is a special variable type in R that keeps track of known categories ("levels") of a categorical variable.</font>[/tippy] variables, rather than to character variables.
+<code>[tippy title = "locustData" width = "300" header = "off"] <font color="003399">The name you choose for the R data frame where the data from the file will be stored.</font>[/tippy] &lt;- read.csv([tippy title = "chap02f1_2locustSerotonin.csv" width = "300" header = "off"] <font color="003399">Name of a data file in comma-separated format. Replace this with the exact phrase <code>file.choose()</code> if instead you want a window to pop up that lets you select the file on your computer by point-and-click.</font>[/tippy])</code>
+
+<b>Inspect data in a data frame</b>. The <code>head</code> function shows the first few lines of the data frame to confirm the data was read properly. The <code>nrow</code> function indicates the number of cases (rows) in the data frame.
+<code>head([tippy title = "locustData" width = "300" header = "off"] <font color="003399">Name of the data frame.</font>[/tippy])</code>
+<code>nrow([tippy title = "locustData" width = "300" header = "off"] <font color="003399">Name of the data frame.</font>[/tippy])</code>
+
+<b>Basic strip chart</b> relating a numeric variable to a categorical variable:
+<code>stripchart([tippy title = "serotoninLevel ~ treatmentTime" width = "300" header = "off"] <font color="003399">The "~" indicates that this is a formula relating a numeric response variable (<code>serotoninLevel</code>) on the y-axis to a categorical explanatory variable (<code>treatmentTime</code>) on the x-axis.</font>[/tippy], [tippy title = "data = locustData" width = "300" header = "off"] <font color="003399">Indicates the name of the data frame containing the two variables.</font>[/tippy], [tippy title="method = "jitter"" width = "300" header = "off"] <font color="003399">Displaces the points a small random amount to reduce overlap.</font>[/tippy],
+&nbsp;&nbsp;&nbsp;&nbsp;[tippy title="vertical = TRUE" width = "300" header = "off"] <font color="003399">For a vertical rather than horizontal plot.</font>[/tippy])</code>
+
+<b>Frequency table or contingency table</b>:
+<code>table([tippy title = "tigerData$activity" width = "300" header = "off"] <font color="003399">The name of the categorical variable being tabulated. For a contingency table, include the names of two categorical variables, separated by comma.</font>[/tippy])</code>
+
+<b>Bar graph</b> for count data:
+<code>barplot([tippy title = "tigerTable" width = "300" header = "off"] <font color="003399">Name of the frequency table or variable being plotted.</font>[/tippy], [tippy title = "ylab = "Frequency"" width = "300" header = "off"] <font color="003399">A label for the vertical axis.</font>[/tippy], [tippy title="cex.names = 0.5" width = "300" header = "off"] <font color="003399">Shrinks the x-axis labels by 50% so that they fit in the window.</font>[/tippy])</code>
+
+<b>Histogram</b> for a numeric variable:
+<code>hist([tippy title = "birdAbundanceData$abundance" width = "300" header = "off"] <font color="003399">The name of the numeric variable.</font>[/tippy], [tippy title = "right = FALSE" width = "300" header = "off"] <font color="003399">This option makes the histogram bins "right-open". This means that abundance value 300 (for example) is counted in the 300-400 bin rather than in the 200-300 bin.</font>[/tippy])</code>
+
+<b>Scatter plot</b> showing association between two numeric variables:
+<code>plot([tippy title = "sonAttractiveness ~ fatherOrnamentation" width = "300" header = "off"] <font color="003399">A formula indicating the name of the variable to be plotted on the vertical axis (named on the left of the "~") and the variable to be plotted on the horizontal axis.</font>[/tippy], [tippy title = "data = guppyFatherSonData" width = "300" header = "off"] <font color="003399">The name of the data frame containing the two variables.</font>[/tippy])</code>
+
+<b>Other new methods</b>:
+Multiple-histogram plot.
+Line plot.
+Load an R package.
+Set the desired ordering of categories of a factor variable in tables and graphs.
+
+</div>
+<code><!-- ========================================================================================== --></code>
+<h3>Figure 2.1-2. <a href="../wp-content/data/chapter02/chap02f1_2locustSerotonin.csv">Locust serotonin</a></h3>
+<em><b>Strip chart</b> of serotonin levels in the central nervous system of desert locusts that were experimentally crowded for 0 (the control group), 1, and 2 hours.</em>
+
+<strong>Read the data and store in data frame</strong> (here named locustData). The following command uses <code>read.csv</code> to grab the data from a file on the internet (on the current web site).
+<pre>locustData &lt;- read.csv(url("http://whitlockschluter.zoology.ubc.ca/wp-content/data/chapter02/chap02f1_2locustSerotonin.csv"))
+</pre>
+<strong>Show the first few lines of the data</strong>, to ensure it read correctly. Determine the number of cases in the data.
+<pre>head(locustData)
+nrow(locustData)
+</pre>
+<strong>Draw a stripchart</strong> (the tilde "~" means that the first argument below is a formula, relating one variable to the other).
+<pre>stripchart(serotoninLevel ~ treatmentTime, data = locustData, method = "jitter", 
+	vertical = TRUE)
+</pre>
+We show [tippy title="here" width = "680" header = "off"]
+<pre># Stripchart with options
+par(bty = "l") # plot x and y axes only, not a complete box
+stripchart(serotoninLevel ~ treatmentTime, data = locustData, vertical = TRUE, 
+	method = "jitter", pch = 16, col = "firebrick", cex = 1.5, las = 1,
+	ylab = "Serotonin (pmoles)", xlab = "Treatment time (hours)",
+	ylim = c(0, max(locustData$serotoninLevel)))
+# The following command calculates the means in each treatment group (time)
+meanSerotonin = tapply(locustData$serotoninLevel, locustData$treatmentTime, mean)
+# "segments" draws draws lines to indicate the means
+segments(x0 = c(1,2,3) - 0.1, y0 = meanSerotonin, x1 = c(1,2,3) + 0.1, 
+	y1 = meanSerotonin, lwd = 2)</pre>
+[/tippy] how to draw a fancier strip chart, closer to that shown in Figure 2.1-2, by including more options.
+
+<hr>
+
+<h3>Figure 2.1-3. <a href="../wp-content/data/chapter02/chap02f1_3EducationSpending.csv">Education spending</a></h3>
+<em>A <b>bar graph</b> of education spending per student in different years in British Columbia.</em>
+
+Read the data into a data frame named <code>educationSpending</code>, and inspect.
+<pre>educationSpending &lt;- read.csv(url("http://whitlockschluter.zoology.ubc.ca/wp-content/data/chapter02/chap02f1_3EducationSpending.csv"))
+head(educationSpending)
+</pre>
+<strong>Draw a bar graph</strong>. The <code>names</code> argument generates numbers between 1998 and 2004 in 1-year increments, to be used as labels along the horizontal axis.
+<pre>barplot(educationSpending$spendingPerStudent, names.arg = educationSpending$year,
+	ylab = "Education spending ($ per student)")
+</pre>
+A slightly fancier bar graph like that in Figure 2.1-3, which includes additional options, is shown [tippy title="here" width = "680" header = "off"]
+<pre># Bar graph with more options
+barplot(educationSpending$spendingPerStudent, names.arg = educationSpending$year, 
+	las = 1, col = "firebrick", ylim = c(0,8000),
+	ylab = "Education spending ($ per student)")
+</pre>
+[/tippy].
+
+<hr>
+
+<h3>Example 2.2A. <a href="../wp-content/data/chapter02/chap02e2aDeathsFromTigers.csv">Deaths from tigers</a></h3>
+<em><b>Frequency table</b> and <b>bar graph</b> showing activities of 88 people at the time they were killed by tigers near Chitwan National Park, Nepal, from 1979 to 2006.</em>
+
+Read the data into data frame named <code>tigerData</code>
+<pre>tigerData &lt;- read.csv(url("http://whitlockschluter.zoology.ubc.ca/wp-content/data/chapter02/chap02e2aDeathsFromTigers.csv"))
+head(tigerData)
+</pre>
+<strong>Generate a frequency table.</strong> The <code>sort</code> function is included to sort the categories by their frequencies.
+<pre>tigerTable &lt;- sort(table(tigerData$activity), decreasing = TRUE)
+tigerTable
+</pre>
+You can arrange the frequency table vertically.
+<pre>data.frame(Frequency = tigerTable)
+</pre>
+Use the <code>addmargins</code> command to include sums in your frequency table.
+<pre>data.frame(Frequency = addmargins(tigerTable))
+</pre>
+<strong>Draw a bar graph</strong>. The additional arguments <code>cex.names = 0.5</code> shrinks the axis labels by 50%, and <code>las = 2</code> flips the labels, so that they all fit in the window.
+<pre>barplot(tigerTable, ylab = "Frequency", cex.names = 0.5, las = 2)
+</pre>
+A slightly fancier bar graph of the data with more options, like that shown in Figure 2.2-1, is shown [tippy title="here" width = "680" header = "off"]
+<pre>oldpar = par(no.readonly = TRUE) # stores a backup copy of current graph settings in "oldpar"
+par(mar = c(8, 4, 4, 2) + 0.1)   # creates more room for labels below the x-axis
+barplot(tigerTable, las = 2, col = "firebrick", cex.names = 0.8, ylim = c(0,50), 
+	xlab = "", ylab = "Frequency (number of people)")
+mtext("Activity", side = 1, line = 7, cex = 0.9) # adds the text under the x-axis
+par(oldpar)  # reverts graph settings back to default
+</pre>
+[/tippy].
+
+<hr>
+
+<h3>Example 2.2B. <a href="../wp-content/data/chapter02/chap02e2bDesertBirdAbundance.csv">Desert bird abundance</a></h3>
+<em><b>Frequency table</b> and <b>histogram</b> illustrating the frequency distribution of bird species abundance at Organ Pipe Cactus National Monument. </em>
+
+Read and inspect the data.
+<pre>birdAbundanceData &lt;- read.csv(url("http://whitlockschluter.zoology.ubc.ca/wp-content/data/chapter02/chap02e2bDesertBirdAbundance.csv"))
+head(birdAbundanceData)
+</pre>
+<strong>Generate a frequency table</strong> of the numeric bird abundance variable. The option <code>right = FALSE</code> ensures that abundance value 300 (for example) is counted in the 300-400 bin rather than in the 200-300 bin.
+<pre>birdAbundanceTable &lt;- table(cut(birdAbundanceData$abundance, 
+	breaks = seq(0,650,by=50), right = FALSE))
+birdAbundanceTable
+</pre>
+The same table oriented vertically and including the sum.
+<pre>data.frame(Frequency = addmargins(birdAbundanceTable))
+</pre>
+<strong>Draw a histogram</strong> of bird abundances.
+<pre>hist(birdAbundanceData$abundance, right = FALSE)
+</pre>
+Commands to draw a histogram with more options, such as Figure 2.2-3, are [tippy title="here" width = "680" header = "off"]
+<pre># Histogram with options
+hist(birdAbundanceData$abundance, right = FALSE, breaks = seq(0,650,by=50),	
+	col = "firebrick", las = 1, xlab = "Abundance (No. individuals)",  
+	ylab = "Frequency (No. species)", main = "")
+</pre>
+[/tippy].
+
+<hr>
+
+<h3>Figure 2.2-5. <a href="../wp-content/data/chapter02/chap02f2_5SalmonBodySize.csv">Salmon body size</a></h3>
+<em><b>Histograms</b> of body mass of 228 female sockeye salmon sampled from Pick Creek in Alaska. The same data are plotted for three different interval widths: 0.1 kg, 0.3 kg, and 0.5 kg.</em>
+
+Read the data into data frame named <code>salmonSizeData</code>
+<pre>salmonSizeData &lt;- read.csv(url("http://whitlockschluter.zoology.ubc.ca/wp-content/data/chapter02/chap02f2_5SalmonBodySize.csv"))
+head(salmonSizeData)
+</pre>
+<strong>Histograms with different bin widths</strong> (0.1, 0.3, and 0.5).
+<pre>hist(salmonSizeData$massKg, right = FALSE, breaks = seq(1,4,by=0.1), col = "firebrick")
+hist(salmonSizeData$massKg, right = FALSE, breaks = seq(1,4,by=0.3), col = "firebrick")
+hist(salmonSizeData$massKg, right = FALSE, breaks = seq(1,4,by=0.5), col = "firebrick")
+</pre>
+
+<hr>
+
+<h3>Example 2.3A. <a href="../wp-content/data/chapter02/chap02e3aBirdMalaria.csv">Bird malaria</a></h3>
+<em><b>Contingency table</b>, <b>grouped bar plot</b>, and <b>mosaic plot</b> showing the association between egg removal treatment and incidence of malaria in female great tits</em>.
+
+Read the data from the data file and inspect.
+<pre>birdMalariaData &lt;- read.csv(url("http://whitlockschluter.zoology.ubc.ca/wp-content/data/chapter02/chap02e3aBirdMalaria.csv"))
+head(birdMalariaData)
+</pre>
+Optional step: <em>Set the desired order of treatment categories in tables and graphs</em>. The <code>factor</code> command allows us to order the levels so that the category "Egg removal" comes before "Control" in tables and graphs (categories are otherwise ordered alphabetically).
+<pre>birdMalariaData$treatment &lt;- factor(birdMalariaData$treatment, 
+	levels= c("Egg removal", "Control"))
+</pre>
+<strong>Create a contingency table</strong>. Use <code>table</code> with the names of two categorical variables as arguments, beginning with the response variable.
+<pre>birdMalariaTable &lt;- table(birdMalariaData$response, birdMalariaData$treatment)
+birdMalariaTable
+</pre>
+<strong>Include row and column sums</strong> in the contingency table.
+<pre>addmargins(birdMalariaTable, margin = c(1,2), FUN = sum, quiet = TRUE)
+</pre>
+<strong>Draw a grouped bar graph</strong> using the contingency table.
+<pre>barplot(as.matrix(birdMalariaTable), beside = TRUE)
+</pre>
+Commands to produce a grouped bar graph with more options are shown [tippy title="here" width = "680" header = "off"]
+<pre># Grouped bar graph with options
+barplot(as.matrix(birdMalariaTable), beside = TRUE, space = c(0.1, 0.3),
+	las = 1, xlab = "Treatment", ylab = "Frequency",
+	col = c("firebrick", "goldenrod1"), legend.text = rownames(birdMalariaTable), 
+	args.legend = list(x = 0.3, y = max(birdMalariaTable), xjust = 0))
+</pre>
+[/tippy].
+
+<strong>Draw a mosaic plot</strong>. The "<code>t</code>" command flips (transposes) the table to ensure that the explanatory variable is along the horizontal axis.
+<pre>mosaicplot( t(birdMalariaTable), col = c("firebrick", "goldenrod1"), 
+	sub = "Treatment", ylab = "Relative frequency", 
+	cex.axis = 1.1, main = "")
+</pre>
+
+<hr>
+
+<h3>Example 2.3B. <a href="../wp-content/data/chapter02/chap02e3bGuppyFatherSonAttractiveness.csv">Guppy father and son comparison</a></h3>
+<em><b>Scatter plot</b> of the relationship between the ornamentation of male guppies and the average attractiveness of their sons</em>.
+
+Read the data from the file.
+<pre>guppyFatherSonData &lt;- read.csv(url("http://whitlockschluter.zoology.ubc.ca/wp-content/data/chapter02/chap02e3bGuppyFatherSonAttractiveness.csv"))
+head(guppyFatherSonData)
+</pre>
+<strong>Draw a scatter plot</strong> using the formula approach (with the "~").
+<pre>plot(sonAttractiveness ~ fatherOrnamentation, data = guppyFatherSonData)
+</pre>
+See [tippy title="here" width = "680" header = "off"]
+<pre># Scatter plot with options
+plot(sonAttractiveness ~ fatherOrnamentation, data = guppyFatherSonData, 
+	las = 1, pch = 16, col = "firebrick", cex = 1.5, bty = "l", 
+	xlab = "Father's ornamentation", ylab = "Son's attractiveness")
+</pre>
+[/tippy] for commands to draw a fancier scatter plot like that in Figure 2.3-3.
+
+<hr>
+
+<h3>Example 2.3C. <a href="../wp-content/data/chapter02/chap02e3cHumanHemoglobinElevation.csv">Human hemoglobin and elevation</a></h3>
+<em><b>Strip chart</b>, <b>box plot</b>, and <b>multiple histograms</b> showing hemoglobin concentration in men living at high altitude in three different parts of the world and in a sea level population (USA)</em>.
+
+Read the data.
+<pre>hemoglobinData &lt;- read.csv(url("http://whitlockschluter.zoology.ubc.ca/wp-content/data/chapter02/chap02e3cHumanHemoglobinElevation.csv"))
+head(hemoglobinData)
+</pre>
+Obtain the sample sizes in each of the four populations
+<pre>table(hemoglobinData$population)
+</pre>
+<b>Draw a strip chart</b> of the hemoglobin data.
+<pre>stripchart(hemoglobin ~ population, data = hemoglobinData, method = "jitter",
+    vertical = TRUE)
+</pre>
+Commands for a fancier strip chart like that shown in Figure 2.3-4 are [tippy title="here" width = "680" header = "off"]
+<pre>par(bty = "l")
+stripchart(hemoglobin ~ population, data = hemoglobinData, 
+	vertical = TRUE, method = "jitter", jitter = 0.2, pch = 1, col = "firebrick",
+	las = 1, xlab = "Male population", ylab = "Hemoglobin concentration (g/dL)")
+</pre>
+[/tippy].
+
+<b>Draw a box plot</b>, relating hemoglobin to population.
+<pre>boxplot(hemoglobin ~ population, data = hemoglobinData)
+</pre>
+A box plot with more options, like that in Figure 2.3-4, is shown here.
+<pre>par(bty = "l")
+boxplot(hemoglobin ~ population, data = hemoglobinData,
+	col = "goldenrod1", boxwex = 0.5, whisklty = 1, outcol = "black", 
+	outcex = 1, outlty = "blank", las = 1, 
+	xlab="Male population", ylab = "Hemoglobin concentration (g/dL)")
+</pre>
+Show the association between hemoglobin and population using the <strong>multiple histograms</strong> approach (Figure 2.3-5). The following commands use the <code>lattice</code> package, which must first be loaded.
+<pre>library(lattice)
+histogram(~ hemoglobin | population, data = hemoglobinData,
+	layout = c(1,4), col = "firebrick", breaks = seq(10,26,by=1))
+</pre>
+[tippy title="Here" width = "680" header = "off"]
+<pre># Multiple histograms using base graphics, plotting them one at a time.
+# The "oma" option adjusts the outer margins of the whole figure
+# The "mar" option tweaks the margins within each of the 4 plots.
+oldpar = par(no.readonly = TRUE) # make backup of default graph settings
+par(mfrow = c(4,1), oma = c(4, 6, 2, 6), mar = c(2, 5, 4, 2))
+hist(hemoglobinData$hemoglobin[hemoglobinData$population == "Andes"],
+	col = "firebrick", las = 1, main = "Andes",  
+	breaks = seq(10,26,by=1), ylab = "Frequency")
+hist(hemoglobinData$hemoglobin[hemoglobinData$population == "Ethiopia"],
+	col = "firebrick", las = 1, main = "Ethiopia",  
+	breaks = seq(10,26,by=1), ylab = "Frequency")
+hist(hemoglobinData$hemoglobin[hemoglobinData$population == "Tibet"],
+	col = "firebrick", las = 1, main = "Tibet",  
+	breaks = seq(10,26,by=1), ylab = "Frequency")
+hist(hemoglobinData$hemoglobin[hemoglobinData$population == "USA"],
+	col = "firebrick", las = 1, main = "USA",  
+	breaks = seq(10,26,by=1), ylab = "Frequency")
+mtext("Hemoglobin concentration (g/dL)", side = 1, outer = TRUE, padj = 1.5)
+par(oldpar) # revert to default graph settings
+</pre>
+[/tippy] we show commands to draw the multiple histograms in basic R, without using the <code>lattice</code> package. This approach is more tedious, but the resulting graphs are often easier to modify.
+
+<hr>
+
+<h3>Example 2.4A. <a href="../wp-content/data/chapter02/chap02e4aMeaslesOutbreaks.csv">Measles outbreaks</a></h3>
+<em><b>Line graph</b> showing confirmed cases of measles in England and Wales from 1995 to 2011. Annual counts are quarterly.</em>
+
+Read the data from file.
+<pre>measlesData &lt;- read.csv(url("http://whitlockschluter.zoology.ubc.ca/wp-content/data/chapter02/chap02e4aMeaslesOutbreaks.csv"))
+head(measlesData)
+</pre>
+<b>Drawing a line graph</b> uses the same command as a scatter plot but adds the <code>type = "l"</code> argument to draw a line graph instead.
+<pre>plot(confirmedCases ~ yearByQuarter, data = measlesData, type="l") 
+</pre>
+Commands to draw a fancier line plot (like that in Figure 2.4-1) are shown [tippy title="here" width = "680" header = "off"]
+<pre># Line plot with options
+plot(confirmedCases ~ yearByQuarter, data = measlesData, 
+	type = "l", las = 1, lwd = 1, bty = "l", xlab = "Year",
+	ylab = "Number of cases", xaxp = c(1995,2012,2012-1995))
+points(confirmedCases ~ yearByQuarter, data = measlesData, pch = 16, 
+	col = "firebrick", cex = 0.7)
+</pre>
+[/tippy].

@@ -1,0 +1,69 @@
+---
+title: "Resources for Chapter 20: <br>Likelihood"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+<br>
+
+# Learn R by example
+
+We used R to analyze all examples in chapter 20. We've put the code [here](RExamples/Rcode_Chapter_20.html) so that you can too.
+
+<br> 
+
+# Data
+
+Download a .zip file with all the data for chapter 20 in .csv format [here](DataZipFiles/chapter20.zip). 
+
+Download a .zip file with all data sets in the book [here](DataZipFiles/Data.zip). 
+
+All data sets and their sources are listed individually below.
+
+Disclaimer: Most data sets used in the book are grabbed from graphs and tables in the original publications, and the values may not be exact. Contact the original authors for the raw data.
+
+<br> 
+
+## Data for examples
+
+[Example 20.3. Unruly passengers](Data/chapter20/chap20e3UnrulyPassengers.csv) 
+
+Fatouros, N. E., et al. 2005. *Nature* 433:704.
+
+[Example 20.4. Conservation scoop](Data/chapter20/chap20e4ConservationScoop.csv) 
+
+Eggert, L. S., et al. 2003. *Molecular Ecology* 12:1389-1402.
+
+<br>
+
+## Data for problem sets
+
+[20.07. Yeast regulatory genes](Data/chapter20/chap20q07YeastRegulatoryGenes.csv) 
+
+Guelzim, N., S. Bottani, P. Bourgine and F. Képès. 2002. *Nature Genetics* 31: 60-63. 
+
+[20.08. Silverswords](Data/chapter20/chap20q08SilverswordWaitingTimes.csv) 
+
+inferred from Baldwin, B. G. and M. J. Sanderson 1998. *Proceedings of the National Academy of Sciences (USA) *95: 9402-9406. 
+
+[20.14. Vole dispersal](Data/chapter20/chap20q14VoleDispersal.csv) 
+
+Sandell, M., J. Agrell, S. Erlinge, and J. Nelson. 1991. *Oecologia* 86: 153-158. 
+
+[20.16. Bee lifespans](Data/chapter20/chap20q16BeeLifespans.csv) 
+
+Visscher, P. K. and R. Dukas. 1997. *Insectes Sociaux* 44: 1-5. 

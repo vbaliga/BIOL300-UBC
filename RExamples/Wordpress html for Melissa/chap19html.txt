@@ -1,0 +1,172 @@
+<h2>Computer-intensive methods: R code for Chapter 19 examples</h2>
+Download the R code on this page as a single file <a href="../wp-content/rcode/chap19.r">here</a>
+<div style="width:650px; padding:6px; border:2px solid black; bgcolor=" #ffffff""="">
+<h3>New methods on this page</h3>
+Click on a function argument for a short description of its meaning. The variable names are plucked from the examples further below.
+
+<b>Calculate a <i>P</i>-value for a χ<sup>2</sup> goodness-of-fit test using simulation</b>:
+<code>chisq.test([tippy title = "observedFreq" width = "300" header = "off"] <font color="003399">A table of observed frequencies.</font>[/tippy], [tippy title = "simulate.p.value = TRUE" width = "300" header = "off"] <font color="003399">Instructs R to use simulation instead of the theoretical χ<sup>2</sup> distribution to approximate the <i>P</i>-value.</font>[/tippy], [tippy title="B = 10000" width = "300" header = "off"] <font color="003399">Number of simulated random samples to use.</font>[/tippy])</code>
+
+<b>Calculate a bootstrap standard error</b>:
+<code>boot([tippy title = "chimp$asymmetryScore" width = "300" header = "off"] <font color="003399">A sample of data for a single variable.</font>[/tippy], [tippy title = "boot.median" width = "300" header = "off"] <font color="003399">Name of a function created by the user to calculate the statistic of interest.</font>[/tippy], [tippy title="R = 10000" width = "300" header = "off"] <font color="003399">Number of bootstrap replicates to use.</font>[/tippy])</code>
+
+<b>Other new methods</b>:
+Bootstrap 95% confidence interval.
+
+</div>
+<h3>Example 19.1 <a href="../wp-content/data/chapter19/chap19e1TwoDigitNumbers.csv">Two-digit “psychic”</a></h3>
+<em><b>Hypothesis testing using simulation</b> to determine whether all two-digit numbers occur with equal probability when people choose two-digit numbers haphazardly</em>.
+
+Read and examine data. Each row is the two-digit number chosen by a different individual.
+<pre>haphazard &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter19/chap19e1TwoDigitNumbers.csv"))
+head(haphazard)
+</pre>
+Plot the frequency distribution of two-digit numbers chosen by volunteers.
+<pre>hist(haphazard$numberSelected, right = FALSE, breaks = seq(10,100, by = 1), 
+	las = 1, col = "firebrick", xlab = "Number thought of by volunteer", 
+	ylim=c(0,50))
+</pre>
+<strong>Frequency table</strong> of the two-digit numbers chosen by volunteers. Notice that many numbers between 0 and 99 are not represented in the data. To make sure that numbers not chosen are nevertheless included in the calculations, we must convert the variable to a factor and specify all possible categories.
+<pre>table(haphazard$numberSelected)
+factorData &lt;- factor(haphazard$numberSelected, levels = 10:99)
+observedFreq &lt;- table(factorData)
+observedFreq
+</pre>
+<strong>Calculate the observed value of the test statistic</strong>. Here, we are using the χ<sup>2</sup> goodness-of-fit statistic. We are lazy and use the <code>chisq.test</code> function to do the calculations. R will give you a warning because of the low expected frequencies. This is exactly why we need to use simulation instead of the χ<sup>2</sup> goodness-of-fit-test.
+<pre>chiData &lt;- chisq.test(observedFreq)$statistic
+chiData
+</pre>
+We'll need to know the sample size (number of rows, in this case) to run the simulation.
+<pre>n &lt;- nrow(haphazard)
+n
+</pre>
+<strong>Simulate a single random sample</strong> of <i>n</i> numbers from 10 to 99 (with replacement), where <i>n</i> is the number of individuals in the sample.
+<pre>randomTwoDigit &lt;- sample(10:99, size = n, replace = TRUE)
+</pre>
+Calculate <strong>the test statistic for this single simulated sample</strong> (χ<sup>2</sup>). Remember to convert to a factor to make sure that all categories are included in the calculations. Under the null hypothesis, the expected frequency is the same for all numbers.
+<pre>randomTwoDigit &lt;- factor(randomTwoDigit, levels = 10:99)
+observedFreq &lt;- table(randomTwoDigit)
+expectedFreq &lt;- n/length(10:99)
+chiSim &lt;- sum( (observedFreq - expectedFreq)^2 / expectedFreq )
+chiSim
+</pre>
+<strong>Repeat this process many times</strong>. The following is a loop repeated <code>nSim</code> times. In each iteration <code>i</code>, a random sample of numbers is simulated, a frequency table is calculated, and the χ<sup>2</sup> statistic is computed. The statistic is saved in the <code>i</code><sup>th</sup> element of the vector <code>results</code>.
+<pre>nSim &lt;- 10000
+results &lt;- vector()
+for(i in 1:nSim){
+	randomTwoDigit &lt;- sample(10:99, size = n, replace = TRUE)
+	randomTwoDigit &lt;- factor(randomTwoDigit, levels = 10:99)
+	simFreq &lt;- table(randomTwoDigit)
+	expectedFreq &lt;- n/length(10:99)
+	results[i] &lt;- sum( (simFreq - expectedFreq)^2 / expectedFreq )
+	}
+</pre>
+Plot the <strong>frequency distribution</strong> of χ<sup>2</sup> values from the simulation. This is the simulated null distribution for the test statistic.
+<pre>hist(results, right = FALSE, breaks = 50)
+</pre>
+<strong>The <i>P</i>-value</strong> is the fraction of similated chisquare values equalling or exceededing the observed value of the test statistic in the data.
+<pre>P &lt;- sum(results &gt;= chiData)
+P
+</pre>
+
+<hr class="short">
+
+R also has a <strong>built-in method</strong> to simulate the null distribution and calculate the <i>P</i>-value. Using it simply involves providing a couple of arguments to the <code>chisq.test</code> function. <code>B</code> is the number of iterations desired. If you don't provide the probabilities of each outcome under the null hypothesis as an argument, R assumes that all the categories are equiprobable under the nuill hypothesis.
+<pre>factorData &lt;- factor(haphazard$numberSelected, levels = 10:99)
+observedFreq &lt;- table(factorData)
+chisq.test(observedFreq, simulate.p.value = TRUE, B = 10000)
+</pre>
+
+<hr>
+
+<h3>Example 19.2 <a href="../wp-content/data/chapter19/chap19e2ChimpBrains.csv">Chimp language centers</a></h3>
+<em><b>Bootstrap estimation of the median</b> asymmetry score for Brodmann’s area 44 in chimpanzees</em>.
+
+Read and examine the data.
+<pre>chimp &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter19/chap19e2ChimpBrains.csv"))
+head(chimp)
+</pre>
+<strong>Histogram</strong> of asymmetry scores of the 20 chimps.
+<pre>hist(chimp$asymmetryScore, breaks = seq(-.5, 1.25, by = 0.25), 
+	right = FALSE, col = "firebrick", las = 1)
+</pre>
+<strong>Estimate the median</strong> asymmetry score from the data.
+<pre>median(chimp$asymmetryScore)
+</pre>
+<strong>Obtain a single bootstrap replicate</strong>. This involves sampling (with replacement) from the actual data. Calculate the median of this bootstrap replicate.
+<pre>bootSample &lt;- sample(chimp$asymmetryScore, size = nrow(chimp), replace = TRUE)
+median(bootSample)
+</pre>
+<strong>Repeat this process many times</strong>. The following is a loop repeated <code>B</code> times. In each iteration, the bootstrap replicate estimate (median) is recalculated and saved in the results vector <code>bootMedian</code>.
+<pre>B &lt;- 10000
+bootMedian &lt;- vector()
+for(i in 1:B){
+	bootSample &lt;- sample(chimp$asymmetryScore, size = nrow(chimp), replace = TRUE)
+	bootMedian[i] &lt;- median(bootSample)
+	}
+</pre>
+Draw a <strong>histogram of the bootstrap replicate estimates</strong> for median asymmetry. Note: your results won't be the identical to the one in Figure 19.2-2, because 10,000 random samples is not large enough to obtain the sampling distribution with extreme accuracy. Increase <code>B</code> in the above loop for greater accuracy.
+<pre>hist(bootMedian, breaks = 100, right = FALSE, col = "firebrick", las = 1)
+</pre>
+Calculate the <strong>mean of the bootstrap replicate estimates</strong>.
+<pre>mean(bootMedian)
+</pre>
+The <strong>bootstrap standard error</strong> is the standard deviation of the bootstrap replicate estimates.
+<pre>sd(bootMedian)
+</pre>
+Use the percentiles of the bootstrap replicate estimates to obtain a <strong>bootstrap 95% confidence interval</strong> for the population median.
+<pre>quantile(bootMedian, probs = c(0.025, 0.975))
+</pre>
+
+<hr class="short">
+
+<b>Use the <code>boot</code> package</b> for bootstrap estimation.
+<pre>library(boot)
+</pre>
+To begin, we need to <strong>define a new R function</strong> to tell the <code>boot</code> package what statistic we want to estimate, which is the median in this example. Let's call the new function <code>boot.median</code>. The syntax required by the package is not too complex, but our function must include a counter as an argument (as usual, we call it <code>i</code>).
+<pre>boot.median &lt;- function(x, i){ median(x[i]) }
+</pre>
+Use the <boot>boot function of the <code>boot</code> package to <strong>obtain many bootstrap replicate estimates</strong> and calculate the bootstrap standard error.</boot>
+<pre>bootResults &lt;- boot(chimp$asymmetryScore, boot.median, R = 10000)
+bootResults
+</pre>
+Draw a <strong>histogram of the bootstrap replicate estimates</strong> for median asymmetry.
+<pre>hist(bootResults$t, breaks = 100, right = FALSE, col = "firebrick", las = 1)
+</pre>
+Get the <strong>bootstrap 95% confidence interval</strong> for the population median. We show two methods. The percentile method is already familiar, but <code>boot</code> also provides an improved method, called "bias corrected and accelerated".
+<pre>boot.ci(bootResults, type = "perc")
+boot.ci(bootResults, type = "bca")
+</pre>
+
+<hr>
+
+<h3>Figure 19.2-3 <a href="../wp-content/data/chapter13/chap13e5SagebrushCrickets.csv">Sexual cannibalism in crickets revisited</a></h3>
+<em><b>Bootstrap estimation of the difference between medians of two groups</b>, using times to mating (in hours) of female sagebrush crickets that were either starved or fed (data from Example 13.5). We show the method <b>using R's <code>boot</code> package</b></em>.
+
+Read and inspect the data.
+<pre>cannibalism &lt;- read.csv(url("http://www.zoology.ubc.ca/~schluter/WhitlockSchluter/wp-content/data/chapter13/chap13e5SagebrushCrickets.csv"))
+head(cannibalism)
+</pre>
+Calculate the <strong>observed difference</strong> between the sample medians of the two groups.
+<pre>twoMedians &lt;- tapply(cannibalism$timeToMating, cannibalism$feedingStatus, median)
+diffMedian &lt;- twoMedians[2] -  twoMedians[1]
+diffMedian
+</pre>
+<strong>Define a new function</strong> to calculate the difference between the medians of the bootstrap replicate estimates. Let's call it <code>boot.diffMedian</code>.
+<pre>boot.diffMedian &lt;- function(x, i){
+	twoMedians &lt;- tapply(x$timeToMating[i], x$feedingStatus[i], median)
+	diffMedian &lt;- twoMedians[2] -  twoMedians[1]
+	}
+</pre>
+Load the <code>boot</code> package, <strong>obtain the many bootstrap replicate estimates</strong> and <strong>get the bootstrap standard error</strong>.
+<pre>library(boot)
+bootResults &lt;- boot(cannibalism, boot.diffMedian, R = 10000)
+bootResults
+</pre>
+<strong>Histogram of the bootstrap replicate estimates</strong> of the difference between two medians (Figure 19.2-3).
+<pre>hist(bootResults$t, breaks = 20, right = FALSE, col = "firebrick", las = 1)
+</pre>
+Obtain the <strong>bootstrap 95% confidence interval</strong> for the difference between the population medians, using the percentile and the "bca" method.
+<pre>boot.ci(bootResults, type = "perc")
+boot.ci(bootResults, type = "bca")
+</pre>

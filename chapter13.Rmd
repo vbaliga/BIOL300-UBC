@@ -1,0 +1,151 @@
+---
+title: "Resources for Chapter 13: <br>Handling violations of assumptions"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+    includes:
+      before_body: header_image.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+***
+
+<br>
+
+# R lab
+
+A lab on how to carry out analyses in R related to this topic is available [here](RLabs/R_tutorial_Comparing_means_of_2_groups.html).
+
+<br>
+
+# Learn R by example
+
+We used R to analyze all examples in chapter 13. We've put the code [here](RExamples/Rcode_Chapter_13.html) so that you can too.
+
+<br> 
+
+# Data
+
+Download a .zip file with all the data for chapter 13 in .csv format [here](DataZipFiles/chapter13.zip). 
+
+Download a .zip file with all data sets in the book [here](DataZipFiles/Data.zip). 
+
+All data sets and their sources are listed individually below.
+
+Disclaimer: Most data sets used in the book are grabbed from graphs and tables in the original publications, and the values may not be exact. Contact the original authors for the raw data.
+
+<br> 
+
+## Data for examples
+
+[Example 13.1. Marine reserves](Data/chapter13/chap13e1MarineReserve.csv) 
+
+Halpern, B. S. 2003. *Ecological Applications* 13: S117-S137.  
+
+[Example 13.4. Sexual conflict and species](Data/chapter13/chap13e4SexualConflict.csv) 
+
+Arnqvist, G., M. Edvardsson, U. Friberg, and T. Nilsson. 2000.  *Proceedings of the National Academy of Sciences (USA)* 97: 10460-10464. 
+
+[Example 13.5. Sexual cannibalism](Data/chapter13/chap13e5SagebrushCrickets.csv) 
+
+Chadwick Johnson, J., T. M. Ivy, and S. K. Sakaluk. 1999. *Behavioral Ecology* 10: 227-233. 
+
+<br>
+
+## Data for problem sets
+
+[01. Country health expenditure](Data/chapter13/chap13q01CountryHealthExpenditure.csv) 
+
+The World Bank. 2013. Health expenditure per capita (current US$). [http://data.worldbank.org/indicator/SH.XPD.PCAP/](http://data.worldbank.org/indicator/SH.XPD.PCAP/), accessed March 12, 2013.
+
+[02. Goldeneye parasitism](Data/chapter13/chap13q02GoldeneyeParasitism.csv) 
+
+Andersson, M., and M. Ählund.  2012. *The American Naturalist* 180: 354-363.
+
+[03. Recycling](Data/chapter13/chap13q03Recycling.csv) 
+
+Catlin, J. R., and Y. Wang. 2012. *Journal of Consumer Psychology* 23:122-127.
+
+[07. Lion infanticide](Data/chapter13/chap13q07Lions.csv) 
+
+Packer, C., and A. E. Pusey. 1983. *The American Naturalist* 121: 716-728.
+
+[08. Newt resistance](Data/chapter13/chap13q08Newts.csv) 
+
+Geffeney, S., E. D. Brodie, Jr., P. C. Ruben, and E. D. Brodie III. 2002. *Science* 297: 1336-1339. 
+
+[12. Worm sperm](Data/chapter13/chap13q12WormSperm.csv) 
+
+LaMunyon, C. W., and S. Ward. 1998. *Proceedings of the Royal Society of London, Series B, Biological Sciences* 265: 1997-2002. 
+
+[13. Dioecy and species](Data/chapter13/chap13q13Dioecy.csv) 
+
+Heilbuth, J. C. 2000. *The American Naturalist *156: 221-241. 
+
+[14. Mosquitoes](Data/chapter13/chap13q14Mosquitoes.csv) 
+
+Lounibos, L. P., N. Nishimura, J. Conn, and R. Lourenco-de-Oliveira. 1995. *Memorias do Instituto Oswaldo Cruz* 90: 769-774. 
+
+[15. Beetles and angiosperms](Data/chapter13/chap13q15BeetleAngiosperms.csv) 
+
+Farrell, B. D. 1998. *Science* 281: 555-559.
+
+[17. Zebra finches](Data/chapter13/chap13q17ZebraFinches.csv) 
+
+McGraw, K. J., and D. R. Ardia. 2003.  *The American Naturalist* 162: 704-712. 
+
+[18. Sex partners](Data/chapter13/chap13q18SportsVsBiology.csv) 
+
+Faurie, C., D. Pontierb, and M. Raymond. 2004. *Evolution and Human Behavior* 25: 1-8. 
+
+[19. Salmon color](Data/chapter13/chap13q19SalmonColor.csv) 
+
+Craig, J. K., and C. Foote. 2001. *Evolution* 55: 380-391. 
+
+[20. Stress and mates](Data/chapter13/chap13q20StressAndIncompatibleMates.csv) 
+
+Griffith, S. C., S. R. Pryke, and W. A. Buttemer. 2011 *Proceedings of the Royal Society, London, Series B*  278:2798-2805.
+
+[24. Clearcuts](Data/chapter13/chap13q24Clearcuts.csv)
+
+Laurance, W. F., et al. 1997. *Science* 278: 1117-1118. 
+
+[25. Zebra finch beaks](Data/chapter13/chap13q25ZebraFinchBeaks.csv)
+
+Blount, J. B., et al. 2003. *Science* 300: 125-127. 
+
+[26. Vuvuzela](Data/chapter13/chap13q26Vuvuzela.csv) 
+
+Lai, K.-M., C. Bottomley, and R. McNerney. 2011. *PLoS ONE* 6: e20086.
+
+[27. Pseudoscorpions](Data/chapter13/chap19q27Pseudoscorpions.csv) 
+
+Newcomer, S. D., J. A. Zeh, and D. W. Zeh. 1999. *Proceedings of the National Academy of Sciences (USA)* 96: 10236-10241.
+
+[28. Army ants and silverfish](Data/chapter13/chap13q28ArmyAntSilverfish.csv) 
+
+von Beeren et al. 2011. *BMC Ecology* 11:30
+
+[29. *Wolbachia*, mosquitoes, and dengue](Data/chapter13/chap13q29WolbachiaAndDengue.csv) 
+
+Bian et al. 2010. *PLoS Pathogens* 6:e1000833
+
+[31. Gut flora and disease](Data/chapter13/chap13q31GutFloraAutoimmune.csv) 
+
+Berer et al. 2011. *Nature* 479: 538-541.
+
+[32. Milky Way beetles](Data/chapter13/chap13q32milkyWayBeetles20.csv) 
+
+Foster, J. J., et al. 2017. *Philosophical Transactions of the Royal Society B: Biological Sciences* 372: 20160079.
+
+[33. HIV mutations](Data/chapter13/chap13q33HIVMutations.csv) 
+
+Theys, K., et al. 2018. *PLoS Genetics* 14(6): e1007420.

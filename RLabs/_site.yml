@@ -1,0 +1,62 @@
+name: "R tutorials for Whitlock and Schluter"
+navbar:
+  title: <em>The Analysis of Biological Data</em> by Whitlock and Schluter
+  left:
+
+    - text: "Home"
+      href: ../index.html
+    - text: "About these labs"
+      href: index.html
+    - text: "Available resources"
+      menu:
+        - text: "Web visualizations"
+          href: https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm
+        - text: "R labs"
+          href: ../RLabs/index.html
+        - text: "Learn R by example"
+          href: ../RExamples/index.html
+        - text: "Data"
+          href: ../index.html#Data
+        - text: "Resources by chapter"
+          href: ../index.html#Data      
+
+    - text: "R labs"      
+      menu:
+        - text: "0. Loading R and RSstudio"
+          href: R_tutorial_Loading_R_and_RStudio.html
+        - text: "1. Intro to R, Part 1"
+          href: R_tutorial_Intro_to_R_1.html
+        - text: "2. Intro to R, Part 2"
+          href: R_tutorial_Intro_to_R_2.html
+        - text: "3. Graphics"
+          href: R_tutorial_Graphics.html
+        - text: "4a. Making data files for R"
+          href: R_tutorial_Making_data_files.html
+        - text: "4b. Sampling"
+          href: R_tutorial_Sampling.html
+        - text: "5. Describing data"
+          href: R_tutorial_Describing_data.html
+        - text: "6. Frequency data"
+          href: R_tutorial_Frequency_data.html
+        - text: "7. Contingency analysis"
+          href: R_tutorial_Contingency_analysis.html
+        - text: "8. Normal distribution and sample means"
+          href: R_tutorial_Normal_and_sample_means.html
+        - text: "9. Comparing the means of two groups"
+          href: R_tutorial_Comparing_means_of_2_groups.html
+        - text: "10. ANOVA"
+          href: R_tutorial_ANOVA.html
+        - text: "11. Correlation and regression"
+          href: R_tutorial_Correlation_Regression.html
+        
+   
+output_dir: "."
+output:
+  html_document:
+    theme: yeti
+    highlight: textmate
+    includes:
+      in_header: header.html
+      before_body: header_image.html
+    css: ws.css
+   

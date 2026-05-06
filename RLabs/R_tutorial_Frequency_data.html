@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="" />
+
+
+<title>Labs using R:  6. Frequency data</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-3"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-66493174-3');
+</script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 45px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h2 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h3 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h4 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h5 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.section h6 {
+  padding-top: 50px;
+  margin-top: -50px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"><em>The Analysis of Biological Data</em> by Whitlock and Schluter</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="../index.html">Home</a>
+</li>
+<li>
+  <a href="index.html">About these labs</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Available resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="https://www.zoology.ubc.ca/~whitlock/Kingfisher/KFhomepage.htm">Web visualizations</a>
+    </li>
+    <li>
+      <a href="../RLabs/index.html">R labs</a>
+    </li>
+    <li>
+      <a href="../RExamples/index.html">Learn R by example</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Data</a>
+    </li>
+    <li>
+      <a href="../index.html#Data">Resources by chapter</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R_tutorial_Loading_R_and_RStudio.html">0. Loading R and RSstudio</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Intro_to_R_1.html">1. Intro to R, Part 1</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Intro_to_R_2.html">2. Intro to R, Part 2</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Graphics.html">3. Graphics</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Making_data_files.html">4a. Making data files for R</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Sampling.html">4b. Sampling</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Describing_data.html">5. Describing data</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Frequency_data.html">6. Frequency data</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Contingency_analysis.html">7. Contingency analysis</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Normal_and_sample_means.html">8. Normal distribution and sample means</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Comparing_means_of_2_groups.html">9. Comparing the means of two groups</a>
+    </li>
+    <li>
+      <a href="R_tutorial_ANOVA.html">10. ANOVA</a>
+    </li>
+    <li>
+      <a href="R_tutorial_Correlation_Regression.html">11. Correlation and regression</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+<img src="beetles-only.jpg">
+<script>
+  $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore"><em>Labs using R</em>: <br>6. Frequency data</h1>
+
+</div>
+
+
+<p><em>This lab is part of a series designed to accompany a course using </em>The Analysis of Biological Data<em>. The rest of the labs can be found <a href="index.html">here</a>. This lab is based on topics in Chapters 7 and 8 of ABD.</em></p>
+<p><br></p>
+<div id="learning-outcomes" class="section level1">
+<h1>Learning outcomes</h1>
+<ul>
+<li><p>Calculate a confidence interval for a proportion</p></li>
+<li><p>Make a hypothesis test about proportions.</p></li>
+<li><p>Fit frequency data to a model.</p></li>
+<li><p>Test for a fit to a Poisson distribution.</p></li>
+</ul>
+<p><br></p>
+<p>If you have not already done so, download <a href="ABDLabs.zip">the zip file containing Data, R scripts, and other resources for these labs</a>. Remember to start RStudio from the “ABDLabs.Rproj” file in that folder to make these exercises work more seamlessly.</p>
+<hr />
+<p><br></p>
+</div>
+<div id="learning-the-tools" class="section level1">
+<h1>Learning the tools</h1>
+<p><br></p>
+<div id="confidence-interval-for-a-proportion" class="section level2">
+<h2>Confidence interval for a proportion</h2>
+<p>To calculate a confidence interval for an estimate of a proportion, we suggest using the Agresti-Coull method. This method is available in the R package “<strong>binom</strong>”, which you can install and load with the following:</p>
+<pre class="r"><code>install.packages(&quot;binom&quot;, dependencies = TRUE)</code></pre>
+<pre class="r"><code>library(binom)</code></pre>
+<p>Like any package, you only need to install it once, but you need to run the library command in each session before you can use it.</p>
+<p>Once the package is installed, calculating a confidence interval for a proportion is fairly straightforward. The function you need is called <strong>binom.confint()</strong>. You need to specify:</p>
+<p><strong>x</strong>: the number of successes</p>
+<p><strong>n</strong>: the total sample size</p>
+<p><strong>method</strong>: “ac” for Agresti-Coull</p>
+<p>For example, if we have 87 data points and 30 of them are “successes”, we can find the 95% confidence interval for the proportion of successes with the following command.</p>
+<pre class="r"><code>binom.confint(x = 30, n = 87, method = &quot;ac&quot;)</code></pre>
+<pre><code>##          method  x  n      mean     lower     upper
+## 1 agresti-coull 30 87 0.3448276 0.2532164 0.4495625</code></pre>
+<p>This tells us that the observed proportion (called “<strong>mean</strong>” here) is 0.3448, and the lower and upper bounds of the 95% confidence interval are 0.2532 and 0.4496.</p>
+<p><br></p>
+</div>
+<div id="binomial-tests" class="section level2">
+<h2>Binomial tests</h2>
+<p>Doing a binomial test in R is much easier than doing one by hand.</p>
+<p><br></p>
+<div id="binom.test" class="section level3">
+<h3>binom.test()</h3>
+<p>The function <strong>binom.test()</strong> will do an exact binomial test. It requires three pieces of information in the input: <strong>x</strong> for the number of “successes” observed in the data, <strong>n</strong> for the total number of data points, and <strong>p</strong> for the proportion given by the null hypothesis.</p>
+<p>For example, if we have 18 toads that have been measured for a left-right preference and 14 are right-handed, we can test the null hypothesis of equal probabilities of left- and right-handedness with a binomial test. (See Example 6.2 in the text.) In this case, <strong>x</strong> = 14, <strong>n</strong> = 18, and <strong>p</strong> = 0.5.</p>
+<pre class="r"><code>binom.test(x = 14, n = 18, p = 0.5)</code></pre>
+<pre><code>## 
+##  Exact binomial test
+## 
+## data:  14 and 18
+## number of successes = 14, number of trials = 18, p-value = 0.03088
+## alternative hypothesis: true probability of success is not equal to 0.5
+## 95 percent confidence interval:
+##  0.5236272 0.9359080
+## sample estimates:
+## probability of success 
+##              0.7777778</code></pre>
+<p>In this case, the output of the function gives quite a bit of information. One key element that we will be looking for is the <em>P</em>-value; in this case R tells us that the <em>P</em>-value is 0.03088. This is the <em>P</em>-value that corresponds to a two-tailed test.</p>
+<p>The <strong>binom.test()</strong> function also gives an estimate of the proportion of successes (in this case 0.7777778). (It also gives an approximate 95% confidence interval for the proportion using a different method than the Agresti-Coull method that we recommend.)</p>
+<p><br></p>
+</div>
+</div>
+<div id="goodness-of-fit-test" class="section level2">
+<h2>Goodness of fit test</h2>
+<p>A <span class="math inline">\(\chi\)</span><sup>2</sup> goodness-of-fit test compares the frequencies of values of a categorical variable to the frequencies predicted by a null hypothesis. For example, the file “MandMlist.csv” contains a list of all the colors of M&amp;M candies from one package, under the variable “color”. Let’s ask whether this fits the proportions of colors advertised by the candy company.</p>
+<pre class="r"><code>MMlist &lt;- read.csv(&quot;DataForLabs/MandMlist.csv&quot;, stringsAsFactors = TRUE)</code></pre>
+<p><strong>MMlist$color</strong> contains the color of each of 55 M&amp;Ms.</p>
+<p><br></p>
+<div id="table" class="section level3">
+<h3>table()</h3>
+<p>Summarizing frequency data in a table is useful to see the data more concisely, and such a table is also necessary as input to the <span class="math inline">\(\chi\)</span><sup>2</sup> test function. We can summarize the counts (frequencies) of a categorical variable with <strong>table()</strong>.</p>
+<pre class="r"><code>MMtable &lt;- table(MMlist$color)
+
+MMtable</code></pre>
+<pre><code>## 
+##   blue  brown  green orange    red yellow 
+##     10      5     12     11      6     11</code></pre>
+<p>This shows that in this list of M&amp;M colors, 10 were blue, 5 were brown, etc.</p>
+<p><br></p>
+</div>
+<div id="chisq.test" class="section level3">
+<h3>chisq.test()</h3>
+<p>We can use a <span class="math inline">\(\chi\)</span><sup>2</sup> goodness-of-fit test to compare the frequencies in a set of data to a null hypothesis that specifies the probabilities of each category. In R, this can be calculated using the function <strong>chisq.test()</strong>.</p>
+<p>The company says that the percentages are 24% blue, 14% brown, 16% green, 20% orange, 13% red and 13% yellow. This is our null hypothesis. Let’s test whether these proportions are consistent with the frequencies of the colors in this bag. R wants the proportions expected by the null hypothesis in a vector, like this:</p>
+<pre class="r"><code>expected_proportions &lt;- c(0.24, 0.14, 0.16, 0.20, 0.13, 0.13)</code></pre>
+<p>Notice that R wants you to input the expected proportions, which it will use to calculate the expected frequencies.</p>
+<p>The first thing we need to do is check whether the expected frequencies (expected by the null hypothesis) are large enough to justify using a <span class="math inline">\(\chi\)</span><sup>2</sup> goodness of fit test. (In other words, that no more than 25% of the expected frequencies are less than 5 and none is less than 1.)</p>
+<p>To obtain these expected counts, multiply the vector of the expected proportions by the total sample size. We can find the total sample size by taking the <strong>sum()</strong> of the frequency table:</p>
+<pre class="r"><code>sum(MMtable)</code></pre>
+<pre><code>## [1] 55</code></pre>
+<p>So for this example, the expected frequencies from our null hypothesis are 55 times the list of expected proportions:</p>
+<pre class="r"><code>55 * expected_proportions</code></pre>
+<pre><code>## [1] 13.20  7.70  8.80 11.00  7.15  7.15</code></pre>
+<p>All of these expected values are greater than 5, so we have no problem with the assumptions of the <span class="math inline">\(\chi\)</span><sup>2</sup> goodness of fit test. (If there were a problem here, we’d have to combine categories. We’ll see an example of that in the next section.)</p>
+<p>The function <strong>chisq.test()</strong> requires two arguments in its input: a frequency table from the data and a vector with the expected proportions from the null hypothesis. The name of the vector of expected proportions in this function is <strong>p</strong>. So here is the format of the R command to do a <span class="math inline">\(\chi\)</span><sup>2</sup> test:</p>
+<pre class="r"><code>chisq.test(MMtable, p = expected_proportions)</code></pre>
+<pre><code>## 
+##  Chi-squared test for given probabilities
+## 
+## data:  MMtable
+## X-squared = 5.1442, df = 5, p-value = 0.3985</code></pre>
+<p>“X–squared” here in the output means <span class="math inline">\(\chi\)</span><sup>2</sup>. The <span class="math inline">\(\chi\)</span><sup>2</sup> value for this test is 5.1442. There are 5 degrees of freedom (df) for this test, and the <em>P</em>-value turned out to be 0.3985. We wouldn’t reject the null hypothesis with these data.</p>
+<p><br></p>
+</div>
+</div>
+<div id="fit-to-a-poisson-distribution" class="section level2">
+<h2>Fit to a Poisson distribution</h2>
+<p>A <span class="math inline">\(\chi\)</span><sup>2</sup> goodness of fit test can be used to ask whether a frequency distribution of a variable is consistent with a Poisson distribution. This is a useful way to determine if events in space or time are not “random” but instead are clumped or dispersed.</p>
+<p>It turns out that this is not a straightforward process in R. In this section, we’ll highlight a couple of functions in R that will streamline doing the calculations by hand. We’ll use the data on the numbers of extinctions per prehistoric time period described in Example 8.4 in the Whitlock and Schluter textbook.</p>
+<pre class="r"><code>extinctData &lt;- read.csv(&quot;DataForLabs/MassExtinctions.csv&quot;, stringsAsFactors = TRUE)
+
+number_of_extinctions &lt;- extinctData$numberOfExtinctions
+
+table(number_of_extinctions)</code></pre>
+<pre><code>## number_of_extinctions
+##  1  2  3  4  5  6  7  8  9 10 11 14 16 20 
+## 13 15 16  7 10  4  2  1  2  1  1  1  2  1</code></pre>
+<p>The first row lists each possible number of extinctions in a time period, ranging from 1 to 20. The second row shows the number of time periods that had each number of extinctions. (so there were 13 time periods with one extinction, 15 time periods with 2 extinctions, etc.)</p>
+<p>The mean number of extinctions per unit of time is not specified by the null hypothesis, so we need to estimate it from the data. This mean turns out to be 4.21 extinctions per time period.</p>
+<pre class="r"><code>mean(number_of_extinctions)</code></pre>
+<pre><code>## [1] 4.210526</code></pre>
+<p>We can use this mean to calculate the probability according to a Poisson distribution of getting each specific number of extinctions.</p>
+<p><br></p>
+<div id="dpois" class="section level3">
+<h3>dpois()</h3>
+<p>Fortunately, R has a function to calculate the probability of a given value under the Poisson distribution. This function is <strong>dpois()</strong>, which stands for “density of the Poisson”. <strong>dpois()</strong> requires two values for input, the mean (which is called <strong>lambda</strong> in this function) and <strong>x</strong>, the value of the outcome we are interested in (here, the number of extinctions). For example, the probability of getting <em>x</em> = 3 from a Poisson distribution with mean 4.21 can be found from the following:</p>
+<pre class="r"><code>dpois(x = 3, lambda = 4.21)</code></pre>
+<pre><code>## [1] 0.1846355</code></pre>
+<p>The probability of getting exactly 3 successes from a Poisson distribution with mean 4.21 is about 18.5%.</p>
+<p><strong>dpois()</strong> will accept a vector of <em>x</em>’s as input, and return a vector of the probabilities of those <em>x</em>’s. A convenient short hand to know here is that R will create a vector with a range of values with a colon. For example, 0:20 is a vector with the integers from 0 to 20.</p>
+<pre class="r"><code>0:20</code></pre>
+<pre><code>##  [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20</code></pre>
+<p>We’ll need the probabilities for all possible values of <em>x</em> from 0 to 20 (because this was the largest value observed in the data). We can create a vector with the Poisson probabilities of each possibility from 0 to 20 like this:</p>
+<pre class="r"><code>expected_probability &lt;- dpois(x = 0:20, lambda = 4.21)
+
+expected_probability</code></pre>
+<pre><code>##  [1] 1.484637e-02 6.250321e-02 1.315693e-01 1.846355e-01 1.943289e-01
+##  [6] 1.636249e-01 1.148102e-01 6.905011e-02 3.633762e-02 1.699793e-02
+## [11] 7.156129e-03 2.738846e-03 9.608784e-04 3.111768e-04 9.357530e-05
+## [16] 2.626347e-05 6.910575e-06 1.711384e-06 4.002736e-07 8.869220e-08
+## [21] 1.866971e-08</code></pre>
+<p>The odd notation here is a shorthand for scientific notation. 1.48e-02 means 1.48 x 10<sup>-2</sup>. The e stands for exponent.</p>
+<p>Remember that we asked R to output the probability of values from 0 to 20. So the first value in this output corresponds to the probability of getting a zero, the second to the probability of getting a 1, etc.</p>
+<p>In order to convert these probabilities into expected values for a <span class="math inline">\(\chi\)</span><sup>2</sup> test, we need to multiply them by the total sample size.</p>
+<pre class="r"><code>length(number_of_extinctions) * expected_probability</code></pre>
+<pre><code>##  [1] 1.128324e+00 4.750244e+00 9.999264e+00 1.403230e+01 1.476900e+01
+##  [6] 1.243549e+01 8.725572e+00 5.247808e+00 2.761659e+00 1.291843e+00
+## [11] 5.438658e-01 2.081523e-01 7.302676e-02 2.364943e-02 7.111723e-03
+## [16] 1.996023e-03 5.252037e-04 1.300651e-04 3.042079e-05 6.740607e-06
+## [21] 1.418898e-06</code></pre>
+<p>Most of these values would cause problems for the <span class="math inline">\(\chi\)</span><sup>2</sup> test because they are too small (less than 1). We need to combine categories in some reasonable way so that the expected frequencies match the assumptions of the <span class="math inline">\(\chi\)</span><sup>2</sup> test. Let’s combine the categories for 0 and 1 successes, and combine everything greater than or equal to 8 into one category. It is possible to do this all in R, but you can also do it by hand, using the expected frequencies we just calculated. Here is a table of the expected frequencies for these new combined categories, for both the observed and expected, summing over all the possibilities within each of these groupings. (E.g., the expected frequency for the category “0 or 1” is the sum of 1.128324 and 4.750244.)</p>
+<table>
+<thead>
+<tr class="header">
+<th>Number of extinctions</th>
+<th>Expected</th>
+<th>Observed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0 or 1</td>
+<td>5.878568</td>
+<td>13</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>9.999264</td>
+<td>15</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>14.032300</td>
+<td>16</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>14.768996</td>
+<td>7</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>12.435494</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>8.725572</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>5.247808</td>
+<td>2</td>
+</tr>
+<tr class="even">
+<td>8 or more</td>
+<td>4.911998</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+<p>Note that these expected values are large enough to match the conditions of the <span class="math inline">\(\chi\)</span><sup>2</sup> test.</p>
+<p>Make vectors (using <strong>c()</strong>) for the observed and expected values for these new groups:</p>
+<pre class="r"><code>expected_combined &lt;- c(5.878568, 9.999264, 14.032300, 14.768996, 12.435494,  8.725572, 5.247808, 4.911998)
+
+observed_combined &lt;- c(13, 15, 16, 7, 10, 4, 2, 9)</code></pre>
+<p>From these we can calculate the <span class="math inline">\(\chi\)</span><sup>2</sup> test statistic using <strong>chisq.test()$statistic</strong>.</p>
+<p>We give it first the list of observed values, then the expected values as <strong>p</strong>. Because we are giving the list of expected frequencies rather the expected probabilities, we need to give it the option <strong>rescale.p = TRUE</strong>. Finally, by adding <strong>$statistic</strong> at the end, R will only give us the <span class="math inline">\(\chi\)</span><sup>2</sup> value as output. (We don’t yet want the full results of the test because R does not know to correct for the reduction in degrees of freedom caused by estimating the mean.)</p>
+<pre class="r"><code>chisq.test(observed_combined, p = expected_combined, rescale.p = TRUE)$statistic</code></pre>
+<pre><code>## Warning in chisq.test(observed_combined, p = expected_combined, rescale.p =
+## TRUE): Chi-squared approximation may be incorrect</code></pre>
+<pre><code>## X-squared 
+##  23.93919</code></pre>
+<p>This correctly calculates our <span class="math inline">\(\chi\)</span><sup>2</sup> value as 23.939. The warning message in red is because one of the expected values is under 5, but because this occurred in less than 20% of the categories, it is fine to proceed.</p>
+<p>The degrees of freedom for this test are the number of categories minus the number of parameters estimated from the data minus one. We ended up using 8 categories and estimated one parameter from the data, so we have df = 8 – 1 – 1 = 6.</p>
+<p><br></p>
+</div>
+<div id="pchisq" class="section level3">
+<h3>pchisq()</h3>
+<p>To calculate the correct <em>P</em>-value, we need to know probability of getting a <span class="math inline">\(\chi\)</span><sup>2</sup> value greater than 23.939 from a distribution that has 6 degrees of freedom. R has a function we can use for this, called <strong>pchisq()</strong>. We are interested here in the probability above the observed <span class="math inline">\(\chi\)</span><sup>2</sup> value, so we want the probability in the right (or upper) tail. To use this function, we need to specify three values: our observed <span class="math inline">\(\chi\)</span><sup>2</sup> (confusingly called <strong>q</strong> in this function), the degrees of freedom (called <strong>df</strong>, thank goodness), and an option that tells us to use the upper tail (<strong>lower.tail = FALSE</strong>).</p>
+<pre class="r"><code>pchisq(q = 23.939, df = 6, lower.tail = FALSE)</code></pre>
+<pre><code>## [1] 0.0005359236</code></pre>
+<p>Thus, our <em>P-</em>value for this test of the fit of these data to a Poisson distribution is approximately 0.0005. We reject the null hypothesis that these extinction data follow a Poisson distribution.</p>
+<p><br></p>
+</div>
+</div>
+</div>
+<div id="r-commands-summary" class="section level1">
+<h1>R commands summary</h1>
+<p><img src="formula_summaries/Frequency%20data%20summary.png" /></p>
+<hr />
+<p><br></p>
+</div>
+<div id="activities" class="section level1">
+<h1>Activities</h1>
+<p><br></p>
+<div id="the-binomial-distribution" class="section level2">
+<h2>The binomial distribution</h2>
+<p>This is a simple, quick exercise meant to help you visualize the meaning of a binomial distribution. The binomial distribution applies to cases where we do a set number of random trials, and in each trial there is an equal and independent probability of a success. Let’s say there are <em>n</em> trials and the probability of success is <em>p</em>. Of those <em>n</em> trials, anywhere between 0 and n of them could be a ’success&quot; and the rest will be “failures.” Let’s call the number of successes <em>X</em>.</p>
+<p>As our example, let’s roll five regular dice, and keep track of how many come up as “three.” In this case, there are five trials, so <em>n</em> = 5. The probability of rolling a “three” is 1/6, so <em>p</em> = 0.1666.</p>
+<p>Let’s repeat the sampling process a lot of times. For each sample, roll five dice, and record the number of threes.</p>
+<p>(If you don’t have dice available, you can simulate rolling dice at <a href="https://shiney.zoology.ubc.ca/otto/Dice/" class="uri">https://shiney.zoology.ubc.ca/otto/Dice/</a>)</p>
+<p>For this exercise, let’s draw a histogram of the results by hand. First draw the axes, and then for each result draw an X stacked up in the appropriate place. For example, after three trials that got 0, 1, and 1 threes, respectively, the histogram will look like this:</p>
+<p><img src="formula_summaries/binomial%20hist%20drawing.png" /></p>
+<p>Keep doing this until you have 20 or more samples.</p>
+<p>Here is the frequency distribution for this process as calculated from the binomial distribution.</p>
+<p><img src="formula_summaries/number%20of%203s%20plot.png" /></p>
+<p>Is this similar to what you found? (Remember that with only a few trials, you don’t expect to exactly match the predicted distribution. If you increase your number of samples, the fit should improve.)</p>
+<p>The expected mean number of threes is 0.833. (For the binomial distribution, the mean is <em>n</em> × <em>p</em>, or in this case 5 × 0.1666.) Calculate the mean number of threes in your samples.</p>
+<hr />
+<p><br></p>
+</div>
+</div>
+<div id="questions" class="section level1">
+<h1>Questions</h1>
+<p><br> 1. Many hospitals still have signs posted everywhere banning cell phone use. These bans originated from studies on earlier versions of cell phones. In one such experiment, out of 510 tests with cell phones operating at near-maximum power, six disrupted a piece of medical equipment enough to hinder interpretation of data or cause equipment to malfunction. A more recent study found zero instances of disruption of medical equipment out of 300 tests.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>For the older data, use <strong>binom.confint()</strong> with the Agresti-Coull method to calculate the estimated proportion of equipment disruption. What is the 95% confidence interval for this proportion?</p></li>
+<li><p>For the data on the newer cell phones, use R to calculate the estimate of the proportion and its 95% confidence interval.</p></li>
+</ol>
+<p><br> 2. It is difficult to tell what other people are thinking, and it may even be impossible to find out what they are thinking by asking them. A series of studies shows that we do not always know how our own thought processes are carried out.</p>
+<p>A classic experiment by Wilson and Nisbett (1978) addressed this issue in a clever way. Participants were asked to decide which of four pairs of silk stockings were better, but the four stockings that they were shown side-by-side were in fact identical. Nearly all participants were able, however, to offer reasons that they had chosen one pair over the other.</p>
+<p>The four pairs of stockings were presented to the participants randomly with respect to which pair was in which position. However, of the 52 subjects who selected a pair of stockings, 6 chose the pair on the far left, 9 chose the pair in the left-middle, 16 chose the pair in the right-middle, and 21 chose the pair on the far right. None admitted later that the position had any role in their selection. These data are in a file called “stockings.csv”.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>What are the expected frequencies for this scenario, under the null hypothesis that all four pairs of stockings are equally likely to be chosen.</p></li>
+<li><p>Use <strong>chisq.test()</strong> to test the null hypothesis that the selection of the stockings was independent of position.</p></li>
+<li><p><em>(Optional)</em> The function <strong>chisq.test()</strong> can take the data either as a data frame, as above, or as a vector of the observed counts, as a parameter called <strong>x</strong> as input:</p></li>
+</ol>
+<pre class="r"><code>chisq.test(x = c(6,9,16,21), p = c(0.25,0.25,0.25,0.25))</code></pre>
+<p>Try it using the specification of the counts, to see that you get the same answer as in (b).</p>
+<p><br> 3. Many people believe that the month in which a person is born predicts significant attributes of that person in later life. Such astrological beliefs have little scientific support, but are there circumstances in which birth month can have a strong effect on later life? One prediction is that elite athletes will disproportionately have been born in the months just after the age cutoff used to separate levels for young players of the sport. The prediction is that those athletes that are oldest within an age group will do better by being relatively older, and therefore will gain more confidence and attract more coaching attention than the relatively younger players in their same groups. As a result, they may be more likely to dedicate themselves to the sport and do well later. In the case of soccer, the cutoff for different age groups is generally August.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>The birth months (by three month interval) of soccer players competing in the Under-20’s World Tournament are recorded in the data file “soccer_birth_quarter.csv” (from Barnsley et al. 1992). Plot these data. Do you see a pattern?</p></li>
+<li><p>The numbers of people born in Canada by month is recorded in the file “Canadian_births.csv”. Compare the distribution of birth months of the soccer players to what would be expected by chance, assuming that the birth data for Canada is a good approximation for the population from which soccer players are drawn. Use the appropriate statistical test. Describe the pattern.</p></li>
+</ol>
+<p><br> 4. Are cardiac arrests (or “heart attacks”) equally likely to occur throughout the year? Or are some weeks more likely than others to produce heart attacks? One way to look at this issue is to ask whether heart attacks occur according to a probability model in which such events are independent of each other and equally likely at all times. If so, then the number of heart attacks per week will follow a Poisson distribution. The data file “cardiac arrests out of hospital.csv” contains data on the number of heart attacks per week from one hospital over five years. It records the number of heart attacks that occurred to individuals outside of the hospital who were then brought in for treatment (from Skogvoll and Lindqvist 1999).</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Calculate a table of the observed frequencies of heart attacks per week.</p></li>
+<li><p>What is the mean number of heart attacks per week?</p></li>
+<li><p>For the mean you just calculated, use <strong>dpois()</strong> to calculate the probability of 0 heart attacks in a week assuming a Poisson distribution. Multiply that probability by the number of data points to calculate the expected frequency of 0 in these data under the null hypothesis of a Poisson distribution.</p></li>
+<li><p>Here is a table of the expected frequencies under the null hypothesis. (The expected frequency for zero heart attacks should match your calculation above.) Are these frequencies acceptable for use in a <span class="math inline">\(\chi\)</span><sup>2</sup> goodness of fit test?</p></li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th>Number of heart attacks</th>
+<th>Expected</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>34.785295</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>70.103698</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>70.640891</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>47.454800</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>23.909219</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>9.636973</td>
+</tr>
+<tr class="odd">
+<td>6 or more</td>
+<td>4.469124</td>
+</tr>
+</tbody>
+</table>
+<ol start="5" style="list-style-type: lower-alpha">
+<li><p>Create vectors in R for the observed and expected frequencies.</p></li>
+<li><p>Calculate the <span class="math inline">\(\chi\)</span><sup>2</sup> for this hypothesis test, using <strong>chisq.test()$statistic</strong>.</p></li>
+<li><p>How many degrees of freedom should this <span class="math inline">\(\chi\)</span><sup>2</sup> goodness of fit test have?</p></li>
+<li><p>Calculate the <em>P</em>-value for this test, using <strong>pchisq()</strong>.</p></li>
+<li><p>Summarize the results of this test. Does the frequency distribution of out-of-hospital cardiac events follow a Poisson distribution?</p></li>
+</ol>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

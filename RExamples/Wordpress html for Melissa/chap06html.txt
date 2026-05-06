@@ -1,0 +1,92 @@
+<h2>Hypothesis testing: R code for Chapter 6 examples</h2>
+Download the R code on this page as a single file <a href="../wp-content/rcode/chap06.r">here</a>.
+<div style="width:650px; padding:6px; border:2px solid black; bgcolor=" #ffffff""="">
+<h3>New methods on this page</h3>
+Click on a function argument for a short description of its meaning. The variable names are plucked from the examples further below.
+
+<b>Take a random sample of a categorical variable</b> having two possible outcomes from a theoretical population of known probabilities:
+<code>sample([tippy title = "c("L", "R")" width = "300" header = "off"] <font color="003399">The two possible outcomes, here L for left-handed and R for right-handed.</font>[/tippy], [tippy title = "size = 18" width = "300" header = "off"] <font color="003399">The number of individuals to sample.</font>[/tippy], [tippy title="prob = c(0.5, 0.5)" width = "300" header = "off"] <font color="003399">The probability of each outcome, L and R, when a single individual is randomly sampled.</font>[/tippy], [tippy title="replace = TRUE" width = "300" header = "off"] <font color="003399">Sampling is "with replacement". Ensures that once an individual is sampled, the probability that the next individual is L or R is unchanged.</font>[/tippy])</code>
+
+<b>Create a loop to repeatedly sample</b> a known population and <b>generate an approximate null distribution</b> for a test statistic:
+<code>for[tippy title = "(i in 1:1000)" width = "300" header = "off"] <font color="003399">1000 is the total number of repetitions of the loop. <code>i</code> is a counter, which will count from 1 to 1000 by 1 during the execution of the loop. When the counter reaches 1000, the commands are executed one last time and then the loop halts.</font>[/tippy]{
+&nbsp;&nbsp;&nbsp;&nbsp;[tippy title = "temporarySample" width = "300" header = "off"] <font color="003399">The name of a vector where each new random sample will be stored. This vector is not saved in this loop, but is reused on each iteration</font>[/tippy] = sample(c("L", "R"), size = 18, prob = c(0.5, 0.5))
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replace = TRUE)
+&nbsp;&nbsp;&nbsp;&nbsp;[tippy title = "sum(temporarySample == "R")" width = "300" header = "off"] <font color="003399">This step counts the number of "R" individuals in each sample of 18. Ordinarily, you would want to save these counts in a results vector, as we show in the main page below.</font>[/tippy]
+&nbsp;&nbsp;&nbsp;&nbsp;}</code>
+
+</div>
+<h3>Example 6.2. The right hand of toad</h3>
+<em><b>Obtain the null distribution for the test statistic</b> (the number of right-handed toads out of 18).
+</em>
+
+<strong>Take a very large number of samples</strong> of 18 toads from a theoretical population in which left- and right- handed individuals occur with equal probability (as stipulated by the null hypothesis). For each sample, the number of right-handed toads is calculated and saved in a vector named <code>results18</code> (the samples themselves are not saved). The results vector is initialized before the loop. The term <code>results18[i]</code> refers to the <code>i</code>th element of <code>results18</code>, where <code>i</code> is a counter. This many iterations might take a few minutes to run on your computer.
+<pre>results18 &lt;- vector()
+for(i in 1:10000){
+	tempSample &lt;- sample(c("L", "R"), size = 18, prob = c(0.5, 0.5), replace = TRUE)
+	results18[i] &lt;- sum(tempSample == "R")
+	}
+</pre>
+Save <code>results18</code> also as a factor with 19 levels, representing each possible integer outcome between 0 and 18. This step is for tables and graphs only -- it makes sure that all 19 categories are included in tables and graphs, even categories with no occurrences.
+<pre>factor18 &lt;- factor(results18, levels = 0:18)
+</pre>
+<strong>Tabulate the relative frequency distribution</strong> of outcomes in the random sampling process (Table 6.2-1). This is the null distribution. Your results will be similar but not identical to the numbers in Table 6.2-1 because 10,000 times is not large enough for extreme accuracy. The <code>table</code> command calculates the frequencies, and dividing by the length of <code>results18</code> (i.e., the number of elements in the vector, equal to the number of iterations in the loop) yields the proportions (relative frequencies).
+<pre>nullTable &lt;- table(factor18, dnn = "nRightToads")/length(factor18)
+data.frame(nullTable)
+</pre>
+<strong>Draw a histogram of the null distribution</strong>: the number of right-handed toads out of 18. Setting <code>freq = FALSE</code> causes <code>hist</code> to graph density of observations rather than frequency. In this case, height of bars indicates relative frequency if bars are one unit wide (as in the present case).
+<pre>hist(results18, right = FALSE, freq = FALSE,
+	xlab = "Number of right-handed toads")
+</pre>
+Commands for a fancier histogram are shown [tippy title="here" width = "680" header = "off"]
+<pre># We can make a histogram using "barplot" with the height of the bars
+# as proportions, as given in "nullTable"
+barplot(height = nullTable, space = 0, las = 1, cex.names = 0.8, col = "white",
+	xlab = "Number of right-handed toads", ylab = "Relative frequency")
+</pre>
+[/tippy].
+
+<strong>Calculate the fraction of samples</strong> in the null distribution having 14 or more right-handed toads. This won't be exact because 10,000 times is not large enough for extreme accuracy.
+<pre>frac14orMore &lt;- sum(results18 &gt;= 14)/length(results18)
+frac14orMore
+</pre>
+<strong>Calculate the approximate <i>P</i>-value</strong>. This won't be exact because 10,000 times is not large enough for extreme accuracy.
+<pre>2 * frac14orMore
+</pre>
+
+<hr>
+
+<h3>Example 6.4. The genetics of mirror-image flowers</h3>
+<em>Determine the <b>null distribution for the test statistic</b>, the number of left-handed flowers out of 27.</em>
+
+Obtain a <strong>very large number of samples</strong> of 27 individuals from a theoretical population in which L and R occur in the ratio 1:3, as specified by the null hypothesis. For each sample, the number of "L" is counted and saved in a vector named <code>results27</code> (the samples themselves are not saved).
+<pre>results27 &lt;- vector(mode = "numeric")
+for(i in 1:10000){
+	tempSample &lt;- sample(c("L", "R"), size = 27, prob = c(0.25, 0.75), 
+		replace = TRUE)
+	results27[i] &lt;- sum(tempSample == "L")
+	}
+</pre>
+Save the results also as a factor. This is to ensure that all categories between 0 and 27 are included in tables and graphs, even those that did not occur in the sampling process.
+<pre>results27fac &lt;- factor(results27, levels = 0:27)
+</pre>
+Tabulate the <strong>relative frequency distribution</strong> of outcomes. To get relative frequencies, use <code>table</code> to get frequencies and then divide by the total number of replicates. Your results will be similar but not identical to the numbers in Table 6.2-1 because 10,000 iterations is not large enough for extreme accuracy.
+<pre>nullTable &lt;- table(results27fac, dnn = "nRightFlowers")/length(results27fac)
+data.frame(nullTable)
+</pre>
+Draw a <strong>histogram of the null distribution</strong> for the the number of left-handed flowers out of 27. Setting <code>freq = FALSE</code> causes <code>hist</code> to graph density of observations rather than frequency. In this case, height of bars indicates relative frequency if bars are one unit wide (as in the present case).
+<pre>hist(results27, right = FALSE, freq = FALSE,
+	xlab = "Number of left-handed flowers")
+</pre>
+Commands for a fancier histogram are included [tippy title="here" width = "680" header = "off"]
+<pre>barplot(height = nullTable, space = 0, las = 1, cex.names = 0.8, col = "white",
+	xlab = "Number of left-handed flowers", ylab = "Relative frequency")
+</pre>
+[/tippy].
+
+Calculate the fraction of results in the null distribution having 6 or fewer left-handed flowers.
+<pre>frac6orLess &lt;- sum(results27 &lt;= 6)/length(results27)
+frac6orLess
+</pre>
+<strong>Calculate the <em>P</em>-value</strong>. This won't be exact because 10,000 times is not large enough for extreme accuracy
+<pre>2 * frac6orLess
+</pre>

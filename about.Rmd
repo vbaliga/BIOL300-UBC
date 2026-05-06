@@ -1,0 +1,26 @@
+---
+title: "About this web site"
+author:  
+output:
+  html_document:
+    fig_width: 1
+    
+---
+
+
+----
+
+This website is for *The Analysis of Biological Data*, 3rd edition, by Michael Whitlock and Dolph Schluter, an introductory textbook on statistics aimed at biology students. 
+
+The website for the 1st and 2nd editions is still live at [whitlockschluter.zoology.ubc.ca](https://whitlockschluter.zoology.ubc.ca).
+ 
+This site has several resources to augment the main text, including a series of [R labs](index.html#R_labs) using the R statistical package, [do it yourself with R code for all book examples](index.html#R_code), a series of [concept visualizations](index.html#Visualizations) to develop intuition about some of the trickier concepts in statistics, and the [data files](index.html#Data) for all examples and problems in the book.
+
+The R labs follow the same order and level as the textbook. They are designed to be used approximately one per week during a course. There is not a one-to-one correspondence between chapters in the textbook and the R labs.
+
+Other resources for using the book are available at [Sapling Learning](https://www.macmillanlearning.com/college/us/digital/sapling/) from the publisher's website. 
+
+As always, we welcome comments and suggestions from users of the book. We particularly like to know when something is wrong or that can be improved -- please e-mail <a href="mailto:whitlock@zoology.ubc.ca">Mike Whitlock</a> to let him know of any typos or errors that we can fix in later printings. 
+
+[Here is a list of corrections](Corrections.html) that have been previously found.
+
