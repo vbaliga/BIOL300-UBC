@@ -14,13 +14,23 @@
 
 <title>R labs:  References</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
@@ -36,12 +46,17 @@
   gtag('config', 'UA-66493174-3');
 </script>
 
-<style type="text/css">code{white-space: pre;}</style>
+
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -54,34 +69,10 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
 
-<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+<link rel="stylesheet" href="ws-rlabs.css" type="text/css" />
 
 
 
@@ -90,10 +81,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -110,40 +97,16 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 45px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 50px;
-  margin-top: -50px;
-}
-.section h2 {
-  padding-top: 50px;
-  margin-top: -50px;
-}
-.section h3 {
-  padding-top: 50px;
-  margin-top: -50px;
-}
-.section h4 {
-  padding-top: 50px;
-  margin-top: -50px;
-}
-.section h5 {
-  padding-top: 50px;
-  margin-top: -50px;
-}
-.section h6 {
-  padding-top: 50px;
-  margin-top: -50px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -171,7 +134,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -183,7 +146,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -193,11 +156,28 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.parent().addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -209,13 +189,12 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -223,16 +202,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -341,7 +313,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -355,7 +327,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -371,7 +343,7 @@ div.tocify {
   <a href="index.html">About these labs</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Available resources
      
     <span class="caret"></span>
@@ -395,7 +367,7 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     R labs
      
     <span class="caret"></span>
@@ -454,11 +426,12 @@ div.tocify {
   $('.navbar-brand').attr('href','../index.html')
 </script>
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
 <h1 class="title toc-ignore">R labs: <br>References</h1>
+<h4 class="author"></h4>
 
 </div>
 
@@ -466,33 +439,87 @@ div.tocify {
 <p><br></p>
 <div id="data" class="section level1">
 <h1>Data</h1>
-<p><strong>Countries data</strong> comes from World Health Organization: <a href="http://apps.who.int/gho/data/node.imr" class="uri">http://apps.who.int/gho/data/node.imr</a></p>
-<p><a href="https://datahub.io/dataset/countries-continents/resource/aa08c34c-57e8-4e15-bd36-969bee26aba5" class="uri">https://datahub.io/dataset/countries-continents/resource/aa08c34c-57e8-4e15-bd36-969bee26aba5</a></p>
-<p>rest from <a href="http://apps.who.int/gho/data/node.imr#ndx-R" class="uri">http://apps.who.int/gho/data/node.imr#ndx-R</a></p>
-<p>Cell phone data from: “Countries Compared by Media &gt; Telecoms &gt; Mobile cellular subscriptions &gt; Per 100 people. International Statistics at NationMaster.com”, International Telecommunication Union, World Telecommunication/ICT Development Report and database, and World Bank estimates. Aggregates compiled by NationMaster. Retrieved from <a href="http://www.nationmaster.com/country-info/stats/Media/Telecoms/Mobile-cellular-subscriptions/Per-100-people" class="uri">http://www.nationmaster.com/country-info/stats/Media/Telecoms/Mobile-cellular-subscriptions/Per-100-people</a></p>
-<p>Ecological footprint: “Countries Compared by Environment &gt; Ecological footprint. International Statistics at NationMaster.com”, World Wide Fund for Nature (WWF), Living Planet Report 2000, Gland, Switzerland: 2000, and Redefining Progress. Aggregates compiled by NationMaster. Retrieved from <a href="http://www.nationmaster.com/country-info/stats/Environment/Ecological-footprint" class="uri">http://www.nationmaster.com/country-info/stats/Environment/Ecological-footprint</a></p>
-<p><strong>Oswego data</strong> from Gross MB. Oswego County revisited. <em>Public Health Reports</em> 1976;91:160-70. and <a href="https://www.cdc.gov/eis/casestudies/xoswego.401-303.student.pdf">the CDC</a></p>
+<p><strong>Countries data</strong> comes from World Health Organization:
+<a href="http://apps.who.int/gho/data/node.imr"
+class="uri">http://apps.who.int/gho/data/node.imr</a></p>
+<p><a
+href="https://datahub.io/dataset/countries-continents/resource/aa08c34c-57e8-4e15-bd36-969bee26aba5"
+class="uri">https://datahub.io/dataset/countries-continents/resource/aa08c34c-57e8-4e15-bd36-969bee26aba5</a></p>
+<p>rest from <a href="http://apps.who.int/gho/data/node.imr#ndx-R"
+class="uri">http://apps.who.int/gho/data/node.imr#ndx-R</a></p>
+<p>Cell phone data from: “Countries Compared by Media &gt; Telecoms &gt;
+Mobile cellular subscriptions &gt; Per 100 people. International
+Statistics at NationMaster.com”, International Telecommunication Union,
+World Telecommunication/ICT Development Report and database, and World
+Bank estimates. Aggregates compiled by NationMaster. Retrieved from <a
+href="http://www.nationmaster.com/country-info/stats/Media/Telecoms/Mobile-cellular-subscriptions/Per-100-people"
+class="uri">http://www.nationmaster.com/country-info/stats/Media/Telecoms/Mobile-cellular-subscriptions/Per-100-people</a></p>
+<p>Ecological footprint: “Countries Compared by Environment &gt;
+Ecological footprint. International Statistics at NationMaster.com”,
+World Wide Fund for Nature (WWF), Living Planet Report 2000, Gland,
+Switzerland: 2000, and Redefining Progress. Aggregates compiled by
+NationMaster. Retrieved from <a
+href="http://www.nationmaster.com/country-info/stats/Environment/Ecological-footprint"
+class="uri">http://www.nationmaster.com/country-info/stats/Environment/Ecological-footprint</a></p>
+<p><strong>Oswego data</strong> from Gross MB. Oswego County revisited.
+<em>Public Health Reports</em> 1976;91:160-70. and <a
+href="https://www.cdc.gov/eis/casestudies/xoswego.401-303.student.pdf">the
+CDC</a></p>
 <p><br></p>
 </div>
 <div id="other-references" class="section level1">
 <h1>Other references</h1>
-<p>Allison, T., and D. V. Cicchetti. 1976. Sleep in mammals: ecological and constitutional correlates. Science. 194:732-4.</p>
-<p>Barnsley, R. H., A. H. Thompson, and P. Legault. 1992. Family planning: Football style. The relative age effect in football. <em>Int. Rev. for Sci. of Sport</em> 27:77-86.</p>
-<p>Bumpus, H. C. 1899. The elimination of the unfit as illustrated by the introduced sparrow, <em>Passer domesticus</em>. <em>Biol. Lecture. Woods Hole Marine Biol. Stat.</em> 6:209-226. <a href="https://www.fieldmuseum.org/blog/hermon-bumpus-and-house-sparrows" class="uri">https://www.fieldmuseum.org/blog/hermon-bumpus-and-house-sparrows</a></p>
-<p>Fox, A. T., R. D. Palmer, and P. Davies. 2002. Do “Shufflebottoms” bottom-shuffle? Arch. Dis. Child. 87:552-554.</p>
-<p>Healy, A. F. 1976. Detection errors on the word <em>the</em>: Evidence for reading units larger than letters. <em>Journbal of Experimental Psychology: Human Perception and Performance</em> 2:235-242.</p>
-<p>Jmaiff Blackstock, L. K., W. Wang, S. Vemula, B. T. Jaeger, and X.-F. Li. 2017. Sweetened swimming pools and hot tubs. <em>Environ. Sci. Technol. Lett.</em> 4:149-153 DOI: 10.1021/acs.estlett.7b00043</p>
-<p>Kebede, A., J. C. Mccann, A. E. Kiszewski, and Y. Ye-Ebiyo. 2005. New evidence of the effects of agro-ecologic change on malaria transmission. <em>Am. J. Trop. Med. Hyg.</em>, 73:676–680.</p>
-<p>Lundin-Olsson, L. L. Nyborg, and Y. Gustafson. 1997. “Stops walking when talking” as a predictor of falls in elderly people. <em>The Lancet</em> 349: 617.</p>
-<p>Lynfield, Y. L., and P. MacWilliams. 1970. Shaving and hair growth. <em>The Journal of Investigative Dermatology</em> 55:170-172.</p>
-<p>McCusker, R. R., B. A. Goldberger, and E. J. Cone. 2003. Caffeine content of specialty coffees. <em>Journal of Analytical Toxicology</em> 27:520-522.</p>
-<p>Muchhala, N. 2006. Nectar bat stows huge tongue in its rib cage. <em>Nature</em> 444:701–702.</p>
-<p>Nordfjäll, K., Å. Larefalk, P. Lindgren, D. Holmberg, and Göran Roos. 2005. Telomere length and heredity: Indications of paternal inheritance. <em>PNAS</em> 102:16374–16378.</p>
-<p>Opler, J. E., and R. S. Siegler. 2007. Representational change and children’s numerical estimation. <em>Cognitive Psychology</em> 55:169-195</p>
-<p>Shirasu-Hiza, M. M., M. S. Dionne, L. N. Pham, J. S. Ayres, and D. S. Schneider. 2007. Interactions between circadian rhythm and immunity in <em>Drosophila melanogaster</em>. <em>Current Biology</em> 17:R353-5</p>
-<p>Skogvall, E., and B. H.Linqvist. 1999. Modeling the occurrence of cardiac arrest as a Poisson process. <em>Annals of Emergency Medicine</em> 33:409-417.</p>
-<p>Williams T. M., L. A. Fuiman , M. Horning, and R. W. Davis. 2004. The cost of foraging by a marine predator, the Weddell seal <em>Leptonychotes weddellii</em>: pricing by the stroke. <em>Journal of Experimental Biology</em> 207:973-982.</p>
-<p>Wilson, A. d. C., and R. E. Nisbett. 1978. The accuracy of verbal reports about the effects of stimuli on evaluations and behavior. <em>Social Psychology</em> 41:118-131.</p>
+<p>Allison, T., and D. V. Cicchetti. 1976. Sleep in mammals: ecological
+and constitutional correlates. Science. 194:732-4.</p>
+<p>Barnsley, R. H., A. H. Thompson, and P. Legault. 1992. Family
+planning: Football style. The relative age effect in football. <em>Int.
+Rev. for Sci. of Sport</em> 27:77-86.</p>
+<p>Bumpus, H. C. 1899. The elimination of the unfit as illustrated by
+the introduced sparrow, <em>Passer domesticus</em>. <em>Biol. Lecture.
+Woods Hole Marine Biol. Stat.</em> 6:209-226. <a
+href="https://www.fieldmuseum.org/blog/hermon-bumpus-and-house-sparrows"
+class="uri">https://www.fieldmuseum.org/blog/hermon-bumpus-and-house-sparrows</a></p>
+<p>Fox, A. T., R. D. Palmer, and P. Davies. 2002. Do “Shufflebottoms”
+bottom-shuffle? Arch. Dis. Child. 87:552-554.</p>
+<p>Healy, A. F. 1976. Detection errors on the word <em>the</em>:
+Evidence for reading units larger than letters. <em>Journbal of
+Experimental Psychology: Human Perception and Performance</em>
+2:235-242.</p>
+<p>Jmaiff Blackstock, L. K., W. Wang, S. Vemula, B. T. Jaeger, and X.-F.
+Li. 2017. Sweetened swimming pools and hot tubs. <em>Environ. Sci.
+Technol. Lett.</em> 4:149-153 DOI: 10.1021/acs.estlett.7b00043</p>
+<p>Kebede, A., J. C. Mccann, A. E. Kiszewski, and Y. Ye-Ebiyo. 2005. New
+evidence of the effects of agro-ecologic change on malaria transmission.
+<em>Am. J. Trop. Med. Hyg.</em>, 73:676–680.</p>
+<p>Lundin-Olsson, L. L. Nyborg, and Y. Gustafson. 1997. “Stops walking
+when talking” as a predictor of falls in elderly people. <em>The
+Lancet</em> 349: 617.</p>
+<p>Lynfield, Y. L., and P. MacWilliams. 1970. Shaving and hair growth.
+<em>The Journal of Investigative Dermatology</em> 55:170-172.</p>
+<p>McCusker, R. R., B. A. Goldberger, and E. J. Cone. 2003. Caffeine
+content of specialty coffees. <em>Journal of Analytical Toxicology</em>
+27:520-522.</p>
+<p>Muchhala, N. 2006. Nectar bat stows huge tongue in its rib cage.
+<em>Nature</em> 444:701–702.</p>
+<p>Nordfjäll, K., Å. Larefalk, P. Lindgren, D. Holmberg, and Göran Roos.
+2005. Telomere length and heredity: Indications of paternal inheritance.
+<em>PNAS</em> 102:16374–16378.</p>
+<p>Opler, J. E., and R. S. Siegler. 2007. Representational change and
+children’s numerical estimation. <em>Cognitive Psychology</em>
+55:169-195</p>
+<p>Shirasu-Hiza, M. M., M. S. Dionne, L. N. Pham, J. S. Ayres, and D. S.
+Schneider. 2007. Interactions between circadian rhythm and immunity in
+<em>Drosophila melanogaster</em>. <em>Current Biology</em> 17:R353-5</p>
+<p>Skogvall, E., and B. H.Linqvist. 1999. Modeling the occurrence of
+cardiac arrest as a Poisson process. <em>Annals of Emergency
+Medicine</em> 33:409-417.</p>
+<p>Williams T. M., L. A. Fuiman , M. Horning, and R. W. Davis. 2004. The
+cost of foraging by a marine predator, the Weddell seal
+<em>Leptonychotes weddellii</em>: pricing by the stroke. <em>Journal of
+Experimental Biology</em> 207:973-982.</p>
+<p>Wilson, A. d. C., and R. E. Nisbett. 1978. The accuracy of verbal
+reports about the effects of stimuli on evaluations and behavior.
+<em>Social Psychology</em> 41:118-131.</p>
 </div>
 
 
@@ -506,7 +533,7 @@ div.tocify {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -524,7 +551,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -533,6 +560,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
@@ -545,7 +575,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

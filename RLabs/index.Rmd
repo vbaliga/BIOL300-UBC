@@ -1,5 +1,5 @@
 ---
-title: "<em>Labs using R</em>"
+title: "Labs using R, <em>UBC Edition</em>"
 author:  
 output:
   html_document:
@@ -12,7 +12,7 @@ output:
 ---
 
 
-These labs are intended to accompany a course using *The Analysis of Biological Data* by Whitlock and Schluter. The materials will follow the same order and level as this text. (The labs are designed to be used approximately one per week during a course--there is not a one-to-one correspondence between chapters in ABD and tutorials.)
+These labs are written for the UBC course BIOL 300: Funamentals of Biostatistics, using some resources from *The Analysis of Biological Data* by Whitlock and Schluter. The materials will follow the same order and level as this text, though there may not be one-to-one correspondence between chapters in ABD and tutorials.
 
 
 These labs have two main functions. First, they are intended to facilitate active learning in some core concepts in introductory statistics. Second, they introduce a key tool in modern statistics, the widely-used, open source statistic program called R. 
@@ -20,9 +20,9 @@ These labs have two main functions. First, they are intended to facilitate activ
 Before using these labs, download [the zip file containing Data, R scripts, and other resources for these labs](ABDLabs.zip). Remember to start RStudio from the "ABDLabs.Rproj" file in that folder to make these exercises work more seamlessly.
 
 
-Some of the exercises in these labs depend on working in a group environment, but other than the lab on *Sampling*, this is not required. An individual working on their own could accomplish the same learning goals with these labs. 
+Some of the exercises in these labs (particularly in the first few labs) may depend on working in a group environment.  
 
-These labs are a work in progress. All comments and suggestions are greatly appreciated. If something is not working or can be improved, please let us know.  Please e-mail <a href="mailto:whitlock@zoology.ubc.ca">Mike Whitlock</a> at whitlock@zoology.ubc.ca with any thoughts you have about how these tutorials can be improved.
+Comments and suggestions are greatly appreciated. If something is not working or can be improved, please let us know. Please e-mail <a href="mailto:vikram.baliga@ubc.ca">Vikram Baliga</a> at vikram.baliga@ubc.ca with any thoughts you have about how these tutorials can be improved.
 
 Instructors, please e-mail <a href="mailto:whitlock@zoology.ubc.ca">Mike Whitlock</a> for a link to some instructor notes on these labs.
 

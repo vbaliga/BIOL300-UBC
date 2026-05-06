@@ -14,13 +14,23 @@
 
 <title>Labs using R:  10. ANOVA</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
@@ -36,12 +46,17 @@
   gtag('config', 'UA-66493174-3');
 </script>
 
-<style type="text/css">code{white-space: pre;}</style>
+
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -54,34 +69,10 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
 
-<link rel="stylesheet" href="ws.css" type="text/css" />
+
+
+<link rel="stylesheet" href="ws-rlabs.css" type="text/css" />
 
 
 
@@ -90,10 +81,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -110,40 +97,16 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 45px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 50px;
-  margin-top: -50px;
-}
-.section h2 {
-  padding-top: 50px;
-  margin-top: -50px;
-}
-.section h3 {
-  padding-top: 50px;
-  margin-top: -50px;
-}
-.section h4 {
-  padding-top: 50px;
-  margin-top: -50px;
-}
-.section h5 {
-  padding-top: 50px;
-  margin-top: -50px;
-}
-.section h6 {
-  padding-top: 50px;
-  margin-top: -50px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -171,7 +134,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -183,7 +146,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -193,11 +156,28 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.parent().addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -209,13 +189,12 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -223,16 +202,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -341,7 +313,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -355,7 +327,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -371,7 +343,7 @@ div.tocify {
   <a href="index.html">About these labs</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Available resources
      
     <span class="caret"></span>
@@ -395,7 +367,7 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     R labs
      
     <span class="caret"></span>
@@ -454,102 +426,167 @@ div.tocify {
   $('.navbar-brand').attr('href','../index.html')
 </script>
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
 <h1 class="title toc-ignore"><em>Labs using R</em>: <br>10. ANOVA</h1>
+<h4 class="author"></h4>
 
 </div>
 
 
-<p><em>This lab is part of a series designed to accompany a course using </em>The Analysis of Biological Data<em>. The rest of the labs can be found <a href="index.html">here</a>. This lab is based on topics in Chapter 15 of ABD.</em></p>
+<p><em>This lab is part of a series designed to accompany a course using
+</em>The Analysis of Biological Data<em>. The rest of the labs can be
+found <a href="index.html">here</a>. This lab is based on topics in
+Chapter 15 of ABD.</em></p>
 <p><br></p>
 <div id="learning-outcomes" class="section level1">
 <h1>Learning outcomes</h1>
 <ul>
-<li><p>Use R to perform analysis of variance (ANOVA) to compare the means of multiple groups.</p></li>
-<li><p>Perform Tukey-Kramer tests to look at unplanned contrasts between all pairs of groups.</p></li>
-<li><p>Use Kruskal-Wallis tests to test for difference between groups without assumptions of normality.</p></li>
+<li><p>Use R to perform analysis of variance (ANOVA) to compare the
+means of multiple groups.</p></li>
+<li><p>Perform Tukey-Kramer tests to look at unplanned contrasts between
+all pairs of groups.</p></li>
+<li><p>Use Kruskal-Wallis tests to test for difference between groups
+without assumptions of normality.</p></li>
 </ul>
 <p><br></p>
-<p>If you have not already done so, download <a href="ABDLabs.zip">the zip file containing Data, R scripts, and other resources for these labs</a>. Remember to start RStudio from the “ABDLabs.Rproj” file in that folder to make these exercises work more seamlessly.</p>
+<p>If you have not already done so, download <a href="ABDLabs.zip">the
+zip file containing Data, R scripts, and other resources for these
+labs</a>. Remember to start RStudio from the “ABDLabs.Rproj” file in
+that folder to make these exercises work more seamlessly.</p>
 <hr />
 <p><br></p>
 </div>
 <div id="learning-the-tools" class="section level1">
 <h1>Learning the tools</h1>
-<p>For the examples in this lab, we will again return to the Titanic data set. We’ll group passengers by the passenger class they travelled under (a categorical variable) and ask whether different passenger classes differed in their mean age (a numerical variable).</p>
+<p>For the examples in this lab, we will again return to the Titanic
+data set. We’ll group passengers by the passenger class they travelled
+under (a categorical variable) and ask whether different passenger
+classes differed in their mean age (a numerical variable).</p>
 <p>First, load the data.</p>
 <pre class="r"><code>titanicData &lt;- read.csv(&quot;DataForLabs/titanic.csv&quot;, stringsAsFactors = TRUE)</code></pre>
-<p>Let’s first look at the data to get a sense of how well it fits the assumptions of ANOVA. Multiple histogram are useful for this purpose. As we saw in the last lab, we can use <strong>ggplot()</strong> and facets to make this plot:</p>
+<p>Let’s first look at the data to get a sense of how well it fits the
+assumptions of ANOVA. Multiple histogram are useful for this purpose. As
+we saw in the last lab, we can use <strong>ggplot()</strong> and facets
+to make this plot:</p>
 <pre class="r"><code>library(ggplot2)
 
 ggplot(titanicData, aes(x = age)) +   
   geom_histogram() + 
   facet_wrap(~ passenger_class, ncol = 1) </code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<pre><code>## Warning: Removed 680 rows containing non-finite values (stat_bin).</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 680 rows containing non-finite outside the scale range (`stat_bin()`).</code></pre>
 <p><img src="R_tutorial_ANOVA_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<p>These data look sufficiently normal and with similar spreads that ANOVA would be appropriate.</p>
-<p>To confirm these visual impressions, it would be useful to construct a table of the means and standard deviations of each group. There are numerous ways to do this in R, but one of the neatest is to use functions from the package <strong>dplyr</strong>. If you have not done so yet, install the <strong>dplyr</strong> package from the “Packages” tab in RStudio. Then load the <strong>dplyr</strong> package with <strong>library()</strong>.</p>
+<p>These data look sufficiently normal and with similar spreads that
+ANOVA would be appropriate.</p>
+<p>To confirm these visual impressions, it would be useful to construct
+a table of the means and standard deviations of each group. There are
+numerous ways to do this in R, but one of the neatest is to use
+functions from the package <strong>dplyr</strong>. If you have not done
+so yet, install the <strong>dplyr</strong> package from the “Packages”
+tab in RStudio. Then load the <strong>dplyr</strong> package with
+<strong>library()</strong>.</p>
 <pre class="r"><code>library(dplyr)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
 <p><br></p>
 <div id="group_by" class="section level3">
 <h3>group_by()</h3>
-<p>The package <strong>dplyr</strong> has several useful features for manipulating data sets. For our current purposes, we will find two functions particularly useful: <strong>group_by()</strong> and <strong>summarise()</strong>. These two functions are well named and work together well, first to organize the data by groups, and second to summarize the results for each group.</p>
-<p>First, use <strong>group_by()</strong> to organize your data frame by the appropriate grouping variable. For example, here we want to organize the <strong>titanicData</strong> by <strong>passenger_class</strong>:</p>
+<p>The package <strong>dplyr</strong> has several useful features for
+manipulating data sets. For our current purposes, we will find two
+functions particularly useful: <strong>group_by()</strong> and
+<strong>summarise()</strong>. These two functions are well named and
+work together well, first to organize the data by groups, and second to
+summarize the results for each group.</p>
+<p>First, use <strong>group_by()</strong> to organize your data frame by
+the appropriate grouping variable. For example, here we want to organize
+the <strong>titanicData</strong> by
+<strong>passenger_class</strong>:</p>
 <pre class="r"><code>titanic_by_passenger_class &lt;- group_by(titanicData,passenger_class)</code></pre>
 <p><br></p>
 </div>
 <div id="summarise" class="section level3">
 <h3>summarise()</h3>
-<p>After applying <strong>group_by()</strong> to a data frame, we can summarize the data using <strong>summarise()</strong>. (The “s” in <strong>summarise()</strong> is not a typo—the creator of the package is from New Zealand.) With <strong>summarise()</strong>, we can apply any type of function that summarizes data (e.g. <strong>mean()</strong>, <strong>median()</strong>, <strong>var()</strong>, etc.), and receive that summary group by group. For example, to calculate the mean age of each <strong>passenger_class</strong>, we can use:</p>
+<p>After applying <strong>group_by()</strong> to a data frame, we can
+summarize the data using <strong>summarise()</strong>. (The “s” in
+<strong>summarise()</strong> is not a typo—the creator of the package is
+from New Zealand.) With <strong>summarise()</strong>, we can apply any
+type of function that summarizes data (e.g. <strong>mean()</strong>,
+<strong>median()</strong>, <strong>var()</strong>, etc.), and receive
+that summary group by group. For example, to calculate the mean age of
+each <strong>passenger_class</strong>, we can use:</p>
 <pre class="r"><code>summarise(titanic_by_passenger_class, group_mean = mean(age, na.rm=TRUE))</code></pre>
-<pre><code>## # A tibble: 3 x 2
+<pre><code>## # A tibble: 3 × 2
 ##   passenger_class group_mean
 ##   &lt;fct&gt;                &lt;dbl&gt;
 ## 1 1st                   39.7
 ## 2 2nd                   28.3
 ## 3 3rd                   24.5</code></pre>
-<p>As input, we give the name of the grouped table created by <strong>group_by()</strong> and the function we want to apply to each group. In this case we used <strong>mean(age, na.rm=TRUE)</strong>. “<strong>group_mean</strong>” is a name we give to that summary variable (it could have been any name we wanted). The output looks like a table and includes the names of the groups being summarized. (A “tibble” is not how New Zealanders spell “table”, but is a type of table like a data frame.) “3 x 2” here refers to the number of rows x columns in the “tibble” output.</p>
-<p>We can give <strong>summarise()</strong> many summary functions at once, and it will create columns in the output table for each one. For example, if we want to output both the mean and the standard deviation, we can add <strong>sd = sd(age, na.rm=TRUE)</strong> to the function above.</p>
+<p>As input, we give the name of the grouped table created by
+<strong>group_by()</strong> and the function we want to apply to each
+group. In this case we used <strong>mean(age, na.rm=TRUE)</strong>.
+“<strong>group_mean</strong>” is a name we give to that summary variable
+(it could have been any name we wanted). The output looks like a table
+and includes the names of the groups being summarized. (A “tibble” is
+not how New Zealanders spell “table”, but is a type of table like a data
+frame.) “3 x 2” here refers to the number of rows x columns in the
+“tibble” output.</p>
+<p>We can give <strong>summarise()</strong> many summary functions at
+once, and it will create columns in the output table for each one. For
+example, if we want to output both the mean and the standard deviation,
+we can add <strong>sd = sd(age, na.rm=TRUE)</strong> to the function
+above.</p>
 <pre class="r"><code>summarise(titanic_by_passenger_class, group_mean = mean(age, na.rm=TRUE), group_sd = sd(age, na.rm=TRUE))</code></pre>
-<pre><code>## # A tibble: 3 x 3
+<pre><code>## # A tibble: 3 × 3
 ##   passenger_class group_mean group_sd
 ##   &lt;fct&gt;                &lt;dbl&gt;    &lt;dbl&gt;
 ## 1 1st                   39.7     14.9
 ## 2 2nd                   28.3     13.0
 ## 3 3rd                   24.5     11.3</code></pre>
-<p>Note that the standard deviations are very similar, which means that these data fit the equal variance assumption of ANOVA.</p>
+<p>Note that the standard deviations are very similar, which means that
+these data fit the equal variance assumption of ANOVA.</p>
 <p><br></p>
 </div>
 <div id="anova" class="section level2">
 <h2>ANOVA</h2>
-<p>Analysis of variance (or ANOVA) is not quite as simple in R as one might hope. Doing ANOVA takes at least two steps. First, we fit the ANOVA model to the data using the function <strong>lm()</strong>. This step carries out a bunch of intermediate calculations. Second, we use the results of first step to do the ANOVA calculations and place them in an ANOVA table using the function <strong>anova()</strong>. The function name <strong>lm()</strong> stands for “linear model”; this is actually a very powerful function that allows a variety of calculations. One-way ANOVA is a type of linear model.</p>
+<p>Analysis of variance (or ANOVA) is not quite as simple in R as one
+might hope. Doing ANOVA takes at least two steps. First, we fit the
+ANOVA model to the data using the function <strong>lm()</strong>. This
+step carries out a bunch of intermediate calculations. Second, we use
+the results of first step to do the ANOVA calculations and place them in
+an ANOVA table using the function <strong>anova()</strong>. The function
+name <strong>lm()</strong> stands for “linear model”; this is actually a
+very powerful function that allows a variety of calculations. One-way
+ANOVA is a type of linear model.</p>
 <p><br></p>
 <div id="lm" class="section level3">
 <h3>lm()</h3>
-<p>The function <strong>lm()</strong> needs a formula and a data frame as arguments. The formula is a statement specifying the “model” that we are asking R to fit to the data. A model formula always takes the form of a response variable, followed by a tilde(<strong>~</strong>), and then at least one explanatory variable. In the case of a one-way ANOVA, this model statement will take the form</p>
+<p>The function <strong>lm()</strong> needs a formula and a data frame
+as arguments. The formula is a statement specifying the “model” that we
+are asking R to fit to the data. A model formula always takes the form
+of a response variable, followed by a tilde(<strong>~</strong>), and
+then at least one explanatory variable. In the case of a one-way ANOVA,
+this model statement will take the form</p>
 <pre class="r"><code>numerical_variable ~ categorical_variable</code></pre>
-<p>For example, to compare differences in mean age among passenger classes on the Titanic, this formula is</p>
+<p>For example, to compare differences in mean age among passenger
+classes on the Titanic, this formula is</p>
 <pre class="r"><code>age ~ passenger_class</code></pre>
-<p>This formula tells R to “fit” a model in which the ages of passengers are grouped by the variable <strong>passenger_class</strong>.</p>
-<p>The name of the data frame containing the variables stated in the formula is the second argument of <strong>lm()</strong>. Finally, to complete the <strong>lm()</strong> command, it is necessary to save the intermediate results by assigning them to a new object, which <strong>anova()</strong> can then use to make the ANOVA table. For example, here we assign the results of <strong>lm()</strong> to a new object named “<strong>titanicANOVA</strong>”:</p>
+<p>This formula tells R to “fit” a model in which the ages of passengers
+are grouped by the variable <strong>passenger_class</strong>.</p>
+<p>The name of the data frame containing the variables stated in the
+formula is the second argument of <strong>lm()</strong>. Finally, to
+complete the <strong>lm()</strong> command, it is necessary to save the
+intermediate results by assigning them to a new object, which
+<strong>anova()</strong> can then use to make the ANOVA table. For
+example, here we assign the results of <strong>lm()</strong> to a new
+object named “<strong>titanicANOVA</strong>”:</p>
 <pre class="r"><code>titanicANOVA &lt;- lm(age ~ passenger_class, data = titanicData)</code></pre>
 <p><br></p>
 </div>
 <div id="anova-1" class="section level3">
 <h3>anova()</h3>
-<p>The function <strong>anova()</strong> takes the results of <strong>lm()</strong> as input and returns an ANOVA table as output:</p>
+<p>The function <strong>anova()</strong> takes the results of
+<strong>lm()</strong> as input and returns an ANOVA table as output:</p>
 <pre class="r"><code>anova(titanicANOVA)</code></pre>
 <pre><code>## Analysis of Variance Table
 ## 
@@ -559,14 +596,28 @@ ggplot(titanicData, aes(x = age)) +
 ## Residuals       630 110764   175.8                      
 ## ---
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p>This table shows the results of a test of the null hypothesis that the mean ages are the same among the three groups. The <em>P</em>-value is very small, and so we reject the null hypothesis of no differences in mean age among the passenger classes.</p>
+<p>This table shows the results of a test of the null hypothesis that
+the mean ages are the same among the three groups. The <em>P</em>-value
+is very small, and so we reject the null hypothesis of no differences in
+mean age among the passenger classes.</p>
 <p><br></p>
 </div>
 </div>
 <div id="tukey-kramer-test" class="section level2">
 <h2>Tukey-Kramer test</h2>
-<p>A single-factor ANOVA can tell us that at least one group has a different mean from another group, but it does not inform us which group means are different from which other group means. A Tukey-Kramer test lets us test the null hypothesis of no difference between the population means for all pairs of groups. The Tukey-Kramer test (also known as a Tukey Honest Significance Test, or Tukey HSD), is implemented in R in the function <strong>TukeyHSD()</strong>.</p>
-<p>We will use the results of an ANOVA done with <strong>lm()</strong> as above, that we stored in the variable <strong>titanicANOVA</strong>. To do a Tukey-Kramer test on these data, we need to first apply the function <strong>aov()</strong> to <strong>titanicANOVA</strong>, and then we need to apply the function <strong>TukeyHSD</strong> to the result. We can do this in a single command:</p>
+<p>A single-factor ANOVA can tell us that at least one group has a
+different mean from another group, but it does not inform us which group
+means are different from which other group means. A Tukey-Kramer test
+lets us test the null hypothesis of no difference between the population
+means for all pairs of groups. The Tukey-Kramer test (also known as a
+Tukey Honest Significance Test, or Tukey HSD), is implemented in R in
+the function <strong>TukeyHSD()</strong>.</p>
+<p>We will use the results of an ANOVA done with <strong>lm()</strong>
+as above, that we stored in the variable <strong>titanicANOVA</strong>.
+To do a Tukey-Kramer test on these data, we need to first apply the
+function <strong>aov()</strong> to <strong>titanicANOVA</strong>, and
+then we need to apply the function <strong>TukeyHSD</strong> to the
+result. We can do this in a single command:</p>
 <pre class="r"><code>TukeyHSD(aov(titanicANOVA))</code></pre>
 <pre><code>##   Tukey multiple comparisons of means
 ##     95% family-wise confidence level
@@ -578,20 +629,39 @@ ggplot(titanicData, aes(x = age)) +
 ## 2nd-1st -11.367459 -14.345803  -8.389115 0.0000000
 ## 3rd-1st -15.148115 -18.192710 -12.103521 0.0000000
 ## 3rd-2nd  -3.780656  -6.871463  -0.689849 0.0116695</code></pre>
-<p>The key part of this output is the table at the bottom. It estimates the difference between the means of groups (for example, the 2nd passenger class compared to the 1st passenger class) and calculates a 95% confidence interval for the difference between the corresponding population means. (“<strong>lwr</strong>” and “<strong>upr</strong>” correspond to the lower and upper bounds of that confidence interval for the difference in means.) Finally, it give the <em>P</em>-value from a test of the null hypothesis of no difference between the means (the column headed with “<strong>p adj</strong>”). In the case of the Titanic data, <em>P</em> is less than 0.05 in all pairs, and we therefore reject every null hypothesis. We conclude that the population mean ages of all passenger classes are significantly different from each other.</p>
+<p>The key part of this output is the table at the bottom. It estimates
+the difference between the means of groups (for example, the 2nd
+passenger class compared to the 1st passenger class) and calculates a
+95% confidence interval for the difference between the corresponding
+population means. (“<strong>lwr</strong>” and “<strong>upr</strong>”
+correspond to the lower and upper bounds of that confidence interval for
+the difference in means.) Finally, it give the <em>P</em>-value from a
+test of the null hypothesis of no difference between the means (the
+column headed with “<strong>p adj</strong>”). In the case of the Titanic
+data, <em>P</em> is less than 0.05 in all pairs, and we therefore reject
+every null hypothesis. We conclude that the population mean ages of all
+passenger classes are significantly different from each other.</p>
 <p><br></p>
 </div>
 <div id="kruskal-wallis-test" class="section level2">
 <h2>Kruskal-Wallis test</h2>
-<p>A Kruskal-Wallis test is a non-parametric analog of a one-way ANOVA. It does not assume that the variable has a normal distribution. (Instead, it tests whether the variable has the same distribution with the same mean in each group.)</p>
-<p>To run a Kruskal-Wallis test, use the R function <strong>kruskal.test()</strong>. The input for this function is the same as we used for <strong>lm()</strong> above. It includes a model formula statement and the name of the data frame to be used.</p>
+<p>A Kruskal-Wallis test is a non-parametric analog of a one-way ANOVA.
+It does not assume that the variable has a normal distribution.
+(Instead, it tests whether the variable has the same distribution with
+the same mean in each group.)</p>
+<p>To run a Kruskal-Wallis test, use the R function
+<strong>kruskal.test()</strong>. The input for this function is the same
+as we used for <strong>lm()</strong> above. It includes a model formula
+statement and the name of the data frame to be used.</p>
 <pre class="r"><code>kruskal.test(age ~ passenger_class, data = titanicData)</code></pre>
 <pre><code>## 
 ##  Kruskal-Wallis rank sum test
 ## 
 ## data:  age by passenger_class
 ## Kruskal-Wallis chi-squared = 116.08, df = 2, p-value &lt; 2.2e-16</code></pre>
-<p>You can see for the output that a Kruskal-Wallis test also strongly rejects the null hypothesis of equality of age for all passenger class groups with the Titanic data.</p>
+<p>You can see for the output that a Kruskal-Wallis test also strongly
+rejects the null hypothesis of equality of age for all passenger class
+groups with the Titanic data.</p>
 <p><br></p>
 </div>
 </div>
@@ -603,26 +673,79 @@ ggplot(titanicData, aes(x = age)) +
 </div>
 <div id="questions" class="section level1">
 <h1>Questions</h1>
-<p><br> 1. The European cuckoo does not look after its own eggs, but instead lays them in the nests of birds of other species. Previous studies showed that cuckoos sometimes have evolved to lay eggs that are colored similarly to the host bird species’ eggs. Is the same true of egg size – do cuckoos lay eggs similar in size to the size of the eggs of their hosts? The data file “cuckooeggs.csv” contains data on the lengths of cuckoo eggs laid in the nests of a variety of host species. Here we compare the mean size of cuckoo eggs found in the nests of different host species.</p>
+<p><br> 1. The European cuckoo does not look after its own eggs, but
+instead lays them in the nests of birds of other species. Previous
+studies showed that cuckoos sometimes have evolved to lay eggs that are
+colored similarly to the host bird species’ eggs. Is the same true of
+egg size – do cuckoos lay eggs similar in size to the size of the eggs
+of their hosts? The data file “cuckooeggs.csv” contains data on the
+lengths of cuckoo eggs laid in the nests of a variety of host species.
+Here we compare the mean size of cuckoo eggs found in the nests of
+different host species.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Plot a multiple histogram showing cuckoo egg lengths by host species.</p></li>
-<li><p>Calculate a table that shows the mean and standard deviation of length of cuckoo eggs for each host species.</p></li>
-<li><p>Look at the graph and the table. For these data, would ANOVA be a valid method to test for differences between host species in the lengths of cuckoo eggs in their nests?</p></li>
-<li><p>Use ANOVA to test for a difference between host species in the mean size of the cuckoo eggs in their nests. What is your conclusion?</p></li>
-<li><p>Assuming that ANOVA rejected the null hypotheses of no mean differences, use a Tukey-Kramer test to decide which pairs of host species are significantly different from each other in cuckoo egg mean length. What is your conclusion?</p></li>
+<li><p>Plot a multiple histogram showing cuckoo egg lengths by host
+species.</p></li>
+<li><p>Calculate a table that shows the mean and standard deviation of
+length of cuckoo eggs for each host species.</p></li>
+<li><p>Look at the graph and the table. For these data, would ANOVA be a
+valid method to test for differences between host species in the lengths
+of cuckoo eggs in their nests?</p></li>
+<li><p>Use ANOVA to test for a difference between host species in the
+mean size of the cuckoo eggs in their nests. What is your
+conclusion?</p></li>
+<li><p>Assuming that ANOVA rejected the null hypotheses of no mean
+differences, use a Tukey-Kramer test to decide which pairs of host
+species are significantly different from each other in cuckoo egg mean
+length. What is your conclusion?</p></li>
 </ol>
-<p><br> 2. The pollen of the maize (corn) plant is a source of food to larval mosquitoes of the species <em>Anopheles arabiensis</em>, the main vector of malaria in Ethiopia. The production of maize has increased substantially in certain areas of Ethiopia recently, and over the same time period, malaria has entered in to new areas where it was previously rare. This raises the question, is the increase of maize cultivation partly responsible for the increase in malaria?</p>
-<p>One line of evidence is to look for an association between maize production and malaria incidence at different geographically dispersed sites (Kebede et al. 2005). The data set “malaria vs maize.csv” contains information on several high-altitude sites in Ethiopia, with information about the level of cultivation of maize (low, medium or high in the variable <strong>maize_yield</strong>) and the rate of malaria per 10,000 people (<strong>incidence_rate_per_ten_thousand</strong>).</p>
+<p><br> 2. The pollen of the maize (corn) plant is a source of food to
+larval mosquitoes of the species <em>Anopheles arabiensis</em>, the main
+vector of malaria in Ethiopia. The production of maize has increased
+substantially in certain areas of Ethiopia recently, and over the same
+time period, malaria has entered in to new areas where it was previously
+rare. This raises the question, is the increase of maize cultivation
+partly responsible for the increase in malaria?</p>
+<p>One line of evidence is to look for an association between maize
+production and malaria incidence at different geographically dispersed
+sites (Kebede et al. 2005). The data set “malaria vs maize.csv” contains
+information on several high-altitude sites in Ethiopia, with information
+about the level of cultivation of maize (low, medium or high in the
+variable <strong>maize_yield</strong>) and the rate of malaria per
+10,000 people (<strong>incidence_rate_per_ten_thousand</strong>).</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Plot a multiple histogram to show the relationship between level of maize production and the incidence of malaria.</p></li>
-<li><p>ANOVA is a logical choice of method to test differences in the mean rate of malaria between sites differing in level of maize production. Calculate the standard deviation of the incidence rate for each level of maize yield. Do these data seem to conform to the assumptions of ANOVA? Describe any violations of assumptions you identify.</p></li>
-<li><p>Compute the log of the incidence rate and redraw the multiple histograms for different levels of maize yield. Calculate the standard deviation of the log incidence rate for each level of maize yield. Does the log-transformed data better meet the assumptions of ANOVA than did the untransformed data?</p></li>
-<li><p>Test for an association between maize yield and malaria incidence.</p></li>
+<li><p>Plot a multiple histogram to show the relationship between level
+of maize production and the incidence of malaria.</p></li>
+<li><p>ANOVA is a logical choice of method to test differences in the
+mean rate of malaria between sites differing in level of maize
+production. Calculate the standard deviation of the incidence rate for
+each level of maize yield. Do these data seem to conform to the
+assumptions of ANOVA? Describe any violations of assumptions you
+identify.</p></li>
+<li><p>Compute the log of the incidence rate and redraw the multiple
+histograms for different levels of maize yield. Calculate the standard
+deviation of the log incidence rate for each level of maize yield. Does
+the log-transformed data better meet the assumptions of ANOVA than did
+the untransformed data?</p></li>
+<li><p>Test for an association between maize yield and malaria
+incidence.</p></li>
 </ol>
-<p><br> 3. Animals that are infected with a pathogen often have disturbed circadian rhythms. (A circadian rhythm is an endogenous daily cycle in a behavior or physiological trait that persists in the absence of time cues.) Shirasu-Hiza et al. (2007) wanted to know whether it was possible that the circadian timing mechanism itself could have an effect on disease. To test this idea they sampled from three groups of fruit flies: one “normal”, one with a mutation in the timing gene <em>tim01</em>, and one group that had the <em>tim01</em> mutant in a heterozygous state. They exposed these flies to a dangerous bacteria, <em>Streptococcus pneumoniae</em>, and measured how long the flies lived afterwards, in days. The date file “circadian mutant health.csv” shows some of their data.</p>
+<p><br> 3. Animals that are infected with a pathogen often have
+disturbed circadian rhythms. (A circadian rhythm is an endogenous daily
+cycle in a behavior or physiological trait that persists in the absence
+of time cues.) Shirasu-Hiza et al. (2007) wanted to know whether it was
+possible that the circadian timing mechanism itself could have an effect
+on disease. To test this idea they sampled from three groups of fruit
+flies: one “normal”, one with a mutation in the timing gene
+<em>tim01</em>, and one group that had the <em>tim01</em> mutant in a
+heterozygous state. They exposed these flies to a dangerous bacteria,
+<em>Streptococcus pneumoniae</em>, and measured how long the flies lived
+afterwards, in days. The date file “circadian mutant health.csv” shows
+some of their data.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Plot a histogram of each of the three groups. Do these data match the assumptions of an ANOVA?</p></li>
-<li><p>Use a Kruskal-Wallis test to ask whether lifespan differs between the three groups of flies.</p></li>
+<li><p>Plot a histogram of each of the three groups. Do these data match
+the assumptions of an ANOVA?</p></li>
+<li><p>Use a Kruskal-Wallis test to ask whether lifespan differs between
+the three groups of flies.</p></li>
 </ol>
 </div>
 
@@ -637,7 +760,7 @@ ggplot(titanicData, aes(x = age)) +
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -655,7 +778,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -664,6 +787,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
@@ -676,7 +802,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

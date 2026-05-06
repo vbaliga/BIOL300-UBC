@@ -17,7 +17,7 @@
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -72,7 +72,7 @@ if (window.hljs) {
 
 
 
-<link rel="stylesheet" href="ws.css" type="text/css" />
+<link rel="stylesheet" href="ws-rlabs.css" type="text/css" />
 
 
 
@@ -491,9 +491,8 @@ Titanic data set. Make sure you have loaded the data (using
 <pre class="r"><code>titanicData &lt;- read.csv(&quot;DataForLabs/titanic.csv&quot;, stringsAsFactors = TRUE)</code></pre>
 <p>Here’s the code to make a simple histogram of age:</p>
 <pre class="r"><code>ggplot(titanicData, aes(x=age)) + geom_histogram()</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<pre><code>## Warning: Removed 680 rows containing non-finite outside the scale range
-## (`stat_bin()`).</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 680 rows containing non-finite outside the scale range (`stat_bin()`).</code></pre>
 <p><img src="R_tutorial_Graphics_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>Notice that there are two functions called here, put together in a
 single command with a plus sign. The first function is

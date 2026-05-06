@@ -12,7 +12,7 @@
 <meta name="author" content="" />
 
 
-<title>Labs using R:  4a. Making data files for R</title>
+<title>Labs using R:  4b. Sampling</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -430,21 +430,31 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore"><em>Labs using R</em>: <br>4a. Making data
-files for R</h1>
+<h1 class="title toc-ignore"><em>Labs using R</em>: <br>4b.
+Sampling</h1>
 <h4 class="author"></h4>
 
 </div>
 
 
+<br>
+<p style="color:red">
+<em>Unlike the rest of these labs, this lab depends on having some
+physiacl objects prepared in a class setting ahead of time and requires
+a class of 12 or more to work properly.</em>
+</p>
 <p><em>This lab is part of a series designed to accompany a course using
 </em>The Analysis of Biological Data<em>. The rest of the labs can be
-found <a href="index.html">here</a>. </em></p>
+found <a href="index.html">here</a>. This lab is based on topics in
+Chapter 1 of ABD.</em></p>
 <p><br></p>
 <div id="learning-outcomes" class="section level1">
 <h1>Learning outcomes</h1>
 <ul>
-<li>Learn to create data files for R.</li>
+<li><p>Explore the importance of random sampling</p></li>
+<li><p>Understand the sampling distribution of an estimate</p></li>
+<li><p>Investigate sampling error and sampling bias</p></li>
+<li><p>Practice creating data files.</p></li>
 </ul>
 <p><br></p>
 <p>If you have not already done so, download <a href="ABDLabs.zip">the
@@ -456,149 +466,173 @@ that folder to make these exercises work more seamlessly.</p>
 </div>
 <div id="learning-the-tools" class="section level1">
 <h1>Learning the tools</h1>
-<p><br></p>
-<div id="structure-of-a-good-data-file" class="section level2">
-<h2>Structure of a good data file</h2>
-<p>Data files appear in many formats, and different formats are
-sometimes preferable for different tasks. But there is one way to
-structure data—called “long” format—that is extremely useful for most
-things that you will want to do in statistics and R.</p>
-<p>Long format is actually very simple. Every row in the data set is a
-unique individual. Every column is a variable being measured on those
-individuals.</p>
-<p>For example, last week in Question 5 we looked at some data about the
-tongue and palate lengths of several species of bats. There were three
-variables in that data set, the species name, tongue length, and palate
-length. Here each “individual” is a species. Here is that data in long
-format—each row is an individual. There are three columns, one for each
-variable:</p>
-<table>
-<thead>
-<tr class="header">
-<th>species</th>
-<th>palate_length</th>
-<th>tongue_length</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Lichonycteris obscura</td>
-<td>10</td>
-<td>36.1</td>
-</tr>
-<tr class="even">
-<td>Glossophaga comissarisi</td>
-<td>10.7</td>
-<td>26.6</td>
-</tr>
-<tr class="odd">
-<td>Glossophaga soricina</td>
-<td>11.4</td>
-<td>30.2</td>
-</tr>
-<tr class="even">
-<td>Anoura caudifer</td>
-<td>11.6</td>
-<td>36.7</td>
-</tr>
-<tr class="odd">
-<td>Hylonycteris underwoodi</td>
-<td>13.4</td>
-<td>36.7</td>
-</tr>
-<tr class="even">
-<td>Anoura geoffroyi</td>
-<td>13.8</td>
-<td>39.6</td>
-</tr>
-<tr class="odd">
-<td>Lonchophylla robusta</td>
-<td>14.3</td>
-<td>42.6</td>
-</tr>
-<tr class="even">
-<td>Anoura fistulata</td>
-<td>12.4</td>
-<td>85.2</td>
-</tr>
-<tr class="odd">
-<td>Anoura cultrata</td>
-<td>14.3</td>
-<td>34.3</td>
-</tr>
-<tr class="even">
-<td>Leptonycteris curosoae</td>
-<td>16</td>
-<td>40.2</td>
-</tr>
-<tr class="odd">
-<td>Choeronycteris mexicana</td>
-<td>18</td>
-<td>52.1</td>
-</tr>
-</tbody>
-</table>
+<p>To do the activities in this lab, you’ll need to read <a
+href="R_tutorial_Making_data_files.html">lab 4a, on making data files
+for R.</a> <br></p>
+<hr />
 <p><br></p>
 </div>
-<div id="creating-a-data-file" class="section level2">
-<h2>Creating a data file</h2>
-<p>When you have new data that you want to get into the computer in a
-format that R can read, it is often easiest to do this outside of R. A
-spreadsheet program like Excel (or a freely available program like
-OpenOffice Calc) is a straightforward way to create a .csv file that R
-can read.</p>
-<p>In your spreadsheet program, open a new window with New Workbook
-under the File menu. (In OpenOffice, under the File menu, choose New and
-then Spreadsheet.) In the first row of your new spreadsheet, write your
-variable names, one for each column. (Be sure to give them good names
-that will work in R. Mainly, don’t have any spaces in a variable name
-and make sure that it doesn’t start with a number or contain punctuation
-marks. See Week 1 for more about naming variables.)</p>
-<p>On the rows immediately below that first row, enter the data for each
-individual, in the correct column. Here’s what the spreadsheet would
-look like for the bat data after they are entered:</p>
-<p><img src="formula_summaries/spreadsheet%20view.jpg" /></p>
+<div id="activities-and-questions" class="section level1">
+<h1>Activities and Questions</h1>
+<p><br></p>
+<p>In this lab you will be given a container of 25 cowrie shells. Think
+of this collection of shells as the complete population that you care
+about. You will work with a small group to take samples from this
+population to estimate the mean length of these shells.</p>
+<p>Follow these steps:</p>
+<p><br></p>
+<div id="make-a-sample" class="section level2">
+<h2>Make a sample</h2>
+<ol style="list-style-type: decimal">
+<li><p>Get a piece of calendar paper, and make sure that there are spots
+labeled from 1 to 25 on squares of the calendar paper.</p></li>
+<li><p>Sample five shells from this container. Put them in spots 1
+through 5 on the paper. This is your sample.</p></li>
+<li><p>For each shell that you have sampled, measure the length of the
+shell in millimeters, and write these lengths down on the paper by that
+shell.</p></li>
+<li><p>Open a new data file in the spreadsheet program, and on the first
+row add a variable name (e.g., “length”). Enter the lengths of your five
+shells. Save the file with a title something like “First
+sample.csv”.</p></li>
+<li><p>Import this first sample data into R. Using R, calculate the mean
+of the lengths of these five shells. Record this mean. <br></p></li>
+</ol>
+</div>
+<div id="find-the-mean-of-the-population" class="section level2">
+<h2>Find the mean of the population</h2>
+<ol start="6" style="list-style-type: decimal">
+<li><p>Next we will calculate the mean of the population of shells in
+your container. Take each remaining shell one by one, measure its
+length, and record it on the sheet beside the next available number. Set
+the shell there on the calendar paper as well.</p></li>
+<li><p>Open another data file in the spreadsheet program. Add the
+lengths of all the shells (including the first five) into this file in a
+single column named “length.” Save this file named as something like
+“Full population shells.csv”.</p></li>
+<li><p>Import this data set to R. Name this as you like, but later in
+these instructions we will refer to the imported R object as
+“<strong>population_data</strong>”. Use R to calculate the mean of the
+full population.</p></li>
+<li><p>Give your TA the mean of your first sample and the mean of your
+population, for later full class use.</p></li>
+</ol>
+<p><strong>Question 1.</strong> Is the mean of your sample the same as
+the mean of the population as a whole? What about the standard
+deviation? Suggest reasons why the sample mean and the population mean
+might differ.</p>
 <p><br></p>
 </div>
-<div id="saving-as-a-.csv-file" class="section level2">
-<h2>Saving as a .csv file</h2>
-<p>Saving a spreadsheet in a format that R can read is very
-straightforward. In these labs, we are using .csv files (which stands
-for comma separated values). Once you have made your spreadsheet, under
-“File” click on “Save as…”. This will open a dialog box. First, give the
-file a name with the extension .csv at the end. We used
-“BatTongues.csv”. Then choose what folder you want to save the file
-in.</p>
-<p>Finally, choose the right format for the file. The right format is
-“Comma separated values” which you can choose from after Format: in the
-dialog box. It might look something like this:</p>
-<p><img src="formula_summaries/format%20csv.jpg" /></p>
-<p>In the resulting file, the first line will be a header that lists the
-names of each column (variable). After that there will be one line for
-each individual. All the variable names in the first row and the
-variable values in the later rows will be separated by commas, hence the
-name of the format. If you opened the .csv file in a text editor, it
-would look like this:</p>
-<hr />
-<p>species,palate_length,tongue_length <br> Lichonycteris
-obscura,10,36.1 <br> Glossophaga comissarisi,10.7,26.6 <br> Glossophaga
-soricina,11.4,30.2 <br> Anoura caudifer,11.6,36.7 <br> Hylonycteris
-underwoodi,13.4,36.7 <br> Anoura geoffroyi,13.8,39.6 <br> Lonchophylla
-robusta,14.3,42.6 <br> Anoura fistulata,12.4,85.2 <br> Anoura
-cultrata,14.3,34.3 <br> Leptonycteris curosoae,16,40.2 <br>
-Choeronycteris mexicana,18,52.1 <br></p>
-<hr />
-<p>All the information is there, and it is stored in a simple text file
-that can be read again by Excel or R or many other programs.</p>
-<hr />
+<div id="make-a-random-sample-and-estimate-the-population-mean"
+class="section level2">
+<h2>Make a random sample and estimate the population mean</h2>
+<ol start="10" style="list-style-type: decimal">
+<li>In step 1, we made a sample, but it was not necessarily a random
+sample. Let’s now randomly sample from the population. You should have
+each shell next to a unique number on your sheet. To take a random
+sample, all members of the population must have the same chance of being
+chosen for our sample. In R, the function <strong>sample.int()</strong>
+randomly chooses integers from a given range. To randomly sample 5
+individuals from 25 possibilities, we can use:</li>
+</ol>
+<pre class="r"><code>sample.int(n = 25, size = 5)</code></pre>
+<pre><code>## [1] 21 20 12  8 22</code></pre>
+<p>This tells R to give us a set of 5 numbers randomly chosen from the
+integers 1 to 25. (When you run this line you will almost certainly get
+a different output. It is randomly choosing numbers, so we expect
+different answers each time.) Generate a set of 5 random numbers this
+way. Use these numbers to tell you which 5 shells to include in your
+sample.</p>
+<ol start="11" style="list-style-type: decimal">
+<li><p>Use R to calculate the mean of the shell lengths for these 5
+shells in your random sample. The result is an estimate of the mean
+shell length in your population.</p></li>
+<li><p>Make another random sample of 5 shells, and calculate the mean of
+this sample. Did you get a different number from the mean of the first
+sample? Why do you think the second sample mean is different from the
+first?</p></li>
+</ol>
 <p><br></p>
-<p>These skills can be practiced in the Activity lists in the <a
-href="R_tutorial_Sampling.html">Sampling activity, lab 4b.</a></p>
-<p>If you’re doing these labs on your own ( or in the absence of in
-person groups), an <a href="Lab4aNewQuestions2020.pdf">alternative set
-of questions for COVID-era practice making data files</a> is available,
-and <a href="DataSheetsLab4.pdf">the data sheets you need for those
-questions are here</a>.</p>
+</div>
+<div id="making-a-distribution-of-sample-means" class="section level2">
+<h2>Making a distribution of sample means</h2>
+<p>The estimates you obtained from your random samples in steps 10 and
+12 are just two of many values that you might have obtained. By chance,
+each sample is likely to be different from other samples, with a
+different sample mean. The frequency distribution of estimates that you
+might obtain when sampling randomly from a population, and their
+probabilities of occurrence, is called the sampling distribution of the
+estimate. To explore the sampling distribution for the sample mean,
+let’s randomly sample from your population of shells several times. Each
+sample is going to have five shells, and we’ll calculate the mean of
+each sample.</p>
+<p>In real life situations, you won’t have the whole population to work
+with, and you won’t be able to take many random samples. As a result,
+you won’t be able to glimpse the sampling distribution. But in this
+artificial scenario we can create multiple samples from our population
+to see what the sampling distribution might look like.</p>
+<ol start="13" style="list-style-type: decimal">
+<li>Taking each sample by hand is tedious. To speed up this process, we
+have written a short R function to sample from your list of shell
+lengths in your population. This will have the computer do the steps
+that you did in the previous steps.</li>
+</ol>
+<p>The function is called <strong>mean_from_a_sample</strong>, and it is
+in the script “LearningTheToolsWeek4.R”. Paste this full command into
+the R console and hit return. Make sure you copy the whole function,
+including the closing curly bracket }.</p>
+<p>Call this function by entering</p>
+<pre class="r"><code>&gt; mean_from_a_sample(population_data$length, sample_size  = 5)</code></pre>
+<p>where “population_data” is the list of all the lengths of the shells
+from your population and 5 is the sample size. Running this will give
+you the mean length of a random sample of 5 shells.</p>
+<ol start="14" style="list-style-type: decimal">
+<li>To make a vector with the means of 1000 random samples of the shell
+lengths, run the following:</li>
+</ol>
+<pre class="r"><code>sample_mean_length = rep(0,1000)
+for(i in 1:1000) sample_mean_length[i] = 
+      mean_from_a_sample(population_data$length,5)</code></pre>
+<p>This creates a vector called <strong>sample_mean_length</strong> and
+fills it with 1000 means of independent random samples.</p>
+<ol start="15" style="list-style-type: decimal">
+<li>Plot a histogram that shows the distribution of the means of these
+random samples. (Note: in order to use <code>ggplot</code> to make a
+ghistogram, the data have to be in a data frame. Use the line of code
+below to change your vector into a data frame.)</li>
+</ol>
+<pre class="r"><code>samples = data.frame(meanLength=sample_mean_length)</code></pre>
+<p><strong>Question 2.</strong> Describe the shape of this distribution.
+Does it resemble a normal distribution? Does every sample return the
+same value of the mean? Why, or why not?</p>
+<ol start="16" style="list-style-type: decimal">
+<li>Calculate the mean of the distribution of sample means.</li>
+</ol>
+<p><strong>Question 3.</strong> How does the mean of the distribution of
+sample means compare to the true mean of the population? Are they
+approximately equal? Are your the sample means unbiased estimates of the
+population mean?</p>
+<p><br></p>
+</div>
+<div id="sampling-bias" class="section level2">
+<h2>Sampling bias</h2>
+<ol start="17" style="list-style-type: decimal">
+<li><p>Compare the mean of your first sample to the distribution of
+sample means obtained from the random samples. Is your first sample mean
+unusual in any way?</p></li>
+<li><p>From your TA, get the list of the means from the first samples of
+each group, and the population means for each group. Load these data
+into a data frame in R.</p></li>
+<li><p>Create a new variable from the difference between a student
+group’s first sample mean and their population mean. Call this new
+variable “<strong>first_sample_error</strong>”. What is the average
+error of these first samples?</p></li>
+</ol>
+<p><strong>Question 4.</strong> Remember that these first samples were
+not necessarily random samples, unlike the other samples that we made
+today. Is there any pattern to the first samples that you think might
+result from this lack of randomness? If so, why might this have
+happened?</p>
 </div>
 </div>
 

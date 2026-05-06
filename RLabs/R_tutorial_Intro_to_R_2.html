@@ -17,7 +17,7 @@
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -72,7 +72,7 @@ if (window.hljs) {
 
 
 
-<link rel="stylesheet" href="ws.css" type="text/css" />
+<link rel="stylesheet" href="ws-rlabs.css" type="text/css" />
 
 
 
@@ -593,14 +593,6 @@ allows for easy modification of data frames. Before using the functions
 in this package, we need to load it. We do this with the
 <strong>library()</strong> function. In the console, enter this:</p>
 <pre class="r"><code>library(dplyr)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
 <p>If the <strong>dplyr</strong> package is installed on your computer,
 the computer will just give a new prompt and be ready to go. If the
 package is not installed it will give you an error message in red asking
@@ -662,22 +654,22 @@ value of a categorical variable.</p>
 <p>To see if the data loads appropriately, you might want to run the
 command</p>
 <pre class="r"><code>summary(titanicData)</code></pre>
-<pre><code>##  passenger_class                        name           age         
-##  1st:322         Carlsson,MrFransOlof     :   2   Min.   : 0.1667  
-##  2nd:280         Connolly,MissKate        :   2   1st Qu.:21.0000  
-##  3rd:711         Kelly,MrJames            :   2   Median :30.0000  
-##                  Abbing,MrAnthony         :   1   Mean   :31.1942  
-##                  Abbott,MasterEugeneJoseph:   1   3rd Qu.:41.0000  
-##                  Abbott,MrRossmoreEdward  :   1   Max.   :71.0000  
-##                  (Other)                  :1304   NA&#39;s   :680      
-##         embarked            home_destination     sex      survive  
-##             :493                    :558     female:463   no :864  
-##  Cherbourg  :202   NewYork,NY       : 65     male  :850   yes:449  
-##  Queenstown : 45   London           : 14                           
-##  Southampton:573   Montreal,PQ      : 10                           
-##                    Cornwall/Akron,OH:  9                           
-##                    Paris,France     :  9                           
-##                    (Other)          :648</code></pre>
+<pre><code>##  passenger_class                        name           age                 embarked  
+##  1st:322         Carlsson,MrFransOlof     :   2   Min.   : 0.1667              :493  
+##  2nd:280         Connolly,MissKate        :   2   1st Qu.:21.0000   Cherbourg  :202  
+##  3rd:711         Kelly,MrJames            :   2   Median :30.0000   Queenstown : 45  
+##                  Abbing,MrAnthony         :   1   Mean   :31.1942   Southampton:573  
+##                  Abbott,MasterEugeneJoseph:   1   3rd Qu.:41.0000                    
+##                  Abbott,MrRossmoreEdward  :   1   Max.   :71.0000                    
+##                  (Other)                  :1304   NA&#39;s   :680                        
+##           home_destination     sex      survive  
+##                   :558     female:463   no :864  
+##  NewYork,NY       : 65     male  :850   yes:449  
+##  London           : 14                           
+##  Montreal,PQ      : 10                           
+##  Cornwall/Akron,OH:  9                           
+##  Paris,France     :  9                           
+##  (Other)          :648</code></pre>
 <p>which will list all the variables and some summary statistics for
 each variable.</p>
 <p>R has other functions that can read other data formats besides csv

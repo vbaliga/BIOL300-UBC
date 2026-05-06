@@ -53,10 +53,10 @@ navbar:
 output_dir: "."
 output:
   html_document:
-    theme: yeti
+    theme: flatly
     highlight: textmate
     includes:
       in_header: header.html
       before_body: header_image.html
-    css: ws.css
+    css: ws-rlabs.css
    

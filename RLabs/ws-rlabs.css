@@ -1,0 +1,100 @@
+/* navbar */
+.navbar-default .navbar-brand {
+    color: #daa520  /*#daa520;*/
+}
+
+.navbar-brand {
+    font-size: 16px;
+}
+
+h1 {
+  font-size:30px;
+  /*text-decoration: underline;*/
+ 
+}
+h2 {
+  font-size:22px;
+  /*font-weight: 400;*/
+  /*color: #002db3;*/
+  color: #b34700;
+
+}
+
+h3 {
+  font-size:16px;
+  
+}
+
+/* font weight of main headers in table of contents (300 is default) */
+.tocify-header {
+  font-weight: 500;
+}
+
+.title {
+  color:  #b34700; /*#DF7401;*/
+  text-decoration: initial;
+}
+
+.list-group-item.active {
+  background-color: #daa520  /*changes color of box at top of ToC -- maybe this blue?: #4775d1*/
+}
+
+/* Link colors */
+a {
+  color: #0055a4;
+}
+
+a:hover,
+a:focus {
+  color: #002145;
+  text-decoration: underline;
+}
+
+/* Navbar links */
+.navbar a {
+  color: #ffffff;
+}
+
+.navbar a:hover,
+.navbar a:focus {
+  color: #f2c94c;
+}
+
+/* Active navbar item */
+.navbar-nav > .active > a,
+.navbar-nav > .active > a:hover,
+.navbar-nav > .active > a:focus {
+  color: #ffffff;
+  background-color: #001b34;
+}
+
+/* Make main text feel more like the original Yeti site */
+body {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #333333;
+}
+
+/* Keep paragraphs a bit tighter, like the original */
+p {
+  margin: 0 0 10px;
+}
+
+/* Make normal page headings less heavy */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  color: #333333;
+}
+
+/* Preserve your orange page title look */
+h1.title {
+  color: #b44a0b;
+  font-weight: 400;
+}
+
+/* Slightly reduce the visual weight of tutorial links */
+a {
+  font-weight: 400;
+}
