@@ -4,30 +4,23 @@ author:
 output:
   html_document:
     fig_width: 1
-    
-    
 ---
 
+------------------------------------------------------------------------
 
----
+**UNDER DEVELOPMENT: Until this statement is removed, consider all pages on this site under development.**
 
+These labs are written for the UBC course BIOL 300: Funamentals of Biostatistics, using resources from *The Analysis of Biological Data* by Whitlock and Schluter. The materials will follow the same order and level as this text, though there may not be one-to-one correspondence between chapters in ABD and tutorials.
 
-These labs are written for the UBC course BIOL 300: Funamentals of Biostatistics, using some resources from *The Analysis of Biological Data* by Whitlock and Schluter. The materials will follow the same order and level as this text, though there may not be one-to-one correspondence between chapters in ABD and tutorials.
-
-
-These labs have two main functions. First, they are intended to facilitate active learning in some core concepts in introductory statistics. Second, they introduce a key tool in modern statistics, the widely-used, open source statistic program called R. 
+These labs have two main functions. First, they are intended to facilitate active learning in some core concepts in introductory statistics. Second, they introduce a key tool in modern statistics, the widely-used, open source statistic program called R.
 
 Before using these labs, download [the zip file containing Data, R scripts, and other resources for these labs](ABDLabs.zip). Remember to start RStudio from the "ABDLabs.Rproj" file in that folder to make these exercises work more seamlessly.
 
+Some of the exercises in these labs (particularly in the first few labs) may require working in a group environment.
 
-Some of the exercises in these labs (particularly in the first few labs) may depend on working in a group environment.  
-
-Comments and suggestions are greatly appreciated. If something is not working or can be improved, please let us know. Please e-mail <a href="mailto:vikram.baliga@ubc.ca">Vikram Baliga</a> at vikram.baliga@ubc.ca with any thoughts you have about how these tutorials can be improved.
+Comments and suggestions are greatly appreciated. If something is not working or can be improved, please let us know. Please e-mail Vikram Baliga at [vikram.baliga\@ubc.ca](mailto:vikram.baliga@ubc.ca){.email} with any thoughts you have about how these tutorials can be improved.
 
 Instructors, please e-mail <a href="mailto:whitlock@zoology.ubc.ca">Mike Whitlock</a> for a link to some instructor notes on these labs.
-
-
-Other resources for Whitlock and Schluter *The Analysis of Biological Data* are [available chapter by chapter here](../index.html). 
 
 ## R tutorials by topic
 
@@ -39,7 +32,7 @@ Other resources for Whitlock and Schluter *The Analysis of Biological Data* are 
 
 [3. Graphics](R_tutorial_Graphics.html)
 
-[4a. Making data files for R](R_tutorial_Making_data_files.html)   
+[4a. Making data files for R](R_tutorial_Making_data_files.html)
 
 [4b. Sampling](R_tutorial_Sampling.html)
 
@@ -61,3 +54,4 @@ Other resources for Whitlock and Schluter *The Analysis of Biological Data* are 
 
 <br>
 
+Other resources for Whitlock and Schluter *The Analysis of Biological Data* are [available chapter by chapter here](../index.html).
