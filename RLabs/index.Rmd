@@ -24,9 +24,9 @@ Some of the exercises in these labs (particularly in the first few labs) may req
 
 [0. Loading R and RStudio](R_tutorial_Loading_R_and_RStudio.html)
 
-[1. Intro to R, Part 1](R_tutorial_Intro_to_R_1.html)
+[1. Intro to R](R_tutorial_Intro_to_R.html)
 
-[2. Intro to R, Part 2](R_tutorial_Intro_to_R_2.html)
+2. Intro to R, Part 2 (some combined with above, some with below)
 
 [3. Graphics](R_tutorial_Graphics.html)
 

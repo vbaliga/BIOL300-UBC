@@ -295,7 +295,7 @@ $(document).ready(function () {
       <a href="R_tutorial_Loading_R_and_RStudio.html">0. Loading R and RSstudio</a>
     </li>
     <li>
-      <a href="R_tutorial_Intro_to_R_1.html">1. Intro to R, Part 1</a>
+      <a href="R_tutorial_Intro_to_R.html">1. Intro to R</a>
     </li>
     <li>
       <a href="R_tutorial_Intro_to_R_2.html">2. Intro to R, Part 2</a>
@@ -344,6 +344,51 @@ $(document).ready(function () {
   $('.navbar-brand').attr('href','../index.html')
 </script>
 
+<style>
+.copy-code-button {
+  float: right;
+  font-size: 11px;
+  line-height: 1;
+  padding: 1px 5px;
+  margin: 0;
+  margin-top: 2px;
+  margin-right: 2px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll("pre").forEach(function(pre) {
+    var codeBlock = pre.querySelector("code");
+    if (!codeBlock) return;
+
+    var codeText = codeBlock.innerText.trim();
+
+    // Skip printed R output blocks, which usually begin with ##
+    if (codeText.startsWith("##")) return;
+
+    var button = document.createElement("button");
+    button.textContent = "Copy";
+    button.className = "copy-code-button";
+
+    button.addEventListener("click", function() {
+      navigator.clipboard.writeText(codeBlock.innerText).then(function() {
+        button.textContent = "Copied!";
+        setTimeout(function() {
+          button.textContent = "Copy";
+        }, 1500);
+      });
+    });
+
+    pre.insertBefore(button, codeBlock);
+  });
+});
+</script>
+
 <div id="header">
 
 
@@ -377,8 +422,10 @@ labs) may require working in a group environment.</p>
 <h2>R tutorials by topic</h2>
 <p><a href="R_tutorial_Loading_R_and_RStudio.html">0. Loading R and
 RStudio</a></p>
-<p><a href="R_tutorial_Intro_to_R_1.html">1. Intro to R, Part 1</a></p>
-<p><a href="R_tutorial_Intro_to_R_2.html">2. Intro to R, Part 2</a></p>
+<p><a href="R_tutorial_Intro_to_R.html">1. Intro to R</a></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Intro to R, Part 2 (some combined with above, some with below)</li>
+</ol>
 <p><a href="R_tutorial_Graphics.html">3. Graphics</a></p>
 <p><a href="R_tutorial_Making_data_files.html">4a. Making data files for
 R</a></p>

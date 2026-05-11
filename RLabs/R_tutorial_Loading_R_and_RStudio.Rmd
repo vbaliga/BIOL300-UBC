@@ -22,7 +22,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 <br>
 
-For these labs, you will need two apps on your computer, R and RStudio. Both of these are free, available to download without charge from the web. This setup requires a laptop or desktop computer. RStudio is not natively supported on Chromebooks or iPads/tablets. Desktop computers are available to use in 2004 Biological Sciences during BIOL 300 tutorial times; please consult your section's TA.
+For these labs, you will need two apps on your computer: R and RStudio. Both of these are free, available to download without charge from the web. This setup requires a laptop or desktop computer. RStudio is not natively supported on Chromebooks or iPads/tablets. Desktop computers are available to use in 2004 Biological Sciences during BIOL 300 tutorial times; please consult your section's TA.
 
 Advanced users are permitted to use VS Code or Positron, but note that these apps are not fully endorsed by the BIOL 300 instructional team. You may need to adapt instructions on your own. See the sections at the end of this page for more information about using VS Code or Positron in BIOL 300.
 
@@ -80,7 +80,7 @@ To use R in VS Code, you will first need to install the R extension for VS Code.
 
 After installing VS Code, open the Extensions panel and search for “R” by Yuki Ueda (`REditorSupport.r`). Installing this extension provides features such as syntax highlighting, code execution, plotting support, and connections to the R console.
 
-The `ABDLabs` folder distributed with these labs contains an `.Rproj` file. This file is used by RStudio to define the project working directory and session settings. VS Code does not directly use `.Rproj` files, but you can still work with the labs successfully by opening the entire `ABDLabs` folder in VS Code's Explorer or via `File -> Open Folder...`. Doing so helps ensure that relative file paths used throughout the labs work correctly.
+The `ABDLabs` folder distributed with these labs contains an `.Rproj` file. This file is used by RStudio to define the project working directory and session settings. VS Code does not directly use `.Rproj` files, but you can still work with the labs successfully by opening the entire `ABDLabs` folder in VS Code's Explorer or via `File → Open Folder...`. Doing so helps ensure that relative file paths used throughout the labs work correctly.
 
 ## Using Positron with R
 
@@ -88,4 +88,4 @@ Positron is a newer data-science environment developed by Posit, the company beh
 
 Because Positron is still under active development, some features may behave differently than they do in RStudio. However, many people find that it offers a familiar workflow while also providing additional flexibility and modern editing tools.
 
-The `.Rproj` file included in the `ABDLabs` folder is primarily intended for use with RStudio. Positron can still work with projects that contain `.Rproj` files, but it does not rely on them in the same way that RStudio does. As with VS Code, the best approach is to open the `ABDLabs` folder in the Explorer or via `File -> Open Folder...`. Doing so helps ensure that relative file paths used throughout the labs work correctly.
+The `.Rproj` file included in the `ABDLabs` folder is primarily intended for use with RStudio. Positron can still work with projects that contain `.Rproj` files, but it does not rely on them in the same way that RStudio does. As with VS Code, the best approach is to open the `ABDLabs` folder in the Explorer or via `File → Open Folder...`. Doing so helps ensure that relative file paths used throughout the labs work correctly.

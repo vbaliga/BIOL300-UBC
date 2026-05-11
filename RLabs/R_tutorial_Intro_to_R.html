@@ -12,7 +12,7 @@
 <meta name="author" content="" />
 
 
-<title>Labs using R:  2. Introduction to R Part 2</title>
+<title>Labs using R:  1. Introduction to R</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -475,35 +475,250 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-<h1 class="title toc-ignore"><em>Labs using R</em>: <br>2. Introduction
-to R Part 2</h1>
+<h1 class="title toc-ignore"><em>Labs using R</em>: <br>1. Introduction
+to R</h1>
 <h4 class="author"></h4>
 
 </div>
 
 
-<p><em>This lab is part of a series designed to accompany a course using
-</em>The Analysis of Biological Data<em>. The rest of the labs can be
-found <a href="index.html">here</a>.</em></p>
+<p><em>This lab is part of a series designed to accompany a course
+using</em> The Analysis of Biological Data<em>. The rest of the labs can
+be found <a href="index.html">here</a>.</em></p>
 <p><br></p>
 <div id="learning-outcomes" class="section level1">
 <h1>Learning outcomes</h1>
 <ul>
-<li><p>Learn how to increase the power of R with packages</p></li>
-<li><p>Use vectors</p></li>
-<li><p>Use data frames</p></li>
+<li><p>Learning how to start with R and RStudio</p></li>
+<li><p>Use functions in R</p></li>
+<li><p>Write and save an R script</p></li>
 </ul>
 <p><br></p>
-<p>If you have not already done so, download <a href="ABDLabs.zip">the
-zip file containing Data, R scripts, and other resources for these
-labs</a>. Remember to start RStudio from the “ABDLabs.Rproj” file in
-that folder to make these exercises work more seamlessly.</p>
+<p>Data, R scripts, and other resources for these labs can be downloaded
+from <a href="ABDLabs.zip">here as a .zip file</a>. Please open the
+ABDLabs folder created by the .zip file in a location on your computer
+that you can come back to use repeatedly.</p>
 <hr />
 <p><br></p>
 </div>
 <div id="learning-the-tools" class="section level1">
 <h1>Learning the tools</h1>
 <p><br></p>
+<div id="what-is-r" class="section level2">
+<h2>What is R?</h2>
+<p>R is a computer program that allows an extraordinary range of
+statistical calculations. It is a free program, mainly written by
+voluntary contributions from statisticians around the world. R is
+available on most operating systems, including Windows, Mac OS, and
+Linux.</p>
+<p>R can make graphics and do statistical calculations. It is also a
+full-fledged computing language. In this series of labs, we will only
+scratch the surface of what R can do.</p>
+<p><br></p>
+</div>
+<div id="what-is-rstudio" class="section level2">
+<h2>What is <em>RStudio</em>?</h2>
+<p><em>RStudio</em> is a separate program, also free, that provides a
+more elegant front end for R. RStudio allows you to easily organize
+separate windows for R commands, graphic, help, etc. in one place.</p>
+<p>If your computer does not already have a version of R and RStudio
+installed, look at the <a
+href="R_tutorial_Loading_R_and_RStudio.html">instructions about getting
+set up</a>.</p>
+<p><br></p>
+</div>
+<div id="getting-started" class="section level2">
+<h2>Getting started</h2>
+<p>If you haven’t done so already, download the folder called <a
+href="ABDLabs.zip">ABDLabs</a>. Inside this folder are all the data sets
+you will need for these labs. Also, there is a file in that folder
+called <strong><code>ABDLabs.Rproj</code></strong>. <span
+style="color:red">Double-click on this file to start R and
+RStudio.</span> If you start R from this file, it will automatically
+load some packages that will add some useful functionality, and it will
+tell R to look for files inside the <code>ABDLabs</code> folder. Both of
+these will let you skip some steps later.</p>
+<p>You can also start R and Rstudio directly from the RStudio
+application. The icon for the application should look something like
+this:</p>
+<p><left>
+<img src="formula_summaries/RStudio-Logo-flat.svg" width="150"/>
+</left></p>
+<p>When you start RStudio, it will automatically start R as well. You
+run R inside RStudio.</p>
+<p>After you have started RStudio, you should see a new window with a
+menu bar at the top and three main sections. One of the sections is
+called the “Console” – this is where you type commands to give
+instructions to R and typically where you see R’s answers to you.</p>
+<p>Another important corner of this window can show a variety of
+information. Most importantly to us, this is where graphics will appear,
+under the tab marked “Plots”.</p>
+<p><br></p>
+</div>
+<div id="the-console" class="section level2">
+<h2>The Console</h2>
+<p>When you start RStudio, you’ll see a corner of the window called the
+“Console”. By the default the console window is in the bottom left of
+the Rstudio screen.</p>
+<p>You can type commands in this window where there is a prompt (which
+will look like a <code>&gt;</code> sign at the bottom of the window).
+The Console has to be the selected window. (Clicking anywhere in the
+Console selects it.)</p>
+<p>The <code>&gt;</code> prompt is R’s way of inviting you to give it
+instructions. You communicate with R by typing commands after the
+<code>&gt;</code> prompt.</p>
+<p>Type “<strong>2 + 2</strong>” at the <code>&gt;</code> prompt, and
+hit return. You’ll see that R can work like a calculator (among its many
+other powers). It will give you the answer, 4, and it will label that
+answer with <code>[1]</code> to indicate that it is the first element in
+the answer. (This is sort of annoying when the answers are simple like
+this, but can be very valuable when the answers become more
+complex.)</p>
+<p>In these labs, the input will show up in a gray box and the output,
+if any, will follow in a white box.</p>
+<pre class="r"><code>2 + 2</code></pre>
+<pre><code>## [1] 4</code></pre>
+<p><br></p>
+<div id="log" class="section level3">
+<h3><code>log()</code></h3>
+<p>You can use a wide variety of math functions to make calculations
+here, e.g., <code>log()</code> calculates the log of a number:</p>
+<pre class="r"><code>log(42)</code></pre>
+<pre><code>## [1] 3.73767</code></pre>
+<p>(By default, this gives the natural log with base e.)</p>
+<p>Parentheses are used both as a way to group elements of the
+calculation and also as a way to denote the arguments of functions. (The
+“arguments” of a function are the set of values given to it as input.)
+For example, <code>log(3)</code> is applying the function
+<code>log()</code> to the argument <code>3</code>.</p>
+<p><br></p>
+</div>
+<div id="sqrt" class="section level3">
+<h3><code>sqrt()</code></h3>
+<p>Another mathematical function that often comes in handy is the square
+root function, <code>sqrt()</code>. For example, the square root of 4
+is:</p>
+<pre class="r"><code>sqrt(4)</code></pre>
+<pre><code>## [1] 2</code></pre>
+<p>To calculate a value with an exponent, use the <code>^</code> symbol.
+For example 4<sup>3</sup> is written as:</p>
+<pre class="r"><code>4^3</code></pre>
+<pre><code>## [1] 64</code></pre>
+<p>Of course, many math functions can be combined to give an almost
+infinite possibility of mathematical expressions. For example,</p>
+<p><span class="math display">\[\frac{1}{\sqrt{2\pi
+(3.1)^2}}   e^{-\frac{(12-10.7)^2}{2(3.1) }}\]</span></p>
+<p>can be calculated with</p>
+<pre class="r"><code>(1 / (sqrt(2 * pi * (3.1)^2))) * exp(-(12-10.7)^2/(2*3.1))</code></pre>
+<pre><code>## [1] 0.09798692</code></pre>
+<p><br></p>
+</div>
+</div>
+<div id="writing-and-saving-r-scripts" class="section level2">
+<h2>Writing and saving R scripts</h2>
+<p>You should keep a record of all commands used, along with copious
+notes, so that weeks or years later you can retrace the steps of your
+earlier analysis. An <code>.R</code> script provides a convenient way to
+do this.</p>
+<p>In RStudio, you can create an <code>.R</code> script file which
+contains R commands that can be reloaded and used at a later date. Under
+the menu at the top, choose <code>File → New File → R Script</code>.
+This will create a new section in RStudio with the temporary name
+“Untitled1” (or similar). You can copy and paste any commands that you
+want from the Console, or type directly here. (When you copy and paste,
+it’s better to not include the <code>&gt;</code> prompt in the
+script.)</p>
+<p>To keep this script for later, just hit Save under the File menu. In
+the future you can open this file to have those commands available for
+use again.</p>
+<p>It is best to type all your commands in the script window and run
+them from there, rather than typing directly into the console. This lets
+you save a record of your session so that you can more easily re-create
+what you have done later.</p>
+<p><br></p>
+</div>
+<div id="comments" class="section level2">
+<h2>Comments</h2>
+<p>In scripts, it can be very useful to save a bit of text which is not
+to be evaluated by R. You can leave a note to yourself (or a colleague)
+about what the next line is supposed to do, what its strengths and
+limitations are, or anything else you want to remember later. To leave a
+note, we use “comments”, which are a line of text that starts with the
+hash symbol <code>#</code>. Anything on a line after a <code>#</code>
+will be ignored by R.</p>
+<pre class="r"><code># This is a comment. Running this in R will 
+# have no effect.
+
+# You can also leave an in-line comment after a command:
+9^0.5 # This is another way to take a square root</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre class="r"><code># Anything after the &quot;#&quot; will be treated as a comment, even if it has R code: 
+# log(4)</code></pre>
+<p><br></p>
+</div>
+<div id="functions" class="section level2">
+<h2>Functions</h2>
+<p>Most of the work in R is done by functions. A function has a name and
+one or more arguments. For example, <code>log(4)</code> is a function
+that calculates the log in base e for the value 4 given as input.</p>
+<p>Sometimes functions have optional input arguments. For the function
+<code>log()</code>, for example, we can specify the optional input
+argument <code>base</code> to tell the function what base to use for the
+logarithm. If we don’t specify the base variable, it has a default value
+of <code>base = e</code>. To get a log in base 10, for example, we would
+use:</p>
+<pre class="r"><code>log(4, base = 10)</code></pre>
+<pre><code>## [1] 0.60206</code></pre>
+<p><br></p>
+</div>
+<div id="defining-objects" class="section level2">
+<h2>Defining objects</h2>
+<p>In R, we can store information of various sorts by assigning them to
+objects. For example, if we want to create a object called
+<code>x</code> and give it a value of 4, we would write</p>
+<pre class="r"><code>x &lt;- 4</code></pre>
+<p>The middle bit of this: <code>&lt;-</code>, a less than sign and a
+hyphen typed together to make something that looks a little like a
+left-facing arrow, tells R to assign the value on the right to the
+object on the left. After running the command above, whenever we use
+<code>x</code> in a command it would be replaced by its value 4. For
+example, if we add 3 to <code>x</code>, we would expect to get 7.</p>
+<pre class="r"><code>x + 3</code></pre>
+<pre><code>## [1] 7</code></pre>
+<p>Objects in R can store more than just simple numbers. They can store
+lists of numbers, functions, graphics, etc., depending on what values
+get assigned to the object.</p>
+<p>We can always reassign a new value to a object. If we now tell R that
+<code>x</code> is equal to 32:</p>
+<pre class="r"><code>x &lt;- 32</code></pre>
+<p>then <code>x</code> takes its new value:</p>
+<pre class="r"><code>x</code></pre>
+<pre><code>## [1] 32</code></pre>
+<p><br></p>
+</div>
+<div id="names" class="section level2">
+<h2>Names</h2>
+<p>Naming objects and functions in R is pretty flexible.</p>
+<p>A name has to start with a letter, but that can be followed by
+letters or numbers. There can’t be any spaces, though.</p>
+<p>Names in R are case-sensitive, which means that <code>Weights</code>
+and <code>weights</code> are completely different things to R. This is a
+common and incredibly frustrating source of errors in R.</p>
+<p>It’s a good idea to have your names be as descriptive as possible, so
+that you will know what you meant later on when looking at it. (However,
+if they get too long, it becomes painful and error prone to type them
+each time we use them, so this, as with all things, requires
+moderation.)</p>
+<p>Sometimes clear naming means that it is best to have multiple words
+in the name, but we can’t have spaces. Therefore a common approach is
+like we saw in the previous section, to chain the words with underscores
+(not hyphens!), as in <code>weights_before_hospital</code>. This
+convention is called “snake_case”.</p>
+<p>Another solution to make separate words stand out in a object name is
+to vary the case: <code>weightsBeforeHospital</code>. This convention is
+called “camelCase”.</p>
+<p><br></p>
+</div>
 <div id="vectors" class="section level2">
 <h2>Vectors</h2>
 <p>One useful feature of R is the ability to sometimes apply functions
@@ -514,24 +729,24 @@ vector of five numbers:</p>
 <pre><code>## [1]  78.0  85.0  64.0  54.0 102.0  98.6</code></pre>
 <p><br></p>
 <div id="c" class="section level3">
-<h3>c()</h3>
-<p><strong>c()</strong> is a function that creates a vector, containing
-the list of items given in its arguments. To help you remember, you
-could think of the function <strong>c()</strong> meaning to “combine”
-some elements into a vector.</p>
+<h3><code>c()</code></h3>
+<p><code>c()</code> is a function that creates a vector, containing the
+list of items given in its arguments. To help you remember, you could
+think of the function <code>c()</code> meaning to “combine” some
+elements into a vector.</p>
 <p>Let’s add a little extra here to make the computer remember this
-vector. Let’s assign it to a object, called
-<strong>temperatureF</strong> (because these numbers are actually a set
-of temperatures in degrees Fahrenheit):</p>
+vector. Let’s assign it to a object, called <code>temperatureF</code>
+(because these numbers are actually a set of temperatures in degrees
+Fahrenheit):</p>
 <pre class="r"><code>temperatureF &lt;- c(78, 85, 64, 54, 102, 98.6)</code></pre>
 <p>The combination of the less than sign and the hyphen makes an arrow
 pointing from right to left—this tells R to assign the stuff on the
 right to the name on the left. In this case we are assigning a vector to
-the object <strong>temperatureF</strong>.</p>
+the object <code>temperatureF</code>.</p>
 <p>Inputting this to R causes no obvious output, but R will now remember
-this vector of temperatures under the name
-<strong>temperatureF</strong>. We can view the contents of the vector
-<strong>temperatureF</strong> by simply typing its name:</p>
+this vector of temperatures under the name <code>temperatureF</code>. We
+can view the contents of the vector <code>temperatureF</code> by simply
+typing its name:</p>
 <pre class="r"><code>temperatureF</code></pre>
 <pre><code>## [1]  78.0  85.0  64.0  54.0 102.0  98.6</code></pre>
 <p>The power of vectors is that sometimes R can do the same calculation
@@ -548,7 +763,7 @@ after the vector name, and inside those brackets put the index of the
 element we want. (The “index” is just a number giving the relative
 location in the vector of the item we want. The first item has index 1,
 etc.) For example, the second element of the vector
-<strong>temperatureC</strong> is</p>
+<code>temperatureC</code> is</p>
 <pre class="r"><code>temperatureC[2]</code></pre>
 <pre><code>## [1] 29.44444</code></pre>
 <p>One of the common ways to slip up in R is to confuse the [square
@@ -556,10 +771,10 @@ brackets] which pull out an element of a vector, with the (parentheses)
 , which is used to enclose the arguments of a function.</p>
 <p>Vectors can also operate mathematically with other vectors. For
 example, imagine you have a vector of the body weights of patients
-before entering hospital (<strong>weight_before_hospital</strong>) and
+before entering hospital (<code>weight_before_hospital</code>) and
 another vector with the same patient’s weights after leaving hospital
-(<strong>weight_after_hospital</strong>). You can calculate the change
-in weight for all these patients in one command, using vector
+(<code>weight_after_hospital</code>). You can calculate the change in
+weight for all these patients in one command, using vector
 subtraction:</p>
 <pre class="r"><code>weight_change_during_hospital &lt;- weight_after_hospital - weight_before_hospital</code></pre>
 <p>The result will be a vector that has each patient’s change in
@@ -573,281 +788,92 @@ weight.</p>
 let’s start with a couple of basic ones.</p>
 <p><br></p>
 <div id="mean" class="section level3">
-<h3>mean()</h3>
-<p>The function <strong>mean()</strong> does just what it sounds like:
-it calculates the sample mean (that is, the average) of the vector given
-to it as input. For example, the mean of the vector of the temperatures
-in degrees Celsius from above is 26.81481:</p>
+<h3><code>mean()</code></h3>
+<p>The function <code>mean()</code> does just what it sounds like: it
+calculates the sample mean (that is, the average) of the vector given to
+it as input. For example, the mean of the vector of the temperatures in
+degrees Celsius from above is 26.81481:</p>
 <pre class="r"><code>mean(temperatureC)</code></pre>
 <pre><code>## [1] 26.81481</code></pre>
 <p><br></p>
 </div>
 <div id="sum" class="section level3">
-<h3>sum()</h3>
+<h3><code>sum()</code></h3>
 <p>Another simple (and simply named) function calculates the sum of all
-numbers in a vector: <strong>sum()</strong>.</p>
+numbers in a vector: <code>sum()</code>.</p>
 <pre class="r"><code>sum(temperatureC)</code></pre>
 <pre><code>## [1] 160.8889</code></pre>
 <p><br></p>
 </div>
 <div id="length" class="section level3">
-<h3>length()</h3>
+<h3><code>length()</code></h3>
 <p>To count the number of elements in a vector, use
-<strong>length()</strong>.</p>
+<code>length()</code>.</p>
 <pre class="r"><code>length(temperatureC)</code></pre>
 <pre><code>## [1] 6</code></pre>
 <p>This shows that there are 6 temperature values in the vector that
-make up the vector <strong>temperatureC</strong>.</p>
+make up the vector <code>temperatureC</code>.</p>
 <p><br></p>
 </div>
-</div>
-<div id="expanding-rs-capabilities" class="section level2">
-<h2>Expanding R’s capabilities</h2>
-<p>R has a lot of power in its basic form, but one of the most important
-parts about R is that it is expandable by the work of other people.
-These expansions are usually released in “packages”.</p>
-<p>Each package needs to be installed on your computer only once, but to
-be used it has to be loaded into R during each session.</p>
-<p>To install a package in RStudio, click on the packages tab from the
-sub-window with tables for Files, Plots, Packages, Help, and Viewer.
-Immediately below that will be a button labeled “Install”—click that and
-a window will open.</p>
-<p><img src="formula_summaries/Install%20packages%201.png" /></p>
-<p>In the second row (labeled “Packages”), type “ggplot2” (without the
-quotation marks). Make sure the box for “Install dependencies” near the
-bottom is clicked, and then click the “Install” button at bottom right.
-This will install the graphics package “ggplot2”.</p>
-<p><img src="formula_summaries/Install%20packages%202.png" /></p>
-<p>This only needs to be done once on a given computer, and that package
-is permanently available.</p>
-<p>There is another package that we will use in this course (including
-today) called <strong>dplyr</strong>. While you are installing packages,
-go ahead and install <strong>dplyr</strong> as well.</p>
-<p><br></p>
-</div>
-<div id="loading-a-package" class="section level2">
-<h2>Loading a package</h2>
-<p>Once a package is installed, it needs to be loaded into R during a
-session if you want to use it. You do this with a function called
-<strong>library()</strong>.</p>
-<p><br></p>
-<div id="library" class="section level3">
-<h3>library()</h3>
-<p>For this lab, we will use the package <strong>dplyr</strong>, which
-allows for easy modification of data frames. Before using the functions
-in this package, we need to load it. We do this with the
-<strong>library()</strong> function. In the console, enter this:</p>
-<pre class="r"><code>library(dplyr)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<p>If the <strong>dplyr</strong> package is installed on your computer,
-the computer will just give a new prompt and be ready to go. If the
-package is not installed it will give you an error message in red asking
-you to get the package installed. (See the section above.)</p>
-<p><br></p>
-</div>
-</div>
-<div id="setting-the-working-directory" class="section level2">
-<h2>Setting the working directory</h2>
-<p>The files on your computers are organized hierarchically into
-folders, or “directories.” It is convenient in RStudio to tell R which
-directory to look for files at the beginning of a session, to minimize
-typing later.</p>
-<p>For these labs, the best way to set your working directory is to
-start R and Rstudio by clicking on the “ABDLabs.Rproj” file in the
-ABDLabs directory. This will automatically load the needed packages and
-set the working directory to this folder.</p>
-<p>You can also set the working directory for RStudio is from RStudio’s
-menu. From the “Session” tab in the menu bar, choose “Set Working
-Directory”, and then “Choose Directory…” This will open a dialog box
-that will let you find and select the directory you want. For these
-labs, we will assume that you are using as your working directory the
-“ABDLabs” folder that is distributed with this lab manual.</p>
-<p><br></p>
-</div>
-<div id="reading-a-file" class="section level2">
-<h2>Reading a file</h2>
-<p>In these labs, we have saved the data in a “comma-separated variable”
-format. All files in this format ought to have “.csv” as the end of
-their file name. A CSV file is a plain text file, easily read by a wide
-variety of programs. Each row in the file (besides the first row) is the
-data for a given individual, and for each individual each variable is
-listed in the same order, separated by commas. It’s important to note
-that you can’t have commas anywhere else in the file, besides the
-separators.</p>
-<p>The first row of a CSV file should be a “header” row, which gives the
-names of each variable, again separated by commas.</p>
-<p><br></p>
-<div id="read.csv" class="section level3">
-<h3>read.csv()</h3>
-<p>For examples in this lab, let’s use a data set about the passengers
-of the RMS Titanic. One of the data sets in the folder of data attached
-to this lab is called “titanic.csv”. This is a data set of 1313
-passengers from the voyage of this ship, which contains information
-about some personal info about each passenger as well as whether they
-survived the accident or not.</p>
-<p>To import a CSV file into R, use the <strong>read.csv()</strong>
-function as in the following command. (This assumes that you have set
-the working directory to ABDLabs, as we described above.)</p>
-<pre class="r"><code>titanicData &lt;- read.csv(&quot;DataForLabs/titanic.csv&quot;, stringsAsFactors = TRUE)</code></pre>
-<p>This looks for the file called titanic.csv in the folder called
-DataForLabs. Here we have given the name <strong>titanicData</strong> to
-the object in R that contains all this passenger data. Of course, if you
-wanted to load a different data set, you would be better off giving it a
-more apt name than “titanicData”. The option <strong>“stringsAsFactors =
-TRUE”</strong> asks R to interpret the columns with non-numerical
-information as “factor” with possibly repeated instances of the same
-value of a categorical variable.</p>
-<p>To see if the data loads appropriately, you might want to run the
-command</p>
-<pre class="r"><code>summary(titanicData)</code></pre>
-<pre><code>##  passenger_class                        name           age         
-##  1st:322         Carlsson,MrFransOlof     :   2   Min.   : 0.1667  
-##  2nd:280         Connolly,MissKate        :   2   1st Qu.:21.0000  
-##  3rd:711         Kelly,MrJames            :   2   Median :30.0000  
-##                  Abbing,MrAnthony         :   1   Mean   :31.1942  
-##                  Abbott,MasterEugeneJoseph:   1   3rd Qu.:41.0000  
-##                  Abbott,MrRossmoreEdward  :   1   Max.   :71.0000  
-##                  (Other)                  :1304   NA&#39;s   :680      
-##         embarked            home_destination     sex      survive  
-##             :493                    :558     female:463   no :864  
-##  Cherbourg  :202   NewYork,NY       : 65     male  :850   yes:449  
-##  Queenstown : 45   London           : 14                           
-##  Southampton:573   Montreal,PQ      : 10                           
-##                    Cornwall/Akron,OH:  9                           
-##                    Paris,France     :  9                           
-##                    (Other)          :648</code></pre>
-<p>which will list all the variables and some summary statistics for
-each variable.</p>
-<p>R has other functions that can read other data formats besides csv
-files, but the function <strong>read.csv()</strong> requires that the
-file be a csv file.</p>
-<p><br></p>
-</div>
-<div id="finding-files-in-other-locations" class="section level3">
-<h3>Finding files in other locations</h3>
-<p>For all of the examples in these labs, we have assumed that the data
-is in a folder called DataForLabs and that folder resides in the ABDLabs
-folder. When you work on a new data set outside of these labs, you will
-want to store the data somewhere else. To upload data from another
-location on your computer, you need to know the file path for the file.
-For example, the file path to the titanic file on my Mac is
-“/Users/whitlock/Desktop/ABDLabs/DataForLabs/titanic.csv”. On a Windows
-machine, it would look something like
-“C:\Documents\ABDLabs\DataForLabs\titanic.csv”. In either case, this
-file path is a list of folders inside of folders that tells the computer
-where to look for the file.</p>
-<p>Reading a file from any location can be done with
-<strong>read.csv</strong> like this:</p>
-<pre class="r"><code>titanicData &lt;- read.csv(&quot;/Users/whitlock/Desktop/ABDLabs/DataForLabs/titanic.csv&quot;, stringsAsFactors = TRUE)</code></pre>
-<p><br></p>
-</div>
-</div>
-<div id="introduction-to-data-frames" class="section level2">
-<h2>Introduction to data frames</h2>
-<p>A data frame is a way that R can store a data set on a number of
-individuals. A data frame is a collection of columns; each column
-contains the values of a single variable for all individuals. The values
-of each individual occur in the same order in all the columns, so the
-first value for one variable represents the same individual as the first
-value in the lists of all other variables.</p>
-<p>The function <strong>read.csv()</strong> loads the data it reads into
-a data frame.</p>
-<p>The data frame is usually given a name, which is used to tell R’s
-functions which data set to use. For example, in the previous section we
-read in a data set to a data frame that we called titanicData. This data
-frame now contains information about each of the passengers on the
-Titanic. This data frame has seven variables, so it has seven columns
-(<strong>passenger_class</strong>, <strong>name</strong>,
-<strong>age</strong>, <strong>embarked</strong>,
-<strong>home_destination</strong>, <strong>sex</strong>, and
-<strong>survive</strong>).</p>
-<p>Very importantly, we can grab one of the columns from a data frame by
-itself. We write the name of the data frame, followed by a
-<strong>$</strong>, and then the name of the variable.</p>
-<p>For example, to show a list of the age of all the passengers on the
-Titanic, use</p>
-<pre class="r"><code>titanicData$age</code></pre>
-<p>This will show a vector that has all the values for this variable
-age, one for each individual in the data set.</p>
-<p><br></p>
-</div>
-<div id="adding-a-new-column" class="section level2">
-<h2>Adding a new column</h2>
-<p>Sometimes we would like to add a new column to a data frame. The
-easiest way to do this is to simply assign a new vector to a new column
-name, using the <strong>$</strong>.</p>
-<p>For example, to add the log of age as a column in the
-<strong>titanicData</strong> data frame, we can write</p>
-<pre class="r"><code>titanicData$log_age = log(titanicData$age)</code></pre>
-<p>You can run the command <strong>head(titanicData)</strong> to see
-that <strong>log_age</strong> is now a column in
-<strong>titanicData</strong>.</p>
-<pre class="r"><code>head(titanicData)</code></pre>
-<pre><code>##   passenger_class                                      name     age    embarked
-## 1             1st                 Allen,MissElisabethWalton 29.0000 Southampton
-## 2             1st                  Allison,MissHelenLoraine  2.0000 Southampton
-## 3             1st           Allison,MrHudsonJoshuaCreighton 30.0000 Southampton
-## 4             1st Allison,MrsHudsonJ.C.(BessieWaldoDaniels) 25.0000 Southampton
-## 5             1st                Allison,MasterHudsonTrevor  0.9167 Southampton
-## 6             1st                          Anderson,MrHarry 47.0000 Southampton
-##              home_destination    sex survive     log_age
-## 1                  StLouis,MO female     yes  3.36729583
-## 2 Montreal,PQ/Chesterville,ON female      no  0.69314718
-## 3 Montreal,PQ/Chesterville,ON   male      no  3.40119738
-## 4 Montreal,PQ/Chesterville,ON female      no  3.21887582
-## 5 Montreal,PQ/Chesterville,ON   male     yes -0.08697501
-## 6                  NewYork,NY   male     yes  3.85014760</code></pre>
-<p><br></p>
-</div>
-<div id="choosing-subsets-of-data" class="section level2">
-<h2>Choosing subsets of data</h2>
-<p>Sometimes we want to do an analysis only on some of the data that fit
-certain criteria. For example, we might want to analyze the data from
-the Titanic using only the information from females.</p>
-<p>The easiest way to do this is to use the <strong>filter()</strong>
-function from the package <strong>dplyr</strong>. Make sure you have
-sourced the <strong>dplyr</strong> package as described above, and then
-load it into R using <strong>library()</strong>:</p>
-<pre class="r"><code>library(dplyr)</code></pre>
-<p>In the titanic data set there is a variable named sex, and an
-individual is female if that variable has value “female”. We can create
-a new data frame that includes only the data from females with the
-following command:</p>
-<pre class="r"><code>titanicDataFemalesOnly &lt;- filter(titanicData, sex == &quot;female&quot;)</code></pre>
-<p>This new data frame will include all the same columns as the original
-titanicData, but it will only include the rows for which the sex was
-“female”.</p>
-<p>Note that the syntax here requires a double <strong>==</strong> sign.
-In R (and many other computer languages), the double equal sign creates
-a statement that can be evaluated as true or false, while a single equal
-sign may change the value of the object to the value on the right-hand
-side of the equal sign. Here we are asking, for each individual, whether
-sex is “female”, not assigning the value ”female” to the variable sex.
-So we use a double equal sign <strong>==</strong>.</p>
-<p><br></p>
 </div>
 </div>
 <div id="r-commands-summary" class="section level1">
 <h1>R commands summary</h1>
-<p><img src="formula_summaries/Intro%20to%20R%202%20summary.png" /></p>
+</div>
+<div id="needs-edit" class="section level1">
+<h1><strong>NEEDS EDIT!!!!</strong></h1>
+<p><img src="formula_summaries/Intro%20to%20R%201%20summary.png" /></p>
 <hr />
 <p><br></p>
 </div>
 <div id="questions" class="section level1">
 <h1>Questions</h1>
-<p>For the answers to the following questions, remember create a script
-that captures each of these calculations, and use comments to record
-your verbal answers. Also, use comments to indicate the questions
-numbers. Make sure to include your name and the date in a comment at the
-top.</p>
-<p><br> 1. People are notoriously dishonest about revealing how often
+</div>
+<div id="simplify-here" class="section level1">
+<h1><strong>SIMPLIFY HERE?</strong></h1>
+<p><br> 1. For each week, create an R script that captures the commands
+that you use to answer the questions. Use a <code>#</code> at the
+beginning of each comment line.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Open a new R script file. Start by adding comments with your name
+and the week (Week 1) at the top.</p></li>
+<li><p>For each of the questions below, write the question number as a
+comment, followed by any R code you use to do the question, and give the
+answers as comments.</p></li>
+</ol>
+<p>For example, here is what part of your script might look like.</p>
+<pre class="r"><code># R Labs, Week 1
+# Terry T. Student
+
+# Question 4a
+15*17
+# [1] 255</code></pre>
+<p><br> 2. All of the commands used in the “Learning the Tools” section
+for this lab are in a script called “LearningToolsWeek1.R” in the <a
+href="ABDLabs.zip">ABDLabs folder</a> that you should have downloaded.
+(A similar file will be available for each week of these labs.)</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Load this script into RStudio.</p></li>
+<li><p>Run most or all of the commands in R. Did you get the same
+answers as shown in the text?</p></li>
+</ol>
+<p><br> 3. For each of the following, come up with a object name that
+would be appropriate to use in R for the listed variable:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>Body temperature in Celsius</p></li>
+<li><p>How much aspirin is given per dose for a patient</p></li>
+<li><p>Number of televisions per person</p></li>
+<li><p>Height (including neck and extended legs) of giraffes</p></li>
+</ol>
+<p><br> 4. Use R to calculate:</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>15 x 17</p></li>
+<li><p>13<sup>3</sup></p></li>
+<li><p>log(14) (use the natural log)</p></li>
+<li><p>log(100) (use base 10)</p></li>
+<li><p><span class="math inline">\(\sqrt{81}\)</span>.</p></li>
+</ol>
+<p><br> 5. People are notoriously dishonest about revealing how often
 they perform antisocial behaviors like peeing in swimming pools. (In
 addition to being disgusting, the nitrogenous chemicals in urine combine
 with the pool’s chlorine to produce some toxic chemicals like
@@ -860,8 +886,7 @@ pool.</p>
 <p>Here is a list of measurements, each from a different pool, of the
 concentration of ACE (measured in ng/L) for 23 different pools in
 Canada.</p>
-<p>640, 1070, 780, 70, 160, 130, 60, 50, 2110, 70, 350, 30, 210, 90,
-470, 580, 250, 310, 460, 430, 140, 1070, 130</p>
+<pre><code>640, 1070, 780, 70, 160, 130, 60, 50, 2110, 70, 350, 30, 210, 90, 470, 580, 250, 310, 460, 430, 140, 1070, 130</code></pre>
 <ol style="list-style-type: lower-alpha">
 <li><p>In R, create a vector of these data, and name it
 appropriately.</p></li>
@@ -874,14 +899,14 @@ urine per liter in these 23 pools. Give it a suitable name.</p></li>
 change relative to the mean measurement of ng ACE / L ?</p></li>
 <li><p>The arithmetic mean is calculated by adding up all the numbers
 and dividing by how many numbers there are. Calculate the mean of these
-numbers using <strong>sum()</strong> and <strong>length()</strong>. Did
-you get the same answer as with using <strong>mean()</strong>?</p></li>
+numbers using <code>sum()</code> and <code>length()</code>. Did you get
+the same answer as with using <code>mean()</code>?</p></li>
 <li><p>Use R to calculate the average amount of urine (in ml) in a
 500,000 L pool.</p></li>
 </ol>
 <p><br></p>
 <p><img src="formula_summaries/640px-Weddell_seal.jpg" /></p>
-<p><br> 2. Weddell seals live in Antarctic waters and take long
+<p><br> 6. Weddell seals live in Antarctic waters and take long
 strenuous dives in order to find fish to feed upon. Researchers
 (Williams et al. 2004) wanted to know whether these feeding dives were
 more energetically expensive than regular dives (perhaps because they
@@ -890,17 +915,17 @@ the metabolic costs of dives using the oxygen consumption of 10 animals
 (in ml O<sub>2</sub> / kg) during a feeding dive. (Photo above by
 Giuseppe Zibordi, NOAA Photo Library)</p>
 <p>Here are the data:</p>
-<p>71.0, 77.3, 82.6, 96.1, 106.6, 112.8, 121.2, 126.4, 127.5, 143.1</p>
+<pre><code>71.0, 77.3, 82.6, 96.1, 106.6, 112.8, 121.2, 126.4, 127.5, 143.1</code></pre>
 <p>For the same 10 animals, they also measured the oxygen consumption in
 non-feeding dives. With the 10 animals in the same order as before, here
 are those data:</p>
-<p>42.2, 51.7, 59.8, 66.5, 81.9, 82.0, 81.3, 81.3, 96.0, 104.1</p>
+<pre><code>42.2, 51.7, 59.8, 66.5, 81.9, 82.0, 81.3, 81.3, 96.0, 104.1</code></pre>
 <ol style="list-style-type: lower-alpha">
 <li><p>Make a vector for each of these lists, and give them appropriate
 names.</p></li>
 <li><p>Confirm (using R) that both of your vectors have the same number
 of individuals in them.</p></li>
-<li><p>Create a vector called <strong>MetabolismDifference</strong> by
+<li><p>Create a vector called <code>MetabolismDifference</code> by
 calculating the difference in oxygen consumption between feeding dives
 and nonfeeding dives for each animal.</p></li>
 <li><p>What is the average difference between feeding dives and
@@ -915,38 +940,14 @@ the ratio. Create a vector which gives the log of the ratios from the
 previous step. (Use the natural log.) What is the mean of this
 log-ratio?</p></li>
 </ol>
-<p><br> 3. The data file called “countries.csv” in the DataForLabs
-folder contains information about all the countries on Earth. Each row
-is a country, and each column contains a variable.</p>
-<ol style="list-style-type: lower-alpha">
-<li><p>Use <strong>read.csv()</strong> to read the data from this file
-into a data frame called countries.</p></li>
-<li><p>Use <strong>summary()</strong> to get a quick description of this
-data set. What are the first three variables?</p></li>
-<li><p>Using the output of <strong>summary()</strong>, how many
-countries are from Africa in this data set?</p></li>
-<li><p>What kinds of variables (i.e., categorical or numerical) are
-<strong>continents</strong>,
-<strong>cell_phone_subscriptions_per_100_people_2012</strong>,
-<strong>total_population_in_thousands_2015</strong> and
-<strong>fines_for_tobacco_advertising_2014</strong>? (Don’t go by their
-variable names – look at the data in the summary results to
-decide.)</p></li>
-<li><p>Add a new column to your countries data frame that has the
-difference in ecological footprint between 2012 and 2000. What is the
-mean of this difference? (Note: this variable will have “missing data”,
-which means that some of the countries do not have data in this file for
-one or the other of the years of ecological footprint. By default, R
-doesn’t calculate a mean unless all the data are present. To tell R to
-ignore the missing data, add an option to the <strong>mean()</strong>
-command that says <strong>na.rm=TRUE</strong>. We’ll learn more about
-this later.)</p></li>
-</ol>
-<p><br> 4. Using the countries data again, create a new data frame
-called <strong>AfricaData</strong>, that only includes data for
-countries in Africa. What is the sum of the
-<strong>total_population_in_thousands_2015</strong> for this new data
-frame?</p>
+<p><br> 7. Using the <a href="Student%20data%20sheet%201.pdf">Student
+data sheet 1</a>, record the requested information about yourself. This
+is optional; if you have any reason to not want to record this
+(relatively innocuous) data about yourself, you do not have to. If you
+feel that you would like to skip just one of the bits of information and
+fill in the rest, that is fine too. The data sheets do not identify
+students by name. Pass the sheet to the TA when you are finished. We’ll
+use these data in subsequent labs.</p>
 </div>
 
 
