@@ -18,9 +18,7 @@ Before using these labs, download [the zip file containing Data, R scripts, and 
 
 Some of the exercises in these labs (particularly in the first few labs) may require working in a group environment.
 
-Comments and suggestions are greatly appreciated. If something is not working or can be improved, please let us know. Please e-mail Vikram Baliga at [vikram.baliga\@ubc.ca](mailto:vikram.baliga@ubc.ca){.email} with any thoughts you have about how these tutorials can be improved.
-
-Instructors, please e-mail <a href="mailto:whitlock@zoology.ubc.ca">Mike Whitlock</a> for a link to some instructor notes on these labs.
+<br>
 
 ## R tutorials by topic
 
@@ -55,3 +53,7 @@ Instructors, please e-mail <a href="mailto:whitlock@zoology.ubc.ca">Mike Whitloc
 <br>
 
 Other resources for Whitlock and Schluter *The Analysis of Biological Data* are [available chapter by chapter here](../index.html).
+
+Comments and suggestions are greatly appreciated. If something is not working or can be improved, please let us know. Please e-mail Vikram Baliga at [vikram.baliga\@ubc.ca](mailto:vikram.baliga@ubc.ca){.email} with any thoughts you have about how these tutorials can be improved.
+
+Instructors, please e-mail <a href="mailto:whitlock@zoology.ubc.ca">Mike Whitlock</a> for a link to some instructor notes on these labs.
