@@ -34,8 +34,6 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-3"></script>
 <script>
@@ -56,18 +54,113 @@
   ul.task-list{list-style: none;}
     </style>
 
-<style type="text/css">code{white-space: pre;}</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
   }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
 }
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
 </script>
-
-
 
 
 
@@ -374,13 +467,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="R_tutorial_Loading_R_and_RStudio.html">0. Loading R and RSstudio</a>
+      <a href="R_tutorial_Loading_R_and_RStudio.html">0. Loading R and RStudio</a>
     </li>
     <li>
-      <a href="R_tutorial_Intro_to_R_1.html">1. Intro to R, Part 1</a>
+      <a href="R_tutorial_Intro_to_R.html">1. Intro to R</a>
     </li>
     <li>
-      <a href="R_tutorial_Intro_to_R_2.html">2. Intro to R, Part 2</a>
+      <a href="R_tutorial_Tabular_data.html">2. Tabular data</a>
     </li>
     <li>
       <a href="R_tutorial_Graphics.html">3. Graphics</a>
@@ -426,6 +519,51 @@ div.tocify {
   $('.navbar-brand').attr('href','../index.html')
 </script>
 
+<style>
+.copy-code-button {
+  float: right;
+  font-size: 11px;
+  line-height: 1;
+  padding: 1px 5px;
+  margin: 0;
+  margin-top: 2px;
+  margin-right: 2px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll("pre").forEach(function(pre) {
+    var codeBlock = pre.querySelector("code");
+    if (!codeBlock) return;
+
+    var codeText = codeBlock.innerText.trim();
+
+    // Skip printed R output blocks, which usually begin with ##
+    if (codeText.startsWith("##")) return;
+
+    var button = document.createElement("button");
+    button.textContent = "Copy";
+    button.className = "copy-code-button";
+
+    button.addEventListener("click", function() {
+      navigator.clipboard.writeText(codeBlock.innerText).then(function() {
+        button.textContent = "Copied!";
+        setTimeout(function() {
+          button.textContent = "Copy";
+        }, 1500);
+      });
+    });
+
+    pre.insertBefore(button, codeBlock);
+  });
+});
+</script>
+
 <div id="header">
 
 
@@ -468,7 +606,7 @@ that folder to make these exercises work more seamlessly.</p>
 <h1>Learning the tools</h1>
 <p>We’ll use the Titanic data set again this week for our examples, so
 load those data to R.</p>
-<pre class="r"><code>titanicData &lt;- read.csv(&quot;DataForLabs/titanic.csv&quot;, stringsAsFactors = TRUE)</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Also, we will be using <strong>ggplot()</strong> to make some graphs,
 so make sure that the package <strong>ggplot2</strong> has been loaded.
 We also will need functions from the package <strong>car</strong>, so
@@ -476,12 +614,12 @@ let’s load that as well. (If you haven’t used <strong>car</strong>
 before, you may need to <a
 href="R_tutorial_Intro_to_R_2.html#expanding_r%E2%80%99s_capabilities">install
 the package</a>.)</p>
-<pre class="r"><code>library(ggplot2)
-library(car)</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(car)</span></code></pre></div>
 <p><br></p>
 <p>We’ll use the Titanic data set again this week for our examples, so
 load those data to R.</p>
-<pre class="r"><code>titanicData &lt;- read.csv(&quot;DataForLabs/titanic.csv&quot;,stringsAsFactors = TRUE)</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>,<span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><br></p>
 <div id="strip-charts" class="section level2">
 <h2>Strip charts</h2>
@@ -502,7 +640,7 @@ we specify <strong>x = survive</strong> to indicate the categorical
 variable. If we want more or less jitter, we could use a larger or
 smaller value than 0.05 in the option
 <strong>position_jitter(0.05)</strong>.</p>
-<pre class="r"><code>ggplot(titanicData, aes(x = survive, y = age)) + geom_jitter(position = position_jitter(0.05)) + theme_minimal()</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x =</span> survive, <span class="at">y =</span> age)) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="fl">0.05</span>)) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code></pre></div>
 <p><img src="R_tutorial_Comparing_means_of_2_groups_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>One can see from this strip chart that there is a weak tendency for
 survivors to be younger on average than non-survivors. Younger people
@@ -520,9 +658,9 @@ variable in the different groups, and it helps to assess whether the
 assumptions of relevant statistical methods are met.</p>
 <p>Plotting <strong>age</strong> again as a function of
 <strong>survive</strong>, we can write:</p>
-<pre class="r"><code>ggplot(titanicData, aes(x = age)) +   
-    geom_histogram() + 
-    facet_wrap(~ survive, ncol = 1)</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span>   </span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>    <span class="fu">geom_histogram</span>() <span class="sc">+</span> </span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> survive, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
 <pre><code>## Warning: Removed 680 rows containing non-finite outside the scale range (`stat_bin()`).</code></pre>
 <p><img src="R_tutorial_Comparing_means_of_2_groups_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
@@ -546,13 +684,13 @@ survived.</p>
 variable and a numerical variable is a violin plot.</p>
 <p>A violin plot can be made in R using <strong>ggplot</strong>, using
 the geom function <strong>geom_violin()</strong>.</p>
-<pre class="r"><code>ggplot(titanicData, aes(x=survive, y=age, fill = survive)) + 
-  geom_violin() +
-  xlab(&quot;Survival&quot;) + ylab(&quot;Age&quot;) + 
-  theme_classic()+scale_fill_manual(values=c(&quot;#FFB531&quot;,&quot;#BC211A&quot;))+ 
-  stat_summary(fun.y=mean,  geom=&quot;point&quot;, color=&quot;black&quot;)+ 
-  theme(legend.position=&quot;none&quot;)+ 
-  theme(aspect.ratio=1)</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x=</span>survive, <span class="at">y=</span>age, <span class="at">fill =</span> survive)) <span class="sc">+</span> </span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">geom_violin</span>() <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Survival&quot;</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">&quot;Age&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="fu">theme_classic</span>()<span class="sc">+</span><span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#FFB531&quot;</span>,<span class="st">&quot;#BC211A&quot;</span>))<span class="sc">+</span> </span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.y=</span>mean,  <span class="at">geom=</span><span class="st">&quot;point&quot;</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>)<span class="sc">+</span> </span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span> </span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">aspect.ratio=</span><span class="dv">1</span>)</span></code></pre></div>
 <p><img src="R_tutorial_Comparing_means_of_2_groups_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>This version has some extra options thrown in. What is important here
 is that it uses <strong>geom_violin()</strong> to specify that a violin
@@ -600,7 +738,7 @@ which allows for unequal variances.)</p>
 To tell R to assume that the variances are equal, we use the option
 “<strong>var.equal = TRUE</strong>”.</p>
 <p>Here is the complete command for this example and the output:</p>
-<pre class="r"><code>t.test(age ~ survive, data = titanicData, var.equal = TRUE)</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">t.test</span>(age <span class="sc">~</span> survive, <span class="at">data =</span> titanicData, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Two Sample t-test
 ## 
@@ -643,7 +781,7 @@ variable has a normal distribution in both populations.)</p>
 function <strong>t.test()</strong>. The command is exactly like that for
 the 2-sample <em>t</em>-test that we did above, but with the option
 <strong>var.equal</strong> set to <strong>FALSE</strong>.</p>
-<pre class="r"><code>t.test(age ~ survive, data = titanicData, var.equal = FALSE)</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">t.test</span>(age <span class="sc">~</span> survive, <span class="at">data =</span> titanicData, <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
@@ -677,7 +815,7 @@ other group.</p>
 <p>The Titanic data set does not include any paired data, so we will use
 Example 12.2 from Whitlock and Schluter to show how this function works
 in R. Load the data with <strong>read.csv()</strong>.</p>
-<pre class="r"><code>blackbird &lt;- read.csv(&quot;DataForLabs/chap12e2BlackbirdTestosterone.csv&quot;, stringsAsFactors = TRUE)</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>blackbird <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/chap12e2BlackbirdTestosterone.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>These data show the log antibody production of male blackbirds before
 (<strong>logBeforeImplant</strong>) and after
 (<strong>logAfterImplant</strong>) the birds received a testosterone
@@ -687,7 +825,7 @@ are paired.</p>
 <strong>t.test()</strong> by specifying the option <strong>paired =
 TRUE</strong>. We also need to give the names of the two columns that
 have the data from the two conditions.</p>
-<pre class="r"><code>t.test(blackbird$logAfterImplant, blackbird$logBeforeImplant, paired = TRUE)</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">t.test</span>(blackbird<span class="sc">$</span>logAfterImplant, blackbird<span class="sc">$</span>logBeforeImplant, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Paired t-test
 ## 
@@ -721,7 +859,7 @@ of R does not do Levene’s test, but it is available from the package
 <p>As with other packages you would need to install the package car
 first (see Lab 2 for instructions), and then use library to load its
 functions into R.</p>
-<pre class="r"><code>library(car)</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">library</span>(car)</span></code></pre></div>
 <p>To use <strong>leveneTest()</strong>, you need three arguments for
 the input.</p>
 <p><strong>data</strong>: the data frame that contains the data</p>
@@ -731,7 +869,7 @@ variable and the explanatory variables</p>
 For the standard Levene’s test, use <strong>center = mean</strong></p>
 <p>Let’s demonstrate this with the Titanic data, with age as the
 numerical variable and survive as the group variable.</p>
-<pre class="r"><code>leveneTest(data = titanicData, age ~ survive, center = mean)</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">leveneTest</span>(<span class="at">data =</span> titanicData, age <span class="sc">~</span> survive, <span class="at">center =</span> mean)</span></code></pre></div>
 <pre><code>## Levene&#39;s Test for Homogeneity of Variance (center = mean)
 ##        Df F value  Pr(&gt;F)  
 ## group   1   3.906 0.04855 *

@@ -54,7 +54,7 @@ output_dir: "."
 output:
   html_document:
     theme: flatly
-    highlight: textmate
+    highlight: kate
     includes:
       in_header: header.html
       before_body: header_image.html

@@ -34,8 +34,6 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-3"></script>
 <script>
@@ -56,18 +54,113 @@
   ul.task-list{list-style: none;}
     </style>
 
-<style type="text/css">code{white-space: pre;}</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
   }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
 }
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
 </script>
-
-
 
 
 
@@ -374,13 +467,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="R_tutorial_Loading_R_and_RStudio.html">0. Loading R and RSstudio</a>
+      <a href="R_tutorial_Loading_R_and_RStudio.html">0. Loading R and RStudio</a>
     </li>
     <li>
-      <a href="R_tutorial_Intro_to_R_1.html">1. Intro to R, Part 1</a>
+      <a href="R_tutorial_Intro_to_R.html">1. Intro to R</a>
     </li>
     <li>
-      <a href="R_tutorial_Intro_to_R_2.html">2. Intro to R, Part 2</a>
+      <a href="R_tutorial_Tabular_data.html">2. Tabular data</a>
     </li>
     <li>
       <a href="R_tutorial_Graphics.html">3. Graphics</a>
@@ -426,6 +519,51 @@ div.tocify {
   $('.navbar-brand').attr('href','../index.html')
 </script>
 
+<style>
+.copy-code-button {
+  float: right;
+  font-size: 11px;
+  line-height: 1;
+  padding: 1px 5px;
+  margin: 0;
+  margin-top: 2px;
+  margin-right: 2px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll("pre").forEach(function(pre) {
+    var codeBlock = pre.querySelector("code");
+    if (!codeBlock) return;
+
+    var codeText = codeBlock.innerText.trim();
+
+    // Skip printed R output blocks, which usually begin with ##
+    if (codeText.startsWith("##")) return;
+
+    var button = document.createElement("button");
+    button.textContent = "Copy";
+    button.className = "copy-code-button";
+
+    button.addEventListener("click", function() {
+      navigator.clipboard.writeText(codeBlock.innerText).then(function() {
+        button.textContent = "Copied!";
+        setTimeout(function() {
+          button.textContent = "Copy";
+        }, 1500);
+      });
+    });
+
+    pre.insertBefore(button, codeBlock);
+  });
+});
+</script>
+
 <div id="header">
 
 
@@ -467,8 +605,8 @@ that folder to make these exercises work more seamlessly.</p>
 we suggest using the Agresti-Coull method. This method is available in
 the R package “<strong>binom</strong>”, which you can install and load
 with the following:</p>
-<pre class="r"><code>install.packages(&quot;binom&quot;, dependencies = TRUE)</code></pre>
-<pre class="r"><code>library(binom)</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;binom&quot;</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(binom)</span></code></pre></div>
 <p>Like any package, you only need to install it once, but you need to
 run the library command in each session before you can use it.</p>
 <p>Once the package is installed, calculating a confidence interval for
@@ -480,7 +618,7 @@ a proportion is fairly straightforward. The function you need is called
 <p>For example, if we have 87 data points and 30 of them are
 “successes”, we can find the 95% confidence interval for the proportion
 of successes with the following command.</p>
-<pre class="r"><code>binom.confint(x = 30, n = 87, method = &quot;ac&quot;)</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">binom.confint</span>(<span class="at">x =</span> <span class="dv">30</span>, <span class="at">n =</span> <span class="dv">87</span>, <span class="at">method =</span> <span class="st">&quot;ac&quot;</span>)</span></code></pre></div>
 <pre><code>##          method  x  n      mean     lower     upper
 ## 1 agresti-coull 30 87 0.3448276 0.2532164 0.4495625</code></pre>
 <p>This tells us that the observed proportion (called
@@ -505,7 +643,7 @@ hypothesis of equal probabilities of left- and right-handedness with a
 binomial test. (See Example 6.2 in the text.) In this case,
 <strong>x</strong> = 14, <strong>n</strong> = 18, and <strong>p</strong>
 = 0.5.</p>
-<pre class="r"><code>binom.test(x = 14, n = 18, p = 0.5)</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">binom.test</span>(<span class="at">x =</span> <span class="dv">14</span>, <span class="at">n =</span> <span class="dv">18</span>, <span class="at">p =</span> <span class="fl">0.5</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Exact binomial test
 ## 
@@ -537,7 +675,7 @@ variable to the frequencies predicted by a null hypothesis. For example,
 the file “MandMlist.csv” contains a list of all the colors of M&amp;M
 candies from one package, under the variable “color”. Let’s ask whether
 this fits the proportions of colors advertised by the candy company.</p>
-<pre class="r"><code>MMlist &lt;- read.csv(&quot;DataForLabs/MandMlist.csv&quot;, stringsAsFactors = TRUE)</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>MMlist <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/MandMlist.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><strong>MMlist$color</strong> contains the color of each of 55
 M&amp;Ms. </p>
 <p><br></p>
@@ -548,9 +686,9 @@ concisely, and such a table is also necessary as input to the <span
 class="math inline">\(\chi\)</span><sup>2</sup> test function. We can
 summarize the counts (frequencies) of a categorical variable with
 <strong>table()</strong>.</p>
-<pre class="r"><code>MMtable &lt;- table(MMlist$color)
-
-MMtable</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>MMtable <span class="ot">&lt;-</span> <span class="fu">table</span>(MMlist<span class="sc">$</span>color)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>MMtable</span></code></pre></div>
 <pre><code>## 
 ##   blue  brown  green orange    red yellow 
 ##     10      5     12     11      6     11</code></pre>
@@ -570,7 +708,7 @@ green, 20% orange, 13% red and 13% yellow. This is our null hypothesis.
 Let’s test whether these proportions are consistent with the frequencies
 of the colors in this bag. R wants the proportions expected by the null
 hypothesis in a vector, like this:</p>
-<pre class="r"><code>expected_proportions &lt;- c(0.24, 0.14, 0.16, 0.20, 0.13, 0.13)</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>expected_proportions <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.24</span>, <span class="fl">0.14</span>, <span class="fl">0.16</span>, <span class="fl">0.20</span>, <span class="fl">0.13</span>, <span class="fl">0.13</span>)</span></code></pre></div>
 <p>Notice that R wants you to input the expected proportions, which it
 will use to calculate the expected frequencies.</p>
 <p>The first thing we need to do is check whether the expected
@@ -581,11 +719,11 @@ expected frequencies are less than 5 and none is less than 1.)</p>
 <p>To obtain these expected counts, multiply the vector of the expected
 proportions by the total sample size. We can find the total sample size
 by taking the <strong>sum()</strong> of the frequency table:</p>
-<pre class="r"><code>sum(MMtable)</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">sum</span>(MMtable)</span></code></pre></div>
 <pre><code>## [1] 55</code></pre>
 <p>So for this example, the expected frequencies from our null
 hypothesis are 55 times the list of expected proportions:</p>
-<pre class="r"><code>55 * expected_proportions</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="dv">55</span> <span class="sc">*</span> expected_proportions</span></code></pre></div>
 <pre><code>## [1] 13.20  7.70  8.80 11.00  7.15  7.15</code></pre>
 <p>All of these expected values are greater than 5, so we have no
 problem with the assumptions of the <span
@@ -598,7 +736,7 @@ expected proportions from the null hypothesis. The name of the vector of
 expected proportions in this function is <strong>p</strong>. So here is
 the format of the R command to do a <span
 class="math inline">\(\chi\)</span><sup>2</sup> test:</p>
-<pre class="r"><code>chisq.test(MMtable, p = expected_proportions)</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">chisq.test</span>(MMtable, <span class="at">p =</span> expected_proportions)</span></code></pre></div>
 <pre><code>## 
 ##  Chi-squared test for given probabilities
 ## 
@@ -625,11 +763,11 @@ section, we’ll highlight a couple of functions in R that will streamline
 doing the calculations by hand. We’ll use the data on the numbers of
 extinctions per prehistoric time period described in Example 8.4 in the
 Whitlock and Schluter textbook.</p>
-<pre class="r"><code>extinctData &lt;- read.csv(&quot;DataForLabs/MassExtinctions.csv&quot;, stringsAsFactors = TRUE)
-
-number_of_extinctions &lt;- extinctData$numberOfExtinctions
-
-table(number_of_extinctions)</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>extinctData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/MassExtinctions.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>number_of_extinctions <span class="ot">&lt;-</span> extinctData<span class="sc">$</span>numberOfExtinctions</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="fu">table</span>(number_of_extinctions)</span></code></pre></div>
 <pre><code>## number_of_extinctions
 ##  1  2  3  4  5  6  7  8  9 10 11 14 16 20 
 ## 13 15 16  7 10  4  2  1  2  1  1  1  2  1</code></pre>
@@ -641,7 +779,7 @@ etc.)</p>
 <p>The mean number of extinctions per unit of time is not specified by
 the null hypothesis, so we need to estimate it from the data. This mean
 turns out to be 4.21 extinctions per time period.</p>
-<pre class="r"><code>mean(number_of_extinctions)</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">mean</span>(number_of_extinctions)</span></code></pre></div>
 <pre><code>## [1] 4.210526</code></pre>
 <p>We can use this mean to calculate the probability according to a
 Poisson distribution of getting each specific number of extinctions.</p>
@@ -657,7 +795,7 @@ is called <strong>lambda</strong> in this function) and
 the number of extinctions). For example, the probability of getting
 <em>x</em> = 3 from a Poisson distribution with mean 4.21 can be found
 from the following:</p>
-<pre class="r"><code>dpois(x = 3, lambda = 4.21)</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">dpois</span>(<span class="at">x =</span> <span class="dv">3</span>, <span class="at">lambda =</span> <span class="fl">4.21</span>)</span></code></pre></div>
 <pre><code>## [1] 0.1846355</code></pre>
 <p>The probability of getting exactly 3 successes from a Poisson
 distribution with mean 4.21 is about 18.5%.</p>
@@ -666,19 +804,18 @@ input, and return a vector of the probabilities of those <em>x</em>’s. A
 convenient short hand to know here is that R will create a vector with a
 range of values with a colon. For example, 0:20 is a vector with the
 integers from 0 to 20.</p>
-<pre class="r"><code>0:20</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="dv">0</span><span class="sc">:</span><span class="dv">20</span></span></code></pre></div>
 <pre><code>##  [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20</code></pre>
 <p>We’ll need the probabilities for all possible values of <em>x</em>
 from 0 to 20 (because this was the largest value observed in the data).
 We can create a vector with the Poisson probabilities of each
 possibility from 0 to 20 like this:</p>
-<pre class="r"><code>expected_probability &lt;- dpois(x = 0:20, lambda = 4.21)
-
-expected_probability</code></pre>
-<pre><code>##  [1] 1.484637e-02 6.250321e-02 1.315693e-01 1.846355e-01 1.943289e-01 1.636249e-01
-##  [7] 1.148102e-01 6.905011e-02 3.633762e-02 1.699793e-02 7.156129e-03 2.738846e-03
-## [13] 9.608784e-04 3.111768e-04 9.357530e-05 2.626347e-05 6.910575e-06 1.711384e-06
-## [19] 4.002736e-07 8.869220e-08 1.866971e-08</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>expected_probability <span class="ot">&lt;-</span> <span class="fu">dpois</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">20</span>, <span class="at">lambda =</span> <span class="fl">4.21</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>expected_probability</span></code></pre></div>
+<pre><code>##  [1] 1.484637e-02 6.250321e-02 1.315693e-01 1.846355e-01 1.943289e-01 1.636249e-01 1.148102e-01 6.905011e-02 3.633762e-02 1.699793e-02
+## [11] 7.156129e-03 2.738846e-03 9.608784e-04 3.111768e-04 9.357530e-05 2.626347e-05 6.910575e-06 1.711384e-06 4.002736e-07 8.869220e-08
+## [21] 1.866971e-08</code></pre>
 <p>The odd notation here is a shorthand for scientific notation.
 1.48e-02 means 1.48 x 10<sup>-2</sup>. The e stands for exponent.</p>
 <p>Remember that we asked R to output the probability of values from 0
@@ -688,11 +825,10 @@ etc.</p>
 <p>In order to convert these probabilities into expected values for a
 <span class="math inline">\(\chi\)</span><sup>2</sup> test, we need to
 multiply them by the total sample size.</p>
-<pre class="r"><code>length(number_of_extinctions) * expected_probability</code></pre>
-<pre><code>##  [1] 1.128324e+00 4.750244e+00 9.999264e+00 1.403230e+01 1.476900e+01 1.243549e+01
-##  [7] 8.725572e+00 5.247808e+00 2.761659e+00 1.291843e+00 5.438658e-01 2.081523e-01
-## [13] 7.302676e-02 2.364943e-02 7.111723e-03 1.996023e-03 5.252037e-04 1.300651e-04
-## [19] 3.042079e-05 6.740607e-06 1.418898e-06</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">length</span>(number_of_extinctions) <span class="sc">*</span> expected_probability</span></code></pre></div>
+<pre><code>##  [1] 1.128324e+00 4.750244e+00 9.999264e+00 1.403230e+01 1.476900e+01 1.243549e+01 8.725572e+00 5.247808e+00 2.761659e+00 1.291843e+00
+## [11] 5.438658e-01 2.081523e-01 7.302676e-02 2.364943e-02 7.111723e-03 1.996023e-03 5.252037e-04 1.300651e-04 3.042079e-05 6.740607e-06
+## [21] 1.418898e-06</code></pre>
 <p>Most of these values would cause problems for the <span
 class="math inline">\(\chi\)</span><sup>2</sup> test because they are
 too small (less than 1). We need to combine categories in some
@@ -762,9 +898,9 @@ conditions of the <span class="math inline">\(\chi\)</span><sup>2</sup>
 test.</p>
 <p>Make vectors (using <strong>c()</strong>) for the observed and
 expected values for these new groups:</p>
-<pre class="r"><code>expected_combined &lt;- c(5.878568, 9.999264, 14.032300, 14.768996, 12.435494,  8.725572, 5.247808, 4.911998)
-
-observed_combined &lt;- c(13, 15, 16, 7, 10, 4, 2, 9)</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>expected_combined <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">5.878568</span>, <span class="fl">9.999264</span>, <span class="fl">14.032300</span>, <span class="fl">14.768996</span>, <span class="fl">12.435494</span>,  <span class="fl">8.725572</span>, <span class="fl">5.247808</span>, <span class="fl">4.911998</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>observed_combined <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">13</span>, <span class="dv">15</span>, <span class="dv">16</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">9</span>)</span></code></pre></div>
 <p>From these we can calculate the <span
 class="math inline">\(\chi\)</span><sup>2</sup> test statistic using
 <strong>chisq.test()$statistic</strong>.</p>
@@ -777,9 +913,8 @@ class="math inline">\(\chi\)</span><sup>2</sup> value as output. (We
 don’t yet want the full results of the test because R does not know to
 correct for the reduction in degrees of freedom caused by estimating the
 mean.)</p>
-<pre class="r"><code>chisq.test(observed_combined, p = expected_combined, rescale.p = TRUE)$statistic</code></pre>
-<pre><code>## Warning in chisq.test(observed_combined, p = expected_combined, rescale.p = TRUE):
-## Chi-squared approximation may be incorrect</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">chisq.test</span>(observed_combined, <span class="at">p =</span> expected_combined, <span class="at">rescale.p =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>statistic</span></code></pre></div>
+<pre><code>## Warning in chisq.test(observed_combined, p = expected_combined, rescale.p = TRUE): Chi-squared approximation may be incorrect</code></pre>
 <pre><code>## X-squared 
 ##  23.93919</code></pre>
 <p>This correctly calculates our <span
@@ -808,7 +943,7 @@ class="math inline">\(\chi\)</span><sup>2</sup> (confusingly called
 <strong>q</strong> in this function), the degrees of freedom (called
 <strong>df</strong>, thank goodness), and an option that tells us to use
 the upper tail (<strong>lower.tail = FALSE</strong>).</p>
-<pre class="r"><code>pchisq(q = 23.939, df = 6, lower.tail = FALSE)</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="fu">pchisq</span>(<span class="at">q =</span> <span class="fl">23.939</span>, <span class="at">df =</span> <span class="dv">6</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## [1] 0.0005359236</code></pre>
 <p>Thus, our <em>P-</em>value for this test of the fit of these data to
 a Poisson distribution is approximately 0.0005. We reject the null
@@ -910,7 +1045,7 @@ can take the data either as a data frame, as above, or as a vector of
 the observed counts, as a parameter called <strong>x</strong> as
 input:</p></li>
 </ol>
-<pre class="r"><code>chisq.test(x = c(6,9,16,21), p = c(0.25,0.25,0.25,0.25))</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">chisq.test</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">9</span>,<span class="dv">16</span>,<span class="dv">21</span>), <span class="at">p =</span> <span class="fu">c</span>(<span class="fl">0.25</span>,<span class="fl">0.25</span>,<span class="fl">0.25</span>,<span class="fl">0.25</span>))</span></code></pre></div>
 <p>Try it using the specification of the counts, to see that you get the
 same answer as in (b).</p>
 <p><br> 3. Many people believe that the month in which a person is born

@@ -16,7 +16,7 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-*This lab is part of a series designed to accompany a course using* The
+*This lab is part of a series designed for BIOL 300, based on* The
 Analysis of Biological Data*. The rest of the labs can be found
 [here](index.html).*
 
@@ -26,16 +26,16 @@ Analysis of Biological Data*. The rest of the labs can be found
 
 -   Make data files for R
 
--   Use data frames
+-   Use data frames and tibbles
 
 -   Learn how to increase the power of R with packages
 
 <br>
 
 Data, R scripts, and other resources for these labs can be downloaded
-from [here as a .zip file](ABDLabs.zip). Please open the ABDLabs folder
-created by the .zip file in a location on your computer that you can
-come back to use repeatedly.
+from [here as a .zip file](ABDLabs.zip). Please open the `ABDLabs`
+folder created by the `.zip` file in a location on your computer that
+you can come back to use repeatedly.
 
 ------------------------------------------------------------------------
 
@@ -109,11 +109,11 @@ We used “BatTongues.csv”.
 
 Second, choose the folder in which you want to save the file. For any
 data files we create for BIOL 300, save them in the `DataForLabs` folder
-within your `ABDLabs` folder.
+(`DataForLabs` should be within your `ABDLabs` folder).
 
-Third, choose the right format for the file. The correct format is
-“Comma separated values (.csv)” which you can choose from after Format:
-in the dialog box. It might look something like this:
+Third, select the correct format for the file: “Comma separated values
+(.csv)”, which you can find in the dropdown next to `Format:` in the
+dialog box. It might look something like this:
 
 ![](formula_summaries/format%20csv.jpg)
 
@@ -140,12 +140,13 @@ Choeronycteris mexicana,18,52.1 <br>
 
 ------------------------------------------------------------------------
 
-All the information is there, and it is stored in a simple text file that can be
-read again by Excel or R or many other programs. We strongly recommend against
-hand-editing a `.csv` file in a text editor, because it is very easy to mess up
-the formatting and make the file unreadable by R. If you need to edit a `.csv`
-file, we recommend that you open it in Excel or Google Sheets, make your edits,
-and then save it again as a `.csv` file.
+All the information is there, and it is stored in a simple text file
+that can be read again by Excel or R or many other programs. We strongly
+recommend against hand-editing a `.csv` file in a text editor, because
+it is very easy to mess up the formatting and make the file unreadable
+by R. If you need to edit a `.csv` file, we recommend that you open it
+in Excel or Google Sheets, make your edits, and then save it again as a
+`.csv` file.
 
 ------------------------------------------------------------------------
 
@@ -165,18 +166,19 @@ sub-window with tables for Files, Plots, Packages, Help, and Viewer.
 Immediately below that will be a button labeled “Install”—click that and
 a window will open.
 
-![](formula_summaries/Install%20packages%201.png)
+![](formula_summaries/Install%20packages%201.png){width="300"}
 
 In the second row (labeled “Packages”), type `tidyverse` (without
 quotation marks). Make sure the box for “Install dependencies” near the
 bottom is clicked, and then click the “Install” button at bottom right.
 
-**REPLACE IMAGE???**
+# [REPLACED IMAGE]{style="color:#ff5e00;"}
 
-![](formula_summaries/Install%20packages%202.png)
+![](formula_summaries/Install_tidyverse.png){width="350"}
 
-This only needs to be done once on a given computer, and that package is
-permanently available.
+Installing an R package only needs to be done once on a given computer.
+If installed correctly, the package wil permanently available from that
+point forward (though it will need to be loaded).
 
 <br>
 
@@ -190,25 +192,26 @@ session if you want to use it. You do this with a function called
 
 ### `library()`
 
-For this lab, we will use functions from a couple packages within the tidyverse.
-Before using the functions in these packages, we need to load tidyverse. We do
-this with the `library()` function. In the console, enter this:
+For this lab, we will use functions from a couple packages within the
+tidyverse. Before using the functions in these packages, we need to load
+tidyverse. We do this with the `library()` function. In the console,
+enter this:
 
 ```{r}
 library(tidyverse)
 ```
 
-If the `tidyverse` was is installed on your computer correctly, the computer
-will just give a new prompt and be ready to go. If the package is not
-installed it will give you an error message in red asking you to get the
-package installed. (See the section above.)
+If the `tidyverse` was is installed on your computer correctly, the
+computer will show a brief status message and then will be ready to go.
+If the package is not installed, it will give you an error message in
+red asking you to install the package.
 
 <br>
 
 ## Setting the working directory
 
 The files on your computers are organized hierarchically into folders,
-or “directories.” It is convenient in RStudio to tell R which directory
+or “directories”. It is convenient in RStudio to tell R which directory
 to look for files at the beginning of a session, to minimize typing
 later.
 
@@ -217,23 +220,23 @@ and Rstudio by clicking on the `ABDLabs.Rproj` file in the `ABDLabs`
 directory. This will automatically load the needed packages and set the
 working directory to this folder.
 
-You can also manually set the working directory from RStudio’s menu via `Session
-→ Set Working Directory → Choose Directory…`.This will open a dialog box that
-will let you find and select the directory you want. For BIOL 300 labs, use
-`ABDLabs` as your working directory.
+You can also manually set the working directory from RStudio’s menu via
+`Session → Set Working Directory → Choose Directory…`. This will open a
+dialog box that will let you find and select the directory you want. For
+BIOL 300 labs, use `ABDLabs` as your working directory.
 
 <br>
 
 ## Reading a file
 
-In these labs, we have saved the data in a comma-separated variable (CSV)
-format. All files in this format ought to have `.csv` as the end of
-their file name. A CSV file is a plain text file, easily read by a wide
-variety of programs. Each row in the file (besides the first row) is the
-data for a given individual, and for each individual each variable is
-listed in the same order, separated by commas. It’s important to note
-that you can’t have commas anywhere else in the file, besides the
-separators.
+In these labs, we have saved the data in a comma-separated variable
+(CSV) format. All files in this format ought to have `.csv` as the end
+of their file name. A CSV file is a plain text file, easily read by a
+wide variety of programs. Each row in the file (besides the first row)
+is the data for a given individual, and for each individual each
+variable is listed in the same order, separated by commas. It’s
+important to note that you can’t have commas elsewhere in the file; they
+function as the separators.
 
 The first row of a CSV file should be a “header” row, which gives the
 names of each variable, again separated by commas.
@@ -257,14 +260,14 @@ to `ABDLabs`, as we described above.)
 titanicData <- read_csv("DataForLabs/titanic.csv")
 ```
 
-This looks for the file called titanic.csv in the folder called
+This looks for the file called `titanic.csv` in the folder called
 `DataForLabs.` Here we have given the name `titanicData` to the object
 in R that contains all this passenger data. Of course, if you wanted to
 load a different data set, you would be better off giving it a more apt
-name than “titanicData”. 
+name than “titanicData”.
 
-To see if the data loads appropriately, you might want to run the
-command
+To see if the data were imported appropriately, you might want to run
+the command
 
 ```{r}
 summary(titanicData)
@@ -281,19 +284,21 @@ file.
 
 ### Finding files in other locations
 
-For all of the examples in BIOL 300 labs, we assume that the data is in a folder
-called `DataForLabs` and that folder resides in the `ABDLabs` folder. When you
-work on a new data set outside of these labs, you will want to store the data
-somewhere else. To import data into R from another location on your computer,
-you need to know the file path for the file. For example, the file path to the
-titanic file on my Mac is
-"/Users/whitlock/Desktop/ABDLabs/DataForLabs/titanic.csv". On a Windows machine,
-it would look something like "C:\\Documents\\ABDLabs\\DataForLabs\\titanic.csv".
-In either case, this file path describes a series of folders nested inside one
-another that tells the computer where to look for the file.
+For all of the examples in BIOL 300 labs, we assume that the data is in
+a folder called `DataForLabs` and that folder resides in the `ABDLabs`
+folder. When you work on a new data set outside of these labs, you will
+want to store the data somewhere else. To import data into R from
+another location on your computer, you need to know the full file path
+for the file. For example, the file path to the titanic file on my Mac
+is "/Users/whitlock/Desktop/ABDLabs/DataForLabs/titanic.csv". On a
+Windows machine, it would look something like
+"C:\\Documents\\ABDLabs\\DataForLabs\\titanic.csv". In either case, this
+file path describes a series of folders nested inside one another that
+tells the computer where to look for the file.
 
-Reading a file from any location can be done with `read_csv()` like
-this:
+By supplying the full address, you are telling `read_csv()` to look for
+the file outside your current working directory. Reading a file from any
+location can be done with `read_csv()` like this:
 
 ```{r eval=FALSE}
 titanicData <- read_csv("/Users/whitlock/Desktop/ABDLabs/DataForLabs/titanic.csv")
@@ -303,45 +308,54 @@ titanicData <- read_csv("/Users/whitlock/Desktop/ABDLabs/DataForLabs/titanic.csv
 
 ## Introduction to data frames and tibbles
 
-In R, a data set is often stored as a `data.frame` or a `tibble`. For now, you
-can think of these as very similar: both store data in rows and columns (tabular
-data).
+In R, a data set is often stored as a `data.frame` or a `tibble`. For
+now, you can think of these as very similar: both store data in rows and
+columns (tabular data).
 
-Each column contains one variable, such as age, sex, or survival. Each row
-contains one individual, such as one passenger on the Titanic. The values in a
-row belong together, so the first value in each column describes the same
-individual, the second value in each column describes the next individual, and
-so on.
+Each column contains one variable, such as age, sex, or survival. Each
+row contains one individual, such as one passenger on the Titanic. The
+values in a row belong together, so the first value in each column
+describes the same individual, the second value in each column describes
+the next individual, and so on.
 
-The function `read_csv()` loads data into R as a `tibble`. A `tibble` is a
-modern version of a `data.frame` that is commonly used with tidyverse tools. In
-this course, most of the things we do with data frames also work with tibbles.
-The data set is usually given a name, which lets us tell R which data set to
-use. For example, in the previous section we read in a data set and called it
-`titanicData`. This object contains information about passengers on the Titanic.
-It has seven variables, so it has seven columns: `passenger_class`, `name`,
-`age`, `embarked`, `home_destination`, `sex`, and `survive`.
+The function `read_csv()` loads data into R as a `tibble`. A `tibble` is
+a modern version of a `data.frame` that is commonly used with tidyverse
+tools. In this course, most of the things we do with data frames also
+work with tibbles. The data set is usually given a name, which lets us
+tell R which data set to use. For example, in the previous section we
+read in a data set and called it `titanicData`. This object contains
+information about passengers on the Titanic. It has seven variables, so
+it has seven columns: `passenger_class`, `name`, `age`, `embarked`,
+`home_destination`, `sex`, and `survive`.
 
 <br>
 
-### `View()` 
+### `View()`
 
-The `View()` function is a nice way to see the data in a spreadsheet-like
-format. To see the data in `titanicData` with `View()`, run the following
-command:
+The `View()` function is a nice way to see the data in a
+spreadsheet-like format. To see the data in `titanicData` with `View()`,
+run the following command:
+
 ```{r eval=FALSE}
 View(titanicData)
 ```
+
+![](formula_summaries/VIew_function_titanicData.png){width="600"}
+
+Again, note that the `titanicData` object has 7 columns and 1313 rows.
+The horizontal and vertical scroll bars will allow you to see more of
+the data than what may initially appear in the window.
 
 <br>
 
 ### Columns within data frames or tibbles
 
-Very importantly, we can grab one column from a data frame or tibble by itself.
-We write the name of the data set, followed by a `$`, and then the name of the
-variable.
+Very importantly, we can grab one column from a data frame or tibble by
+itself. We write the name of the data set, followed by a `$`, and then
+the name of the variable.
 
-For example, to show a list of the age of all the passengers on the Titanic, use
+For example, to show a list of the age of all the passengers on the
+Titanic, use
 
 ```{r eval=FALSE}
 titanicData$age
@@ -358,23 +372,25 @@ Sometimes we would like to add a new column to a data frame. The easiest
 way to do this is to simply assign a new vector to a new column name,
 using the `$`.
 
-For example, to add the log of age as a column in the `titanicData`
-data frame, we can write
+For example, to add the log of age as a column in the `titanicData` data
+frame, we can write
 
 ```{r}
 titanicData$log_age <- log(titanicData$age)
 ```
 
-You can run the command `head(titanicData)` to see that `log_age` is
-now a column in `titanicData`.
+# [Add mutate() and factor() here too?]{style="color:#ff5e00;"}
+
+You can run the command `head(titanicData)` to see that `log_age` is now
+a column in `titanicData`.
 
 ```{r}
 head(titanicData)
 ```
 
-The `head()` function shows the first 6 rows of a data frame or tibble, which is
-a handy way to check that you understand the structure of the data and/or
-that you have added the new column correctly.
+The `head()` function shows the first 6 rows of a data frame or tibble,
+which is a handy way to check that you understand the structure of the
+data and/or that you have added the new column correctly.
 
 <br>
 
@@ -384,16 +400,16 @@ Sometimes we want to do an analysis only on some of the data that fit
 certain criteria. For example, we might want to analyze the data from
 the Titanic using only the information from females.
 
-The easiest way to do this is to use the `filter()` function from the package
-`dplyr`. `dplyr` is a package within the tidyverse, so make sure you have loaded
-tidyverse into R using `library()`. `libary(tidyverse)` only needs to be run
-once per session, and then you can use any of the functions in the tidyverse
-packages, including `filter()`.
+The easiest way to do this is to use the `filter()` function from the
+package `dplyr`. `dplyr` is a package within the tidyverse, so make sure
+you have loaded tidyverse into R using `library()`. `libary(tidyverse)`
+only needs to be run once per session, and then you can use any of the
+functions in the tidyverse packages, including `filter()`.
 
-In the titanic data set there is a variable named `sex`, and an individual
-is female if that variable has value `female`. We can create a new data
-frame that includes only the data from females with the following
-command:
+In the titanic data set there is a variable named `sex`, and an
+individual is female if that variable has value `female`. We can create
+a new data frame that includes only the data from females with the
+following command:
 
 ```{r}
 titanicDataFemalesOnly <- filter(titanicData, sex == "female")
@@ -403,13 +419,13 @@ This new data frame will include all the same columns as the original
 `titanicData`, but it will only include the rows for which the sex was
 `female`.
 
-Note that the syntax here requires a double equal sign: `==`. In R (and many
-other computer languages), the double equal sign creates a statement
-that can be evaluated as `TRUE` or `FALSE`, whereas a single equal sign may
-change the value of the object to the value on the right-hand side of
-the equal sign. Here we are asking, for each individual, whether `sex` is
-`female`. We not assigning the value `female` to the variable `sex.` So we
-must use a double equal sign `==`.
+Note that the syntax here requires a double equal sign: `==`. In R (and
+many other computer languages), the double equal sign creates a
+statement that can be evaluated as `TRUE` or `FALSE`, whereas a single
+equal sign may change the value of the object to the value on the
+right-hand side of the equal sign. Here we are asking, for each
+individual, whether `sex` is `female`. We not assigning the value
+`female` to the variable `sex`. So we must use a double equal sign `==`.
 
 <br>
 
@@ -423,45 +439,55 @@ must use a double equal sign `==`.
 
 # Questions
 
-
-<br> 1. In Lab 1, Question 7, you and your fellow students may have recorded
-requested information about yourselves. Your TA will now provide you with data
-sheets for all students in your section who took measurements (all data are
-anonymous). Use the data sheets to create a `.csv` file in Excel or Google
-Sheets. Include all of five of the variables for each of the individuals in the
-data sheets. Be sure to use variable names that are 1) legal in R and 2)
-intelligible to another person who may encounter the file. Save the data file
-that you make in the `DataForLabs` folder on your computer with the file name
+<br> 1. In Lab 1, Question 7, you and your fellow students may have
+recorded requested information about yourselves. Your TA will now
+provide you with data sheets for all students in your section who took
+measurements (all data are anonymous). Use the data sheets to create a
+`.csv` file in Excel or Google Sheets. Include all of five of the
+variables for each of the individuals in the data sheets. Be sure to use
+variable names that are 1) legal in R and 2) intelligible to another
+person who may encounter the file. Save the data file that you make in
+the `DataForLabs` folder on your computer with the file name
 `CollectedDataFromLab1.csv`.
 
-a. Import this data file into R using `read_csv()`, and give the resulting data
-frame a name that makes sense to you.
+a.  Import this data file into R using `read_csv()`, and give the
+    resulting data frame a name that makes sense to you.
 
-b. Use the `View()` function to check that you have read the data correctly.
+b.  Use the `View()` function to check that you have read the data
+    correctly.
 
-c. Make a quick plot of VARIABLE against VARIABLE USING plot(X,Y)  
+c.  [Make a quick plot of VARIABLE against VARIABLE USING plot(X,Y)]{style="color:#ff5e00;"}
 
+<br> 2. The data file called `countries.csv` in the `DataForLabs` folder
+contains information about all the countries on Earth. Each row is a
+country, and each column contains a variable.
 
+a.  Use `read_csv()` to read the data from this file into a data frame
+    called countries.
 
-<br>
-2.  The data file called `countries.csv` in the `DataForLabs` folder contains information about all the countries on Earth. Each row is a country, and each column contains a variable.
+b.  Use `summary()` to get a quick description of this data set. What
+    are the first three variables?
 
-a.	Use `read.csv()` to read the data from this file into a data frame called countries.
+c.  [Using the output of `summary()`, how many countries are from Africa
+    in this data set?]{style="color:#ff5e00;"} May not work without factor
 
-b.	Use `summary()` to get a quick description of this data set. What are the first three variables?
+d.  What kinds of variables (i.e., categorical or numerical) are
+    `continents`, `cell_phone_subscriptions_per_100_people_2012`,
+    `total_population_in_thousands_2015` and
+    `fines_for_tobacco_advertising_2014`? (Don't go by their variable
+    names – look at the data in the summary results to decide.)
 
-c.	Using the output of `summary()`, how many countries are from Africa in this data set?
+e.  Add a new column to your countries data frame that has the
+    difference in ecological footprint between 2012 and 2000. What is
+    the mean of this difference? (Note: this variable will have “missing
+    data”, which means that some of the countries do not have data in
+    this file for one or the other of the years of ecological footprint.
+    By default, R doesn’t calculate a mean unless all the data are
+    present. To tell R to ignore the missing data, add an option to the
+    `mean()` command that says `na.rm=TRUE`. We’ll learn more about this
+    later.)
 
-d.	What kinds of variables (i.e., categorical or numerical) are `continents`, `cell_phone_subscriptions_per_100_people_2012`, `total_population_in_thousands_2015` and `fines_for_tobacco_advertising_2014`? (Don't go by their variable names – look at the data in the summary results to decide.)
-
-e.	Add a new column to your countries data frame that has the difference in
-ecological footprint between 2012 and 2000.  What is the mean of this
-difference? (Note:  this variable will have “missing data”, which means that
-some of the countries do not have data in this file for one or the other of the
-years of ecological footprint.  By default, R doesn’t calculate a mean unless
-all the data are present. To tell R to ignore the missing data, add an option to
-the `mean()` command that says `na.rm=TRUE`. We’ll learn more about this later.)
-
-
-<br>
-3.  Using the `countries` data again, create a new data frame called `AfricaData`, that only includes data for countries in Africa. What is the sum of the `total_population_in_thousands_2015` for this new data frame?
+<br> 3. Using the `countries` data again, create a new data frame called
+`AfricaData`, that only includes data for countries in Africa. What is
+the sum of the `total_population_in_thousands_2015` for this new data
+frame?

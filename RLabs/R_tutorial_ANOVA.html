@@ -34,8 +34,6 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-3"></script>
 <script>
@@ -56,18 +54,113 @@
   ul.task-list{list-style: none;}
     </style>
 
-<style type="text/css">code{white-space: pre;}</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
   }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
 }
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
 </script>
-
-
 
 
 
@@ -374,13 +467,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="R_tutorial_Loading_R_and_RStudio.html">0. Loading R and RSstudio</a>
+      <a href="R_tutorial_Loading_R_and_RStudio.html">0. Loading R and RStudio</a>
     </li>
     <li>
-      <a href="R_tutorial_Intro_to_R_1.html">1. Intro to R, Part 1</a>
+      <a href="R_tutorial_Intro_to_R.html">1. Intro to R</a>
     </li>
     <li>
-      <a href="R_tutorial_Intro_to_R_2.html">2. Intro to R, Part 2</a>
+      <a href="R_tutorial_Tabular_data.html">2. Tabular data</a>
     </li>
     <li>
       <a href="R_tutorial_Graphics.html">3. Graphics</a>
@@ -426,6 +519,51 @@ div.tocify {
   $('.navbar-brand').attr('href','../index.html')
 </script>
 
+<style>
+.copy-code-button {
+  float: right;
+  font-size: 11px;
+  line-height: 1;
+  padding: 1px 5px;
+  margin: 0;
+  margin-top: 2px;
+  margin-right: 2px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll("pre").forEach(function(pre) {
+    var codeBlock = pre.querySelector("code");
+    if (!codeBlock) return;
+
+    var codeText = codeBlock.innerText.trim();
+
+    // Skip printed R output blocks, which usually begin with ##
+    if (codeText.startsWith("##")) return;
+
+    var button = document.createElement("button");
+    button.textContent = "Copy";
+    button.className = "copy-code-button";
+
+    button.addEventListener("click", function() {
+      navigator.clipboard.writeText(codeBlock.innerText).then(function() {
+        button.textContent = "Copied!";
+        setTimeout(function() {
+          button.textContent = "Copy";
+        }, 1500);
+      });
+    });
+
+    pre.insertBefore(button, codeBlock);
+  });
+});
+</script>
+
 <div id="header">
 
 
@@ -466,16 +604,16 @@ data set. We’ll group passengers by the passenger class they travelled
 under (a categorical variable) and ask whether different passenger
 classes differed in their mean age (a numerical variable).</p>
 <p>First, load the data.</p>
-<pre class="r"><code>titanicData &lt;- read.csv(&quot;DataForLabs/titanic.csv&quot;, stringsAsFactors = TRUE)</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Let’s first look at the data to get a sense of how well it fits the
 assumptions of ANOVA. Multiple histogram are useful for this purpose. As
 we saw in the last lab, we can use <strong>ggplot()</strong> and facets
 to make this plot:</p>
-<pre class="r"><code>library(ggplot2)
-
-ggplot(titanicData, aes(x = age)) +   
-  geom_histogram() + 
-  facet_wrap(~ passenger_class, ncol = 1) </code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span>   </span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span> </span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> passenger_class, <span class="at">ncol =</span> <span class="dv">1</span>) </span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
 <pre><code>## Warning: Removed 680 rows containing non-finite outside the scale range (`stat_bin()`).</code></pre>
 <p><img src="R_tutorial_ANOVA_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
@@ -488,7 +626,7 @@ functions from the package <strong>dplyr</strong>. If you have not done
 so yet, install the <strong>dplyr</strong> package from the “Packages”
 tab in RStudio. Then load the <strong>dplyr</strong> package with
 <strong>library()</strong>.</p>
-<pre class="r"><code>library(dplyr)</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code></pre></div>
 <p><br></p>
 <div id="group_by" class="section level3">
 <h3>group_by()</h3>
@@ -502,7 +640,7 @@ summarize the results for each group.</p>
 the appropriate grouping variable. For example, here we want to organize
 the <strong>titanicData</strong> by
 <strong>passenger_class</strong>:</p>
-<pre class="r"><code>titanic_by_passenger_class &lt;- group_by(titanicData,passenger_class)</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>titanic_by_passenger_class <span class="ot">&lt;-</span> <span class="fu">group_by</span>(titanicData,passenger_class)</span></code></pre></div>
 <p><br></p>
 </div>
 <div id="summarise" class="section level3">
@@ -515,7 +653,7 @@ type of function that summarizes data (e.g. <strong>mean()</strong>,
 <strong>median()</strong>, <strong>var()</strong>, etc.), and receive
 that summary group by group. For example, to calculate the mean age of
 each <strong>passenger_class</strong>, we can use:</p>
-<pre class="r"><code>summarise(titanic_by_passenger_class, group_mean = mean(age, na.rm=TRUE))</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">summarise</span>(titanic_by_passenger_class, <span class="at">group_mean =</span> <span class="fu">mean</span>(age, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 2
 ##   passenger_class group_mean
 ##   &lt;fct&gt;                &lt;dbl&gt;
@@ -536,7 +674,7 @@ once, and it will create columns in the output table for each one. For
 example, if we want to output both the mean and the standard deviation,
 we can add <strong>sd = sd(age, na.rm=TRUE)</strong> to the function
 above.</p>
-<pre class="r"><code>summarise(titanic_by_passenger_class, group_mean = mean(age, na.rm=TRUE), group_sd = sd(age, na.rm=TRUE))</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">summarise</span>(titanic_by_passenger_class, <span class="at">group_mean =</span> <span class="fu">mean</span>(age, <span class="at">na.rm=</span><span class="cn">TRUE</span>), <span class="at">group_sd =</span> <span class="fu">sd</span>(age, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 3
 ##   passenger_class group_mean group_sd
 ##   &lt;fct&gt;                &lt;dbl&gt;    &lt;dbl&gt;
@@ -567,10 +705,10 @@ are asking R to fit to the data. A model formula always takes the form
 of a response variable, followed by a tilde(<strong>~</strong>), and
 then at least one explanatory variable. In the case of a one-way ANOVA,
 this model statement will take the form</p>
-<pre class="r"><code>numerical_variable ~ categorical_variable</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>numerical_variable <span class="sc">~</span> categorical_variable</span></code></pre></div>
 <p>For example, to compare differences in mean age among passenger
 classes on the Titanic, this formula is</p>
-<pre class="r"><code>age ~ passenger_class</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>age <span class="sc">~</span> passenger_class</span></code></pre></div>
 <p>This formula tells R to “fit” a model in which the ages of passengers
 are grouped by the variable <strong>passenger_class</strong>.</p>
 <p>The name of the data frame containing the variables stated in the
@@ -580,14 +718,14 @@ intermediate results by assigning them to a new object, which
 <strong>anova()</strong> can then use to make the ANOVA table. For
 example, here we assign the results of <strong>lm()</strong> to a new
 object named “<strong>titanicANOVA</strong>”:</p>
-<pre class="r"><code>titanicANOVA &lt;- lm(age ~ passenger_class, data = titanicData)</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>titanicANOVA <span class="ot">&lt;-</span> <span class="fu">lm</span>(age <span class="sc">~</span> passenger_class, <span class="at">data =</span> titanicData)</span></code></pre></div>
 <p><br></p>
 </div>
 <div id="anova-1" class="section level3">
 <h3>anova()</h3>
 <p>The function <strong>anova()</strong> takes the results of
 <strong>lm()</strong> as input and returns an ANOVA table as output:</p>
-<pre class="r"><code>anova(titanicANOVA)</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">anova</span>(titanicANOVA)</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: age
@@ -618,7 +756,7 @@ To do a Tukey-Kramer test on these data, we need to first apply the
 function <strong>aov()</strong> to <strong>titanicANOVA</strong>, and
 then we need to apply the function <strong>TukeyHSD</strong> to the
 result. We can do this in a single command:</p>
-<pre class="r"><code>TukeyHSD(aov(titanicANOVA))</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">TukeyHSD</span>(<span class="fu">aov</span>(titanicANOVA))</span></code></pre></div>
 <pre><code>##   Tukey multiple comparisons of means
 ##     95% family-wise confidence level
 ## 
@@ -653,7 +791,7 @@ the same mean in each group.)</p>
 <strong>kruskal.test()</strong>. The input for this function is the same
 as we used for <strong>lm()</strong> above. It includes a model formula
 statement and the name of the data frame to be used.</p>
-<pre class="r"><code>kruskal.test(age ~ passenger_class, data = titanicData)</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">kruskal.test</span>(age <span class="sc">~</span> passenger_class, <span class="at">data =</span> titanicData)</span></code></pre></div>
 <pre><code>## 
 ##  Kruskal-Wallis rank sum test
 ## 

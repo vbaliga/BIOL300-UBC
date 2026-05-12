@@ -34,8 +34,6 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-3"></script>
 <script>
@@ -56,18 +54,113 @@
   ul.task-list{list-style: none;}
     </style>
 
-<style type="text/css">code{white-space: pre;}</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
   }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
 }
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
 </script>
-
-
 
 
 
@@ -374,13 +467,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="R_tutorial_Loading_R_and_RStudio.html">0. Loading R and RSstudio</a>
+      <a href="R_tutorial_Loading_R_and_RStudio.html">0. Loading R and RStudio</a>
     </li>
     <li>
-      <a href="R_tutorial_Intro_to_R_1.html">1. Intro to R, Part 1</a>
+      <a href="R_tutorial_Intro_to_R.html">1. Intro to R</a>
     </li>
     <li>
-      <a href="R_tutorial_Intro_to_R_2.html">2. Intro to R, Part 2</a>
+      <a href="R_tutorial_Tabular_data.html">2. Tabular data</a>
     </li>
     <li>
       <a href="R_tutorial_Graphics.html">3. Graphics</a>
@@ -426,6 +519,51 @@ div.tocify {
   $('.navbar-brand').attr('href','../index.html')
 </script>
 
+<style>
+.copy-code-button {
+  float: right;
+  font-size: 11px;
+  line-height: 1;
+  padding: 1px 5px;
+  margin: 0;
+  margin-top: 2px;
+  margin-right: 2px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll("pre").forEach(function(pre) {
+    var codeBlock = pre.querySelector("code");
+    if (!codeBlock) return;
+
+    var codeText = codeBlock.innerText.trim();
+
+    // Skip printed R output blocks, which usually begin with ##
+    if (codeText.startsWith("##")) return;
+
+    var button = document.createElement("button");
+    button.textContent = "Copy";
+    button.className = "copy-code-button";
+
+    button.addEventListener("click", function() {
+      navigator.clipboard.writeText(codeBlock.innerText).then(function() {
+        button.textContent = "Copied!";
+        setTimeout(function() {
+          button.textContent = "Copy";
+        }, 1500);
+      });
+    });
+
+    pre.insertBefore(button, codeBlock);
+  });
+});
+</script>
+
 <div id="header">
 
 
@@ -469,7 +607,7 @@ of data relatively simply. Its syntax is slightly odd but very flexible.
 We’ll show specific commands for several types of plots below.</p>
 <p>To begin, remember to load the package <strong>ggplot2</strong>
 with:</p>
-<pre class="r"><code>library(ggplot2)</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
 <p>To make a graph with <strong>ggplot()</strong>, you need to specify
 at least two elements in your command. The first uses the function
 <strong>ggplot()</strong> itself, to specify which data frame you want
@@ -488,9 +626,9 @@ variable in a sample.</p>
 Titanic data set. Make sure you have loaded the data (using
 <strong>read.csv</strong>) into a data frame called
 <strong>titanicData</strong>.</p>
-<pre class="r"><code>titanicData &lt;- read.csv(&quot;DataForLabs/titanic.csv&quot;, stringsAsFactors = TRUE)</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Here’s the code to make a simple histogram of age:</p>
-<pre class="r"><code>ggplot(titanicData, aes(x=age)) + geom_histogram()</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x=</span>age)) <span class="sc">+</span> <span class="fu">geom_histogram</span>()</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
 <pre><code>## Warning: Removed 680 rows containing non-finite outside the scale range (`stat_bin()`).</code></pre>
 <p><img src="R_tutorial_Graphics_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
@@ -522,7 +660,7 @@ similar to that for a histogram. For example, here is a bar graph for
 the categorical variable <strong>sex</strong> in the titanic data set.
 Aside from specifying a different variable for <strong>x</strong>, we
 use a different geom function here, <strong>geom_bar</strong>.</p>
-<pre class="r"><code>ggplot(titanicData, aes(x=sex)) + geom_bar(stat=&quot;count&quot;)</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x=</span>sex)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;count&quot;</span>)</span></code></pre></div>
 <p><img src="R_tutorial_Graphics_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p><br></p>
 </div>
@@ -531,9 +669,8 @@ use a different geom function here, <strong>geom_bar</strong>.</p>
 <p>A boxplot is a convenient way of showing the frequency distribution
 of a numerical variable in multiple groups. Here’s the code to draw a
 boxplot for age in the titanic data set, separately for each sex:</p>
-<pre class="r"><code>ggplot(titanicData, aes(x=sex, y=age)) + geom_boxplot()</code></pre>
-<pre><code>## Warning: Removed 680 rows containing non-finite outside the scale range
-## (`stat_boxplot()`).</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x=</span>sex, <span class="at">y=</span>age)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<pre><code>## Warning: Removed 680 rows containing non-finite outside the scale range (`stat_boxplot()`).</code></pre>
 <p><img src="R_tutorial_Graphics_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Notice that the y variable here is <strong>age</strong>, and
 <strong>x</strong> is the categorical variable sex that winds up on the
@@ -561,15 +698,15 @@ use a different data set—the example from Figure 2.3-2 of Whitlock and
 Schluter, showing the relationship between the ornamentation of father
 guppies and the sexual attractiveness of their sons. You can load the
 data for that example with</p>
-<pre class="r"><code>guppyFatherSonData &lt;-read.csv(&quot;DataForLabs/chap02e3bGuppyFatherSonAttractiveness.csv&quot;)</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>guppyFatherSonData <span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/chap02e3bGuppyFatherSonAttractiveness.csv&quot;</span>)</span></code></pre></div>
 <p>To make a scatter plot of the variables fatherOrnamentation and
 sonAttractiveness with ggplot, you need to specify the
 <strong>x</strong> and <strong>y</strong> variables, and use
 <strong>geom_point()</strong>:</p>
-<pre class="r"><code>ggplot(guppyFatherSonData,   
-  aes(x = fatherOrnamentation, 
-  y = sonAttractiveness)) +
-  geom_point()</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">ggplot</span>(guppyFatherSonData,   </span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> fatherOrnamentation, </span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="at">y =</span> sonAttractiveness)) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
 <p><img src="R_tutorial_Graphics_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p><br></p>
 </div>
@@ -588,26 +725,26 @@ example, you can change the text of the <em>x</em>-axis label or the
 <em>y</em>-axis label by using <strong>xlab</strong> or
 <strong>ylab</strong>. Let’s do that for the scatterplot, to make the
 labels a little nicer to read for humans.</p>
-<pre class="r"><code>ggplot(guppyFatherSonData,   
-    aes(x = fatherOrnamentation, y = sonAttractiveness)) +
-    geom_point() +
-    xlab(&quot;Father&#39;s ornamentation&quot;) + 
-    ylab(&quot;Son’s attractiveness&quot;)</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">ggplot</span>(guppyFatherSonData,   </span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> fatherOrnamentation, <span class="at">y =</span> sonAttractiveness)) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Father&#39;s ornamentation&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Son’s attractiveness&quot;</span>)</span></code></pre></div>
 <p><img src="R_tutorial_Graphics_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>The labels that we want to add are included in quotes inside the
 <strong>xlab</strong> and <strong>ylab</strong> functions. Here is what
 appears:</p>
 <p>It can also be nice to remove the default gray background, to make
 what some feel is a cleaner graph. Try adding</p>
-<pre class="r"><code>+ theme_classic()</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="sc">+</span> <span class="fu">theme_classic</span>()</span></code></pre></div>
 <p>to the end of one of your lines of code making a graph, to see
 whether you prefer the result to the default design.</p>
-<pre class="r"><code>ggplot(guppyFatherSonData,   
-    aes(x = fatherOrnamentation, y = sonAttractiveness)) +
-    geom_point() +
-    xlab(&quot;Father&#39;s ornamentation&quot;) + 
-    ylab(&quot;Son’s attractiveness&quot;) + 
-    theme_classic()</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">ggplot</span>(guppyFatherSonData,   </span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> fatherOrnamentation, <span class="at">y =</span> sonAttractiveness)) <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Father&#39;s ornamentation&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Son’s attractiveness&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>    <span class="fu">theme_classic</span>()</span></code></pre></div>
 <p><img src="R_tutorial_Graphics_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p><br></p>
 </div>
@@ -617,7 +754,7 @@ whether you prefer the result to the default design.</p>
 detail might be off-putting for beginners. For example, to explore the
 options for <strong>ggplot()</strong>, enter the following into the R
 Console.</p>
-<pre class="r"><code>help(ggplot)</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">help</span>(ggplot)</span></code></pre></div>
 <p>This will cause the contents of the manual page for this function to
 appear in the Help window in RStudio. These manual pages are often
 frustratingly technical. What many of us do instead is simply google the
@@ -727,7 +864,7 @@ length, at least over 80 mm long! The following command will pull out
 the rows of the data frame <strong>bat_tongues</strong> that have
 <strong>tongue_length</strong> greater than 80 mm:</p></li>
 </ol>
-<pre class="r"><code>filter(bat_tongues,tongue_length&gt;80)</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">filter</span>(bat_tongues,tongue_length<span class="sc">&gt;</span><span class="dv">80</span>)</span></code></pre></div>
 <p>The unusual species is <em>Anoura fistulata.</em> <a
 href="https://www.researchgate.net/figure/235352132_fig4_Figure-4-Partially-extended-tongue-of-A-fistulata-ICN-19653-from-Genova-Narino">See
 a photo here.</a> This species has an outrageously long tongue, which it

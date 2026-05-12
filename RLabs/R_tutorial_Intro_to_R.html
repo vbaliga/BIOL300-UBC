@@ -34,8 +34,6 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-3"></script>
 <script>
@@ -56,18 +54,113 @@
   ul.task-list{list-style: none;}
     </style>
 
-<style type="text/css">code{white-space: pre;}</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
   }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
 }
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
 </script>
-
-
 
 
 
@@ -482,9 +575,9 @@ to R</h1>
 </div>
 
 
-<p><em>This lab is part of a series designed to accompany a course
-using</em> The Analysis of Biological Data<em>. The rest of the labs can
-be found <a href="index.html">here</a>.</em></p>
+<p><em>This lab is part of a series designed for BIOL 300, based on</em>
+The Analysis of Biological Data<em>. The rest of the labs can be found
+<a href="index.html">here</a>.</em></p>
 <p><br></p>
 <div id="learning-outcomes" class="section level1">
 <h1>Learning outcomes</h1>
@@ -576,14 +669,14 @@ this, but can be very valuable when the answers become more
 complex.)</p>
 <p>In these labs, the input will show up in a gray box and the output,
 if any, will follow in a white box.</p>
-<pre class="r"><code>2 + 2</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="dv">2</span> <span class="sc">+</span> <span class="dv">2</span></span></code></pre></div>
 <pre><code>## [1] 4</code></pre>
 <p><br></p>
 <div id="log" class="section level3">
 <h3><code>log()</code></h3>
 <p>You can use a wide variety of math functions to make calculations
 here, e.g., <code>log()</code> calculates the log of a number:</p>
-<pre class="r"><code>log(42)</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">log</span>(<span class="dv">42</span>)</span></code></pre></div>
 <pre><code>## [1] 3.73767</code></pre>
 <p>(By default, this gives the natural log with base e.)</p>
 <p>Parentheses are used both as a way to group elements of the
@@ -598,18 +691,18 @@ For example, <code>log(3)</code> is applying the function
 <p>Another mathematical function that often comes in handy is the square
 root function, <code>sqrt()</code>. For example, the square root of 4
 is:</p>
-<pre class="r"><code>sqrt(4)</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="dv">4</span>)</span></code></pre></div>
 <pre><code>## [1] 2</code></pre>
 <p>To calculate a value with an exponent, use the <code>^</code> symbol.
 For example 4<sup>3</sup> is written as:</p>
-<pre class="r"><code>4^3</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="dv">4</span><span class="sc">^</span><span class="dv">3</span></span></code></pre></div>
 <pre><code>## [1] 64</code></pre>
 <p>Of course, many math functions can be combined to give an almost
 infinite possibility of mathematical expressions. For example,</p>
 <p><span class="math display">\[\frac{1}{\sqrt{2\pi
 (3.1)^2}}   e^{-\frac{(12-10.7)^2}{2(3.1) }}\]</span></p>
 <p>can be calculated with</p>
-<pre class="r"><code>(1 / (sqrt(2 * pi * (3.1)^2))) * exp(-(12-10.7)^2/(2*3.1))</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>(<span class="dv">1</span> <span class="sc">/</span> (<span class="fu">sqrt</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> (<span class="fl">3.1</span>)<span class="sc">^</span><span class="dv">2</span>))) <span class="sc">*</span> <span class="fu">exp</span>(<span class="sc">-</span>(<span class="dv">12</span><span class="fl">-10.7</span>)<span class="sc">^</span><span class="dv">2</span><span class="sc">/</span>(<span class="dv">2</span><span class="sc">*</span><span class="fl">3.1</span>))</span></code></pre></div>
 <pre><code>## [1] 0.09798692</code></pre>
 <p><br></p>
 </div>
@@ -646,14 +739,14 @@ limitations are, or anything else you want to remember later. To leave a
 note, we use “comments”, which are a line of text that starts with the
 hash symbol <code>#</code>. Anything on a line after a <code>#</code>
 will be ignored by R.</p>
-<pre class="r"><code># This is a comment. Running this in R will 
-# have no effect.
-
-# You can also leave an in-line comment after a command:
-9^0.5 # This is another way to take a square root</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># This is a comment. Running this in R will </span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co"># have no effect.</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co"># You can also leave an in-line comment after a command:</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="dv">9</span><span class="sc">^</span><span class="fl">0.5</span> <span class="co"># This is another way to take a square root</span></span></code></pre></div>
 <pre><code>## [1] 3</code></pre>
-<pre class="r"><code># Anything after the &quot;#&quot; will be treated as a comment, even if it has R code: 
-# log(4)</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># Anything after the &quot;#&quot; will be treated as a comment, even if it has R code: </span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co"># log(4)</span></span></code></pre></div>
 <p><br></p>
 </div>
 <div id="functions" class="section level2">
@@ -667,7 +760,7 @@ argument <code>base</code> to tell the function what base to use for the
 logarithm. If we don’t specify the base variable, it has a default value
 of <code>base = e</code>. To get a log in base 10, for example, we would
 use:</p>
-<pre class="r"><code>log(4, base = 10)</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">log</span>(<span class="dv">4</span>, <span class="at">base =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## [1] 0.60206</code></pre>
 <p><br></p>
 </div>
@@ -676,23 +769,23 @@ use:</p>
 <p>In R, we can store information of various sorts by assigning them to
 objects. For example, if we want to create a object called
 <code>x</code> and give it a value of 4, we would write</p>
-<pre class="r"><code>x &lt;- 4</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">4</span></span></code></pre></div>
 <p>The middle bit of this: <code>&lt;-</code>, a less than sign and a
 hyphen typed together to make something that looks a little like a
 left-facing arrow, tells R to assign the value on the right to the
 object on the left. After running the command above, whenever we use
 <code>x</code> in a command it would be replaced by its value 4. For
 example, if we add 3 to <code>x</code>, we would expect to get 7.</p>
-<pre class="r"><code>x + 3</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>x <span class="sc">+</span> <span class="dv">3</span></span></code></pre></div>
 <pre><code>## [1] 7</code></pre>
 <p>Objects in R can store more than just simple numbers. They can store
 lists of numbers, functions, graphics, etc., depending on what values
 get assigned to the object.</p>
 <p>We can always reassign a new value to a object. If we now tell R that
 <code>x</code> is equal to 32:</p>
-<pre class="r"><code>x &lt;- 32</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">32</span></span></code></pre></div>
 <p>then <code>x</code> takes its new value:</p>
-<pre class="r"><code>x</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>x</span></code></pre></div>
 <pre><code>## [1] 32</code></pre>
 <p><br></p>
 </div>
@@ -725,7 +818,7 @@ called “camelCase”.</p>
 to an entire collection of numbers. The technical term for a set of
 numbers is “vector”. For example, the following code will create a
 vector of five numbers:</p>
-<pre class="r"><code>c(78, 85, 64, 54, 102, 98.6)</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">c</span>(<span class="dv">78</span>, <span class="dv">85</span>, <span class="dv">64</span>, <span class="dv">54</span>, <span class="dv">102</span>, <span class="fl">98.6</span>)</span></code></pre></div>
 <pre><code>## [1]  78.0  85.0  64.0  54.0 102.0  98.6</code></pre>
 <p><br></p>
 <div id="c" class="section level3">
@@ -738,7 +831,7 @@ elements into a vector.</p>
 vector. Let’s assign it to a object, called <code>temperatureF</code>
 (because these numbers are actually a set of temperatures in degrees
 Fahrenheit):</p>
-<pre class="r"><code>temperatureF &lt;- c(78, 85, 64, 54, 102, 98.6)</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>temperatureF <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">78</span>, <span class="dv">85</span>, <span class="dv">64</span>, <span class="dv">54</span>, <span class="dv">102</span>, <span class="fl">98.6</span>)</span></code></pre></div>
 <p>The combination of the less than sign and the hyphen makes an arrow
 pointing from right to left—this tells R to assign the stuff on the
 right to the name on the left. In this case we are assigning a vector to
@@ -747,16 +840,16 @@ the object <code>temperatureF</code>.</p>
 this vector of temperatures under the name <code>temperatureF</code>. We
 can view the contents of the vector <code>temperatureF</code> by simply
 typing its name:</p>
-<pre class="r"><code>temperatureF</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>temperatureF</span></code></pre></div>
 <pre><code>## [1]  78.0  85.0  64.0  54.0 102.0  98.6</code></pre>
 <p>The power of vectors is that sometimes R can do the same calculation
 on all elements of a vector with one command. For example, to convert a
 temperature in Fahrenheit to Celsius, we would want to subtract 32 and
 multiply times 5/9. We can do that for all the numbers in this vector at
 once:</p>
-<pre class="r"><code>temperatureC &lt;- (temperatureF - 32) * 5/9
-
-temperatureC</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>temperatureC <span class="ot">&lt;-</span> (temperatureF <span class="sc">-</span> <span class="dv">32</span>) <span class="sc">*</span> <span class="dv">5</span><span class="sc">/</span><span class="dv">9</span></span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>temperatureC</span></code></pre></div>
 <pre><code>## [1] 25.55556 29.44444 17.77778 12.22222 38.88889 37.00000</code></pre>
 <p>To pull out one of the numbers in this vector, we add square brackets
 after the vector name, and inside those brackets put the index of the
@@ -764,7 +857,7 @@ element we want. (The “index” is just a number giving the relative
 location in the vector of the item we want. The first item has index 1,
 etc.) For example, the second element of the vector
 <code>temperatureC</code> is</p>
-<pre class="r"><code>temperatureC[2]</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>temperatureC[<span class="dv">2</span>]</span></code></pre></div>
 <pre><code>## [1] 29.44444</code></pre>
 <p>One of the common ways to slip up in R is to confuse the [square
 brackets] which pull out an element of a vector, with the (parentheses)
@@ -776,7 +869,7 @@ another vector with the same patient’s weights after leaving hospital
 (<code>weight_after_hospital</code>). You can calculate the change in
 weight for all these patients in one command, using vector
 subtraction:</p>
-<pre class="r"><code>weight_change_during_hospital &lt;- weight_after_hospital - weight_before_hospital</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>weight_change_during_hospital <span class="ot">&lt;-</span> weight_after_hospital <span class="sc">-</span> weight_before_hospital</span></code></pre></div>
 <p>The result will be a vector that has each patient’s change in
 weight.</p>
 <p><br></p>
@@ -793,7 +886,7 @@ let’s start with a couple of basic ones.</p>
 calculates the sample mean (that is, the average) of the vector given to
 it as input. For example, the mean of the vector of the temperatures in
 degrees Celsius from above is 26.81481:</p>
-<pre class="r"><code>mean(temperatureC)</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="fu">mean</span>(temperatureC)</span></code></pre></div>
 <pre><code>## [1] 26.81481</code></pre>
 <p><br></p>
 </div>
@@ -801,7 +894,7 @@ degrees Celsius from above is 26.81481:</p>
 <h3><code>sum()</code></h3>
 <p>Another simple (and simply named) function calculates the sum of all
 numbers in a vector: <code>sum()</code>.</p>
-<pre class="r"><code>sum(temperatureC)</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="fu">sum</span>(temperatureC)</span></code></pre></div>
 <pre><code>## [1] 160.8889</code></pre>
 <p><br></p>
 </div>
@@ -809,7 +902,7 @@ numbers in a vector: <code>sum()</code>.</p>
 <h3><code>length()</code></h3>
 <p>To count the number of elements in a vector, use
 <code>length()</code>.</p>
-<pre class="r"><code>length(temperatureC)</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="fu">length</span>(temperatureC)</span></code></pre></div>
 <pre><code>## [1] 6</code></pre>
 <p>This shows that there are 6 temperature values in the vector that
 make up the vector <code>temperatureC</code>.</p>
@@ -821,7 +914,7 @@ make up the vector <code>temperatureC</code>.</p>
 <h1>R commands summary</h1>
 </div>
 <div id="needs-edit" class="section level1">
-<h1><strong>NEEDS EDIT!!!!</strong></h1>
+<h1><span style="color:#ff5e00;">NEEDS EDIT</span></h1>
 <p><img src="formula_summaries/Intro%20to%20R%201%20summary.png" /></p>
 <hr />
 <p><br></p>
@@ -830,7 +923,7 @@ make up the vector <code>temperatureC</code>.</p>
 <h1>Questions</h1>
 </div>
 <div id="simplify-here" class="section level1">
-<h1><strong>SIMPLIFY HERE?</strong></h1>
+<h1><span style="color:#ff5e00;">SIMPLIFY HERE?</span></h1>
 <p><br> 1. For each week, create an R script that captures the commands
 that you use to answer the questions. Use a <code>#</code> at the
 beginning of each comment line.</p>
@@ -842,14 +935,15 @@ comment, followed by any R code you use to do the question, and give the
 answers as comments.</p></li>
 </ol>
 <p>For example, here is what part of your script might look like.</p>
-<pre class="r"><code># R Labs, Week 1
-# Terry T. Student
-
-# Question 4a
-15*17
-# [1] 255</code></pre>
-<p><br> 2. All of the commands used in the “Learning the Tools” section
-for this lab are in a script called “LearningToolsWeek1.R” in the <a
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="co"># R Labs, Week 1</span></span>
+<span id="cb38-2"><a href="#cb38-2" tabindex="-1"></a><span class="co"># Terry T. Student</span></span>
+<span id="cb38-3"><a href="#cb38-3" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" tabindex="-1"></a><span class="co"># Question 4a</span></span>
+<span id="cb38-5"><a href="#cb38-5" tabindex="-1"></a><span class="dv">15</span><span class="sc">*</span><span class="dv">17</span></span>
+<span id="cb38-6"><a href="#cb38-6" tabindex="-1"></a><span class="co"># [1] 255</span></span></code></pre></div>
+<p><span style="color:#ff5e00;">Ask Mike about this</span> <br> 2. All
+of the commands used in the “Learning the Tools” section for this lab
+are in a script called “LearningToolsWeek1.R” in the <a
 href="ABDLabs.zip">ABDLabs folder</a> that you should have downloaded.
 (A similar file will be available for each week of these labs.)</p>
 <ol style="list-style-type: lower-alpha">
@@ -865,7 +959,8 @@ would be appropriate to use in R for the listed variable:</p>
 <li><p>Number of televisions per person</p></li>
 <li><p>Height (including neck and extended legs) of giraffes</p></li>
 </ol>
-<p><br> 4. Use R to calculate:</p>
+<p><br> <span style="color:#ff5e00;">Remove?</span> <br> 4. Use R to
+calculate:</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>15 x 17</p></li>
 <li><p>13<sup>3</sup></p></li>
@@ -908,7 +1003,7 @@ the same answer as with using <code>mean()</code>?</p></li>
 <p><img src="formula_summaries/640px-Weddell_seal.jpg" /></p>
 <p><br> 6. Weddell seals live in Antarctic waters and take long
 strenuous dives in order to find fish to feed upon. Researchers
-(Williams et al. 2004) wanted to know whether these feeding dives were
+(Williams et al. 2004) wanted to know whether these feeding dives were
 more energetically expensive than regular dives (perhaps because they
 are deeper, or the seal has to swim further or faster). They measured
 the metabolic costs of dives using the oxygen consumption of 10 animals

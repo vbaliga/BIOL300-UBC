@@ -34,8 +34,6 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-66493174-3"></script>
 <script>
@@ -56,18 +54,113 @@
   ul.task-list{list-style: none;}
     </style>
 
-<style type="text/css">code{white-space: pre;}</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
   }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
 }
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
 </script>
-
-
 
 
 
@@ -374,13 +467,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="R_tutorial_Loading_R_and_RStudio.html">0. Loading R and RSstudio</a>
+      <a href="R_tutorial_Loading_R_and_RStudio.html">0. Loading R and RStudio</a>
     </li>
     <li>
-      <a href="R_tutorial_Intro_to_R_1.html">1. Intro to R, Part 1</a>
+      <a href="R_tutorial_Intro_to_R.html">1. Intro to R</a>
     </li>
     <li>
-      <a href="R_tutorial_Intro_to_R_2.html">2. Intro to R, Part 2</a>
+      <a href="R_tutorial_Tabular_data.html">2. Tabular data</a>
     </li>
     <li>
       <a href="R_tutorial_Graphics.html">3. Graphics</a>
@@ -424,6 +517,51 @@ div.tocify {
 <img src="beetles-only.jpg">
 <script>
   $('.navbar-brand').attr('href','../index.html')
+</script>
+
+<style>
+.copy-code-button {
+  float: right;
+  font-size: 11px;
+  line-height: 1;
+  padding: 1px 5px;
+  margin: 0;
+  margin-top: 2px;
+  margin-right: 2px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.querySelectorAll("pre").forEach(function(pre) {
+    var codeBlock = pre.querySelector("code");
+    if (!codeBlock) return;
+
+    var codeText = codeBlock.innerText.trim();
+
+    // Skip printed R output blocks, which usually begin with ##
+    if (codeText.startsWith("##")) return;
+
+    var button = document.createElement("button");
+    button.textContent = "Copy";
+    button.className = "copy-code-button";
+
+    button.addEventListener("click", function() {
+      navigator.clipboard.writeText(codeBlock.innerText).then(function() {
+        button.textContent = "Copied!";
+        setTimeout(function() {
+          button.textContent = "Copy";
+        }, 1500);
+      });
+    });
+
+    pre.insertBefore(button, codeBlock);
+  });
+});
 </script>
 
 <div id="header">
@@ -471,10 +609,10 @@ doing this in R is to put “NA” (without the quotes) in the location that
 the data would have gone. NA is short for “not available”.</p>
 <p>For example, in the Titanic data set, we do not know the age of
 several passengers. Let’s look at it. Load the Titanic data set:</p>
-<pre class="r"><code>titanicData &lt;- read.csv(&quot;DataForLabs/titanic.csv&quot;, stringsAsFactors = TRUE)</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Have R print out the list of the age variable, which you can do
 easily by just typing its name:</p>
-<pre class="r"><code>titanicData$age</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>titanicData<span class="sc">$</span>age</span></code></pre></div>
 <p>If you look through the results, you will see that most individuals
 have numbers in this list, but some have NA. These NAs are the people
 for which we do not have age information.</p>
@@ -496,7 +634,7 @@ missing data we need to tell R how to deal with it.</p>
 <p>A (somewhat annoying) quirk of R is that if we try to take the mean
 of a list of numbers that include missing data, we get an NA for the
 result!</p>
-<pre class="r"><code>mean(titanicData$age)</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">mean</span>(titanicData<span class="sc">$</span>age)</span></code></pre></div>
 <pre><code>## [1] NA</code></pre>
 <p><br></p>
 </div>
@@ -505,7 +643,7 @@ result!</p>
 <p>To get the mean of all the numbers that we do have, we have to add an
 option to the <strong>mean()</strong> function. This option is
 <strong>na.rm = TRUE</strong>.</p>
-<pre class="r"><code>mean(titanicData$age, na.rm = TRUE)</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">mean</span>(titanicData<span class="sc">$</span>age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1] 31.19418</code></pre>
 <p>This tells R to remove (“rm”) the NAs before taking the mean. It
 turns out that the mean age of passengers that we have information for
@@ -519,7 +657,7 @@ including <strong>median()</strong>, as we shall see next.</p>
 <p>The median of a series of numbers is the “middle” number – half of
 the numbers in the list are greater the median and half are below it. It
 can be calculated in R by using <strong>median()</strong>.</p>
-<pre class="r"><code>median(titanicData$age, na.rm = TRUE)</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">median</span>(titanicData<span class="sc">$</span>age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1] 30</code></pre>
 <p><br></p>
 </div>
@@ -528,7 +666,7 @@ can be calculated in R by using <strong>median()</strong>.</p>
 <p>A handy function that will return both the mean and median at the
 same time (along with other information such as the first and third
 quartiles) is <strong>summary()</strong>.</p>
-<pre class="r"><code>summary(titanicData$age)</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">summary</span>(titanicData<span class="sc">$</span>age)</span></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
 ##  0.1667 21.0000 30.0000 31.1942 41.0000 71.0000     680</code></pre>
 <p>From left to right, this output gives us the smallest (minimum) value
@@ -555,7 +693,7 @@ coefficient of variation and interquartile range of a set of data.</p>
 <h3>var()</h3>
 <p>To calculate the variance of a list of numbers, use
 <strong>var()</strong>.</p>
-<pre class="r"><code>var(titanicData$age, na.rm = TRUE)</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">var</span>(titanicData<span class="sc">$</span>age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1] 217.4895</code></pre>
 <p>Note that <strong>var()</strong>, as well as <strong>sd()</strong>
 below, have the same need for <strong>na.rm = TRUE</strong> when
@@ -566,11 +704,11 @@ analyzing data that include missing values.</p>
 <h3>sd()</h3>
 <p>The standard deviation can be calculated by
 <strong>sd()</strong>.</p>
-<pre class="r"><code>sd(titanicData$age, na.rm = TRUE)</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">sd</span>(titanicData<span class="sc">$</span>age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1] 14.74753</code></pre>
 <p>Of course, the standard deviation is the same as the square root of
 the variance.</p>
-<pre class="r"><code>sqrt(var(titanicData$age, na.rm = TRUE))</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fu">var</span>(titanicData<span class="sc">$</span>age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
 <pre><code>## [1] 14.74753</code></pre>
 <p><br></p>
 </div>
@@ -579,7 +717,7 @@ the variance.</p>
 <p>Surprisingly, there is no standard function in R to calculate the
 coefficient of variation. You can do this yourself, though, directly
 from the definition:</p>
-<pre class="r"><code>100 * sd(titanicData$age, na.rm = TRUE) / mean(titanicData$age, na.rm = TRUE) </code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="dv">100</span> <span class="sc">*</span> <span class="fu">sd</span>(titanicData<span class="sc">$</span>age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="fu">mean</span>(titanicData<span class="sc">$</span>age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) </span></code></pre></div>
 <pre><code>## [1] 47.27653</code></pre>
 <p><br></p>
 </div>
@@ -589,7 +727,7 @@ from the definition:</p>
 quartile and the first quartile; in other words the range covered by the
 middle half of the data. It can be calculated easily with
 <strong>IQR()</strong>.</p>
-<pre class="r"><code>IQR(titanicData$age, na.rm = TRUE)</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">IQR</span>(titanicData<span class="sc">$</span>age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## [1] 20</code></pre>
 <p>Note that this is the same as we could calculate by the results from
 <strong>summary()</strong> above. The third quartile is 41 and the first
@@ -611,7 +749,7 @@ The function <strong>t.test()</strong> has many results in its output.
 By adding <strong>$conf.int</strong> to this function we only get back
 the confidence interval for the mean. By default it gives us the 95%
 confidence interval.</p>
-<pre class="r"><code>t.test(titanicData$age)$conf.int</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">t.test</span>(titanicData<span class="sc">$</span>age)<span class="sc">$</span>conf.int</span></code></pre></div>
 <pre><code>## [1] 30.04312 32.34524
 ## attr(,&quot;conf.level&quot;)
 ## [1] 0.95</code></pre>
@@ -625,7 +763,7 @@ the Titanic.)</p>
 confidence, we can add the option <strong>conf.level</strong> to the
 <strong>t.test</strong> function. For example, for a 99% confidence
 interval we can use the following.</p>
-<pre class="r"><code>t.test(titanicData$age, conf.level = 0.99)$conf.int</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">t.test</span>(titanicData<span class="sc">$</span>age, <span class="at">conf.level =</span> <span class="fl">0.99</span>)<span class="sc">$</span>conf.int</span></code></pre></div>
 <pre><code>## [1] 29.67976 32.70861
 ## attr(,&quot;conf.level&quot;)
 ## [1] 0.99</code></pre>
@@ -731,7 +869,7 @@ and 97.5% quantiles with a command like the following. (Replace
 “datavector” with the name of the vector of your caffeine
 data.)</p></li>
 </ol>
-<pre class="r"><code>&gt; quantile(datavector, c(0.025, 0.975), na.rm =TRUE)</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">quantile</span>(datavector, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="at">na.rm =</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Are these the same as the boundaries of the 95% confidence interval?
 If not, why not? Which should bound a smaller region, the quantile or
 the confidence interval of the mean?</p>
