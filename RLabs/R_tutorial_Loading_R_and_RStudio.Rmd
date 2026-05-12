@@ -52,9 +52,18 @@ Go to [the download page for RStudio](https://posit.co/download/rstudio-desktop)
 
 # Step 3: Get set up for BIOL 300 with ABDLabs
 
-A `.zip` file that contains all the data sets, R scripts, and some other features can be downloaded in a [folder called ABDLabs](ABDLabs.zip). **After you download this file, first ensure that you move it outside of your computer's `Downloads` folder and then unzip it**. It should then open a folder called `ABDLabs`. Windows users: please be sure to fully unzip the entire file and not just open the zip file, as this can cause problems. The best practice is to right-click on it and choose "Extract All" or a similar option.
+A `.zip` file that contains all the data sets, R scripts, and some other
+features can be downloaded in a [folder called ABDLabs](ABDLabs.zip). **After
+you download this file, first ensure that you move it outside of your computer's
+`Downloads` folder**. Keeping this within the Downloads problem often causes
+permission errors and other bugs. Most BIOL 300 students end up moving
+`ABDLabs.zip` to the Desktop. After moving the .zip file, unzip it. It should
+then open a folder called `ABDLabs`. Windows users: please be sure to fully
+unzip the entire file and not just open the zip file, as this can cause
+problems. The best practice is to right-click on it and choose "Extract All" or
+a similar option.
 
-Inside this folder is one file and two folders. The folder `DataForLabs` contains all the data sets that you will need to complete these labs; any new data we create during the course should also be saved there. The folder called `LearningTheTools` has an R script for each week, containing all the commands described in that week’s instructions. You’ll learn how to use these in Lab 1. The file `ABDLabs.Rproj` will provide a way to open RStudio and ensure your working directory and relative paths are set up on your computer; see further guidance below.
+Inside `ABDLabs` is one file and two folders. The folder `DataForLabs` contains all the data sets that you will need to complete these labs; any new data we create during the course should also be saved there. The folder called `LearningTheTools` has an R script for each week, containing all the commands described in that week’s instructions. You’ll learn how to use these in Lab 1. The file `ABDLabs.Rproj` will provide a way to open RStudio and ensure your working directory and relative paths are set up on your computer; see further guidance below.
 
 <br>
 
