@@ -400,6 +400,11 @@ ui <- fluidPage(
       div(
         class = "small-note",
         p("The histogram is built from all permutations generated so far. The goal is to understand what kinds of mean differences are plausible under the null hypothesis.")
+      ),
+      
+      div(
+        class = "small-note",
+        p("Developed by Vikram Baliga at the University of British Columbia, using resources associated with the Analysis of Biological Data by Whitlock & Schluter.")
       )
     ),
     
