@@ -266,19 +266,36 @@ in R that contains all this passenger data. Of course, if you wanted to
 load a different data set, you would be better off giving it a more apt
 name than “titanicData”.  The option `stringsAsFactors = TRUE` asks R to interpret the columns with non-numerical information as “factor” with possibly repeated instances of the same value of a categorical variable.
 
-To see if the data were imported appropriately, you might want to run
-the command
+R has other functions that can read other data formats besides csv
+files, but the function `read.csv()` requires that the file be a csv
+file.
+
+To see if the data were imported appropriately and/or get a sense of the characteristics of the data, the `summary()` and `View()` commands can be useful.
+
+### `summary()`
+
+This function will list all the variables and some summary statistics for each
+variable.
 
 ```{r}
 summary(titanicData)
 ```
 
-which will list all the variables and some summary statistics for each
-variable.
+### `View()`
 
-R has other functions that can read other data formats besides csv
-files, but the function `read.csv()` requires that the file be a csv
-file.
+The `View()` function is a nice way to see the data in a
+spreadsheet-like format. To see the data in `titanicData` with `View()`,
+run the following command:
+
+```{r eval=FALSE}
+View(titanicData)
+```
+
+![](formula_summaries/VIew_function_titanicData.png){width="600"}
+
+Again, note that the `titanicData` object has 7 columns and 1313 rows.
+The horizontal and vertical scroll bars will allow you to see more of
+the data than what may initially appear in the window.
 
 <br>
 
@@ -296,9 +313,9 @@ Windows machine, it would look something like
 file path describes a series of folders nested inside one another that
 tells the computer where to look for the file.
 
-By supplying the full address, you are telling `read_csv()` to look for
+By supplying the full address, you are telling `read.csv()` to look for
 the file outside your current working directory. Reading a file from any
-location can be done with `read_csv()` like this:
+location can be done with `read.csv()` like this:
 
 ```{r eval=FALSE}
 titanicData <- read.csv("/Users/whitlock/Desktop/ABDLabs/DataForLabs/titanic.csv", stringsAsFactors = TRUE)
@@ -324,24 +341,6 @@ read in a data set and called it `titanicData`. This object contains
 information about passengers on the Titanic. It has seven variables, so
 it has seven columns: `passenger_class`, `name`, `age`, `embarked`,
 `home_destination`, `sex`, and `survive`.
-
-<br>
-
-### `View()`
-
-The `View()` function is a nice way to see the data in a
-spreadsheet-like format. To see the data in `titanicData` with `View()`,
-run the following command:
-
-```{r eval=FALSE}
-View(titanicData)
-```
-
-![](formula_summaries/VIew_function_titanicData.png){width="600"}
-
-Again, note that the `titanicData` object has 7 columns and 1313 rows.
-The horizontal and vertical scroll bars will allow you to see more of
-the data than what may initially appear in the window.
 
 <br>
 
