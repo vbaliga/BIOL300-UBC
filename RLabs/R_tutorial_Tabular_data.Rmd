@@ -73,6 +73,15 @@ and tongue length.
 | Anoura cultrata         | 14.3          | 34.3          |
 | Leptonycteris curosoae  | 16            | 40.2          |
 | Choeronycteris mexicana | 18            | 52.1          |
+<br>
+
+### Recording metadata
+
+Data have no value unless they can be correctly interpreted. It is important to record enough information that each variable in your data set can be well-understood by another reader (including your future self). 
+
+Key information includes the meaning of each variable name, including units, along with when, where and who collected the data. The objective here is to provide
+a short document that another person could read to unambiguously interpret your data
+file.
 
 <br>
 
@@ -172,8 +181,6 @@ In the second row (labeled “Packages”), type `tidyverse` (without
 quotation marks). Make sure the box for “Install dependencies” near the
 bottom is clicked, and then click the “Install” button at bottom right.
 
-# [REPLACED IMAGE]{style="color:#ff5e00;"}
-
 ![](formula_summaries/Install_tidyverse.png){width="350"}
 
 Installing an R package only needs to be done once on a given computer.
@@ -264,40 +271,13 @@ This looks for the file called `titanic.csv` in the folder called
 `DataForLabs.` Here we have given the name `titanicData` to the object
 in R that contains all this passenger data. Of course, if you wanted to
 load a different data set, you would be better off giving it a more apt
-name than “titanicData”.  The option `stringsAsFactors = TRUE` asks R to interpret the columns with non-numerical information as “factor” with possibly repeated instances of the same value of a categorical variable.
+name than “titanicData”. The option `stringsAsFactors = TRUE` asks R to
+interpret the columns with non-numerical information as “factor” with
+possibly repeated instances of the same value of a categorical variable.
 
 R has other functions that can read other data formats besides csv
 files, but the function `read.csv()` requires that the file be a csv
 file.
-
-To see if the data were imported appropriately and/or get a sense of the characteristics of the data, the `summary()` and `View()` commands can be useful.
-
-### `summary()`
-
-This function will list all the variables and some summary statistics for each
-variable.
-
-```{r}
-summary(titanicData)
-```
-
-### `View()`
-
-The `View()` function is a nice way to see the data in a
-spreadsheet-like format. To see the data in `titanicData` with `View()`,
-run the following command:
-
-```{r eval=FALSE}
-View(titanicData)
-```
-
-![](formula_summaries/VIew_function_titanicData.png){width="600"}
-
-Again, note that the `titanicData` object has 7 columns and 1313 rows.
-The horizontal and vertical scroll bars will allow you to see more of
-the data than what may initially appear in the window.
-
-<br>
 
 ### Finding files in other locations
 
@@ -323,6 +303,39 @@ titanicData <- read.csv("/Users/whitlock/Desktop/ABDLabs/DataForLabs/titanic.csv
 
 <br>
 
+## A first look at data
+
+To see if the data were imported appropriately and/or get a sense of the
+characteristics of the data, the `summary()` and `View()` commands can
+be useful.
+
+### `summary()`
+
+This function will list all the variables and some summary statistics
+for each variable.
+
+```{r}
+summary(titanicData)
+```
+
+### `View()`
+
+The `View()` function is a nice way to see the data in a
+spreadsheet-like format. To see the data in `titanicData` with `View()`,
+run the following command:
+
+```{r eval=FALSE}
+View(titanicData)
+```
+
+![](formula_summaries/VIew_function_titanicData.png){width="600"}
+
+Again, note that the `titanicData` object has 7 columns and 1313 rows.
+The horizontal and vertical scroll bars will allow you to see more of
+the data than what may initially appear in the window.
+
+<br>
+
 ## Introduction to data frames and tibbles
 
 In R, a data set is often stored as a `data.frame` or a `tibble`. For
@@ -335,12 +348,13 @@ values in a row belong together, so the first value in each column
 describes the same individual, the second value in each column describes
 the next individual, and so on.
 
-The function `read.csv()` loads data into R as a `data.frame`. The data set is usually given a name, which lets us
-tell R which data set to use. For example, in the previous section we
-read in a data set and called it `titanicData`. This object contains
-information about passengers on the Titanic. It has seven variables, so
-it has seven columns: `passenger_class`, `name`, `age`, `embarked`,
-`home_destination`, `sex`, and `survive`.
+The function `read.csv()` loads data into R as a `data.frame`. The data
+set is usually given a name, which lets us tell R which data set to use.
+For example, in the previous section we read in a data set and called it
+`titanicData`. This object contains information about passengers on the
+Titanic. It has seven variables, so it has seven columns:
+`passenger_class`, `name`, `age`, `embarked`, `home_destination`, `sex`,
+and `survive`.
 
 <br>
 
@@ -375,8 +389,6 @@ frame, we can write
 titanicData$log_age <- log(titanicData$age)
 ```
 
-# [Add mutate() and factor() here too?]{style="color:#ff5e00;"}
-
 You can run the command `head(titanicData)` to see that `log_age` is now
 a column in `titanicData`.
 
@@ -390,7 +402,7 @@ data and/or that you have added the new column correctly.
 
 <br>
 
-## Choosing subsets of data
+## `filter()`
 
 Sometimes we want to do an analysis only on some of the data that fit
 certain criteria. For example, we might want to analyze the data from
@@ -433,9 +445,13 @@ individual, whether `sex` is `female`. We not assigning the value
 
 <br>
 
-# Questions
+# Activities & Questions
 
-<br> 1. In Lab 1, Question 7, you and your fellow students may have
+<br> 1. Install the `tidyverse` package on your system if you haven't
+already. After it has installed, use `library(tidyverse)` to load it
+into your R environment.
+
+<br> 2. In Lab 1, Question 7, you and your fellow students may have
 recorded requested information about yourselves. Your TA will now
 provide you with data sheets for all students in your section who took
 measurements (all data are anonymous). Use the data sheets to create a
@@ -446,26 +462,32 @@ person who may encounter the file. Save the data file that you make in
 the `DataForLabs` folder on your computer with the file name
 `CollectedDataFromLab1.csv`.
 
-a.  Import this data file into R using `read_csv()`, and give the
+a. Prepare a text file which describes each of the variables in the data file. Remember to
+list the meaning of each variable name, including units. The objective here is to provide
+a short document that another person could read to unambiguously interpret your data
+file.
+
+b.  Import this data file into R using `read.csv()`, and give the
     resulting data frame a name that makes sense to you.
 
-b.  Use the `View()` function to check that you have read the data
+c.  Use the `View()` function to check that you have read the data
     correctly.
 
-c.  [Make a quick plot of VARIABLE against VARIABLE USING plot(X,Y)]{style="color:#ff5e00;"}
+d.  Use the `summary()` function to determine the proportion of people
+    in your tutorial section who are right-handed.
 
-<br> 2. The data file called `countries.csv` in the `DataForLabs` folder
+<br> 3. The data file called `countries.csv` in the `DataForLabs` folder
 contains information about all the countries on Earth. Each row is a
 country, and each column contains a variable.
 
-a.  Use `read_csv()` to read the data from this file into a data frame
+a.  Use `read.csv()` to read the data from this file into a data frame
     called countries.
 
 b.  Use `summary()` to get a quick description of this data set. What
     are the first three variables?
 
-c.  [Using the output of `summary()`, how many countries are from Africa
-    in this data set?]{style="color:#ff5e00;"} May not work without factor
+c.  Using the output of `summary()`, how many countries are from Africa
+    in this data set?
 
 d.  What kinds of variables (i.e., categorical or numerical) are
     `continents`, `cell_phone_subscriptions_per_100_people_2012`,
@@ -483,7 +505,7 @@ e.  Add a new column to your countries data frame that has the
     `mean()` command that says `na.rm=TRUE`. We’ll learn more about this
     later.)
 
-<br> 3. Using the `countries` data again, create a new data frame called
-`AfricaData`, that only includes data for countries in Africa. What is
-the sum of the `total_population_in_thousands_2015` for this new data
-frame?
+<br> 4. Using the `countries` data again, create a new data frame called
+`AfricaData` via the `filter()` function, that only includes data for countries
+in Africa. What is the sum of the `total_population_in_thousands_2015`
+for this new data frame?

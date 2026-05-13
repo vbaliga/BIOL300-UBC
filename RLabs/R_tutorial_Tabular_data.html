@@ -677,6 +677,18 @@ and tongue length.</p>
 </tbody>
 </table>
 <p><br></p>
+<div id="recording-metadata" class="section level3">
+<h3>Recording metadata</h3>
+<p>Data have no value unless they can be correctly interpreted. It is
+important to record enough information that each variable in your data
+set can be well-understood by another reader (including your future
+self).</p>
+<p>Key information includes the meaning of each variable name, including
+units, along with when, where and who collected the data. The objective
+here is to provide a short document that another person could read to
+unambiguously interpret your data file.</p>
+<p><br></p>
+</div>
 </div>
 <div id="creating-a-data-file" class="section level2">
 <h2>Creating a data file</h2>
@@ -760,15 +772,12 @@ width="300" /></p>
 (without quotation marks). Make sure the box for “Install dependencies”
 near the bottom is clicked, and then click the “Install” button at
 bottom right.</p>
-</div>
-</div>
-<div id="replaced-image" class="section level1">
-<h1><span style="color:#ff5e00;">REPLACED IMAGE</span></h1>
 <p><img src="formula_summaries/Install_tidyverse.png" width="350" /></p>
 <p>Installing an R package only needs to be done once on a given
 computer. If installed correctly, the package wil permanently available
 from that point forward (though it will need to be loaded).</p>
 <p><br></p>
+</div>
 <div id="loading-a-package" class="section level2">
 <h2>Loading a package</h2>
 <p>Once a package is installed, it needs to be loaded into R during a
@@ -782,16 +791,6 @@ tidyverse. Before using the functions in these packages, we need to load
 tidyverse. We do this with the <code>library()</code> function. In the
 console, enter this:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
-<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-## ✔ ggplot2   4.0.0     ✔ tibble    3.3.0
-## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-## ✔ purrr     1.0.4     
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 <p>If the <code>tidyverse</code> was is installed on your computer
 correctly, the computer will show a brief status message and then will
 be ready to go. If the package is not installed, it will give you an
@@ -840,7 +839,7 @@ survived the accident or not.</p>
 <p>To import a CSV file into R, use the <code>read.csv()</code> function
 as in the following command. (This assumes that you have set the working
 directory to <code>ABDLabs</code>, as we described above.)</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>This looks for the file called <code>titanic.csv</code> in the folder
 called <code>DataForLabs.</code> Here we have given the name
 <code>titanicData</code> to the object in R that contains all this
@@ -852,44 +851,6 @@ repeated instances of the same value of a categorical variable.</p>
 <p>R has other functions that can read other data formats besides csv
 files, but the function <code>read.csv()</code> requires that the file
 be a csv file.</p>
-<p>To see if the data were imported appropriately and/or get a sense of
-the characteristics of the data, the <code>summary()</code> and
-<code>View()</code> commands can be useful.</p>
-</div>
-<div id="summary" class="section level3">
-<h3><code>summary()</code></h3>
-<p>This function will list all the variables and some summary statistics
-for each variable.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">summary</span>(titanicData)</span></code></pre></div>
-<pre><code>##  passenger_class                        name           age         
-##  1st:322         Carlsson,MrFransOlof     :   2   Min.   : 0.1667  
-##  2nd:280         Connolly,MissKate        :   2   1st Qu.:21.0000  
-##  3rd:711         Kelly,MrJames            :   2   Median :30.0000  
-##                  Abbing,MrAnthony         :   1   Mean   :31.1942  
-##                  Abbott,MasterEugeneJoseph:   1   3rd Qu.:41.0000  
-##                  Abbott,MrRossmoreEdward  :   1   Max.   :71.0000  
-##                  (Other)                  :1304   NA&#39;s   :680      
-##         embarked            home_destination     sex      survive  
-##             :493                    :558     female:463   no :864  
-##  Cherbourg  :202   NewYork,NY       : 65     male  :850   yes:449  
-##  Queenstown : 45   London           : 14                           
-##  Southampton:573   Montreal,PQ      : 10                           
-##                    Cornwall/Akron,OH:  9                           
-##                    Paris,France     :  9                           
-##                    (Other)          :648</code></pre>
-</div>
-<div id="view" class="section level3">
-<h3><code>View()</code></h3>
-<p>The <code>View()</code> function is a nice way to see the data in a
-spreadsheet-like format. To see the data in <code>titanicData</code>
-with <code>View()</code>, run the following command:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">View</span>(titanicData)</span></code></pre></div>
-<p><img src="formula_summaries/VIew_function_titanicData.png"
-width="600" /></p>
-<p>Again, note that the <code>titanicData</code> object has 7 columns
-and 1313 rows. The horizontal and vertical scroll bars will allow you to
-see more of the data than what may initially appear in the window.</p>
-<p><br></p>
 </div>
 <div id="finding-files-in-other-locations" class="section level3">
 <h3>Finding files in other locations</h3>
@@ -909,7 +870,48 @@ tells the computer where to look for the file.</p>
 <code>read.csv()</code> to look for the file outside your current
 working directory. Reading a file from any location can be done with
 <code>read.csv()</code> like this:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;/Users/whitlock/Desktop/ABDLabs/DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;/Users/whitlock/Desktop/ABDLabs/DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><br></p>
+</div>
+</div>
+<div id="a-first-look-at-data" class="section level2">
+<h2>A first look at data</h2>
+<p>To see if the data were imported appropriately and/or get a sense of
+the characteristics of the data, the <code>summary()</code> and
+<code>View()</code> commands can be useful.</p>
+<div id="summary" class="section level3">
+<h3><code>summary()</code></h3>
+<p>This function will list all the variables and some summary statistics
+for each variable.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">summary</span>(titanicData)</span></code></pre></div>
+<pre><code>##  passenger_class                        name           age                 embarked  
+##  1st:322         Carlsson,MrFransOlof     :   2   Min.   : 0.1667              :493  
+##  2nd:280         Connolly,MissKate        :   2   1st Qu.:21.0000   Cherbourg  :202  
+##  3rd:711         Kelly,MrJames            :   2   Median :30.0000   Queenstown : 45  
+##                  Abbing,MrAnthony         :   1   Mean   :31.1942   Southampton:573  
+##                  Abbott,MasterEugeneJoseph:   1   3rd Qu.:41.0000                    
+##                  Abbott,MrRossmoreEdward  :   1   Max.   :71.0000                    
+##                  (Other)                  :1304   NA&#39;s   :680                        
+##           home_destination     sex      survive  
+##                   :558     female:463   no :864  
+##  NewYork,NY       : 65     male  :850   yes:449  
+##  London           : 14                           
+##  Montreal,PQ      : 10                           
+##  Cornwall/Akron,OH:  9                           
+##  Paris,France     :  9                           
+##  (Other)          :648</code></pre>
+</div>
+<div id="view" class="section level3">
+<h3><code>View()</code></h3>
+<p>The <code>View()</code> function is a nice way to see the data in a
+spreadsheet-like format. To see the data in <code>titanicData</code>
+with <code>View()</code>, run the following command:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">View</span>(titanicData)</span></code></pre></div>
+<p><img src="formula_summaries/VIew_function_titanicData.png"
+width="600" /></p>
+<p>Again, note that the <code>titanicData</code> object has 7 columns
+and 1313 rows. The horizontal and vertical scroll bars will allow you to
+see more of the data than what may initially appear in the window.</p>
 <p><br></p>
 </div>
 </div>
@@ -941,7 +943,7 @@ by itself. We write the name of the data set, followed by a
 <code>$</code>, and then the name of the variable.</p>
 <p>For example, to show a list of the age of all the passengers on the
 Titanic, use</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>titanicData<span class="sc">$</span>age</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>titanicData<span class="sc">$</span>age</span></code></pre></div>
 <p>This will show a vector that has all the values for this variable
 age, one for each individual in the data set.</p>
 <p><br></p>
@@ -954,15 +956,10 @@ easiest way to do this is to simply assign a new vector to a new column
 name, using the <code>$</code>.</p>
 <p>For example, to add the log of age as a column in the
 <code>titanicData</code> data frame, we can write</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>titanicData<span class="sc">$</span>log_age <span class="ot">&lt;-</span> <span class="fu">log</span>(titanicData<span class="sc">$</span>age)</span></code></pre></div>
-</div>
-</div>
-<div id="add-mutate-and-factor-here-too" class="section level1">
-<h1><span style="color:#ff5e00;">Add mutate() and factor() here
-too?</span></h1>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>titanicData<span class="sc">$</span>log_age <span class="ot">&lt;-</span> <span class="fu">log</span>(titanicData<span class="sc">$</span>age)</span></code></pre></div>
 <p>You can run the command <code>head(titanicData)</code> to see that
 <code>log_age</code> is now a column in <code>titanicData</code>.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">head</span>(titanicData)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">head</span>(titanicData)</span></code></pre></div>
 <pre><code>##   passenger_class                                      name     age    embarked
 ## 1             1st                 Allen,MissElisabethWalton 29.0000 Southampton
 ## 2             1st                  Allison,MissHelenLoraine  2.0000 Southampton
@@ -982,8 +979,9 @@ frame or tibble, which is a handy way to check that you understand the
 structure of the data and/or that you have added the new column
 correctly.</p>
 <p><br></p>
-<div id="choosing-subsets-of-data" class="section level2">
-<h2>Choosing subsets of data</h2>
+</div>
+<div id="filter" class="section level2">
+<h2><code>filter()</code></h2>
 <p>Sometimes we want to do an analysis only on some of the data that fit
 certain criteria. For example, we might want to analyze the data from
 the Titanic using only the information from females.</p>
@@ -998,7 +996,7 @@ functions in the tidyverse packages, including
 and an individual is female if that variable has value
 <code>female</code>. We can create a new data frame that includes only
 the data from females with the following command:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>titanicDataFemalesOnly <span class="ot">&lt;-</span> <span class="fu">filter</span>(titanicData, sex <span class="sc">==</span> <span class="st">&quot;female&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>titanicDataFemalesOnly <span class="ot">&lt;-</span> <span class="fu">filter</span>(titanicData, sex <span class="sc">==</span> <span class="st">&quot;female&quot;</span>)</span></code></pre></div>
 <p>This new data frame will include all the same columns as the original
 <code>titanicData</code>, but it will only include the rows for which
 the sex was <code>female</code>.</p>
@@ -1020,9 +1018,12 @@ double equal sign <code>==</code>.</p>
 <hr />
 <p><br></p>
 </div>
-<div id="questions" class="section level1">
-<h1>Questions</h1>
-<p><br> 1. In Lab 1, Question 7, you and your fellow students may have
+<div id="activities-questions" class="section level1">
+<h1>Activities &amp; Questions</h1>
+<p><br> 1. Install the <code>tidyverse</code> package on your system if
+you haven’t already. After it has installed, use
+<code>library(tidyverse)</code> to load it into your R environment.</p>
+<p><br> 2. In Lab 1, Question 7, you and your fellow students may have
 recorded requested information about yourselves. Your TA will now
 provide you with data sheets for all students in your section who took
 measurements (all data are anonymous). Use the data sheets to create a
@@ -1033,25 +1034,29 @@ person who may encounter the file. Save the data file that you make in
 the <code>DataForLabs</code> folder on your computer with the file name
 <code>CollectedDataFromLab1.csv</code>.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Import this data file into R using <code>read_csv()</code>, and
+<li><p>Prepare a text file which describes each of the variables in the
+data file. Remember to list the meaning of each variable name, including
+units. The objective here is to provide a short document that another
+person could read to unambiguously interpret your data file.</p></li>
+<li><p>Import this data file into R using <code>read.csv()</code>, and
 give the resulting data frame a name that makes sense to you.</p></li>
 <li><p>Use the <code>View()</code> function to check that you have read
 the data correctly.</p></li>
-<li><p><span style="color:#ff5e00;">Make a quick plot of VARIABLE
-against VARIABLE USING plot(X,Y)</span></p></li>
+<li><p>Use the <code>summary()</code> function to determine the
+proportion of people in your tutorial section who are
+right-handed.</p></li>
 </ol>
-<p><br> 2. The data file called <code>countries.csv</code> in the
+<p><br> 3. The data file called <code>countries.csv</code> in the
 <code>DataForLabs</code> folder contains information about all the
 countries on Earth. Each row is a country, and each column contains a
 variable.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Use <code>read_csv()</code> to read the data from this file into
+<li><p>Use <code>read.csv()</code> to read the data from this file into
 a data frame called countries.</p></li>
 <li><p>Use <code>summary()</code> to get a quick description of this
 data set. What are the first three variables?</p></li>
-<li><p><span style="color:#ff5e00;">Using the output of
-<code>summary()</code>, how many countries are from Africa in this data
-set?</span> May not work without factor</p></li>
+<li><p>Using the output of <code>summary()</code>, how many countries
+are from Africa in this data set?</p></li>
 <li><p>What kinds of variables (i.e., categorical or numerical) are
 <code>continents</code>,
 <code>cell_phone_subscriptions_per_100_people_2012</code>,
@@ -1069,11 +1074,11 @@ ignore the missing data, add an option to the <code>mean()</code>
 command that says <code>na.rm=TRUE</code>. We’ll learn more about this
 later.)</p></li>
 </ol>
-<p><br> 3. Using the <code>countries</code> data again, create a new
-data frame called <code>AfricaData</code>, that only includes data for
-countries in Africa. What is the sum of the
-<code>total_population_in_thousands_2015</code> for this new data
-frame?</p>
+<p><br> 4. Using the <code>countries</code> data again, create a new
+data frame called <code>AfricaData</code> via the <code>filter()</code>
+function, that only includes data for countries in Africa. What is the
+sum of the <code>total_population_in_thousands_2015</code> for this new
+data frame?</p>
 </div>
 
 
