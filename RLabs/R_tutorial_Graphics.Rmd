@@ -268,9 +268,9 @@ The unusual species is *Anoura fistulata.* [See a photo here.](https://www.resea
 <br>
 6. Import the data set collected on your class from the first lab. (We'll return to some of the other variables later in the term.) 
 
-a.	Plot the relationship between the gender and height. Do you detect any outliers? Do all the data look as though the same units were used when students recorded them?
+a.	Plot a histogram of height. Do you detect any outliers? Do all the data look as though the same units were used when students recorded them?
 
-b.	Draw a histogram of the distribution of head circumference.
+b.	Plot the relationship between head circumference and height.
 
 
 <br>

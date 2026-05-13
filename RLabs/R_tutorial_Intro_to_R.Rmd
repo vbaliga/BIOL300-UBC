@@ -439,7 +439,7 @@ up the vector `temperatureC`.
 
 # R commands summary
 
-# <span style="color:#ff5e00;">NEEDS EDIT</span>
+# [NEEDS EDIT]{style="color:#ff5e00;"}
 
 ![](formula_summaries/Intro%20to%20R%201%20summary.png)
 
@@ -447,11 +447,18 @@ up the vector `temperatureC`.
 
 <br>
 
-# Questions
+# Activities & Questions
 
-# <span style="color:#ff5e00;">SIMPLIFY HERE?</span>
+<br> 1. Using the [Student data sheet
+1](Student%20data%20sheet%201.pdf), record the requested information
+about yourself. This is optional; if you have any reason to not want to
+record this (relatively innocuous) data about yourself, you do not have
+to. If you feel that you would like to skip just one of the bits of
+information and fill in the rest, that is fine too. The data sheets do
+not identify students by name. Pass the sheet to the TA when you are
+finished. We’ll use these data in subsequent labs.
 
-<br> 1. For each week, create an R script that captures the commands
+<br> 2. For each week, create an R script that captures the commands
 that you use to answer the questions. Use a `#` at the beginning of each
 comment line.
 
@@ -473,9 +480,8 @@ For example, here is what part of your script might look like.
 # [1] 255
 ```
 
-<span style="color:#ff5e00;">Ask Mike about this</span>
-<br> 2. All of the commands used in the “Learning the Tools” section for
-this lab are in a script called “LearningToolsWeek1.R” in the [ABDLabs
+<br> 3. All of the commands used in the “Learning the Tools” section for
+this lab are in a script called `LearningToolsWeek1.R` in the [ABDLabs
 folder](ABDLabs.zip) that you should have downloaded. (A similar file
 will be available for each week of these labs.)
 
@@ -484,7 +490,7 @@ a.  Load this script into RStudio.
 b.  Run most or all of the commands in R. Did you get the same answers
     as shown in the text?
 
-<br> 3. For each of the following, come up with a object name that would
+<br> 4. For each of the following, come up with a object name that would
 be appropriate to use in R for the listed variable:
 
 a.  Body temperature in Celsius
@@ -495,9 +501,7 @@ c.  Number of televisions per person
 
 d.  Height (including neck and extended legs) of giraffes
 
-<br> 
-<span style="color:#ff5e00;">Remove?</span>
-<br> 4. Use R to calculate:
+<br> 5. Use R to calculate:
 
 a.  15 x 17
 
@@ -509,7 +513,7 @@ d.  log(100) (use base 10)
 
 e.  $\sqrt{81}$.
 
-<br> 5. People are notoriously dishonest about revealing how often they
+<br> 6. People are notoriously dishonest about revealing how often they
 perform antisocial behaviors like peeing in swimming pools. (In addition
 to being disgusting, the nitrogenous chemicals in urine combine with the
 pool’s chlorine to produce some toxic chemicals like trichloramine, the
@@ -550,9 +554,9 @@ f.  Use R to calculate the average amount of urine (in ml) in a 500,000
 
 <br>
 
-![](formula_summaries/640px-Weddell_seal.jpg)
+![](formula_summaries/640px-Weddell_seal.jpg){width="480"}
 
-<br> 6. Weddell seals live in Antarctic waters and take long strenuous
+<br> 7. Weddell seals live in Antarctic waters and take long strenuous
 dives in order to find fish to feed upon. Researchers (Williams et al.
 2004) wanted to know whether these feeding dives were more energetically
 expensive than regular dives (perhaps because they are deeper, or the
@@ -597,12 +601,3 @@ f.  Sometimes ratios are easier to analyze when we look at the log of
     the ratio. Create a vector which gives the log of the ratios from
     the previous step. (Use the natural log.) What is the mean of this
     log-ratio?
-
-<br> 7. Using the [Student data sheet
-1](Student%20data%20sheet%201.pdf), record the requested information
-about yourself. This is optional; if you have any reason to not want to
-record this (relatively innocuous) data about yourself, you do not have
-to. If you feel that you would like to skip just one of the bits of
-information and fill in the rest, that is fine too. The data sheets do
-not identify students by name. Pass the sheet to the TA when you are
-finished. We’ll use these data in subsequent labs.

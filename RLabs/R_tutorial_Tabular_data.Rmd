@@ -243,7 +243,7 @@ names of each variable, again separated by commas.
 
 <br>
 
-### `read_csv()`
+### `read.csv()`
 
 For examples in this lab, let’s use a data set about the passengers of
 the RMS Titanic. One of the data sets in the folder of data attached to
@@ -252,19 +252,19 @@ from the voyage of this ship, which contains information about some
 personal info about each passenger as well as whether they survived the
 accident or not.
 
-To import a CSV file into R, use the `read_csv()` function as in the
+To import a CSV file into R, use the `read.csv()` function as in the
 following command. (This assumes that you have set the working directory
 to `ABDLabs`, as we described above.)
 
 ```{r}
-titanicData <- read_csv("DataForLabs/titanic.csv")
+titanicData <- read.csv("DataForLabs/titanic.csv", stringsAsFactors = TRUE)
 ```
 
 This looks for the file called `titanic.csv` in the folder called
 `DataForLabs.` Here we have given the name `titanicData` to the object
 in R that contains all this passenger data. Of course, if you wanted to
 load a different data set, you would be better off giving it a more apt
-name than “titanicData”.
+name than “titanicData”.  The option `stringsAsFactors = TRUE` asks R to interpret the columns with non-numerical information as “factor” with possibly repeated instances of the same value of a categorical variable.
 
 To see if the data were imported appropriately, you might want to run
 the command
@@ -277,7 +277,7 @@ which will list all the variables and some summary statistics for each
 variable.
 
 R has other functions that can read other data formats besides csv
-files, but the function `read_csv()` requires that the file be a csv
+files, but the function `read.csv()` requires that the file be a csv
 file.
 
 <br>
@@ -301,7 +301,7 @@ the file outside your current working directory. Reading a file from any
 location can be done with `read_csv()` like this:
 
 ```{r eval=FALSE}
-titanicData <- read_csv("/Users/whitlock/Desktop/ABDLabs/DataForLabs/titanic.csv")
+titanicData <- read.csv("/Users/whitlock/Desktop/ABDLabs/DataForLabs/titanic.csv", stringsAsFactors = TRUE)
 ```
 
 <br>
@@ -318,10 +318,7 @@ values in a row belong together, so the first value in each column
 describes the same individual, the second value in each column describes
 the next individual, and so on.
 
-The function `read_csv()` loads data into R as a `tibble`. A `tibble` is
-a modern version of a `data.frame` that is commonly used with tidyverse
-tools. In this course, most of the things we do with data frames also
-work with tibbles. The data set is usually given a name, which lets us
+The function `read.csv()` loads data into R as a `data.frame`. The data set is usually given a name, which lets us
 tell R which data set to use. For example, in the previous section we
 read in a data set and called it `titanicData`. This object contains
 information about passengers on the Titanic. It has seven variables, so
