@@ -813,9 +813,9 @@ possibility from 0 to 20 like this:</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>expected_probability <span class="ot">&lt;-</span> <span class="fu">dpois</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">20</span>, <span class="at">lambda =</span> <span class="fl">4.21</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>expected_probability</span></code></pre></div>
-<pre><code>##  [1] 1.484637e-02 6.250321e-02 1.315693e-01 1.846355e-01 1.943289e-01 1.636249e-01 1.148102e-01
-##  [8] 6.905011e-02 3.633762e-02 1.699793e-02 7.156129e-03 2.738846e-03 9.608784e-04 3.111768e-04
-## [15] 9.357530e-05 2.626347e-05 6.910575e-06 1.711384e-06 4.002736e-07 8.869220e-08 1.866971e-08</code></pre>
+<pre><code>##  [1] 1.484637e-02 6.250321e-02 1.315693e-01 1.846355e-01 1.943289e-01 1.636249e-01 1.148102e-01 6.905011e-02 3.633762e-02 1.699793e-02
+## [11] 7.156129e-03 2.738846e-03 9.608784e-04 3.111768e-04 9.357530e-05 2.626347e-05 6.910575e-06 1.711384e-06 4.002736e-07 8.869220e-08
+## [21] 1.866971e-08</code></pre>
 <p>The odd notation here is a shorthand for scientific notation.
 1.48e-02 means 1.48 x 10<sup>-2</sup>. The e stands for exponent.</p>
 <p>Remember that we asked R to output the probability of values from 0
@@ -826,9 +826,9 @@ etc.</p>
 <span class="math inline">\(\chi\)</span><sup>2</sup> test, we need to
 multiply them by the total sample size.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">length</span>(number_of_extinctions) <span class="sc">*</span> expected_probability</span></code></pre></div>
-<pre><code>##  [1] 1.128324e+00 4.750244e+00 9.999264e+00 1.403230e+01 1.476900e+01 1.243549e+01 8.725572e+00
-##  [8] 5.247808e+00 2.761659e+00 1.291843e+00 5.438658e-01 2.081523e-01 7.302676e-02 2.364943e-02
-## [15] 7.111723e-03 1.996023e-03 5.252037e-04 1.300651e-04 3.042079e-05 6.740607e-06 1.418898e-06</code></pre>
+<pre><code>##  [1] 1.128324e+00 4.750244e+00 9.999264e+00 1.403230e+01 1.476900e+01 1.243549e+01 8.725572e+00 5.247808e+00 2.761659e+00 1.291843e+00
+## [11] 5.438658e-01 2.081523e-01 7.302676e-02 2.364943e-02 7.111723e-03 1.996023e-03 5.252037e-04 1.300651e-04 3.042079e-05 6.740607e-06
+## [21] 1.418898e-06</code></pre>
 <p>Most of these values would cause problems for the <span
 class="math inline">\(\chi\)</span><sup>2</sup> test because they are
 too small (less than 1). We need to combine categories in some
@@ -914,8 +914,7 @@ don’t yet want the full results of the test because R does not know to
 correct for the reduction in degrees of freedom caused by estimating the
 mean.)</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">chisq.test</span>(observed_combined, <span class="at">p =</span> expected_combined, <span class="at">rescale.p =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>statistic</span></code></pre></div>
-<pre><code>## Warning in chisq.test(observed_combined, p = expected_combined, rescale.p = TRUE): Chi-squared
-## approximation may be incorrect</code></pre>
+<pre><code>## Warning in chisq.test(observed_combined, p = expected_combined, rescale.p = TRUE): Chi-squared approximation may be incorrect</code></pre>
 <pre><code>## X-squared 
 ##  23.93919</code></pre>
 <p>This correctly calculates our <span

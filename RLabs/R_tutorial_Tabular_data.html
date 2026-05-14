@@ -12,7 +12,7 @@
 <meta name="author" content="" />
 
 
-<title>Labs using R:  2. Tabular data</title>
+<title>Labs using R: UBC Edition  Lab 2. Tabular data</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -568,8 +568,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-<h1 class="title toc-ignore"><em>Labs using R</em>: <br>2. Tabular
-data</h1>
+<h1 class="title toc-ignore">Labs using R: <em>UBC Edition</em> <br>Lab
+2. Tabular data</h1>
 <h4 class="author"></h4>
 
 </div>
@@ -754,9 +754,8 @@ and then save it again as a <code>.csv</code> file.</p>
 <hr />
 <p><br></p>
 </div>
-<div id="installing-packages-to-expand-rs-capabilities"
-class="section level2">
-<h2>Installing packages to expand R’s capabilities</h2>
+<div id="installing-packages" class="section level2">
+<h2>Installing packages</h2>
 <p>R has a lot of power in its basic form, but one of the most important
 parts about R is that it is expandable by the work of other people.
 These expansions are usually released in “packages”.</p>
@@ -884,22 +883,14 @@ the characteristics of the data, the <code>summary()</code> and
 <p>This function will list all the variables and some summary statistics
 for each variable.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">summary</span>(titanicData)</span></code></pre></div>
-<pre><code>##  passenger_class                        name           age                 embarked  
-##  1st:322         Carlsson,MrFransOlof     :   2   Min.   : 0.1667              :493  
-##  2nd:280         Connolly,MissKate        :   2   1st Qu.:21.0000   Cherbourg  :202  
-##  3rd:711         Kelly,MrJames            :   2   Median :30.0000   Queenstown : 45  
-##                  Abbing,MrAnthony         :   1   Mean   :31.1942   Southampton:573  
-##                  Abbott,MasterEugeneJoseph:   1   3rd Qu.:41.0000                    
-##                  Abbott,MrRossmoreEdward  :   1   Max.   :71.0000                    
-##                  (Other)                  :1304   NA&#39;s   :680                        
-##           home_destination     sex      survive  
-##                   :558     female:463   no :864  
-##  NewYork,NY       : 65     male  :850   yes:449  
-##  London           : 14                           
-##  Montreal,PQ      : 10                           
-##  Cornwall/Akron,OH:  9                           
-##  Paris,France     :  9                           
-##  (Other)          :648</code></pre>
+<pre><code>##  passenger_class                        name           age                 embarked            home_destination     sex      survive  
+##  1st:322         Carlsson,MrFransOlof     :   2   Min.   : 0.1667              :493                    :558     female:463   no :864  
+##  2nd:280         Connolly,MissKate        :   2   1st Qu.:21.0000   Cherbourg  :202   NewYork,NY       : 65     male  :850   yes:449  
+##  3rd:711         Kelly,MrJames            :   2   Median :30.0000   Queenstown : 45   London           : 14                           
+##                  Abbing,MrAnthony         :   1   Mean   :31.1942   Southampton:573   Montreal,PQ      : 10                           
+##                  Abbott,MasterEugeneJoseph:   1   3rd Qu.:41.0000                     Cornwall/Akron,OH:  9                           
+##                  Abbott,MrRossmoreEdward  :   1   Max.   :71.0000                     Paris,France     :  9                           
+##                  (Other)                  :1304   NA&#39;s   :680                         (Other)          :648</code></pre>
 </div>
 <div id="view" class="section level3">
 <h3><code>View()</code></h3>
@@ -908,16 +899,16 @@ spreadsheet-like format. To see the data in <code>titanicData</code>
 with <code>View()</code>, run the following command:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">View</span>(titanicData)</span></code></pre></div>
 <p><img src="formula_summaries/VIew_function_titanicData.png"
-width="600" /></p>
+width="700" /></p>
 <p>Again, note that the <code>titanicData</code> object has 7 columns
 and 1313 rows. The horizontal and vertical scroll bars will allow you to
-see more of the data than what may initially appear in the window.</p>
+see more of the data compared to what may initially appear in the
+window.</p>
 <p><br></p>
 </div>
 </div>
-<div id="introduction-to-data-frames-and-tibbles"
-class="section level2">
-<h2>Introduction to data frames and tibbles</h2>
+<div id="data-frames-and-tibbles" class="section level2">
+<h2>Data frames and tibbles</h2>
 <p>In R, a data set is often stored as a <code>data.frame</code> or a
 <code>tibble</code>. For now, you can think of these as very similar:
 both store data in rows and columns (tabular data).</p>
@@ -936,8 +927,8 @@ seven variables, so it has seven columns: <code>passenger_class</code>,
 <code>home_destination</code>, <code>sex</code>, and
 <code>survive</code>.</p>
 <p><br></p>
-<div id="columns-within-data-frames-or-tibbles" class="section level3">
-<h3>Columns within data frames or tibbles</h3>
+<div id="columns-within-data-frames" class="section level3">
+<h3>Columns within data frames</h3>
 <p>Very importantly, we can grab one column from a data frame or tibble
 by itself. We write the name of the data set, followed by a
 <code>$</code>, and then the name of the variable.</p>
@@ -960,28 +951,21 @@ name, using the <code>$</code>.</p>
 <p>You can run the command <code>head(titanicData)</code> to see that
 <code>log_age</code> is now a column in <code>titanicData</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">head</span>(titanicData)</span></code></pre></div>
-<pre><code>##   passenger_class                                      name     age    embarked
-## 1             1st                 Allen,MissElisabethWalton 29.0000 Southampton
-## 2             1st                  Allison,MissHelenLoraine  2.0000 Southampton
-## 3             1st           Allison,MrHudsonJoshuaCreighton 30.0000 Southampton
-## 4             1st Allison,MrsHudsonJ.C.(BessieWaldoDaniels) 25.0000 Southampton
-## 5             1st                Allison,MasterHudsonTrevor  0.9167 Southampton
-## 6             1st                          Anderson,MrHarry 47.0000 Southampton
-##              home_destination    sex survive     log_age
-## 1                  StLouis,MO female     yes  3.36729583
-## 2 Montreal,PQ/Chesterville,ON female      no  0.69314718
-## 3 Montreal,PQ/Chesterville,ON   male      no  3.40119738
-## 4 Montreal,PQ/Chesterville,ON female      no  3.21887582
-## 5 Montreal,PQ/Chesterville,ON   male     yes -0.08697501
-## 6                  NewYork,NY   male     yes  3.85014760</code></pre>
+<pre><code>##   passenger_class                                      name     age    embarked            home_destination    sex survive     log_age
+## 1             1st                 Allen,MissElisabethWalton 29.0000 Southampton                  StLouis,MO female     yes  3.36729583
+## 2             1st                  Allison,MissHelenLoraine  2.0000 Southampton Montreal,PQ/Chesterville,ON female      no  0.69314718
+## 3             1st           Allison,MrHudsonJoshuaCreighton 30.0000 Southampton Montreal,PQ/Chesterville,ON   male      no  3.40119738
+## 4             1st Allison,MrsHudsonJ.C.(BessieWaldoDaniels) 25.0000 Southampton Montreal,PQ/Chesterville,ON female      no  3.21887582
+## 5             1st                Allison,MasterHudsonTrevor  0.9167 Southampton Montreal,PQ/Chesterville,ON   male     yes -0.08697501
+## 6             1st                          Anderson,MrHarry 47.0000 Southampton                  NewYork,NY   male     yes  3.85014760</code></pre>
 <p>The <code>head()</code> function shows the first 6 rows of a data
 frame or tibble, which is a handy way to check that you understand the
 structure of the data and/or that you have added the new column
 correctly.</p>
 <p><br></p>
 </div>
-<div id="filter" class="section level2">
-<h2><code>filter()</code></h2>
+<div id="subsetting-with-filter" class="section level2">
+<h2>Subsetting with <code>filter()</code></h2>
 <p>Sometimes we want to do an analysis only on some of the data that fit
 certain criteria. For example, we might want to analyze the data from
 the Titanic using only the information from females.</p>
@@ -1014,7 +998,7 @@ double equal sign <code>==</code>.</p>
 </div>
 <div id="r-commands-summary" class="section level1">
 <h1>R commands summary</h1>
-<p><img src="formula_summaries/Intro%20to%20R%202%20summary.png" /></p>
+<p><img src="formula_summaries/Tabular_data_summary.png" /></p>
 <hr />
 <p><br></p>
 </div>

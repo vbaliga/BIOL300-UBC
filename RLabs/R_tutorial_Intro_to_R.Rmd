@@ -1,5 +1,5 @@
 ---
-title: "<em>Labs using R</em>: <br>1. Introduction to R"
+title: "Labs using R: <em>UBC Edition</em> <br>Lab 1. Introduction to R"
 author: 
 
 output:
@@ -439,9 +439,7 @@ up the vector `temperatureC`.
 
 # R commands summary
 
-# [NEEDS EDIT]{style="color:#ff5e00;"}
-
-![](formula_summaries/Intro%20to%20R%201%20summary.png)
+![](formula_summaries/Intro_to_R_summary.png)
 
 ------------------------------------------------------------------------
 

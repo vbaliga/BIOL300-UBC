@@ -1,5 +1,5 @@
 ---
-title: "<em>Labs using R</em>: <br>2. Tabular data"
+title: "Labs using R: <em>UBC Edition</em> <br>Lab 2. Tabular data"
 author: 
 
 output:
@@ -73,15 +73,20 @@ and tongue length.
 | Anoura cultrata         | 14.3          | 34.3          |
 | Leptonycteris curosoae  | 16            | 40.2          |
 | Choeronycteris mexicana | 18            | 52.1          |
+
 <br>
 
 ### Recording metadata
 
-Data have no value unless they can be correctly interpreted. It is important to record enough information that each variable in your data set can be well-understood by another reader (including your future self). 
+Data have no value unless they can be correctly interpreted. It is
+important to record enough information that each variable in your data
+set can be well-understood by another reader (including your future
+self).
 
-Key information includes the meaning of each variable name, including units, along with when, where and who collected the data. The objective here is to provide
-a short document that another person could read to unambiguously interpret your data
-file.
+Key information includes the meaning of each variable name, including
+units, along with when, where and who collected the data. The objective
+here is to provide a short document that another person could read to
+unambiguously interpret your data file.
 
 <br>
 
@@ -161,7 +166,7 @@ in Excel or Google Sheets, make your edits, and then save it again as a
 
 <br>
 
-## Installing packages to expand R’s capabilities
+## Installing packages
 
 R has a lot of power in its basic form, but one of the most important
 parts about R is that it is expandable by the work of other people.
@@ -328,15 +333,15 @@ run the following command:
 View(titanicData)
 ```
 
-![](formula_summaries/VIew_function_titanicData.png){width="600"}
+![](formula_summaries/VIew_function_titanicData.png){width="700"}
 
 Again, note that the `titanicData` object has 7 columns and 1313 rows.
 The horizontal and vertical scroll bars will allow you to see more of
-the data than what may initially appear in the window.
+the data compared to what may initially appear in the window.
 
 <br>
 
-## Introduction to data frames and tibbles
+## Data frames and tibbles
 
 In R, a data set is often stored as a `data.frame` or a `tibble`. For
 now, you can think of these as very similar: both store data in rows and
@@ -358,7 +363,7 @@ and `survive`.
 
 <br>
 
-### Columns within data frames or tibbles
+### Columns within data frames
 
 Very importantly, we can grab one column from a data frame or tibble by
 itself. We write the name of the data set, followed by a `$`, and then
@@ -402,7 +407,7 @@ data and/or that you have added the new column correctly.
 
 <br>
 
-## `filter()`
+## Subsetting with `filter()`
 
 Sometimes we want to do an analysis only on some of the data that fit
 certain criteria. For example, we might want to analyze the data from
@@ -439,7 +444,7 @@ individual, whether `sex` is `female`. We not assigning the value
 
 # R commands summary
 
-![](formula_summaries/Intro%20to%20R%202%20summary.png)
+![](formula_summaries/Tabular_data_summary.png)
 
 ------------------------------------------------------------------------
 
@@ -462,10 +467,11 @@ person who may encounter the file. Save the data file that you make in
 the `DataForLabs` folder on your computer with the file name
 `CollectedDataFromLab1.csv`.
 
-a. Prepare a text file which describes each of the variables in the data file. Remember to
-list the meaning of each variable name, including units. The objective here is to provide
-a short document that another person could read to unambiguously interpret your data
-file.
+a.  Prepare a text file which describes each of the variables in the
+    data file. Remember to list the meaning of each variable name,
+    including units. The objective here is to provide a short document
+    that another person could read to unambiguously interpret your data
+    file.
 
 b.  Import this data file into R using `read.csv()`, and give the
     resulting data frame a name that makes sense to you.
@@ -506,6 +512,6 @@ e.  Add a new column to your countries data frame that has the
     later.)
 
 <br> 4. Using the `countries` data again, create a new data frame called
-`AfricaData` via the `filter()` function, that only includes data for countries
-in Africa. What is the sum of the `total_population_in_thousands_2015`
-for this new data frame?
+`AfricaData` via the `filter()` function, that only includes data for
+countries in Africa. What is the sum of the
+`total_population_in_thousands_2015` for this new data frame?

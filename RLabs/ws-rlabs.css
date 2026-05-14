@@ -8,21 +8,20 @@
 }
 
 h1 {
-  font-size:32px;
+  font-size:36px;
   /*text-decoration: underline;*/
  
 }
 h2 {
-  font-size:26px;
+  font-size:32px;
+  color: #bd6133;
   /*font-weight: 400;*/
-  /*color: #002db3;*/
-  color: #b34700;
-
+  /*color: #daa520;*/
 }
 
 h3 {
-  font-size:22px;
-  
+  font-size:28px;
+  color: #2c3e50;
 }
 
 /* font weight of main headers in table of contents (300 is default) */
@@ -85,7 +84,6 @@ p {
 h1, h2, h3, h4, h5, h6 {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 400;
-  color: #333333;
 }
 
 /* Preserve orange page title look */
@@ -99,3 +97,37 @@ a {
   font-weight: 400;
 }
 
+#TOC {
+  font-size: 13px;
+}
+
+/* Level 1 */
+#TOC .tocify-header > .tocify-item {
+  font-size: 13px;
+  padding-left: 4px;
+  font-weight: 700;
+}
+
+/* Level 2 */
+#TOC .tocify-subheader > .tocify-item {
+  font-size: 12px;
+  padding-left: 8px;
+  font-weight: 400;
+}
+
+/* Level 3 */
+#TOC .tocify-subheader .tocify-subheader > .tocify-item {
+  font-size: 11px;
+  padding-left: 16px;
+  font-weight: 400;
+}
+
+#TOC .tocify-item {
+  padding: 5px 12px;
+  line-height: 1.2;
+}
+
+#TOC .list-group-item {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
