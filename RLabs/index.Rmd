@@ -21,7 +21,7 @@ correspondence between chapters in ABD and tutorials.
 
 These labs have two main functions. First, they are intended to
 facilitate active learning in some core concepts in introductory
-statistics. Second, they introduce a key tool in modern statistics, the
+statistics. Second, they introduce a key tool in modern statistics: the
 widely-used, open source statistic program called R.
 
 Before using these labs, [download the zip file](ABDLabs.zip) containing

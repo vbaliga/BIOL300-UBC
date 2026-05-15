@@ -83,7 +83,7 @@ ui <- fluidPage(
   tags$head(
     tags$style(HTML("
       body {
-        font-size: 18px;
+        font-size: 16px;
         color: #222222;
         background-color: #ffffff;
       }
@@ -152,11 +152,11 @@ ui <- fluidPage(
       }
       
       .equation-large {
-        font-size: 30px;
+        font-size: 28px;
         color: #222222;
         margin-top: 18px;
         margin-bottom: 12px;
-        text-align: center;
+        text-align: left;
       }
       
       .slide-table-wrapper {
@@ -173,7 +173,8 @@ ui <- fluidPage(
       table.slide-table {
         width: 100%;
         border-collapse: collapse;
-        font-size: 18px;
+        font-size: 14px;
+        text-align: center;
         background-color: white;
       }
       
@@ -181,7 +182,8 @@ ui <- fluidPage(
         border-top: 3px solid #222222;
         border-bottom: 2px solid #222222;
         padding: 7px 10px;
-        text-align: left;
+        font-size: 14px;
+        text-align: center;
         font-weight: 700;
       }
       
@@ -194,6 +196,7 @@ ui <- fluidPage(
         border-top: 3px solid #222222;
         border-bottom: 3px solid #222222;
         font-weight: 700;
+        font-size: 24px;
         padding-top: 10px;
         padding-bottom: 10px;
       }
@@ -241,7 +244,7 @@ ui <- fluidPage(
       
       .original-slide-layout {
         display: grid;
-        grid-template-columns: minmax(0, 50%) minmax(0, 50%);
+        grid-template-columns: minmax(0, 40%) minmax(0, 60%);
         column-gap: 42px;
         align-items: start;
         padding: 8px 4px 4px 4px;
@@ -318,7 +321,7 @@ ui <- fluidPage(
       }
       
       .lecture-equation {
-        font-size: 34px;
+        font-size: 28px;
         line-height: 1.1;
         margin-top: 42px;
         text-align: left;
@@ -328,7 +331,7 @@ ui <- fluidPage(
       
       .permutation-layout {
         display: grid;
-        grid-template-columns: minmax(0, 46%) minmax(0, 54%);
+        grid-template-columns: minmax(0, 40%) minmax(0, 60%);
         column-gap: 28px;
         align-items: start;
       }
@@ -447,18 +450,10 @@ ui <- fluidPage(
           div(
             class = "explanation-tab",
             h3("How to use this app"),
-            p("This app uses the sagebrush cricket data from Johnson et al. 1999, showcased in Example 13.5 of ABD."),
-            p("Each permutation randomly reassigns the observed times into two groups with the same sample sizes as the original study: 11 starved and 13 fed."),
-            p("The app shows one randomized outcome at a time while also building a histogram of the mean differences from all permutations generated so far."),
-            p("The treatment names are retained, but the observed times have been randomly reassigned. Pale orange undershading identifies values that originally came from the fed group."),
-            p("The histogram is built from all permutations generated so far. The goal is to understand what kinds of mean differences are plausible under the null hypothesis."),
-            p(
-              paste0(
-                "The red bars show permuted mean differences that are less than or equal to the observed study difference of ",
-                round(observed_difference, 2),
-                " hours."
-              )
-            )
+            p("This app uses the sagebrush cricket data from Johnson et al. 1999, showcased in Example 13.5 of ABD. The 'Original data' tab reproduces Table 13.8-1 for reference."),
+            p("The 'Permutatation' tab allows you to perform and visualize permutations. Each permutation randomly reassigns the observed times into two groups with the same sample sizes as the original study: 11 starved and 13 fed."),
+            p("The app shows one randomized outcome at a time while also building a histogram of the mean differences from all permutations generated so far. The treatment names are retained, but the observed times have been randomly reassigned. Pale orange undershading identifies values that originally came from the fed group."),
+            p("The histogram is built from all permutations generated so far. The goal is to understand what kinds of mean differences are plausible under the null hypothesis. The red bars show permuted mean differences that are less than or equal to the observed study difference of -18.26 hours.")
           )
         ),
         
@@ -511,7 +506,7 @@ ui <- fluidPage(
             div(
               class = "permutation-left",
               
-              div(class = "permutation-subtitle", "The outcome of ONE permutation"),
+              div(class = "permutation-subtitle", "Most recent permutation"),
               
               p(
                 class = "permutation-note",
@@ -895,11 +890,11 @@ server <- function(input, output, session) {
       theme_classic(base_size = 20) +
       theme(
         axis.title = element_text(face = "bold"),
-        axis.title.x = element_text(
-          size = 20,
-          lineheight = 1.0,
-          margin = margin(t = 10)
-        ),
+        # axis.title.x = element_text(
+        #   size = 20,
+        #   lineheight = 1.0,
+        #   margin = margin(t = 10)
+        # ),
         axis.text = element_text(color = "black"),
         plot.margin = margin(4, 6, 12, 6)
       )
