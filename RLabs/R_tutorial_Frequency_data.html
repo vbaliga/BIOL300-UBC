@@ -914,8 +914,8 @@ don’t yet want the full results of the test because R does not know to
 correct for the reduction in degrees of freedom caused by estimating the
 mean.)</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">chisq.test</span>(observed_combined, <span class="at">p =</span> expected_combined, <span class="at">rescale.p =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>statistic</span></code></pre></div>
-<pre><code>## Warning in chisq.test(observed_combined, p = expected_combined, rescale.p = TRUE): Chi-squared
-## approximation may be incorrect</code></pre>
+<pre><code>## Warning in chisq.test(observed_combined, p = expected_combined, rescale.p = TRUE): Chi-squared approximation
+## may be incorrect</code></pre>
 <pre><code>## X-squared 
 ##  23.93919</code></pre>
 <p>This correctly calculates our <span
