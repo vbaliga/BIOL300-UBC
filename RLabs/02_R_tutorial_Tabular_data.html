@@ -467,13 +467,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="R_tutorial_Loading_R_and_RStudio.html">0. Loading R and RStudio</a>
+      <a href="00_R_tutorial_Loading_R_and_RStudio.html">0. Loading R and RStudio</a>
     </li>
     <li>
-      <a href="R_tutorial_Intro_to_R.html">1. Intro to R</a>
+      <a href="01_R_tutorial_Intro_to_R.html">1. Intro to R</a>
     </li>
     <li>
-      <a href="R_tutorial_Tabular_data.html">2. Tabular data</a>
+      <a href="02_R_tutorial_Tabular_data.html">2. Tabular data</a>
     </li>
     <li>
       <a href="R_tutorial_Graphics.html">3. Graphics</a>
@@ -790,16 +790,6 @@ tidyverse. Before using the functions in these packages, we need to load
 tidyverse. We do this with the <code>library()</code> function. In the
 console, enter this:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
-<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.1.4     ✔ readr     2.1.5
-## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-## ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
-## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-## ✔ purrr     1.1.0     
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 <p>If the <code>tidyverse</code> was is installed on your computer
 correctly, the computer will show a brief status message and then will
 be ready to go. If the package is not installed, it will give you an
@@ -848,7 +838,7 @@ survived the accident or not.</p>
 <p>To import a CSV file into R, use the <code>read.csv()</code> function
 as in the following command. (This assumes that you have set the working
 directory to <code>ABDLabs</code>, as we described above.)</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>This looks for the file called <code>titanic.csv</code> in the folder
 called <code>DataForLabs.</code> Here we have given the name
 <code>titanicData</code> to the object in R that contains all this
@@ -879,7 +869,7 @@ tells the computer where to look for the file.</p>
 <code>read.csv()</code> to look for the file outside your current
 working directory. Reading a file from any location can be done with
 <code>read.csv()</code> like this:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;/Users/whitlock/Desktop/ABDLabs/DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;/Users/whitlock/Desktop/ABDLabs/DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><br></p>
 </div>
 </div>
@@ -892,30 +882,30 @@ the characteristics of the data, the <code>summary()</code> and
 <h3><code>summary()</code></h3>
 <p>This function will list all the variables and some summary statistics
 for each variable.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">summary</span>(titanicData)</span></code></pre></div>
-<pre><code>##  passenger_class                        name           age         
-##  1st:322         Carlsson,MrFransOlof     :   2   Min.   : 0.1667  
-##  2nd:280         Connolly,MissKate        :   2   1st Qu.:21.0000  
-##  3rd:711         Kelly,MrJames            :   2   Median :30.0000  
-##                  Abbing,MrAnthony         :   1   Mean   :31.1942  
-##                  Abbott,MasterEugeneJoseph:   1   3rd Qu.:41.0000  
-##                  Abbott,MrRossmoreEdward  :   1   Max.   :71.0000  
-##                  (Other)                  :1304   NA&#39;s   :680      
-##         embarked            home_destination     sex      survive  
-##             :493                    :558     female:463   no :864  
-##  Cherbourg  :202   NewYork,NY       : 65     male  :850   yes:449  
-##  Queenstown : 45   London           : 14                           
-##  Southampton:573   Montreal,PQ      : 10                           
-##                    Cornwall/Akron,OH:  9                           
-##                    Paris,France     :  9                           
-##                    (Other)          :648</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">summary</span>(titanicData)</span></code></pre></div>
+<pre><code>##  passenger_class                        name           age                 embarked  
+##  1st:322         Carlsson,MrFransOlof     :   2   Min.   : 0.1667              :493  
+##  2nd:280         Connolly,MissKate        :   2   1st Qu.:21.0000   Cherbourg  :202  
+##  3rd:711         Kelly,MrJames            :   2   Median :30.0000   Queenstown : 45  
+##                  Abbing,MrAnthony         :   1   Mean   :31.1942   Southampton:573  
+##                  Abbott,MasterEugeneJoseph:   1   3rd Qu.:41.0000                    
+##                  Abbott,MrRossmoreEdward  :   1   Max.   :71.0000                    
+##                  (Other)                  :1304   NA&#39;s   :680                        
+##           home_destination     sex      survive  
+##                   :558     female:463   no :864  
+##  NewYork,NY       : 65     male  :850   yes:449  
+##  London           : 14                           
+##  Montreal,PQ      : 10                           
+##  Cornwall/Akron,OH:  9                           
+##  Paris,France     :  9                           
+##  (Other)          :648</code></pre>
 </div>
 <div id="view" class="section level3">
 <h3><code>View()</code></h3>
 <p>The <code>View()</code> function is a nice way to see the data in a
 spreadsheet-like format. To see the data in <code>titanicData</code>
 with <code>View()</code>, run the following command:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">View</span>(titanicData)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">View</span>(titanicData)</span></code></pre></div>
 <p><img src="formula_summaries/VIew_function_titanicData.png"
 width="700" /></p>
 <p>Again, note that the <code>titanicData</code> object has 7 columns
@@ -952,7 +942,7 @@ by itself. We write the name of the data set, followed by a
 <code>$</code>, and then the name of the variable.</p>
 <p>For example, to show a list of the age of all the passengers on the
 Titanic, use</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>titanicData<span class="sc">$</span>age</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>titanicData<span class="sc">$</span>age</span></code></pre></div>
 <p>This will show a vector that has all the values for this variable
 age, one for each individual in the data set.</p>
 <p><br></p>
@@ -965,24 +955,24 @@ easiest way to do this is to simply assign a new vector to a new column
 name, using the <code>$</code>.</p>
 <p>For example, to add the log of age as a column in the
 <code>titanicData</code> data frame, we can write</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>titanicData<span class="sc">$</span>log_age <span class="ot">&lt;-</span> <span class="fu">log</span>(titanicData<span class="sc">$</span>age)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>titanicData<span class="sc">$</span>log_age <span class="ot">&lt;-</span> <span class="fu">log</span>(titanicData<span class="sc">$</span>age)</span></code></pre></div>
 <p>You can run the command <code>head(titanicData)</code> to see that
 <code>log_age</code> is now a column in <code>titanicData</code>.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">head</span>(titanicData)</span></code></pre></div>
-<pre><code>##   passenger_class                                      name     age    embarked
-## 1             1st                 Allen,MissElisabethWalton 29.0000 Southampton
-## 2             1st                  Allison,MissHelenLoraine  2.0000 Southampton
-## 3             1st           Allison,MrHudsonJoshuaCreighton 30.0000 Southampton
-## 4             1st Allison,MrsHudsonJ.C.(BessieWaldoDaniels) 25.0000 Southampton
-## 5             1st                Allison,MasterHudsonTrevor  0.9167 Southampton
-## 6             1st                          Anderson,MrHarry 47.0000 Southampton
-##              home_destination    sex survive     log_age
-## 1                  StLouis,MO female     yes  3.36729583
-## 2 Montreal,PQ/Chesterville,ON female      no  0.69314718
-## 3 Montreal,PQ/Chesterville,ON   male      no  3.40119738
-## 4 Montreal,PQ/Chesterville,ON female      no  3.21887582
-## 5 Montreal,PQ/Chesterville,ON   male     yes -0.08697501
-## 6                  NewYork,NY   male     yes  3.85014760</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">head</span>(titanicData)</span></code></pre></div>
+<pre><code>##   passenger_class                                      name     age    embarked            home_destination
+## 1             1st                 Allen,MissElisabethWalton 29.0000 Southampton                  StLouis,MO
+## 2             1st                  Allison,MissHelenLoraine  2.0000 Southampton Montreal,PQ/Chesterville,ON
+## 3             1st           Allison,MrHudsonJoshuaCreighton 30.0000 Southampton Montreal,PQ/Chesterville,ON
+## 4             1st Allison,MrsHudsonJ.C.(BessieWaldoDaniels) 25.0000 Southampton Montreal,PQ/Chesterville,ON
+## 5             1st                Allison,MasterHudsonTrevor  0.9167 Southampton Montreal,PQ/Chesterville,ON
+## 6             1st                          Anderson,MrHarry 47.0000 Southampton                  NewYork,NY
+##      sex survive     log_age
+## 1 female     yes  3.36729583
+## 2 female      no  0.69314718
+## 3   male      no  3.40119738
+## 4 female      no  3.21887582
+## 5   male     yes -0.08697501
+## 6   male     yes  3.85014760</code></pre>
 <p>The <code>head()</code> function shows the first 6 rows of a data
 frame or tibble, which is a handy way to check that you understand the
 structure of the data and/or that you have added the new column
@@ -1005,7 +995,7 @@ functions in the tidyverse packages, including
 and an individual is female if that variable has value
 <code>female</code>. We can create a new data frame that includes only
 the data from females with the following command:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>titanicDataFemalesOnly <span class="ot">&lt;-</span> <span class="fu">filter</span>(titanicData, sex <span class="sc">==</span> <span class="st">&quot;female&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>titanicDataFemalesOnly <span class="ot">&lt;-</span> <span class="fu">filter</span>(titanicData, sex <span class="sc">==</span> <span class="st">&quot;female&quot;</span>)</span></code></pre></div>
 <p>This new data frame will include all the same columns as the original
 <code>titanicData</code>, but it will only include the rows for which
 the sex was <code>female</code>.</p>

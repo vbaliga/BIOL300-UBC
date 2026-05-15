@@ -22,11 +22,11 @@ Some of the exercises in these labs (particularly in the first few labs) may req
 
 ## R tutorials by topic
 
-[0. Loading R and RStudio](R_tutorial_Loading_R_and_RStudio.html)
+[0. Loading R and RStudio](00_R_tutorial_Loading_R_and_RStudio.html)
 
-[1. Intro to R](R_tutorial_Intro_to_R.html)
+[1. Intro to R](01_R_tutorial_Intro_to_R.html)
 
-[2. Tabular data in R](R_tutorial_Tabular_data.html)
+[2. Tabular data in R](02_R_tutorial_Tabular_data.html)
 
 [3. Graphics](R_tutorial_Graphics.html)
 
