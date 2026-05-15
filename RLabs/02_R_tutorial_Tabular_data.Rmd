@@ -444,7 +444,7 @@ individual, whether `sex` is `female`. We not assigning the value
 
 # R commands summary
 
-![](formula_summaries/Tabular_data_summary.png)
+![](formula_summaries/02_Tabular_data_summary.png)
 
 ------------------------------------------------------------------------
 

@@ -439,7 +439,7 @@ up the vector `temperatureC`.
 
 # R commands summary
 
-![](formula_summaries/Intro_to_R_summary.png)
+![](formula_summaries/01_Intro_to_R_summary.png)
 
 ------------------------------------------------------------------------
 

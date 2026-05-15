@@ -2,9 +2,9 @@
 title: '<em>Labs using R</em>: <br>10. ANOVA'
 author: ""
 output:
-  pdf_document:
-    toc: yes
-    toc_depth: '3'
+  # pdf_document:
+  #   toc: yes
+  #   toc_depth: '3'
   html_document:
     includes:
       before_body: header_image.html
