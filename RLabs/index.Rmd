@@ -8,15 +8,29 @@ output:
 
 ------------------------------------------------------------------------
 
-**UNDER DEVELOPMENT: Until this statement is removed, consider all pages on this site under development.**
+# UNDER DEVELOPMENT:
 
-These labs are written for the UBC course BIOL 300: Funamentals of Biostatistics, using resources from *The Analysis of Biological Data* by Whitlock and Schluter. The materials will follow the same order and level as this text, though there may not be one-to-one correspondence between chapters in ABD and tutorials.
+**Until this statement is removed, consider all pages on this site under
+development.**
 
-These labs have two main functions. First, they are intended to facilitate active learning in some core concepts in introductory statistics. Second, they introduce a key tool in modern statistics, the widely-used, open source statistic program called R.
+These labs are written for the UBC course BIOL 300: Funamentals of
+Biostatistics, using resources from *The Analysis of Biological Data*
+(ABD) by Whitlock and Schluter. The materials will follow the same order
+and level as this text, though there may not be one-to-one
+correspondence between chapters in ABD and tutorials.
 
-Before using these labs, download [the zip file containing Data, R scripts, and other resources for these labs](ABDLabs.zip). Remember to start RStudio from the "ABDLabs.Rproj" file in that folder to make these exercises work more seamlessly.
+These labs have two main functions. First, they are intended to
+facilitate active learning in some core concepts in introductory
+statistics. Second, they introduce a key tool in modern statistics, the
+widely-used, open source statistic program called R.
 
-Some of the exercises in these labs (particularly in the first few labs) may require working in a group environment.
+Before using these labs, [download the zip file](ABDLabs.zip) containing
+data, R scripts, and other resources for these labs. Remember to start
+RStudio from the `ABDLabs.Rproj` file in that folder to make these
+exercises work more seamlessly.
+
+Some of the exercises in these labs (particularly in the first few labs)
+may require working in a group environment.
 
 <br>
 
@@ -40,9 +54,11 @@ Some of the exercises in these labs (particularly in the first few labs) may req
 
 [7. Contingency analysis](R_tutorial_Contingency_analysis.html)
 
-[8. Normal distribution and sample means](R_tutorial_Normal_and_sample_means.html)
+[8. Normal distribution and sample
+means](R_tutorial_Normal_and_sample_means.html)
 
-[9. Comparing means of two groups](R_tutorial_Comparing_means_of_2_groups.html)
+[9. Comparing means of two
+groups](R_tutorial_Comparing_means_of_2_groups.html)
 
 [10. ANOVA](R_tutorial_ANOVA.html)
 
@@ -52,8 +68,13 @@ Some of the exercises in these labs (particularly in the first few labs) may req
 
 <br>
 
-Other resources for Whitlock and Schluter *The Analysis of Biological Data* are [available chapter by chapter here](../index.html).
+Other resources for Whitlock and Schluter *The Analysis of Biological
+Data* are [available chapter by chapter here](../index.html).
 
-Comments and suggestions are greatly appreciated. If something is not working or can be improved, please let us know. Please e-mail Vikram Baliga at [vikram.baliga\@ubc.ca](mailto:vikram.baliga@ubc.ca){.email} with any thoughts you have about how these tutorials can be improved.
+Comments and suggestions are greatly appreciated. If something is not
+working or can be improved, please let us know. Please e-mail Vikram
+Baliga at [vikram.baliga\@ubc.ca](mailto:vikram.baliga@ubc.ca){.email}
+with any thoughts you have about how these tutorials can be improved.
 
-Instructors, please e-mail <a href="mailto:whitlock@zoology.ubc.ca">Mike Whitlock</a> for a link to some instructor notes on these labs.
+Instructors, please e-mail <a href="mailto:whitlock@zoology.ubc.ca">Mike
+Whitlock</a> for a link to some instructor notes on these labs.

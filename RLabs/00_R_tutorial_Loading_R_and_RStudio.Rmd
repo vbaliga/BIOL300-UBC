@@ -79,7 +79,7 @@ drag & drop the RStudio icon into the Applications icon.
 
 <br>
 
-# Step 3: Get set up for BIOL 300
+# Step 3: Get ABDLabs
 
 A `.zip` file that contains all the data sets, R scripts, and some other
 features can be downloaded in a [folder called ABDLabs](ABDLabs.zip).
@@ -87,7 +87,7 @@ features can be downloaded in a [folder called ABDLabs](ABDLabs.zip).
 your computer's `Downloads` folder**. Keeping this within the Downloads
 problem often causes permission errors and other bugs. Most BIOL 300
 students end up moving `ABDLabs.zip` to the Desktop. After moving the
-.zip file, unzip it. It should then open a folder called `ABDLabs`.
+`.zip` file, unzip it. It should then open a folder called `ABDLabs`.
 Windows users: please be sure to fully unzip the entire file and not
 just open the zip file, as this can cause problems. The best practice is
 to right-click on it and choose "Extract All" or a similar option.
@@ -106,8 +106,8 @@ relative paths are set up on your computer; see further guidance below.
 # Step 4: Start an RStudio session
 
 There is a file in the `ABDLabs` folder called `ABDLabs.Rproj`. You can
-double click on this file to start R and Rstudio automatically. If you
-start your session in R from this file, it will automatically load some
+double click on this file to start R and RStudio automatically. If you
+start your session from this file, it will automatically load some
 packages of extra functionality that you will need for some tasks.
 Opening `ABDLabs.Rproj` will also automatically tell R to look inside
 the `ABDLabs` folder for files like the data sets. Starting from this

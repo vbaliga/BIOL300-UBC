@@ -26,7 +26,7 @@ Analysis of Biological Data*. The rest of the labs can be found
 
 -   Make data files for R
 
--   Use data frames and tibbles
+-   Understand how data frames and tibbles organize information
 
 -   Learn how to increase the power of R with packages
 
@@ -514,6 +514,6 @@ e.  Add a new column to your countries data frame that has the
     later.)
 
 <br> 4. Using the `countries` data again, create a new data frame called
-`AfricaData` via the `filter()` function, that only includes data for
-countries in Africa. What is the sum of the
+`AfricaData` that only includes data for
+countries in Africa via the `filter()` function. What is the sum of the
 `total_population_in_thousands_2015` for this new data frame?
