@@ -205,7 +205,7 @@ ui <- fluidPage(
       
       .original-slide-layout {
         display: grid;
-        grid-template-columns: minmax(0, 58%) minmax(0, 42%);
+        grid-template-columns: minmax(0, 50%) minmax(0, 50%);
         column-gap: 42px;
         align-items: start;
         padding: 8px 4px 4px 4px;
@@ -214,7 +214,7 @@ ui <- fluidPage(
       
       .original-slide-left {
         min-width: 0;
-        padding-left: 2px;
+        padding-left: 1px;
       }
       
       .original-slide-right {
@@ -292,7 +292,7 @@ ui <- fluidPage(
       
       .permutation-layout {
         display: grid;
-        grid-template-columns: minmax(0, 62%) minmax(0, 38%);
+        grid-template-columns: minmax(0, 38%) minmax(0, 62%);
         column-gap: 28px;
         align-items: start;
       }
@@ -368,7 +368,7 @@ ui <- fluidPage(
   sidebarLayout(
     
     sidebarPanel(
-      width = 3,
+      width = 2,
       
       div(
         class = "control-box",
@@ -378,9 +378,6 @@ ui <- fluidPage(
         br(), br(),
         
         actionButton("permute_10", "Run 10 more", width = "100%"),
-        br(), br(),
-        
-        actionButton("permute_100", "Run 100 more", width = "100%"),
         br(), br(),
         
         actionButton("permute_1000", "Run 1000 more", width = "100%"),
@@ -409,7 +406,7 @@ ui <- fluidPage(
     ),
     
     mainPanel(
-      width = 9,
+      width = 10,
       
       tabsetPanel(
         
