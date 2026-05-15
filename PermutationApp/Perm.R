@@ -106,16 +106,34 @@ ui <- fluidPage(
         margin-bottom: 18px;
       }
       
+      .well {
+        padding: 8px;
+      }
+      
       .control-box {
         background-color: #f7f7f7;
-        padding: 15px;
+        padding: 10px;
         border-radius: 6px;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
+      }
+      
+      .control-box h4 {
+        margin-top: 0;
       }
       
       .small-note {
         color: #555555;
         font-size: 14px;
+      }
+      
+      .footer-note {
+        color: #555555;
+        font-size: 14px;
+        line-height: 1.35;
+        margin-top: 18px;
+        padding: 12px 8px 18px 8px;
+        border-top: 1px solid #e5e5e5;
+        width: 100%;
       }
       
       .current-progress-text {
@@ -134,7 +152,7 @@ ui <- fluidPage(
       }
       
       .equation-large {
-        font-size: 34px;
+        font-size: 30px;
         color: #222222;
         margin-top: 18px;
         margin-bottom: 12px;
@@ -203,6 +221,24 @@ ui <- fluidPage(
         font-size: 17px;
       }
       
+      .explanation-tab {
+        max-width: 900px;
+        font-size: 18px;
+        line-height: 1.45;
+      }
+      
+      .explanation-tab h3 {
+        color: #315f96;
+        font-size: 30px;
+        font-weight: 400;
+        margin-top: 12px;
+        margin-bottom: 18px;
+      }
+      
+      .explanation-tab p {
+        margin-bottom: 14px;
+      }
+      
       .original-slide-layout {
         display: grid;
         grid-template-columns: minmax(0, 50%) minmax(0, 50%);
@@ -214,7 +250,7 @@ ui <- fluidPage(
       
       .original-slide-left {
         min-width: 0;
-        padding-left: 1px;
+        padding-left: 2px;
       }
       
       .original-slide-right {
@@ -292,7 +328,7 @@ ui <- fluidPage(
       
       .permutation-layout {
         display: grid;
-        grid-template-columns: minmax(0, 38%) minmax(0, 62%);
+        grid-template-columns: minmax(0, 46%) minmax(0, 54%);
         column-gap: 28px;
         align-items: start;
       }
@@ -303,13 +339,19 @@ ui <- fluidPage(
       
       .permutation-right {
         min-width: 0;
-        padding-top: 40px;
+        padding-top: 0;
       }
       
       .permutation-histogram-text {
         font-size: 17px;
         line-height: 1.35;
         margin-bottom: 10px;
+      }
+      
+      .permutation-note {
+        font-size: 17px;
+        line-height: 1.35;
+        margin-bottom: 12px;
       }
       
       @media (max-width: 1100px) {
@@ -347,8 +389,6 @@ ui <- fluidPage(
   
   div(
     class = "explanation-box",
-    p("This app uses the sagebrush cricket data from Johnson et al. 1999, showcased in Example 13.5 of ABD."),
-    p("Each permutation randomly reassigns the observed times into two groups with the same sample sizes as the original study: 11 starved and 13 fed."),
     tags$div(
       class = "equation-large",
       HTML(
@@ -380,6 +420,7 @@ ui <- fluidPage(
         actionButton("permute_10", "Run 10 more", width = "100%"),
         br(), br(),
         
+        
         actionButton("permute_1000", "Run 1000 more", width = "100%"),
         br(), br(),
         
@@ -392,16 +433,6 @@ ui <- fluidPage(
         textOutput("n_permutations"),
         textOutput("n_lower_tail"),
         uiOutput("p_value_summary")
-      ),
-      
-      div(
-        class = "small-note",
-        p("The histogram is built from all permutations generated so far. The goal is to understand what kinds of mean differences are plausible under the null hypothesis.")
-      ),
-      
-      div(
-        class = "small-note",
-        p("Developed by Vikram Baliga at the University of British Columbia, using resources associated with the Analysis of Biological Data by Whitlock & Schluter.")
       )
     ),
     
@@ -409,6 +440,27 @@ ui <- fluidPage(
       width = 10,
       
       tabsetPanel(
+        
+        tabPanel(
+          "Explanation",
+          br(),
+          div(
+            class = "explanation-tab",
+            h3("How to use this app"),
+            p("This app uses the sagebrush cricket data from Johnson et al. 1999, showcased in Example 13.5 of ABD."),
+            p("Each permutation randomly reassigns the observed times into two groups with the same sample sizes as the original study: 11 starved and 13 fed."),
+            p("The app shows one randomized outcome at a time while also building a histogram of the mean differences from all permutations generated so far."),
+            p("The treatment names are retained, but the observed times have been randomly reassigned. Pale orange undershading identifies values that originally came from the fed group."),
+            p("The histogram is built from all permutations generated so far. The goal is to understand what kinds of mean differences are plausible under the null hypothesis."),
+            p(
+              paste0(
+                "The red bars show permuted mean differences that are less than or equal to the observed study difference of ",
+                round(observed_difference, 2),
+                " hours."
+              )
+            )
+          )
+        ),
         
         tabPanel(
           "Original data",
@@ -462,8 +514,9 @@ ui <- fluidPage(
               div(class = "permutation-subtitle", "The outcome of ONE permutation"),
               
               p(
+                class = "permutation-note",
                 HTML(
-                  "The treatment names are retained, but the observed times have been randomly reassigned. Pale orange undershading identifies values that originally came from the fed group. If more than one permutation is performed using the buttons to the left, <strong>only the most recent permutation is shown</strong>."
+                  "If more than one permutation is performed using the buttons to the left, <strong>only the most recent permutation is shown</strong>."
                 )
               ),
               
@@ -492,6 +545,11 @@ ui <- fluidPage(
         )
       )
     )
+  ),
+  
+  div(
+    class = "footer-note",
+    "Developed by Vikram Baliga at the University of British Columbia, using resources associated with the Analysis of Biological Data by Whitlock & Schluter."
   )
 )
 
@@ -834,11 +892,11 @@ server <- function(input, output, session) {
         x = "Difference in treatment means\nfrom randomized data (hours)",
         y = "Frequency"
       ) +
-      theme_classic(base_size = 15) +
+      theme_classic(base_size = 20) +
       theme(
         axis.title = element_text(face = "bold"),
         axis.title.x = element_text(
-          size = 16,
+          size = 20,
           lineheight = 1.0,
           margin = margin(t = 10)
         ),
@@ -863,10 +921,7 @@ server <- function(input, output, session) {
     
     paste0(
       "Lower-tail count: ",
-      lower_tail_count,
-      " of ",
-      nrow(history),
-      " permutations"
+      lower_tail_count
     )
   })
   
@@ -918,17 +973,12 @@ server <- function(input, output, session) {
       class = "histogram-note",
       tags$p(
         paste0(
-          "The red bars show permuted mean differences that are less than or equal to the observed study difference of ",
-          round(observed_difference, 2),
-          " hours."
-        )
-      ),
-      tags$p(
-        paste0(
           lower_tail_count,
           " of ",
           nrow(history),
-          " permutations are in this lower tail."
+          " outcomes are less than or equal to the observed study difference of ",
+          round(observed_difference, 2),
+          " hours."
         )
       ),
       tags$p(
