@@ -14,7 +14,7 @@
 
 <title>Labs using R:  9. Comparing the means of two groups</title>
 
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -661,8 +661,9 @@ assumptions of relevant statistical methods are met.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span>   </span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>    <span class="fu">geom_histogram</span>() <span class="sc">+</span> </span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> survive, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code></pre></div>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<pre><code>## Warning: Removed 680 rows containing non-finite outside the scale range (`stat_bin()`).</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 680 rows containing non-finite outside the scale range
+## (`stat_bin()`).</code></pre>
 <p><img src="R_tutorial_Comparing_means_of_2_groups_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>We specified the data set <strong>titanicData</strong> for the
 function to use. Note that here the numerical variable is entered as the

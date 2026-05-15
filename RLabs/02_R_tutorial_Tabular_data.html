@@ -14,7 +14,7 @@
 
 <title>Labs using R: UBC Edition  Lab 2. Tabular data</title>
 
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -883,22 +883,22 @@ the characteristics of the data, the <code>summary()</code> and
 <p>This function will list all the variables and some summary statistics
 for each variable.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">summary</span>(titanicData)</span></code></pre></div>
-<pre><code>##  passenger_class                        name           age                 embarked  
-##  1st:322         Carlsson,MrFransOlof     :   2   Min.   : 0.1667              :493  
-##  2nd:280         Connolly,MissKate        :   2   1st Qu.:21.0000   Cherbourg  :202  
-##  3rd:711         Kelly,MrJames            :   2   Median :30.0000   Queenstown : 45  
-##                  Abbing,MrAnthony         :   1   Mean   :31.1942   Southampton:573  
-##                  Abbott,MasterEugeneJoseph:   1   3rd Qu.:41.0000                    
-##                  Abbott,MrRossmoreEdward  :   1   Max.   :71.0000                    
-##                  (Other)                  :1304   NA&#39;s   :680                        
-##           home_destination     sex      survive  
-##                   :558     female:463   no :864  
-##  NewYork,NY       : 65     male  :850   yes:449  
-##  London           : 14                           
-##  Montreal,PQ      : 10                           
-##  Cornwall/Akron,OH:  9                           
-##  Paris,France     :  9                           
-##  (Other)          :648</code></pre>
+<pre><code>##  passenger_class                        name           age         
+##  1st:322         Carlsson,MrFransOlof     :   2   Min.   : 0.1667  
+##  2nd:280         Connolly,MissKate        :   2   1st Qu.:21.0000  
+##  3rd:711         Kelly,MrJames            :   2   Median :30.0000  
+##                  Abbing,MrAnthony         :   1   Mean   :31.1942  
+##                  Abbott,MasterEugeneJoseph:   1   3rd Qu.:41.0000  
+##                  Abbott,MrRossmoreEdward  :   1   Max.   :71.0000  
+##                  (Other)                  :1304   NA&#39;s   :680      
+##         embarked            home_destination     sex      survive  
+##             :493                    :558     female:463   no :864  
+##  Cherbourg  :202   NewYork,NY       : 65     male  :850   yes:449  
+##  Queenstown : 45   London           : 14                           
+##  Southampton:573   Montreal,PQ      : 10                           
+##                    Cornwall/Akron,OH:  9                           
+##                    Paris,France     :  9                           
+##                    (Other)          :648</code></pre>
 </div>
 <div id="view" class="section level3">
 <h3><code>View()</code></h3>
@@ -959,20 +959,20 @@ name, using the <code>$</code>.</p>
 <p>You can run the command <code>head(titanicData)</code> to see that
 <code>log_age</code> is now a column in <code>titanicData</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">head</span>(titanicData)</span></code></pre></div>
-<pre><code>##   passenger_class                                      name     age    embarked            home_destination
-## 1             1st                 Allen,MissElisabethWalton 29.0000 Southampton                  StLouis,MO
-## 2             1st                  Allison,MissHelenLoraine  2.0000 Southampton Montreal,PQ/Chesterville,ON
-## 3             1st           Allison,MrHudsonJoshuaCreighton 30.0000 Southampton Montreal,PQ/Chesterville,ON
-## 4             1st Allison,MrsHudsonJ.C.(BessieWaldoDaniels) 25.0000 Southampton Montreal,PQ/Chesterville,ON
-## 5             1st                Allison,MasterHudsonTrevor  0.9167 Southampton Montreal,PQ/Chesterville,ON
-## 6             1st                          Anderson,MrHarry 47.0000 Southampton                  NewYork,NY
-##      sex survive     log_age
-## 1 female     yes  3.36729583
-## 2 female      no  0.69314718
-## 3   male      no  3.40119738
-## 4 female      no  3.21887582
-## 5   male     yes -0.08697501
-## 6   male     yes  3.85014760</code></pre>
+<pre><code>##   passenger_class                                      name     age
+## 1             1st                 Allen,MissElisabethWalton 29.0000
+## 2             1st                  Allison,MissHelenLoraine  2.0000
+## 3             1st           Allison,MrHudsonJoshuaCreighton 30.0000
+## 4             1st Allison,MrsHudsonJ.C.(BessieWaldoDaniels) 25.0000
+## 5             1st                Allison,MasterHudsonTrevor  0.9167
+## 6             1st                          Anderson,MrHarry 47.0000
+##      embarked            home_destination    sex survive     log_age
+## 1 Southampton                  StLouis,MO female     yes  3.36729583
+## 2 Southampton Montreal,PQ/Chesterville,ON female      no  0.69314718
+## 3 Southampton Montreal,PQ/Chesterville,ON   male      no  3.40119738
+## 4 Southampton Montreal,PQ/Chesterville,ON female      no  3.21887582
+## 5 Southampton Montreal,PQ/Chesterville,ON   male     yes -0.08697501
+## 6 Southampton                  NewYork,NY   male     yes  3.85014760</code></pre>
 <p>The <code>head()</code> function shows the first 6 rows of a data
 frame or tibble, which is a handy way to check that you understand the
 structure of the data and/or that you have added the new column
@@ -986,22 +986,49 @@ certain criteria. For example, we might want to analyze the data from
 the Titanic using only the information from females.</p>
 <p>The easiest way to do this is to use the <code>filter()</code>
 function from the package <code>dplyr</code>. <code>dplyr</code> is a
-package within the tidyverse, so make sure you have loaded tidyverse
-into R using <code>library()</code>. <code>libary(tidyverse)</code> only
-needs to be run once per session, and then you can use any of the
-functions in the tidyverse packages, including
-<code>filter()</code>.</p>
-<p>In the titanic data set there is a variable named <code>sex</code>,
+package within the tidyverse, so make sure you have loaded
+<code>tidyverse</code> into R using <code>library()</code>. The line
+<code>libary(tidyverse)</code> only needs to be run once per session,
+and then you can use any of the functions in the tidyverse packages,
+including <code>filter()</code>.</p>
+<p>In the Titanic data set, there is a variable named <code>sex</code>
 and an individual is female if that variable has value
 <code>female</code>. We can create a new data frame that includes only
 the data from females with the following command:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>titanicDataFemalesOnly <span class="ot">&lt;-</span> <span class="fu">filter</span>(titanicData, sex <span class="sc">==</span> <span class="st">&quot;female&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>titanicDataFemalesOnly <span class="ot">&lt;-</span> <span class="fu">filter</span>(titanicData, sex <span class="sc">==</span> <span class="st">&quot;female&quot;</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">summary</span>(titanicDataFemalesOnly)</span></code></pre></div>
+<pre><code>##  passenger_class                            name          age         
+##  1st:143         Connolly,MissKate            :  2   Min.   : 0.1667  
+##  2nd:107         Abbott,MrsStanton(Rosa)      :  1   1st Qu.:19.0000  
+##  3rd:213         Abelseth,MissAnnaKaren       :  1   Median :29.0000  
+##                  Abelson,MrsSamuel(Anna)      :  1   Mean   :30.5727  
+##                  Abraham,MrsJoseph(SophieEasu):  1   3rd Qu.:40.0000  
+##                  Ahlin,MrsJohannaPersdotter   :  1   Max.   :69.0000  
+##                  (Other)                      :456   NA&#39;s   :220      
+##         embarked            home_destination     sex      survive  
+##             :152                    :171     female:463   no :156  
+##  Cherbourg  : 97   NewYork,NY       : 31     male  :  0   yes:307  
+##  Queenstown : 21   Cornwall/Akron,OH:  5                           
+##  Southampton:193   Paris,France     :  5                           
+##                    SwedenWinnipeg,MN:  5                           
+##                    London           :  4                           
+##                    (Other)          :242                           
+##     log_age      
+##  Min.   :-1.792  
+##  1st Qu.: 2.944  
+##  Median : 3.367  
+##  Mean   : 3.240  
+##  3rd Qu.: 3.689  
+##  Max.   : 4.234  
+##  NA&#39;s   :220</code></pre>
 <p>This new data frame will include all the same columns as the original
-<code>titanicData</code>, but it will only include the rows for which
-the sex was <code>female</code>.</p>
-<p>Note that the syntax here requires a double equal sign:
-<code>==</code>. In R (and many other computer languages), the double
-equal sign creates a statement that can be evaluated as
+<code>titanicData</code>, but it will only include the 463 rows for
+which <code>sex</code> was <code>female</code>. Note the differences
+between <code>summary(titanicDataFemalesOnly)</code> and what we saw
+when we ran <code>summary(titanicData)</code>.</p>
+<p>Note that the syntax within <code>filter()</code> requires a double
+equal sign: <code>==</code>. In R (and many other computer languages),
+the double equal sign creates a statement that can be evaluated as
 <code>TRUE</code> or <code>FALSE</code>, whereas a single equal sign may
 change the value of the object to the value on the right-hand side of
 the equal sign. Here we are asking, for each individual, whether

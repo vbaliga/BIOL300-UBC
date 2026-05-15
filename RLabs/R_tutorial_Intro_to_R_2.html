@@ -14,7 +14,7 @@
 
 <title>Labs using R:  2. Introduction to R Part 2</title>
 
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -792,22 +792,22 @@ value of a categorical variable.</p>
 <p>To see if the data loads appropriately, you might want to run the
 command</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">summary</span>(titanicData)</span></code></pre></div>
-<pre><code>##  passenger_class                        name           age                 embarked  
-##  1st:322         Carlsson,MrFransOlof     :   2   Min.   : 0.1667              :493  
-##  2nd:280         Connolly,MissKate        :   2   1st Qu.:21.0000   Cherbourg  :202  
-##  3rd:711         Kelly,MrJames            :   2   Median :30.0000   Queenstown : 45  
-##                  Abbing,MrAnthony         :   1   Mean   :31.1942   Southampton:573  
-##                  Abbott,MasterEugeneJoseph:   1   3rd Qu.:41.0000                    
-##                  Abbott,MrRossmoreEdward  :   1   Max.   :71.0000                    
-##                  (Other)                  :1304   NA&#39;s   :680                        
-##           home_destination     sex      survive  
-##                   :558     female:463   no :864  
-##  NewYork,NY       : 65     male  :850   yes:449  
-##  London           : 14                           
-##  Montreal,PQ      : 10                           
-##  Cornwall/Akron,OH:  9                           
-##  Paris,France     :  9                           
-##  (Other)          :648</code></pre>
+<pre><code>##  passenger_class                        name           age         
+##  1st:322         Carlsson,MrFransOlof     :   2   Min.   : 0.1667  
+##  2nd:280         Connolly,MissKate        :   2   1st Qu.:21.0000  
+##  3rd:711         Kelly,MrJames            :   2   Median :30.0000  
+##                  Abbing,MrAnthony         :   1   Mean   :31.1942  
+##                  Abbott,MasterEugeneJoseph:   1   3rd Qu.:41.0000  
+##                  Abbott,MrRossmoreEdward  :   1   Max.   :71.0000  
+##                  (Other)                  :1304   NA&#39;s   :680      
+##         embarked            home_destination     sex      survive  
+##             :493                    :558     female:463   no :864  
+##  Cherbourg  :202   NewYork,NY       : 65     male  :850   yes:449  
+##  Queenstown : 45   London           : 14                           
+##  Southampton:573   Montreal,PQ      : 10                           
+##                    Cornwall/Akron,OH:  9                           
+##                    Paris,France     :  9                           
+##                    (Other)          :648</code></pre>
 <p>which will list all the variables and some summary statistics for
 each variable.</p>
 <p>R has other functions that can read other data formats besides csv
@@ -875,20 +875,20 @@ name, using the <strong>$</strong>.</p>
 that <strong>log_age</strong> is now a column in
 <strong>titanicData</strong>.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">head</span>(titanicData)</span></code></pre></div>
-<pre><code>##   passenger_class                                      name     age    embarked            home_destination
-## 1             1st                 Allen,MissElisabethWalton 29.0000 Southampton                  StLouis,MO
-## 2             1st                  Allison,MissHelenLoraine  2.0000 Southampton Montreal,PQ/Chesterville,ON
-## 3             1st           Allison,MrHudsonJoshuaCreighton 30.0000 Southampton Montreal,PQ/Chesterville,ON
-## 4             1st Allison,MrsHudsonJ.C.(BessieWaldoDaniels) 25.0000 Southampton Montreal,PQ/Chesterville,ON
-## 5             1st                Allison,MasterHudsonTrevor  0.9167 Southampton Montreal,PQ/Chesterville,ON
-## 6             1st                          Anderson,MrHarry 47.0000 Southampton                  NewYork,NY
-##      sex survive     log_age
-## 1 female     yes  3.36729583
-## 2 female      no  0.69314718
-## 3   male      no  3.40119738
-## 4 female      no  3.21887582
-## 5   male     yes -0.08697501
-## 6   male     yes  3.85014760</code></pre>
+<pre><code>##   passenger_class                                      name     age
+## 1             1st                 Allen,MissElisabethWalton 29.0000
+## 2             1st                  Allison,MissHelenLoraine  2.0000
+## 3             1st           Allison,MrHudsonJoshuaCreighton 30.0000
+## 4             1st Allison,MrsHudsonJ.C.(BessieWaldoDaniels) 25.0000
+## 5             1st                Allison,MasterHudsonTrevor  0.9167
+## 6             1st                          Anderson,MrHarry 47.0000
+##      embarked            home_destination    sex survive     log_age
+## 1 Southampton                  StLouis,MO female     yes  3.36729583
+## 2 Southampton Montreal,PQ/Chesterville,ON female      no  0.69314718
+## 3 Southampton Montreal,PQ/Chesterville,ON   male      no  3.40119738
+## 4 Southampton Montreal,PQ/Chesterville,ON female      no  3.21887582
+## 5 Southampton Montreal,PQ/Chesterville,ON   male     yes -0.08697501
+## 6 Southampton                  NewYork,NY   male     yes  3.85014760</code></pre>
 <p><br></p>
 </div>
 <div id="choosing-subsets-of-data" class="section level2">

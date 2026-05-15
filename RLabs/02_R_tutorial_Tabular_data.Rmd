@@ -13,7 +13,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+options(width = 75)
 ```
 
 *This lab is part of a series designed for BIOL 300, based on* The
@@ -209,7 +209,7 @@ tidyverse. Before using the functions in these packages, we need to load
 tidyverse. We do this with the `library()` function. In the console,
 enter this:
 
-```{r}
+```{r message=TRUE, warning=TRUE, results='markup'}
 library(tidyverse)
 ```
 
@@ -415,28 +415,30 @@ the Titanic using only the information from females.
 
 The easiest way to do this is to use the `filter()` function from the
 package `dplyr`. `dplyr` is a package within the tidyverse, so make sure
-you have loaded tidyverse into R using `library()`. `libary(tidyverse)`
+you have loaded `tidyverse` into R using `library()`. The line `libary(tidyverse)`
 only needs to be run once per session, and then you can use any of the
 functions in the tidyverse packages, including `filter()`.
 
-In the titanic data set there is a variable named `sex`, and an
+In the Titanic data set, there is a variable named `sex` and an
 individual is female if that variable has value `female`. We can create
 a new data frame that includes only the data from females with the
 following command:
 
 ```{r}
 titanicDataFemalesOnly <- filter(titanicData, sex == "female")
+summary(titanicDataFemalesOnly)
 ```
 
 This new data frame will include all the same columns as the original
-`titanicData`, but it will only include the rows for which the sex was
-`female`.
+`titanicData`, but it will only include the 463 rows for which `sex` was
+`female`. Note the differences between `summary(titanicDataFemalesOnly)`
+and what we saw when we ran `summary(titanicData)`.
 
-Note that the syntax here requires a double equal sign: `==`. In R (and
-many other computer languages), the double equal sign creates a
-statement that can be evaluated as `TRUE` or `FALSE`, whereas a single
-equal sign may change the value of the object to the value on the
-right-hand side of the equal sign. Here we are asking, for each
+Note that the syntax within `filter()` requires a double equal sign:
+`==`. In R (and many other computer languages), the double equal sign
+creates a statement that can be evaluated as `TRUE` or `FALSE`, whereas
+a single equal sign may change the value of the object to the value on
+the right-hand side of the equal sign. Here we are asking, for each
 individual, whether `sex` is `female`. We not assigning the value
 `female` to the variable `sex`. So we must use a double equal sign `==`.
 
