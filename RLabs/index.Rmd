@@ -42,11 +42,11 @@ may require working in a group environment.
 
 [2. Tabular data in R](02_R_tutorial_Tabular_data.html)
 
-[3. Graphics](R_tutorial_Graphics.html)
+[3. Sampling](03_R_tutorial_Sampling.html)
+
+[4. Graphics](R_tutorial_Graphics.html)
 
 [4a. Making data files for R](R_tutorial_Making_data_files.html)
-
-[4b. Sampling](R_tutorial_Sampling.html)
 
 [5. Describing data](R_tutorial_Describing_data.html)
 

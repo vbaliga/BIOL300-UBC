@@ -28,12 +28,10 @@ navbar:
           href: 01_R_tutorial_Intro_to_R.html
         - text: "2. Tabular data"
           href: 02_R_tutorial_Tabular_data.html
-        - text: "3. Graphics"
-          href: R_tutorial_Graphics.html
-        - text: "4a. Making data files for R"
-          href: R_tutorial_Making_data_files.html
-        - text: "4b. Sampling"
-          href: R_tutorial_Sampling.html
+        - text: "3. Sampling"
+          href: 03_R_tutorial_Sampling.html
+        - text: "4. Graphics"
+          href: 04_R_tutorial_Graphics.html
         - text: "5. Describing data"
           href: R_tutorial_Describing_data.html
         - text: "6. Frequency data"

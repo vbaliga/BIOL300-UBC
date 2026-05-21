@@ -476,13 +476,10 @@ div.tocify {
       <a href="02_R_tutorial_Tabular_data.html">2. Tabular data</a>
     </li>
     <li>
-      <a href="R_tutorial_Graphics.html">3. Graphics</a>
+      <a href="03_R_tutorial_Sampling.html">3. Sampling</a>
     </li>
     <li>
-      <a href="R_tutorial_Making_data_files.html">4a. Making data files for R</a>
-    </li>
-    <li>
-      <a href="R_tutorial_Sampling.html">4b. Sampling</a>
+      <a href="04_R_tutorial_Graphics.html">4. Graphics</a>
     </li>
     <li>
       <a href="R_tutorial_Describing_data.html">5. Describing data</a>
@@ -685,9 +682,9 @@ distribution</p>
 numbers drawn from a normal distribution with mean 13 and standard
 deviation 4:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">mean =</span> <span class="dv">13</span>, <span class="at">sd =</span> <span class="dv">4</span>)</span></code></pre></div>
-<pre><code>##  [1] 14.154583 13.262281 18.897364 16.354179  9.167681 10.177310 10.957816
-##  [8] 12.142742 12.079041 11.643581  7.689436  9.224841 19.343660  6.474702
-## [15]  8.061325  7.529329 12.142021  8.028263  9.977588  4.735963</code></pre>
+<pre><code>##  [1] 14.412349 17.381428 15.917551 17.478894 15.876085 10.927731 19.149389
+##  [8] 11.466206 10.591842 21.424118 10.840783 12.750115 16.012882  4.694013
+## [15] 12.403554 16.826835  8.259056 10.174041 14.948549 11.068107</code></pre>
 <p>Let’s look at a QQ plot generated from 100 numbers randomly drawn
 from a normal distribution:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>normal_vector <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">13</span>, <span class="at">sd =</span> <span class="dv">4</span>)</span>

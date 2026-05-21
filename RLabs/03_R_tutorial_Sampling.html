@@ -12,7 +12,7 @@
 <meta name="author" content="" />
 
 
-<title>Labs using R:  4b. Sampling</title>
+<title>Labs using R: UBC Edition  Lab 3. Sampling</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -565,23 +565,22 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-<h1 class="title toc-ignore"><em>Labs using R</em>: <br>4b.
-Sampling</h1>
+<h1 class="title toc-ignore">Labs using R: <em>UBC Edition</em> <br>Lab
+3. Sampling</h1>
 <h4 class="author"></h4>
 
 </div>
 
 
-<br>
+<p><br></p>
 <p style="color:red">
 <em>Unlike the rest of these labs, this lab depends on having some
-physiacl objects prepared in a class setting ahead of time and requires
+physical objects prepared in a class setting ahead of time and requires
 a class of 12 or more to work properly.</em>
 </p>
-<p><em>This lab is part of a series designed to accompany a course using
-</em>The Analysis of Biological Data<em>. The rest of the labs can be
-found <a href="index.html">here</a>. This lab is based on topics in
-Chapter 1 of ABD.</em></p>
+<p><em>This lab is part of a series designed for BIOL 300, based on</em>
+The Analysis of Biological Data<em>. The rest of the labs can be found
+<a href="index.html">here</a>.</em></p>
 <p><br></p>
 <div id="learning-outcomes" class="section level1">
 <h1>Learning outcomes</h1>
@@ -596,14 +595,6 @@ Chapter 1 of ABD.</em></p>
 zip file containing Data, R scripts, and other resources for these
 labs</a>. Remember to start RStudio from the “ABDLabs.Rproj” file in
 that folder to make these exercises work more seamlessly.</p>
-<hr />
-<p><br></p>
-</div>
-<div id="learning-the-tools" class="section level1">
-<h1>Learning the tools</h1>
-<p>To do the activities in this lab, you’ll need to read <a
-href="R_tutorial_Making_data_files.html">lab 4a, on making data files
-for R.</a> <br></p>
 <hr />
 <p><br></p>
 </div>
@@ -626,11 +617,12 @@ through 5 on the paper. This is your sample.</p></li>
 <li><p>For each shell that you have sampled, measure the length of the
 shell in millimeters, and write these lengths down on the paper by that
 shell.</p></li>
-<li><p>Open a new data file in the spreadsheet program, and on the first
-row add a variable name (e.g., “length”). Enter the lengths of your five
-shells. Save the file with a title something like “First
-sample.csv”.</p></li>
-<li><p>Import this first sample data into R. Using R, calculate the mean
+<li><p>Create a new spreadsheet in Excel or Google Sheets, and on the
+first row add a variable name (e.g., “length”). Enter the lengths of
+your five shells. Save the file as <code>Lab3_First_sample.csv</code> in
+your <code>DataForLabs</code> folder.</p></li>
+<li><p>In your R script for today’s lab, import
+<code>Lab3_First_sample.csv</code> into R. Using R, calculate the mean
 of the lengths of these five shells. Record this mean. <br></p></li>
 </ol>
 </div>
@@ -641,14 +633,14 @@ of the lengths of these five shells. Record this mean. <br></p></li>
 your container. Take each remaining shell one by one, measure its
 length, and record it on the sheet beside the next available number. Set
 the shell there on the calendar paper as well.</p></li>
-<li><p>Open another data file in the spreadsheet program. Add the
-lengths of all the shells (including the first five) into this file in a
-single column named “length.” Save this file named as something like
-“Full population shells.csv”.</p></li>
+<li><p>Create another blank spreadsheet in Excel or Google Sheets. Add
+the lengths of all the shells (including the first five) into this file
+in a single column named “length.” Save this file as
+<code>Lab3_Full_population_shells.csv</code>.</p></li>
 <li><p>Import this data set to R. Name this as you like, but later in
 these instructions we will refer to the imported R object as
-“<strong>population_data</strong>”. Use R to calculate the mean of the
-full population.</p></li>
+<code>population_data</code>. Use R to calculate the mean of the full
+population.</p></li>
 <li><p>Give your TA the mean of your first sample and the mean of your
 population, for later full class use.</p></li>
 </ol>
@@ -666,26 +658,27 @@ class="section level2">
 sample. Let’s now randomly sample from the population. You should have
 each shell next to a unique number on your sheet. To take a random
 sample, all members of the population must have the same chance of being
-chosen for our sample. In R, the function <strong>sample.int()</strong>
+chosen for our sample. In R, the function <code>sample.int()</code>
 randomly chooses integers from a given range. To randomly sample 5
 individuals from 25 possibilities, we can use:</li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">sample.int</span>(<span class="at">n =</span> <span class="dv">25</span>, <span class="at">size =</span> <span class="dv">5</span>)</span></code></pre></div>
-<pre><code>## [1] 19  9 18 21 17</code></pre>
-<p>This tells R to give us a set of 5 numbers randomly chosen from the
-integers 1 to 25. (When you run this line you will almost certainly get
-a different output. It is randomly choosing numbers, so we expect
+<pre><code>## [1]  9 25  1 18 19</code></pre>
+<p>This tells R to give us a sample of <code>size = 5</code> numbers
+randomly chosen from the integers 1 to <code>n</code>, and here we set
+<code>n = 25</code>. (When you run this line you will almost certainly
+get a different output. It is randomly choosing numbers, so we expect
 different answers each time.) Generate a set of 5 random numbers this
-way. Use these numbers to tell you which 5 shells to include in your
-sample.</p>
+way, just once. Use these resulting numbers to tell you which 5 shells
+to include in your sample.</p>
 <ol start="11" style="list-style-type: decimal">
 <li><p>Use R to calculate the mean of the shell lengths for these 5
 shells in your random sample. The result is an estimate of the mean
 shell length in your population.</p></li>
 <li><p>Make another random sample of 5 shells, and calculate the mean of
 this sample. Did you get a different number from the mean of the first
-sample? Why do you think the second sample mean is different from the
-first?</p></li>
+sample? Why do you think the second sample mean might be different from
+the first?</p></li>
 </ol>
 <p><br></p>
 </div>
@@ -712,31 +705,43 @@ have written a short R function to sample from your list of shell
 lengths in your population. This will have the computer do the steps
 that you did in the previous steps.</li>
 </ol>
-<p>The function is called <strong>mean_from_a_sample</strong>, and it is
-in the script “LearningTheToolsWeek4.R”. Paste this full command into
-the R console and hit return. Make sure you copy the whole function,
-including the closing curly bracket }.</p>
-<p>Call this function by entering</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">mean_from_a_sample</span>(population_data<span class="sc">$</span>length, <span class="at">sample_size  =</span> <span class="dv">5</span>)</span></code></pre></div>
-<p>where “population_data” is the list of all the lengths of the shells
-from your population and 5 is the sample size. Running this will give
-you the mean length of a random sample of 5 shells.</p>
+<p>The function is called <code>mean_from_a_sample()</code>, and it is
+written below. Paste this full command into the R console and hit
+return. Make sure you copy the whole function, including the closing
+curly bracket }. The comment on each line within the function will give
+you a step-by-step understaning of how it works.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>mean_from_a_sample <span class="ot">&lt;-</span> <span class="cf">function</span>(datalist,sample_size) {</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  population_size <span class="ot">=</span> <span class="fu">length</span>(datalist)  <span class="co"># Establish the size of the &quot;population&quot;</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  sample_numbers <span class="ot">=</span> <span class="fu">sample.int</span>(population_size,sample_size)  <span class="co"># chooses which individuals to sample</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  sample_values <span class="ot">=</span> datalist[sample_numbers]  <span class="co"># Looks up the values for those individuals in the data</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  sample_mean <span class="ot">=</span> <span class="fu">mean</span>(sample_values,<span class="at">na.rm=</span><span class="cn">TRUE</span>)   <span class="co"># Calculates the mean of thoise sampled individuals</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  sample_mean</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>}</span></code></pre></div>
+<p>If done correctly, you should see <code>mean_from_a_sample</code> in
+your Environment:</p>
+<p><img src="formula_summaries/mean_from_a_sample_R.png"
+width="480" /></p>
+<p>Call this function by entering:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">mean_from_a_sample</span>(population_data<span class="sc">$</span>length, <span class="at">sample_size  =</span> <span class="dv">5</span>)</span></code></pre></div>
+<p>where <code>population_data</code> is the list of all the lengths of
+the shells from your population and 5 is the sample size. Running this
+will give you the mean length of a random sample of 5 shells.</p>
 <ol start="14" style="list-style-type: decimal">
 <li>To make a vector with the means of 1000 random samples of the shell
 lengths, run the following:</li>
 </ol>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>sample_mean_length <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">1000</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) sample_mean_length[i] <span class="ot">=</span> </span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>      <span class="fu">mean_from_a_sample</span>(population_data<span class="sc">$</span>length,<span class="dv">5</span>)</span></code></pre></div>
-<p>This creates a vector called <strong>sample_mean_length</strong> and
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>sample_mean_length <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">1000</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>) sample_mean_length[i] <span class="ot">=</span> </span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>      <span class="fu">mean_from_a_sample</span>(population_data<span class="sc">$</span>length,<span class="dv">5</span>)</span></code></pre></div>
+<p>This creates a vector called <code>sample_mean_length</code> and
 fills it with 1000 means of independent random samples.</p>
 <ol start="15" style="list-style-type: decimal">
 <li>Plot a histogram that shows the distribution of the means of these
-random samples. (Note: in order to use <code>ggplot</code> to make a
-ghistogram, the data have to be in a data frame. Use the line of code
-below to change your vector into a data frame.)</li>
+random samples. You can do this using the <code>hist()</code> function.
+Note that next week, we will learn how to use <code>ggplot</code> to
+make figures that are more elegant and customizable.</li>
 </ol>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>samples <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="at">meanLength=</span>sample_mean_length)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">hist</span>(sample_mean_length)</span></code></pre></div>
 <p><strong>Question 2.</strong> Describe the shape of this distribution.
 Does it resemble a normal distribution? Does every sample return the
 same value of the mean? Why, or why not?</p>
@@ -745,7 +750,7 @@ same value of the mean? Why, or why not?</p>
 </ol>
 <p><strong>Question 3.</strong> How does the mean of the distribution of
 sample means compare to the true mean of the population? Are they
-approximately equal? Are your the sample means unbiased estimates of the
+approximately equal? Are the sample means unbiased estimates of the
 population mean?</p>
 <p><br></p>
 </div>
@@ -756,12 +761,12 @@ population mean?</p>
 sample means obtained from the random samples. Is your first sample mean
 unusual in any way?</p></li>
 <li><p>From your TA, get the list of the means from the first samples of
-each group, and the population means for each group. Load these data
-into a data frame in R.</p></li>
+each group, and the population means for each group. Import these data
+into a <code>data.frame</code> in R.</p></li>
 <li><p>Create a new variable from the difference between a student
 group’s first sample mean and their population mean. Call this new
-variable “<strong>first_sample_error</strong>”. What is the average
-error of these first samples?</p></li>
+variable <code>first_sample_error</code>. What is the average error of
+these first samples?</p></li>
 </ol>
 <p><strong>Question 4.</strong> Remember that these first samples were
 not necessarily random samples, unlike the other samples that we made
