@@ -44,9 +44,7 @@ may require working in a group environment.
 
 [3. Sampling](03_R_tutorial_Sampling.html)
 
-[4. Graphics](R_tutorial_Graphics.html)
-
-[4a. Making data files for R](R_tutorial_Making_data_files.html)
+[4. Graphics](04_R_tutorial_Graphics.html)
 
 [5. Describing data](R_tutorial_Describing_data.html)
 

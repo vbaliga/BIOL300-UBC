@@ -38,10 +38,7 @@ Analysis of Biological Data*. The rest of the labs can be found
 
 <br>
 
-If you have not already done so, download [the zip file containing Data,
-R scripts, and other resources for these labs](ABDLabs.zip). Remember to
-start RStudio from the "ABDLabs.Rproj" file in that folder to make these
-exercises work more seamlessly.
+If you have not already done so, download [the zip file containing Data, R scripts, and other resources for these labs](ABDLabs.zip). Remember to start RStudio from the `ABDLabs.Rproj` file in that folder to make these exercises work more seamlessly.
 
 ------------------------------------------------------------------------
 

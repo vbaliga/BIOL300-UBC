@@ -12,7 +12,7 @@
 <meta name="author" content="" />
 
 
-<title>Labs using R:  3. Graphics</title>
+<title>Labs using R: UBC Edition  Lab 4. Graphics</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -565,16 +565,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-<h1 class="title toc-ignore"><em>Labs using R</em>: <br>3. Graphics</h1>
+<h1 class="title toc-ignore">Labs using R: <em>UBC Edition</em> <br>Lab
+4. Graphics</h1>
 <h4 class="author"></h4>
 
 </div>
 
 
-<p><em>This lab is part of a series designed to accompany a course using
-</em>The Analysis of Biological Data<em>. The rest of the labs can be
-found <a href="index.html">here</a>. This lab is based on topics in
-Chapter 2 of ABD.</em></p>
+<p><em>This lab is part of a series designed for BIOL 300, based on</em>
+The Analysis of Biological Data<em>. The rest of the labs can be found
+<a href="index.html">here</a>.</em></p>
 <p><br></p>
 <div id="learning-outcomes" class="section level1">
 <h1>Learning outcomes</h1>
@@ -589,8 +589,8 @@ readability and accurate communication</p></li>
 <p><br></p>
 <p>If you have not already done so, download <a href="ABDLabs.zip">the
 zip file containing Data, R scripts, and other resources for these
-labs</a>. Remember to start RStudio from the “ABDLabs.Rproj” file in
-that folder to make these exercises work more seamlessly.</p>
+labs</a>. Remember to start RStudio from the <code>ABDLabs.Rproj</code>
+file in that folder to make these exercises work more seamlessly.</p>
 <hr />
 <p><br></p>
 </div>
@@ -598,21 +598,26 @@ that folder to make these exercises work more seamlessly.</p>
 <h1>Learning the tools</h1>
 <p><br></p>
 <div id="ggplot" class="section level2">
-<h2>ggplot</h2>
-<p>The function <strong>ggplot()</strong> allows us to graph most kinds
-of data relatively simply. Its syntax is slightly odd but very flexible.
+<h2>ggplot()</h2>
+<p>The function <code>ggplot()</code> allows us to graph most kinds of
+data relatively simply. Its syntax is slightly odd but very flexible.
 We’ll show specific commands for several types of plots below.</p>
-<p>To begin, remember to load the package <strong>ggplot2</strong>
-with:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code></pre></div>
-<p>To make a graph with <strong>ggplot()</strong>, you need to specify
-at least two elements in your command. The first uses the function
-<strong>ggplot()</strong> itself, to specify which data frame you want
-to use and also which variables are to be plotted. The second part tells
-R what kind of graph to make, using a geom function. The odd part is
-that these two parts are put together with a <strong>+</strong> sign.
+<p>The package that contains <code>ggplot()</code> is confusingly named
+<code>ggplot2</code> (we’ll spare you the backstory). The
+<code>ggplot2</code> package is among the packages within the
+<code>tidyverse</code> that you already installed in Lab 2.</p>
+<p>Therefore, to use <code>ggplot()</code>, simply load
+<code>tidyverse</code> with <code>library()</code>. You’ll see
+<code>ggplot2</code> among the “core” packages listed in the output.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<p>To make a graph with <code>ggplot()</code>, you need to specify at
+least two lines in your command. The first line uses the function
+<code>ggplot()</code> itself to specify which data frame you want to use
+and also which variables are to be plotted. The second line tells R what
+kind of graph to make, using a <code>geom_</code> function. The odd part
+is that these two lines are put together with a <code>+</code> sign.
 It’s simplest to see this with an example. We’ll draw a histogram with
-<strong>ggplot()</strong> in the next section.</p>
+<code>ggplot()</code> in the next section.</p>
 <p><br></p>
 </div>
 <div id="histograms" class="section level2">
@@ -621,44 +626,50 @@ It’s simplest to see this with an example. We’ll draw a histogram with
 variable in a sample.</p>
 <p>Let’s see how to make a basic histogram using the age data from the
 Titanic data set. Make sure you have loaded the data (using
-<strong>read.csv</strong>) into a data frame called
-<strong>titanicData</strong>.</p>
+<code>read.csv()</code>) into a data frame called
+<code>titanicData</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Here’s the code to make a simple histogram of age:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x=</span>age)) <span class="sc">+</span> <span class="fu">geom_histogram</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x=</span>age)) <span class="sc">+</span> </span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
 <pre><code>## Warning: Removed 680 rows containing non-finite outside the scale range
 ## (`stat_bin()`).</code></pre>
 <p><img src="04_R_tutorial_Graphics_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>Notice that there are two functions called here, put together in a
 single command with a plus sign. The first function is
-<strong>ggplot()</strong>, and it has two input arguments. Listed first
-is <strong>titanicData</strong>; this is the name of the data frame
-containing the variables that we want to graph. The second input to
-ggplot is an <strong>aes()</strong> function. In this case, the
-<strong>aes()</strong> function tells R that we want
-<strong>age</strong> to be the <em>x</em>-variable (i.e. the variable
-that is displayed along the <em>x</em>-axis). (The <strong>aes</strong>
-stands for “aesthetics”,” but if you’re like us this won’t help you
-remember it any better.)</p>
-<p>The second function in this command is
-<strong>geom_histogram()</strong>. This is the part that tells R that
-the “geometry” of our plot should be a histogram.</p>
+<code>ggplot()</code>, and it has two input arguments. Listed first is
+<code>titanicData</code>; this is the name of the data frame containing
+the variables that we want to graph. The second input to ggplot is an
+<code>aes()</code> function. In this case, the <code>aes()</code>
+function tells R that we want <code>age</code> to be the
+<em>x</em>-variable (i.e. the variable that is displayed along the
+<em>x</em>-axis). (The <strong>aes</strong> stands for “aesthetics”, but
+if you’re like us this won’t help you remember it any better.)</p>
+<p>The second function in this command is <code>geom_histogram()</code>.
+This is the part that tells R that the “geometry” of our plot should be
+a histogram.</p>
 <p>This is not the most beautiful graph in the world, but it conveys the
 information. At the end of this lab we’ll see a couple of options that
 can make a ggplot graph look a little better.</p>
+<p>You may also have noticed the warning “Warning: Removed 680 rows
+containing non-finite outside the scale range”. This is a benign warning
+telling us that R was unable to plot all data points; 680 of them do not
+appear. Run <code>summary(titanicData)</code> and look at the
+descriptors of the <code>age</code> column to see why.</p>
 <p><br></p>
 </div>
 <div id="bar-graphs" class="section level2">
 <h2>Bar graphs</h2>
 <p>A bar graph plots the frequency distribution of a categorical
 variable.</p>
-<p>In <strong>ggplot()</strong>, the syntax for a bar graph is very
-similar to that for a histogram. For example, here is a bar graph for
-the categorical variable <strong>sex</strong> in the titanic data set.
-Aside from specifying a different variable for <strong>x</strong>, we
-use a different geom function here, <strong>geom_bar</strong>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x=</span>sex)) <span class="sc">+</span> <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;count&quot;</span>)</span></code></pre></div>
+<p>In <code>ggplot()</code>, the syntax for a bar graph is very similar
+to that for a histogram. For example, here is a bar graph for the
+categorical variable <code>sex</code> in the titanic data set. Aside
+from specifying a different variable for <code>x</code>, we use a
+different geom function here, <code>geom_bar</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x=</span>sex)) <span class="sc">+</span> </span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;count&quot;</span>)</span></code></pre></div>
 <p><img src="04_R_tutorial_Graphics_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p><br></p>
 </div>
@@ -667,25 +678,26 @@ use a different geom function here, <strong>geom_bar</strong>.</p>
 <p>A boxplot is a convenient way of showing the frequency distribution
 of a numerical variable in multiple groups. Here’s the code to draw a
 boxplot for age in the titanic data set, separately for each sex:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x=</span>sex, <span class="at">y=</span>age)) <span class="sc">+</span> <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x=</span>sex, <span class="at">y=</span>age)) <span class="sc">+</span> </span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
 <pre><code>## Warning: Removed 680 rows containing non-finite outside the scale range
 ## (`stat_boxplot()`).</code></pre>
 <p><img src="04_R_tutorial_Graphics_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<p>Notice that the y variable here is <strong>age</strong>, and
-<strong>x</strong> is the categorical variable sex that winds up on the
+<p>Notice that the y variable here is <code>age</code>, and
+<code>x</code> is the categorical variable sex that winds up on the
 <em>x</em>-axis. See the result below, and look at where the variables
-are. The other new feature here is the new <strong>geom</strong>
-function, <strong>geom_boxplot()</strong>.</p>
+are. The other new feature here is the new <code>geom_</code> function,
+<code>geom_boxplot()</code>.</p>
 <p>Here the thick bar in the middle of each boxplot is the median of
 that group. The upper and lower bounds of the box extend from the first
 to the third quartile. (The “first quartile” is the 25<sup>th</sup>
 percentile of the data–the value which is bigger than 25% of the other
 values. The “third quartile” is the 75<sup>th</sup> percentile– the
-value bigger than 3/4 of the other values.)</p>
+value bigger than 75% of the other values.)</p>
 <p>The vertical lines are called whiskers, and they cover most of the
 range of the data (except when data points are pretty far from the
-median (see text), when they are plotted as individual dots, as on the
-male boxplot).</p>
+median (see section 3.2 of textbook), when they are plotted as
+individual dots, as on the male boxplot).</p>
 <p><br></p>
 </div>
 <div id="scatterplots" class="section level2">
@@ -698,41 +710,46 @@ Schluter, showing the relationship between the ornamentation of father
 guppies and the sexual attractiveness of their sons. You can load the
 data for that example with</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>guppyFatherSonData <span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/chap02e3bGuppyFatherSonAttractiveness.csv&quot;</span>)</span></code></pre></div>
-<p>To make a scatter plot of the variables fatherOrnamentation and
-sonAttractiveness with ggplot, you need to specify the
-<strong>x</strong> and <strong>y</strong> variables, and use
-<strong>geom_point()</strong>:</p>
+<p>To make a scatter plot of the variables
+<code>fatherOrnamentation</code> and <code>sonAttractiveness</code> with
+ggplot, you need to specify the <code>x</code> and <code>y</code>
+variables, and use <code>geom_point()</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">ggplot</span>(guppyFatherSonData,   </span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> fatherOrnamentation, </span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="at">y =</span> sonAttractiveness)) <span class="sc">+</span></span>
 <span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
 <p><img src="04_R_tutorial_Graphics_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Note that it is possible in R to have a line break between successive
+arguments of a function, as we do above (between the <code>x =</code>
+and <code>y =</code> arguments). This is is sometimes a handy way to
+keep a line from stretching too wide across the screen, but is usually a
+matter of preference.</p>
 <p><br></p>
 </div>
 <div id="better-looking-graphics" class="section level2">
 <h2>Better looking graphics</h2>
 <p>The code we have listed here for graphics barely scratches the
-surface of what <strong>ggplot</strong>, and R as a whole, are capable
-of. Not only are there far more choices about the kinds of plots
-available, but there are many, many options for customizing the look and
-feel of each graph. You can choose the font, the font size, the colors,
-the style of the axes labels, etc., and you can customize the legends
-and axes legends nearly as much as you want.</p>
+surface of what <code>ggplot()</code>, and R as a whole, are capable of.
+Not only are there far more choices about the kinds of plots available,
+but there are many, many options for customizing the look and feel of
+each graph. You can choose the font, the font size, the colors, the
+style of the axes labels, etc., and you can customize the legends and
+axes legends nearly as much as you want.</p>
 <p>Let’s dig a little deeper into just a couple of options that you can
 add to any of the forgoing graphs to make them look a little better. For
 example, you can change the text of the <em>x</em>-axis label or the
-<em>y</em>-axis label by using <strong>xlab</strong> or
-<strong>ylab</strong>. Let’s do that for the scatterplot, to make the
-labels a little nicer to read for humans.</p>
+<em>y</em>-axis label by using <code>xlab</code> or <code>ylab</code>.
+Let’s do that for the scatterplot, to make the labels a little nicer to
+read for humans.</p>
+<p>The labels that we want to add are included in quotes inside the
+<code>xlab</code> and <code>ylab</code> functions. Here is what
+appears:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">ggplot</span>(guppyFatherSonData,   </span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x =</span> fatherOrnamentation, <span class="at">y =</span> sonAttractiveness)) <span class="sc">+</span></span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Father&#39;s ornamentation&quot;</span>) <span class="sc">+</span> </span>
 <span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Son’s attractiveness&quot;</span>)</span></code></pre></div>
 <p><img src="04_R_tutorial_Graphics_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
-<p>The labels that we want to add are included in quotes inside the
-<strong>xlab</strong> and <strong>ylab</strong> functions. Here is what
-appears:</p>
 <p>It can also be nice to remove the default gray background, to make
 what some feel is a cleaner graph. Try adding</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="sc">+</span> <span class="fu">theme_classic</span>()</span></code></pre></div>
@@ -749,18 +766,18 @@ whether you prefer the result to the default design.</p>
 </div>
 <div id="getting-help" class="section level2">
 <h2>Getting help</h2>
-<p>The help pages in R are the main source of help, but the amount of
+<p>The Help pages in R are the main source of help, but the amount of
 detail might be off-putting for beginners. For example, to explore the
-options for <strong>ggplot()</strong>, enter the following into the R
-Console.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">help</span>(ggplot)</span></code></pre></div>
+options for <code>ggplot()</code>, enter either of the following lines
+into the R Console (each line does the same thing).</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">help</span>(ggplot)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>?ggplot</span></code></pre></div>
 <p>This will cause the contents of the manual page for this function to
-appear in the Help window in RStudio. These manual pages are often
-frustratingly technical. What many of us do instead is simply google the
-name of the function—there are a great number of resources online about
-R.</p>
-<p>There are also many introductory books available. A good one is
-Dalgaard (2008) Introductory Statistics with R, 2nd ed.</p>
+appear in the Help window in RStudio. The <code>Arguments</code> section
+will name each possible argument that a function can use, and will
+detail specifics about how each argument works. Most Help files also
+have an <code>Examples</code> section towards the bottom, which often
+show worked examples.</p>
 <p><br></p>
 </div>
 </div>
@@ -772,9 +789,9 @@ Dalgaard (2008) Introductory Statistics with R, 2nd ed.</p>
 </div>
 <div id="questions" class="section level1">
 <h1>Questions</h1>
-<p>Make a script in RStudio that collects all your R code required to
-answer the following questions. Include answers to the qualitative
-questions using comments.</p>
+<p>Make a script in RStudio that includes all your R code required to
+answer the following questions. Include answers to all questions below
+using comments.</p>
 <p><br> 1. For each of the following pairs of graphs, identify features
 that communicate better on one version than the other.</p>
 <ol style="list-style-type: lower-alpha">
@@ -787,23 +804,23 @@ Titanic</em></li>
 </ol>
 <p><img
 src="formula_summaries/ear%20length%20good%20and%20bad.png" /></p>
-<p><br> 2. Let’s use the data from “countries.csv” to practice making
-some graphs.</p>
+<p><br> 2. Let’s use the data from <code>countries.csv</code> to
+practice making some graphs.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Read the data from the file “countries.csv” in the Data
-folder.</p></li>
-<li><p>Make sure that you have run <strong>library(ggplot2)</strong>.
-Why is this necessary for the remainder of this question?</p></li>
+<li><p>Read the data from the file <code>countries.csv</code> in the
+<code>DataForLabs</code> folder.</p></li>
+<li><p>Make sure that you have run <code>library(tidyverse)</code>. Why
+is this necessary for the remainder of this question?</p></li>
 <li><p>Make a histogram to show the frequency distribution of values for
-<strong>measles_immunization_oneyearolds</strong>, a numerical variable.
+<code>measles_immunization_oneyearolds</code>, a numerical variable.
 (This variable gives the percentage of 1-year-olds that have been
 vaccinated against measles.) Describe the pattern that you see.</p></li>
 <li><p>Make a bar graph to show the numbers of countries in each of the
 continents. (The categorical variable continent indicates the continent
 to which countries belong.)</p></li>
-<li><p>Draw a scatterplot that shows the relationship between the two
-numerical variables <strong>life_expectancy_at_birth_male</strong> and
-<strong>life_expectancy_at_birth_female</strong>.</p></li>
+<li><p>Create a scatterplot that shows the relationship between the two
+numerical variables <code>life_expectancy_at_birth_male</code> and
+<code>life_expectancy_at_birth_female</code>.</p></li>
 </ol>
 <p><br> 3. The ecological footprint is a widely-used measure, developed
 at UBC, of the impact a person has on the planet. It measures the area
@@ -813,38 +830,38 @@ person’s wastes. Larger values of the ecological footprint indicate that
 the typical person from that country uses more resources.</p>
 <p>The countries data set has two variables for many countries showing
 the ecological footprint of an average person in each country.
-<strong>ecological_footprint_2000</strong> and
-<strong>ecological_footprint_2012</strong> show the ecological
-footprints for the years 2000 and 2012, respectively.</p>
+<code>ecological_footprint_2000</code> and
+<code>ecological_footprint_2012</code> show the ecological footprints
+for the years 2000 and 2012, respectively.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Plot the relationship between the ecological footprint of 2000
-and of 2012.</p></li>
+and of 2012. Pay close attention to the scales of each axis (they may
+differ)</p></li>
 <li><p>Describe the relationship between the footprints for the two
 years. Does the value of ecological footprint of 2000 seem to predict
 anything about its value in 2012?</p></li>
 <li><p>From this graph, does the ecological footprint tend to go up or
 down in the years between 2000 and 2012? Did the countries with high or
 low ecological footprint change the most over this time? (Hint: you can
-add a one-to-one line to your graph by adding <strong>+
-geom_abline(intercept = 0, slope = 1)</strong> to your
-<strong>ggplot</strong> command. This will make it easier to see when
+add a one-to-one line to your graph by adding
+<code>+ geom_abline(intercept = 0, slope = 1)</code> to your
+<code>ggplot</code> code block. This will make it easier to see when
 your points are above or below the line of equivalence.)</p></li>
 </ol>
-<p><br> 4. Use the countries data again. Plot the relationship between
-continent and female life expectancy at birth. Describe the patterns
-that you see.</p>
+<p><br> 4. Use the <code>countries</code> data again. Plot the
+relationship between continent and female life expectancy at birth.
+Describe the patterns that you see.</p>
 <p><br> 5. Muchhala (2006) measured the length of the tongues of eleven
 different species of South American bats, as well as the length of their
 palates (to get an indication of the size of their mouths). All of these
 bats use their tongues to feed on nectar from flowers. Data from the
-article are given in the file “BatTongues.csv”. In this file, both
-Tongue Length and Palette Length are given in millimeters.</p>
+article are given in the file <code>BatTongues.csv</code>. In this file,
+both Tongue Length and Palette Length are given in millimeters.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Import the data and inspect it using <strong>summary()</strong>.
-You can call the data set whatever you like, but in one of the later
-steps we’ll assume it is called bat_tongues. Each value for tongue
-length and palate length is a species mean, calculated from a sample of
-individuals per species.</p></li>
+<li><p>Import the data as <code>bat_tongues</code> and inspect it using
+<code>summary()</code>. Each value for tongue length and palate length
+is a species mean, calculated from a sample of individuals per
+species.</p></li>
 <li><p>Draw a scatter plot to show the association between palate length
 and tongue length, with tongue length as the response variable. Describe
 the association: is it positive or negative? Is it strong or
@@ -853,15 +870,17 @@ weak?</p></li>
 checked and verified. With that in mind, what conclusion can you draw
 from the outlier on the scatter plot?</p></li>
 <li><p>Let’s figure out which species is the outlier. To do this, we’ll
-use a useful function called <strong>filter()</strong> from the package
-<strong>dplyr</strong>. Use library to load <strong>dplyr</strong> to
-your R session.</p></li>
-<li><p>The function <strong>filter()</strong> gives us the row (or rows)
-of a data frame that has a certain property. Looking at the graph, we
-can tell that the point we are interested in has a very long tongue
-length, at least over 80 mm long! The following command will pull out
-the rows of the data frame <strong>bat_tongues</strong> that have
-<strong>tongue_length</strong> greater than 80 mm:</p></li>
+use a useful function called <code>filter()</code> from the package
+<code>dplyr</code>. You may recall <code>dplyr</code> is within the
+<code>tidyverse</code>, so if you already ran
+<code>library(tidyverse)</code>, you should be all set to use
+<code>filter()</code>.</p></li>
+<li><p>The function <code>filter()</code> gives us the row (or rows) of
+a data frame that has a certain property. Looking at the graph, we can
+tell that the point we are interested in has a very long tongue length,
+at least over 80 mm long! The following command will pull out the rows
+of the data frame <code>bat_tongues</code> that have
+<code>tongue_length</code> greater than 80 mm:</p></li>
 </ol>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">filter</span>(bat_tongues,tongue_length<span class="sc">&gt;</span><span class="dv">80</span>)</span></code></pre></div>
 <p>The unusual species is <em>Anoura fistulata.</em> <a
@@ -871,15 +890,19 @@ uses to collect nectar from a particular flower (can you guess what
 feature of the flower has led to the evolution of such a long tongue?).
 See the article by Muchhala (2006) to learn more about the biology of
 this strange bat.</p>
-<p><br> 6. Import the data set collected on your class from the first
-lab. (We’ll return to some of the other variables later in the
-term.)</p>
+<p><br> 6. Your TA will provide you a data set of all measurements from
+all students (all sections) from the first lab. (We’ll return to some of
+the other variables later in the term.)</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Plot a histogram of height. Do you detect any outliers? Do all
 the data look as though the same units were used when students recorded
 them?</p></li>
-<li><p>Plot the relationship between head circumference and
-height.</p></li>
+<li><p>One rough anthropometric rule of thumb says that adult height is
+approximately three times head circumference (each must be measured in
+the same units). Create a new column in your <code>data.frame</code>
+that contains head circumference multiplied by 3. Plot the relationship
+between height and this new variable. Do students in our course,
+collectively speaking, seem to follow this rule of thumb?</p></li>
 </ol>
 <p><br> 7. Pick one of the plots you made using R today. What could be
 improved about this graph to make it a more effective presentation of
