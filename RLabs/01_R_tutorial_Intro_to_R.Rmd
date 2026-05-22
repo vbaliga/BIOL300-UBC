@@ -108,6 +108,8 @@ When you start RStudio, you’ll see a corner of the window called the
 “Console”. By the default the console window is in the bottom left of
 the Rstudio screen.
 
+![](formula_summaries/R_console.png){width="480"}
+
 You can type commands in this window where there is a prompt (which will
 look like a `>` sign at the bottom of the window). The Console has to be
 the selected window. (Clicking anywhere in the Console selects it.)
@@ -191,6 +193,8 @@ in RStudio with the temporary name “Untitled1” (or similar). You can
 copy and paste any commands that you want from the Console, or type
 directly here. (When you copy and paste, it’s better to not include the
 `>` prompt in the script.)
+
+![](formula_summaries/blank_R_script.png){width="480"}
 
 To keep this script for later, just hit Save under the File menu. In the
 future you can open this file to have those commands available for use

@@ -7,3 +7,8 @@ callr::r(function() {
   rmarkdown::render_site(".", encoding = "UTF-8")
   rmarkdown::render_site("RLabs", encoding = "UTF-8")
 })
+
+## NOTES:
+# R 4.5.0
+# tidyverse 2.0.0
+# rmarkdown 2.31
