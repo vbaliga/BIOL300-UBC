@@ -32,7 +32,10 @@ Analysis of Biological Data*. The rest of the labs can be found
 
 <br>
 
-If you have not already done so, download [the zip file containing Data, R scripts, and other resources for these labs](ABDLabs.zip). Remember to start RStudio from the `ABDLabs.Rproj` file in that folder to make these exercises work more seamlessly.
+If you have not already done so, download [the zip file containing Data,
+R scripts, and other resources for these labs](ABDLabs.zip). Remember to
+start RStudio from the `ABDLabs.Rproj` file in that folder to make these
+exercises work more seamlessly.
 
 ------------------------------------------------------------------------
 
@@ -412,9 +415,10 @@ the Titanic using only the information from females.
 
 The easiest way to do this is to use the `filter()` function from the
 package `dplyr`. `dplyr` is a package within the tidyverse, so make sure
-you have loaded `tidyverse` into R using `library()`. The line `libary(tidyverse)`
-only needs to be run once per session, and then you can use any of the
-functions in the tidyverse packages, including `filter()`.
+you have loaded `tidyverse` into R using `library()`. The line
+`libary(tidyverse)` only needs to be run once per session, and then you
+can use any of the functions in the tidyverse packages, including
+`filter()`.
 
 In the Titanic data set, there is a variable named `sex` and an
 individual is female if that variable has value `female`. We can create
@@ -462,9 +466,10 @@ measurements (all data are anonymous). Use the data sheets to create a
 `.csv` file in Excel or Google Sheets. Include all of five of the
 variables for each of the individuals in the data sheets. Be sure to use
 variable names that are 1) legal in R and 2) intelligible to another
-person who may encounter the file. Save the data file that you make in
-the `DataForLabs` folder on your computer with the file name
-`CollectedDataFromLab1.csv`.
+person who may encounter the file (remember that `snake_case` and
+`camelCase` are preferred conventions). Save the data file that you make
+in the `DataForLabs` folder on your computer with the file name
+`Lab1_section_measurements.csv`.
 
 a.  Prepare a text file which describes each of the variables in the
     data file. Remember to list the meaning of each variable name,
@@ -510,7 +515,16 @@ e.  Add a new column to your countries data frame that has the
     `mean()` command that says `na.rm=TRUE`. We’ll learn more about this
     later.)
 
-<br> 4. Using the `countries` data again, create a new data frame called
-`AfricaData` that only includes data for
-countries in Africa via the `filter()` function. What is the sum of the
-`total_population_in_thousands_2015` for this new data frame?
+<br> 4. A researcher wants to examine data from Japan only and writes
+the line: `japan_data <- filter(countries, country = Japan)`. Would this
+line work? If not, make edits to the code. Then determine the value of
+`life_expectancy_at_birth_female` for Japan, as found in `japan_data`.
+
+<br> 5. Using the `countries` data, create a new data frame called
+`AfricaData` that only includes data for countries in Africa via the
+`filter()` function.
+
+a.  How many countries are included in `AfricaData`?
+
+b.  What is the sum of the `total_population_in_thousands_2015` in
+    `AfricaData`?

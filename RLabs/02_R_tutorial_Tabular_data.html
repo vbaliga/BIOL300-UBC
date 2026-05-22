@@ -1064,9 +1064,11 @@ measurements (all data are anonymous). Use the data sheets to create a
 <code>.csv</code> file in Excel or Google Sheets. Include all of five of
 the variables for each of the individuals in the data sheets. Be sure to
 use variable names that are 1) legal in R and 2) intelligible to another
-person who may encounter the file. Save the data file that you make in
-the <code>DataForLabs</code> folder on your computer with the file name
-<code>CollectedDataFromLab1.csv</code>.</p>
+person who may encounter the file (remember that <code>snake_case</code>
+and <code>camelCase</code> are preferred conventions). Save the data
+file that you make in the <code>DataForLabs</code> folder on your
+computer with the file name
+<code>Lab1_section_measurements.csv</code>.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Prepare a text file which describes each of the variables in the
 data file. Remember to list the meaning of each variable name, including
@@ -1108,11 +1110,22 @@ ignore the missing data, add an option to the <code>mean()</code>
 command that says <code>na.rm=TRUE</code>. We’ll learn more about this
 later.)</p></li>
 </ol>
-<p><br> 4. Using the <code>countries</code> data again, create a new
-data frame called <code>AfricaData</code> that only includes data for
-countries in Africa via the <code>filter()</code> function. What is the
-sum of the <code>total_population_in_thousands_2015</code> for this new
-data frame?</p>
+<p><br> 4. A researcher wants to examine data from Japan only and writes
+the line:
+<code>japan_data &lt;- filter(countries, country = Japan)</code>. Would
+this line work? If not, make edits to the code. Then determine the value
+of <code>life_expectancy_at_birth_female</code> for Japan, as found in
+<code>japan_data</code>.</p>
+<p><br> 5. Using the <code>countries</code> data, create a new data
+frame called <code>AfricaData</code> that only includes data for
+countries in Africa via the <code>filter()</code> function.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>How many countries are included in
+<code>AfricaData</code>?</p></li>
+<li><p>What is the sum of the
+<code>total_population_in_thousands_2015</code> in
+<code>AfricaData</code>?</p></li>
+</ol>
 </div>
 
 

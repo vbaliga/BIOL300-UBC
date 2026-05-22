@@ -1,6 +1,5 @@
 ---
-title: "Loading R and RStudio"
-author: "Whitlock and Schluter"
+title: "Labs using R: <em>UBC Edition</em> <br>Loading R and RStudio"
 
 output:
   html_document:
@@ -26,16 +25,16 @@ Analysis of Biological Data*. The rest of the labs can be found
 
 For these labs, you will need two apps on your computer: R and RStudio.
 Both of these are free, available to download without charge from the
-web. This setup requires a laptop or desktop computer. RStudio is not
+web. This setup requires a laptop or desktop computer; RStudio is not
 natively supported on Chromebooks or iPads/tablets. Desktop computers
 are available to use in 2004 Biological Sciences during BIOL 300
-tutorial times; please consult your section's TA.
+tutorial times (please consult your section's TA).
 
 Advanced users are permitted to use VS Code or Positron, but note that
-these apps are not fully endorsed by the BIOL 300 instructional team.
-You may need to adapt instructions on your own. See the sections at the
-end of this page for more information about using VS Code or Positron in
-BIOL 300.
+these apps are not fully endorsed by us. You may need to adapt
+instructions and/or troubleshoot IDE-related problems on your own. See
+the sections at the end of this page for more information about using VS
+Code or Positron in BIOL 300.
 
 <br>
 
@@ -53,7 +52,7 @@ XQuartz from <https://www.xquartz.org>. After it downloads, click on the
 folder that opens, click on the `XQuartz.pkg` file. Follow the
 installation instructions in the new window that opens.
 
-To load R, choose the MacOS link from the CRAN website above. From the
+To get R, choose the MacOS link from the CRAN website above. From the
 resulting page (called “R for Mac OS X”) choose the `.pkg` file that
 matches your version of the operating system – usually this is the first
 one. Once the `.pkg` file has downloaded fully, open it and follow
@@ -81,16 +80,17 @@ drag & drop the RStudio icon into the Applications icon.
 
 # Step 3: Get ABDLabs
 
-A `.zip` file that contains all the data sets, R scripts, and some other
-features can be downloaded in a [folder called ABDLabs](ABDLabs.zip).
-**After you download this file, first ensure that you move it outside of
-your computer's `Downloads` folder**. Keeping this within the Downloads
-problem often causes permission errors and other bugs. Most BIOL 300
-students end up moving `ABDLabs.zip` to the Desktop. After moving the
-`.zip` file, unzip it. It should then open a folder called `ABDLabs`.
-Windows users: please be sure to fully unzip the entire file and not
-just open the zip file, as this can cause problems. The best practice is
-to right-click on it and choose "Extract All" or a similar option.
+A `.zip` file for BIOL 300 that contains all the data sets, R scripts,
+and some other features can be downloaded in a [folder called
+ABDLabs](ABDLabs.zip). **After you download this `.zip` file, first
+ensure that you move it outside of your computer's `Downloads` folder**.
+Keeping this within the Downloads problem often causes permission errors
+and other bugs. Most BIOL 300 students end up moving `ABDLabs.zip` to
+the Desktop. After moving the `.zip` file, unzip it. It should then open
+a folder called `ABDLabs`. Windows users: please be sure to fully unzip
+the entire file and not just open the zip file, as this can cause
+problems; the best practice is to right-click on it and choose "Extract
+All" or a similar option.
 
 Inside `ABDLabs` is one file and two folders. The folder `DataForLabs`
 contains all the data sets that you will need to complete these labs;
@@ -107,12 +107,12 @@ relative paths are set up on your computer; see further guidance below.
 
 There is a file in the `ABDLabs` folder called `ABDLabs.Rproj`. You can
 double click on this file to start R and RStudio automatically. If you
-start your session from this file, it will automatically load some
-packages of extra functionality that you will need for some tasks.
-Opening `ABDLabs.Rproj` will also automatically tell R to look inside
-the `ABDLabs` folder for files like the data sets. Starting from this
-file will make your life a little easier, and will also enforce a
-standard environment for all submitted work.
+start your session from this file, it will automatically set your
+working directory in a way that aligns smoothly with our tutorials.
+Opening `ABDLabs.Rproj` will automatically tell R to look inside the
+`ABDLabs` folder for files like the data sets. Starting from this file
+will make your life a little easier, and will also enforce a standard
+environment for all submitted work.
 
 <br>
 
@@ -121,32 +121,31 @@ standard environment for all submitted work.
 *These labs are designed around RStudio, but we permit usage of Visual
 Studio Code (VS Code) or Positron for those who are already familiar
 with these apps. If you are not familiar with ether VS Code or Positron,
-we strongly recommend that you use RStudio for these labs.*
+use RStudio for these labs and don't worry about what is written below.*
 
 The BIOL 300 instructional team only officially supports RStudio for our
 labs. The tutorials, screenshots, and troubleshooting guidance
 throughout the course assume that you are using RStudio. If you choose
 to use VS Code or Positron instead, you may occasionally need to adapt
-instructions and/or troubleshoot applications-specific issues on your
+instructions and/or troubleshoot application-specific issues on your
 own.
 
-Regardless of the app you choose, all submitted R scripts must be `.R`
-file types and must follow BIOL 300 course conventions. Your submitted
+**Regardless of the app you choose, all submitted R scripts must be `.R`
+file types and must follow BIOL 300 course conventions.** Your submitted
 scripts must be able to reproduce results when run in a standard RStudio
 environment. Course conventions include formatting expectations,
-commenting practices, file naming, and script organization.
+commenting practices, file naming, and script organization. Consult your
+TA if you are uncertain about any of these.
 
-BIOL 300 does not support the use of Jupyter notebooks. While advanced
-users may be able to configure Jupyter to work with R, troubleshooting
-support for these setups will be limited.
+BIOL 300 does not support the use of Jupyter notebooks. Although
+advanced users may be able to configure Jupyter to work with R,
+troubleshooting support for these setups will be limited.
 
-## Using VS Code with R
+## Using R in VS Code
 
 To use R in VS Code, you will first need to install the R extension for
-VS Code.
-
-After installing VS Code, open the Extensions panel and search for “R”
-by Yuki Ueda (`REditorSupport.r`). Installing this extension provides
+VS Code. Within VS Code, open the Extensions panel and search for “R” by
+Yuki Ueda (`REditorSupport.r`). Installing this extension provides
 features such as syntax highlighting, code execution, plotting support,
 and connections to the R console.
 
@@ -158,16 +157,13 @@ entire `ABDLabs` folder in VS Code's Explorer or via
 `File → Open Folder...`. Doing so helps ensure that relative file paths
 used throughout the labs work correctly.
 
-## Using Positron with R
+## Using R in Positron
 
-Positron is a newer data-science environment developed by Posit, the
-company behind RStudio. It combines features of RStudio and VS Code into
-a modern interface that supports R, Python, Quarto, and other tools.
-
-Because Positron is still under active development, some features may
-behave differently than they do in RStudio. However, many people find
-that it offers a familiar workflow while also providing additional
-flexibility and modern editing tools.
+Positron and RStudio are developed by the same company: Posit. Positron
+combines features of RStudio and VS Code into a modern interface that
+supports R, Python, Quarto, and other tools. Because Positron is still
+under active development, some features may behave differently than they
+do in RStudio.
 
 The `.Rproj` file included in the `ABDLabs` folder is primarily intended
 for use with RStudio. Positron can still work with projects that contain

@@ -171,7 +171,7 @@ mean_from_a_sample <- function(datalist,sample_size) {
   population_size = length(datalist)  # Establish the size of the "population"
   sample_numbers = sample.int(population_size,sample_size)  # chooses which individuals to sample
   sample_values = datalist[sample_numbers]  # Looks up the values for those individuals in the data
-  sample_mean = mean(sample_values,na.rm=TRUE)   # Calculates the mean of thoise sampled individuals
+  sample_mean = mean(sample_values,na.rm=TRUE)   # Calculates the mean of those sampled individuals
   sample_mean
 }
 ```
