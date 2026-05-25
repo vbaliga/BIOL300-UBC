@@ -33,9 +33,9 @@ navbar:
         - text: "4. Graphics"
           href: 04_R_tutorial_Graphics.html
         - text: "5. Describing data"
-          href: R_tutorial_Describing_data.html
+          href: 05_R_tutorial_Describing_data.html
         - text: "6. Frequency data"
-          href: R_tutorial_Frequency_data.html
+          href: 06_R_tutorial_Frequency_data.html
         - text: "7. Contingency analysis"
           href: R_tutorial_Contingency_analysis.html
         - text: "8. Normal distribution and sample means"

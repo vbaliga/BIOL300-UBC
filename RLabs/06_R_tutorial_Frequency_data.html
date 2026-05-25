@@ -12,7 +12,7 @@
 <meta name="author" content="" />
 
 
-<title>Labs using R:  6. Frequency data</title>
+<title>Labs using R: UBC Edition  Lab 6. Frequency data</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -565,17 +565,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-<h1 class="title toc-ignore"><em>Labs using R</em>: <br>6. Frequency
-data</h1>
+<h1 class="title toc-ignore">Labs using R: <em>UBC Edition</em> <br>Lab
+6. Frequency data</h1>
 <h4 class="author"></h4>
 
 </div>
 
 
-<p><em>This lab is part of a series designed to accompany a course using
-</em>The Analysis of Biological Data<em>. The rest of the labs can be
-found <a href="index.html">here</a>. This lab is based on topics in
-Chapters 7 and 8 of ABD.</em></p>
+<p><em>This lab is part of a series designed for BIOL 300, based on</em>
+The Analysis of Biological Data<em>. The rest of the labs can be found
+<a href="index.html">here</a>.</em></p>
 <p><br></p>
 <div id="learning-outcomes" class="section level1">
 <h1>Learning outcomes</h1>
@@ -588,8 +587,8 @@ Chapters 7 and 8 of ABD.</em></p>
 <p><br></p>
 <p>If you have not already done so, download <a href="ABDLabs.zip">the
 zip file containing Data, R scripts, and other resources for these
-labs</a>. Remember to start RStudio from the “ABDLabs.Rproj” file in
-that folder to make these exercises work more seamlessly.</p>
+labs</a>. Remember to start RStudio from the <code>ABDLabs.Rproj</code>
+file in that folder to make these exercises work more seamlessly.</p>
 <hr />
 <p><br></p>
 </div>
@@ -600,27 +599,29 @@ that folder to make these exercises work more seamlessly.</p>
 <h2>Confidence interval for a proportion</h2>
 <p>To calculate a confidence interval for an estimate of a proportion,
 we suggest using the Agresti-Coull method. This method is available in
-the R package “<strong>binom</strong>”, which you can install and load
-with the following:</p>
+the R package <code>binom</code>, which you can install and load with
+the following:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;binom&quot;</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(binom)</span></code></pre></div>
 <p>Like any package, you only need to install it once, but you need to
 run the library command in each session before you can use it.</p>
 <p>Once the package is installed, calculating a confidence interval for
 a proportion is fairly straightforward. The function you need is called
-<strong>binom.confint()</strong>. You need to specify:</p>
-<p><strong>x</strong>: the number of successes</p>
-<p><strong>n</strong>: the total sample size</p>
-<p><strong>method</strong>: “ac” for Agresti-Coull</p>
+<code>binom.confint()</code>. You need to specify:</p>
+<p><code>x</code>: the number of successes</p>
+<p><code>n</code>: the total sample size</p>
+<p><code>method = "ac"</code> for Agresti-Coull</p>
 <p>For example, if we have 87 data points and 30 of them are
 “successes”, we can find the 95% confidence interval for the proportion
 of successes with the following command.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">binom.confint</span>(<span class="at">x =</span> <span class="dv">30</span>, <span class="at">n =</span> <span class="dv">87</span>, <span class="at">method =</span> <span class="st">&quot;ac&quot;</span>)</span></code></pre></div>
 <pre><code>##          method  x  n      mean     lower     upper
 ## 1 agresti-coull 30 87 0.3448276 0.2532164 0.4495625</code></pre>
-<p>This tells us that the observed proportion (called
-“<strong>mean</strong>” here) is 0.3448, and the lower and upper bounds
-of the 95% confidence interval are 0.2532 and 0.4496.</p>
+<p>This tells us that the observed proportion (called <code>mean</code>
+here) is 0.3448, and the lower and upper bounds of the 95% confidence
+interval are 0.2532 and 0.4496.</p>
+<p>For more details, see the Help page by running
+<code>?binom.confint</code> in the Console.</p>
 <p><br></p>
 </div>
 <div id="binomial-tests" class="section level2">
@@ -628,18 +629,17 @@ of the 95% confidence interval are 0.2532 and 0.4496.</p>
 <p>Doing a binomial test in R is much easier than doing one by hand.</p>
 <p><br></p>
 <div id="binom.test" class="section level3">
-<h3>binom.test()</h3>
-<p>The function <strong>binom.test()</strong> will do an exact binomial
-test. It requires three pieces of information in the input:
-<strong>x</strong> for the number of “successes” observed in the data,
-<strong>n</strong> for the total number of data points, and
-<strong>p</strong> for the proportion given by the null hypothesis.</p>
+<h3><code>binom.test()</code></h3>
+<p>The function <code>binom.test()</code> will do an exact binomial
+test. It requires three pieces of information in the input:</p>
+<p><code>x</code> for the number of “successes” observed in the data</p>
+<p><code>n</code> for the total number of data</p>
+<p><code>p</code> for the proportion given by the null hypothesis</p>
 <p>For example, if we have 18 toads that have been measured for a
 left-right preference and 14 are right-handed, we can test the null
 hypothesis of equal probabilities of left- and right-handedness with a
 binomial test. (See Example 6.2 in the text.) In this case,
-<strong>x</strong> = 14, <strong>n</strong> = 18, and <strong>p</strong>
-= 0.5.</p>
+<code>x</code> = 14, <code>n</code> = 18, and <code>p</code> = 0.5.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">binom.test</span>(<span class="at">x =</span> <span class="dv">14</span>, <span class="at">n =</span> <span class="dv">18</span>, <span class="at">p =</span> <span class="fl">0.5</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Exact binomial test
@@ -657,32 +657,34 @@ information. One key element that we will be looking for is the
 <em>P</em>-value; in this case R tells us that the <em>P</em>-value is
 0.03088. This is the <em>P</em>-value that corresponds to a two-tailed
 test.</p>
-<p>The <strong>binom.test()</strong> function also gives an estimate of
-the proportion of successes (in this case 0.7777778). (It also gives an
-approximate 95% confidence interval for the proportion using a different
-method than the Agresti-Coull method that we recommend.)</p>
+<p>The <code>binom.test()</code> function also gives an estimate of the
+proportion of successes (in this case 0.7777778). (It also gives an
+approximate 95% confidence interval for the proportion using a
+<strong>different</strong> method than the Agresti-Coull method that we
+recommend.)</p>
 <p><br></p>
 </div>
 </div>
 <div id="goodness-of-fit-test" class="section level2">
 <h2>Goodness of fit test</h2>
-<p>A <span class="math inline">\(\chi\)</span><sup>2</sup>
-goodness-of-fit test compares the frequencies of values of a categorical
-variable to the frequencies predicted by a null hypothesis. For example,
-the file “MandMlist.csv” contains a list of all the colors of M&amp;M
-candies from one package, under the variable “color”. Let’s ask whether
-this fits the proportions of colors advertised by the candy company.</p>
+<p>A <span class="math inline">\(\chi^2\)</span> goodness-of-fit test
+compares the frequencies of values of a categorical variable to the
+frequencies predicted by a null hypothesis. For example, the file
+<code>MandMlist.csv</code> contains a list of all the colors of M&amp;M
+candies from one package, under the variable <code>color</code>. Let’s
+ask whether this fits the proportions of colors advertised by the candy
+company.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>MMlist <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/MandMlist.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p><strong>MMlist$color</strong> contains the color of each of 55
-M&amp;Ms. </p>
+<p><code>MMlist$color</code> contains the color of each of 55
+M&amp;Ms.</p>
 <p><br></p>
 <div id="table" class="section level3">
 <h3>table()</h3>
 <p>Summarizing frequency data in a table is useful to see the data more
 concisely, and such a table is also necessary as input to the <span
-class="math inline">\(\chi\)</span><sup>2</sup> test function. We can
-summarize the counts (frequencies) of a categorical variable with
-<strong>table()</strong>.</p>
+class="math inline">\(\chi^2\)</span> test function. We can summarize
+the counts (frequencies) of a categorical variable with
+<code>table()</code>.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>MMtable <span class="ot">&lt;-</span> <span class="fu">table</span>(MMlist<span class="sc">$</span>color)</span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>MMtable</span></code></pre></div>
@@ -695,11 +697,10 @@ brown, etc.</p>
 </div>
 <div id="chisq.test" class="section level3">
 <h3>chisq.test()</h3>
-<p>We can use a <span class="math inline">\(\chi\)</span><sup>2</sup>
+<p>We can use a <span class="math inline">\(\chi^2\)</span>
 goodness-of-fit test to compare the frequencies in a set of data to a
 null hypothesis that specifies the probabilities of each category. In R,
-this can be calculated using the function
-<strong>chisq.test()</strong>.</p>
+this can be calculated using the function <code>chisq.test()</code>.</p>
 <p>The company says that the percentages are 24% blue, 14% brown, 16%
 green, 20% orange, 13% red and 13% yellow. This is our null hypothesis.
 Let’s test whether these proportions are consistent with the frequencies
@@ -710,12 +711,12 @@ hypothesis in a vector, like this:</p>
 will use to calculate the expected frequencies.</p>
 <p>The first thing we need to do is check whether the expected
 frequencies (expected by the null hypothesis) are large enough to
-justify using a <span class="math inline">\(\chi\)</span><sup>2</sup>
-goodness of fit test. (In other words, that no more than 25% of the
-expected frequencies are less than 5 and none is less than 1.)</p>
+justify using a <span class="math inline">\(\chi^2\)</span> goodness of
+fit test. (In other words, that no more than 25% of the expected
+frequencies are less than 5 and none is less than 1.)</p>
 <p>To obtain these expected counts, multiply the vector of the expected
 proportions by the total sample size. We can find the total sample size
-by taking the <strong>sum()</strong> of the frequency table:</p>
+by taking the <code>sum()</code> of the frequency table:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">sum</span>(MMtable)</span></code></pre></div>
 <pre><code>## [1] 55</code></pre>
 <p>So for this example, the expected frequencies from our null
@@ -724,15 +725,15 @@ hypothesis are 55 times the list of expected proportions:</p>
 <pre><code>## [1] 13.20  7.70  8.80 11.00  7.15  7.15</code></pre>
 <p>All of these expected values are greater than 5, so we have no
 problem with the assumptions of the <span
-class="math inline">\(\chi\)</span><sup>2</sup> goodness of fit test.
-(If there were a problem here, we’d have to combine categories. We’ll
-see an example of that in the next section.)</p>
-<p>The function <strong>chisq.test()</strong> requires two arguments in
-its input: a frequency table from the data and a vector with the
-expected proportions from the null hypothesis. The name of the vector of
-expected proportions in this function is <strong>p</strong>. So here is
-the format of the R command to do a <span
-class="math inline">\(\chi\)</span><sup>2</sup> test:</p>
+class="math inline">\(\chi^2\)</span> goodness of fit test. (If there
+were a problem here, we’d have to combine categories. We’ll see an
+example of that in the next section.)</p>
+<p>The function <code>chisq.test()</code> requires two arguments in its
+input: a frequency table from the data and a vector with the expected
+proportions from the null hypothesis. The name of the vector of expected
+proportions in this function is <code>p</code>. So here is the format of
+the R command to do a <span class="math inline">\(\chi^2\)</span>
+test:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">chisq.test</span>(MMtable, <span class="at">p =</span> expected_proportions)</span></code></pre></div>
 <pre><code>## 
 ##  Chi-squared test for given probabilities
@@ -740,9 +741,9 @@ class="math inline">\(\chi\)</span><sup>2</sup> test:</p>
 ## data:  MMtable
 ## X-squared = 5.1442, df = 5, p-value = 0.3985</code></pre>
 <p>“X–squared” here in the output means <span
-class="math inline">\(\chi\)</span><sup>2</sup>. The <span
-class="math inline">\(\chi\)</span><sup>2</sup> value for this test is
-5.1442. There are 5 degrees of freedom (df) for this test, and the
+class="math inline">\(\chi^2\)</span>. The <span
+class="math inline">\(\chi^2\)</span> value for this test is 5.1442.
+There are 5 degrees of freedom (df) for this test, and the
 <em>P</em>-value turned out to be 0.3985. We wouldn’t reject the null
 hypothesis with these data.</p>
 <p><br></p>
@@ -750,10 +751,10 @@ hypothesis with these data.</p>
 </div>
 <div id="fit-to-a-poisson-distribution" class="section level2">
 <h2>Fit to a Poisson distribution</h2>
-<p>A <span class="math inline">\(\chi\)</span><sup>2</sup> goodness of
-fit test can be used to ask whether a frequency distribution of a
-variable is consistent with a Poisson distribution. This is a useful way
-to determine if events in space or time are not “random” but instead are
+<p>A <span class="math inline">\(\chi^2\)</span> goodness of fit test
+can be used to ask whether a frequency distribution of a variable is
+consistent with a Poisson distribution. This is a useful way to
+determine if events in space or time are not “random” but instead are
 clumped or dispersed.</p>
 <p>It turns out that this is not a straightforward process in R. In this
 section, we’ll highlight a couple of functions in R that will streamline
@@ -782,39 +783,40 @@ turns out to be 4.21 extinctions per time period.</p>
 Poisson distribution of getting each specific number of extinctions.</p>
 <p><br></p>
 <div id="dpois" class="section level3">
-<h3>dpois()</h3>
+<h3><code>dpois()</code></h3>
 <p>Fortunately, R has a function to calculate the probability of a given
 value under the Poisson distribution. This function is
-<strong>dpois()</strong>, which stands for “density of the Poisson”.
-<strong>dpois()</strong> requires two values for input, the mean (which
-is called <strong>lambda</strong> in this function) and
-<strong>x</strong>, the value of the outcome we are interested in (here,
-the number of extinctions). For example, the probability of getting
-<em>x</em> = 3 from a Poisson distribution with mean 4.21 can be found
-from the following:</p>
+<code>dpois()</code>, which stands for “density of the Poisson”.
+<code>dpois()</code> requires two values for input, the mean (which is
+called <code>lambda</code> in this function) and <code>x</code>, the
+value of the outcome we are interested in (here, the number of
+extinctions). For example, the probability of getting <code>x</code> = 3
+from a Poisson distribution with mean 4.21 can be found from the
+following:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">dpois</span>(<span class="at">x =</span> <span class="dv">3</span>, <span class="at">lambda =</span> <span class="fl">4.21</span>)</span></code></pre></div>
 <pre><code>## [1] 0.1846355</code></pre>
 <p>The probability of getting exactly 3 successes from a Poisson
 distribution with mean 4.21 is about 18.5%.</p>
-<p><strong>dpois()</strong> will accept a vector of <em>x</em>’s as
-input, and return a vector of the probabilities of those <em>x</em>’s. A
-convenient short hand to know here is that R will create a vector with a
-range of values with a colon. For example, 0:20 is a vector with the
-integers from 0 to 20.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="dv">0</span><span class="sc">:</span><span class="dv">20</span></span></code></pre></div>
-<pre><code>##  [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20</code></pre>
-<p>We’ll need the probabilities for all possible values of <em>x</em>
-from 0 to 20 (because this was the largest value observed in the data).
-We can create a vector with the Poisson probabilities of each
-possibility from 0 to 20 like this:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>expected_probability <span class="ot">&lt;-</span> <span class="fu">dpois</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">20</span>, <span class="at">lambda =</span> <span class="fl">4.21</span>)</span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a></span>
+<p><code>dpois()</code> will accept a vector of <code>x</code>’s as
+input, and return a vector of the probabilities of those
+<code>x</code>s. A convenient short hand to know here is that R will
+create a vector with a range of values with a colon. For example, 0:19
+is a vector with the integers from 0 to 19.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="dv">0</span><span class="sc">:</span><span class="dv">19</span></span></code></pre></div>
+<pre><code>##  [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19</code></pre>
+<p>We’ll need the probabilities for all possible values of ‘x’ from 0 to
+20, but recall that the Poisson distribution extends to infinity. To get
+the probability for x ≥ 20, we can keep in mind that that the sum of all
+probabilities must equal 1. We can therefore create a vector with the
+Poisson probabilities of each possibility from 0 to 20 like this:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>expected_1to19 <span class="ot">&lt;-</span> <span class="fu">dpois</span>(<span class="at">x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">19</span>, <span class="at">lambda =</span> <span class="fl">4.21</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>expected_probability <span class="ot">&lt;-</span> <span class="fu">c</span>(expected_1to19, <span class="dv">1</span> <span class="sc">-</span> <span class="fu">sum</span>(expected_1to19))</span>
 <span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>expected_probability</span></code></pre></div>
 <pre><code>##  [1] 1.484637e-02 6.250321e-02 1.315693e-01 1.846355e-01 1.943289e-01
 ##  [6] 1.636249e-01 1.148102e-01 6.905011e-02 3.633762e-02 1.699793e-02
 ## [11] 7.156129e-03 2.738846e-03 9.608784e-04 3.111768e-04 9.357530e-05
 ## [16] 2.626347e-05 6.910575e-06 1.711384e-06 4.002736e-07 8.869220e-08
-## [21] 1.866971e-08</code></pre>
+## [21] 2.328750e-08</code></pre>
 <p>The odd notation here is a shorthand for scientific notation.
 1.48e-02 means 1.48 x 10<sup>-2</sup>. The e stands for exponent.</p>
 <p>Remember that we asked R to output the probability of values from 0
@@ -822,27 +824,27 @@ to 20. So the first value in this output corresponds to the probability
 of getting a zero, the second to the probability of getting a 1,
 etc.</p>
 <p>In order to convert these probabilities into expected values for a
-<span class="math inline">\(\chi\)</span><sup>2</sup> test, we need to
-multiply them by the total sample size.</p>
+<span class="math inline">\(\chi^2\)</span> test, we need to multiply
+them by the total sample size.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">length</span>(number_of_extinctions) <span class="sc">*</span> expected_probability</span></code></pre></div>
 <pre><code>##  [1] 1.128324e+00 4.750244e+00 9.999264e+00 1.403230e+01 1.476900e+01
 ##  [6] 1.243549e+01 8.725572e+00 5.247808e+00 2.761659e+00 1.291843e+00
 ## [11] 5.438658e-01 2.081523e-01 7.302676e-02 2.364943e-02 7.111723e-03
 ## [16] 1.996023e-03 5.252037e-04 1.300651e-04 3.042079e-05 6.740607e-06
-## [21] 1.418898e-06</code></pre>
+## [21] 1.769850e-06</code></pre>
 <p>Most of these values would cause problems for the <span
-class="math inline">\(\chi\)</span><sup>2</sup> test because they are
-too small (less than 1). We need to combine categories in some
-reasonable way so that the expected frequencies match the assumptions of
-the <span class="math inline">\(\chi\)</span><sup>2</sup> test. Let’s
-combine the categories for 0 and 1 successes, and combine everything
-greater than or equal to 8 into one category. It is possible to do this
-all in R, but you can also do it by hand, using the expected frequencies
-we just calculated. Here is a table of the expected frequencies for
-these new combined categories, for both the observed and expected,
-summing over all the possibilities within each of these groupings.
-(E.g., the expected frequency for the category “0 or 1” is the sum of
-1.128324 and 4.750244.)</p>
+class="math inline">\(\chi^2\)</span> test because they are too small
+(less than 1). We need to combine categories in some reasonable way so
+that the expected frequencies match the assumptions of the <span
+class="math inline">\(\chi^2\)</span> test. Let’s combine the categories
+for 0 and 1 successes, and combine everything greater than or equal to 8
+into one category. It is possible to do this all in R, but you can also
+do it by hand, using the expected frequencies we just calculated. Here
+is a table of the expected frequencies for these new combined
+categories, for both the observed and expected, summing over all the
+possibilities within each of these groupings. (E.g., the expected
+frequency for the category “0 or 1” is the sum of 1.128324 and
+4.750244.)</p>
 <table>
 <thead>
 <tr class="header">
@@ -895,35 +897,35 @@ summing over all the possibilities within each of these groupings.
 </tbody>
 </table>
 <p>Note that these expected values are large enough to match the
-conditions of the <span class="math inline">\(\chi\)</span><sup>2</sup>
-test.</p>
-<p>Make vectors (using <strong>c()</strong>) for the observed and
-expected values for these new groups:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>expected_combined <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">5.878568</span>, <span class="fl">9.999264</span>, <span class="fl">14.032300</span>, <span class="fl">14.768996</span>, <span class="fl">12.435494</span>,  <span class="fl">8.725572</span>, <span class="fl">5.247808</span>, <span class="fl">4.911998</span>)</span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>observed_combined <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">13</span>, <span class="dv">15</span>, <span class="dv">16</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">9</span>)</span></code></pre></div>
+conditions of the <span class="math inline">\(\chi^2\)</span> test.</p>
+<p>Make vectors, using <code>c()</code>, for the observed and expected
+values for these new groups:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>expected_combined <span class="ot">&lt;-</span> </span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>  <span class="fu">c</span>(<span class="fl">5.878568</span>, <span class="fl">9.999264</span>, <span class="fl">14.032300</span>, <span class="fl">14.768996</span>, </span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>    <span class="fl">12.435494</span>, <span class="fl">8.725572</span>, <span class="fl">5.247808</span>, <span class="fl">4.911998</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>observed_combined <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">13</span>, <span class="dv">15</span>, <span class="dv">16</span>, <span class="dv">7</span>, <span class="dv">10</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">9</span>)</span></code></pre></div>
 <p>From these we can calculate the <span
-class="math inline">\(\chi\)</span><sup>2</sup> test statistic using
-<strong>chisq.test()$statistic</strong>.</p>
+class="math inline">\(\chi^2\)</span> test statistic using
+<code>chisq.test()$statistic</code>.</p>
 <p>We give it first the list of observed values, then the expected
-values as <strong>p</strong>. Because we are giving the list of expected
+values as <code>p</code>. Because we are giving the list of expected
 frequencies rather the expected probabilities, we need to give it the
-option <strong>rescale.p = TRUE</strong>. Finally, by adding
-<strong>$statistic</strong> at the end, R will only give us the <span
-class="math inline">\(\chi\)</span><sup>2</sup> value as output. (We
-don’t yet want the full results of the test because R does not know to
-correct for the reduction in degrees of freedom caused by estimating the
-mean.)</p>
+option <code>rescale.p = TRUE</code>. Finally, by adding
+<code>$statistic</code> at the end, R will only give us the <span
+class="math inline">\(\chi^2\)</span> value as output. (We don’t yet
+want the full results of the test because R does not know to correct for
+the reduction in degrees of freedom caused by estimating the mean.)</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">chisq.test</span>(observed_combined, <span class="at">p =</span> expected_combined, <span class="at">rescale.p =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>statistic</span></code></pre></div>
 <pre><code>## Warning in chisq.test(observed_combined, p = expected_combined, rescale.p
 ## = TRUE): Chi-squared approximation may be incorrect</code></pre>
 <pre><code>## X-squared 
 ##  23.93919</code></pre>
 <p>This correctly calculates our <span
-class="math inline">\(\chi\)</span><sup>2</sup> value as 23.939. The
-warning message in red is because one of the expected values is under 5,
-but because this occurred in less than 20% of the categories, it is fine
-to proceed.</p>
+class="math inline">\(\chi^2\)</span> value as 23.939. The warning
+message in red is because one of the expected values is under 5, but
+because this occurred in less than 20% of the categories, it is fine to
+proceed.</p>
 <p>The degrees of freedom for this test are the number of categories
 minus the number of parameters estimated from the data minus one. We
 ended up using 8 categories and estimated one parameter from the data,
@@ -931,20 +933,19 @@ so we have df = 8 – 1 – 1 = 6.</p>
 <p><br></p>
 </div>
 <div id="pchisq" class="section level3">
-<h3>pchisq()</h3>
+<h3><code>pchisq()</code></h3>
 <p>To calculate the correct <em>P</em>-value, we need to know
-probability of getting a <span
-class="math inline">\(\chi\)</span><sup>2</sup> value greater than
-23.939 from a distribution that has 6 degrees of freedom. R has a
-function we can use for this, called <strong>pchisq()</strong>. We are
-interested here in the probability above the observed <span
-class="math inline">\(\chi\)</span><sup>2</sup> value, so we want the
-probability in the right (or upper) tail. To use this function, we need
-to specify three values: our observed <span
-class="math inline">\(\chi\)</span><sup>2</sup> (confusingly called
-<strong>q</strong> in this function), the degrees of freedom (called
-<strong>df</strong>, thank goodness), and an option that tells us to use
-the upper tail (<strong>lower.tail = FALSE</strong>).</p>
+probability of getting a <span class="math inline">\(\chi^2\)</span>
+value greater than 23.939 from a distribution that has 6 degrees of
+freedom. R has a function we can use for this, called
+<code>pchisq()</code>. We are interested here in the probability above
+the observed <span class="math inline">\(\chi^2\)</span> value, so we
+want the probability in the right (or upper) tail. To use this function,
+we need to specify three values: our observed <span
+class="math inline">\(\chi^2\)</span> (confusingly called <code>q</code>
+in this function), the degrees of freedom (called <code>df</code>, thank
+goodness), and an option that tells us to use the upper tail
+(<code>lower.tail = FALSE</code>).</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="fu">pchisq</span>(<span class="at">q =</span> <span class="fl">23.939</span>, <span class="at">df =</span> <span class="dv">6</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## [1] 0.0005359236</code></pre>
 <p>Thus, our <em>P-</em>value for this test of the fit of these data to
@@ -960,19 +961,17 @@ hypothesis that these extinction data follow a Poisson distribution.</p>
 <hr />
 <p><br></p>
 </div>
-<div id="activities" class="section level1">
-<h1>Activities</h1>
+<div id="activities-questions" class="section level1">
+<h1>Activities &amp; Questions</h1>
 <p><br></p>
-<div id="the-binomial-distribution" class="section level2">
-<h2>The binomial distribution</h2>
-<p>This is a simple, quick exercise meant to help you visualize the
-meaning of a binomial distribution. The binomial distribution applies to
-cases where we do a set number of random trials, and in each trial there
-is an equal and independent probability of a success. Let’s say there
-are <em>n</em> trials and the probability of success is <em>p</em>. Of
-those <em>n</em> trials, anywhere between 0 and n of them could be a
-’success” and the rest will be “failures.” Let’s call the number of
-successes <em>X</em>.</p>
+<p><br> 1. This is a simple, quick exercise meant to help you visualize
+the meaning of a binomial distribution. The binomial distribution
+applies to cases where we do a set number of random trials, and in each
+trial there is an equal and independent probability of a success. Let’s
+say there are <em>n</em> trials and the probability of success is
+<em>p</em>. Of those <em>n</em> trials, anywhere between 0 and n of them
+could be a ’success” and the rest will be “failures.” Let’s call the
+number of successes <em>X</em>.</p>
 <p>As our example, let’s roll five regular dice, and keep track of how
 many come up as “three.” In this case, there are five trials, so
 <em>n</em> = 5. The probability of rolling a “three” is 1/6, so
@@ -995,15 +994,10 @@ from the binomial distribution.</p>
 trials, you don’t expect to exactly match the predicted distribution. If
 you increase your number of samples, the fit should improve.)</p>
 <p>The expected mean number of threes is 0.833. (For the binomial
-distribution, the mean is <em>n</em> × <em>p</em>, or in this case 5 ×
-0.1666.) Calculate the mean number of threes in your samples.</p>
-<hr />
-<p><br></p>
-</div>
-</div>
-<div id="questions" class="section level1">
-<h1>Questions</h1>
-<p><br> 1. Many hospitals still have signs posted everywhere banning
+distribution, the mean is <code>n</code> × <code>p</code>, or in this
+case 5 × 0.1666.) Calculate the mean number of threes in your
+samples.</p>
+<p><br> 2. Many hospitals still have signs posted everywhere banning
 cell phone use. These bans originated from studies on earlier versions
 of cell phones. In one such experiment, out of 510 tests with cell
 phones operating at near-maximum power, six disrupted a piece of medical
@@ -1011,14 +1005,14 @@ equipment enough to hinder interpretation of data or cause equipment to
 malfunction. A more recent study found zero instances of disruption of
 medical equipment out of 300 tests.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>For the older data, use <strong>binom.confint()</strong> with the
+<li><p>For the older data, use <code>binom.confint()</code> with the
 Agresti-Coull method to calculate the estimated proportion of equipment
 disruption. What is the 95% confidence interval for this
 proportion?</p></li>
 <li><p>For the data on the newer cell phones, use R to calculate the
 estimate of the proportion and its 95% confidence interval.</p></li>
 </ol>
-<p><br> 2. It is difficult to tell what other people are thinking, and
+<p><br> 3. It is difficult to tell what other people are thinking, and
 it may even be impossible to find out what they are thinking by asking
 them. A series of studies shows that we do not always know how our own
 thought processes are carried out.</p>
@@ -1039,18 +1033,16 @@ in a file called “stockings.csv”.</p>
 <li><p>What are the expected frequencies for this scenario, under the
 null hypothesis that all four pairs of stockings are equally likely to
 be chosen.</p></li>
-<li><p>Use <strong>chisq.test()</strong> to test the null hypothesis
-that the selection of the stockings was independent of
-position.</p></li>
-<li><p><em>(Optional)</em> The function <strong>chisq.test()</strong>
-can take the data either as a data frame, as above, or as a vector of
-the observed counts, as a parameter called <strong>x</strong> as
-input:</p></li>
+<li><p>Use <code>chisq.test()</code> to test the null hypothesis that
+the selection of the stockings was independent of position.</p></li>
+<li><p>The function <code>chisq.test()</code> can take the data either
+as a data frame, as above, or as a vector of the observed counts, as a
+parameter called <code>x</code> as input:</p></li>
 </ol>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">chisq.test</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">6</span>,<span class="dv">9</span>,<span class="dv">16</span>,<span class="dv">21</span>), <span class="at">p =</span> <span class="fu">c</span>(<span class="fl">0.25</span>,<span class="fl">0.25</span>,<span class="fl">0.25</span>,<span class="fl">0.25</span>))</span></code></pre></div>
 <p>Try it using the specification of the counts, to see that you get the
 same answer as in (b).</p>
-<p><br> 3. Many people believe that the month in which a person is born
+<p><br> 4. Many people believe that the month in which a person is born
 predicts significant attributes of that person in later life. Such
 astrological beliefs have little scientific support, but are there
 circumstances in which birth month can have a strong effect on later
@@ -1066,31 +1058,32 @@ different age groups is generally August.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>The birth months (by three month interval) of soccer players
 competing in the Under-20’s World Tournament are recorded in the data
-file “soccer_birth_quarter.csv” (from Barnsley et al. 1992). Plot these
-data. Do you see a pattern?</p></li>
+file <code>soccer_birth_quarter.csv</code> (from Barnsley et al. 1992).
+Plot these data. Do you see a pattern?</p></li>
 <li><p>The numbers of people born in Canada by month is recorded in the
-file “Canadian_births.csv”. Compare the distribution of birth months of
-the soccer players to what would be expected by chance, assuming that
-the birth data for Canada is a good approximation for the population
-from which soccer players are drawn. Use the appropriate statistical
-test. Describe the pattern.</p></li>
+file <code>Canadian_births.csv</code>. Compare the distribution of birth
+months of the soccer players to what would be expected by chance,
+assuming that the birth data for Canada is a good approximation for the
+population from which soccer players are drawn. Use the appropriate
+statistical test. Describe the pattern.</p></li>
 </ol>
-<p><br> 4. Are cardiac arrests (or “heart attacks”) equally likely to
+<p><br> 5. Are cardiac arrests (or “heart attacks”) equally likely to
 occur throughout the year? Or are some weeks more likely than others to
 produce heart attacks? One way to look at this issue is to ask whether
 heart attacks occur according to a probability model in which such
 events are independent of each other and equally likely at all times. If
 so, then the number of heart attacks per week will follow a Poisson
-distribution. The data file “cardiac arrests out of hospital.csv”
-contains data on the number of heart attacks per week from one hospital
-over five years. It records the number of heart attacks that occurred to
-individuals outside of the hospital who were then brought in for
-treatment (from Skogvoll and Lindqvist 1999).</p>
+distribution. The data file
+<code>cardiac arrests out of hospital.csv</code> contains data on the
+number of heart attacks per week from one hospital over five years. It
+records the number of heart attacks that occurred to individuals outside
+of the hospital who were then brought in for treatment (from Skogvoll
+and Lindqvist 1999).</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Calculate a table of the observed frequencies of heart attacks
 per week.</p></li>
 <li><p>What is the mean number of heart attacks per week?</p></li>
-<li><p>For the mean you just calculated, use <strong>dpois()</strong> to
+<li><p>For the mean you just calculated, use <code>dpois()</code> to
 calculate the probability of 0 heart attacks in a week assuming a
 Poisson distribution. Multiply that probability by the number of data
 points to calculate the expected frequency of 0 in these data under the
@@ -1098,7 +1091,7 @@ null hypothesis of a Poisson distribution.</p></li>
 <li><p>Here is a table of the expected frequencies under the null
 hypothesis. (The expected frequency for zero heart attacks should match
 your calculation above.) Are these frequencies acceptable for use in a
-<span class="math inline">\(\chi\)</span><sup>2</sup> goodness of fit
+<span class="math inline">\(\chi^2\)</span> goodness of fit
 test?</p></li>
 </ol>
 <table>
@@ -1142,14 +1135,14 @@ test?</p></li>
 <ol start="5" style="list-style-type: lower-alpha">
 <li><p>Create vectors in R for the observed and expected
 frequencies.</p></li>
-<li><p>Calculate the <span
-class="math inline">\(\chi\)</span><sup>2</sup> for this hypothesis
-test, using <strong>chisq.test()$statistic</strong>.</p></li>
+<li><p>Calculate the <span class="math inline">\(\chi^2\)</span> for
+this hypothesis test, using
+<code>chisq.test()\$statistic</code>.</p></li>
 <li><p>How many degrees of freedom should this <span
-class="math inline">\(\chi\)</span><sup>2</sup> goodness of fit test
+class="math inline">\(\chi^2\)</span> goodness of fit test
 have?</p></li>
 <li><p>Calculate the <em>P</em>-value for this test, using
-<strong>pchisq()</strong>.</p></li>
+<code>pchisq()</code>.</p></li>
 <li><p>Summarize the results of this test. Does the frequency
 distribution of out-of-hospital cardiac events follow a Poisson
 distribution?</p></li>

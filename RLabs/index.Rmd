@@ -46,9 +46,9 @@ may require working in a group environment.
 
 [4. Graphics](04_R_tutorial_Graphics.html)
 
-[5. Describing data](R_tutorial_Describing_data.html)
+[5. Describing data](05_R_tutorial_Describing_data.html)
 
-[6. Frequency data](R_tutorial_Frequency_data.html)
+[6. Frequency data](06_R_tutorial_Frequency_data.html)
 
 [7. Contingency analysis](R_tutorial_Contingency_analysis.html)
 
