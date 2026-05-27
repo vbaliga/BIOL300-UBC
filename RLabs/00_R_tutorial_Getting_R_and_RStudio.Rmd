@@ -1,5 +1,5 @@
 ---
-title: "Labs using R: <em>UBC Edition</em> <br>Loading R and RStudio"
+title: "Labs using R: <em>UBC Edition</em> <br>Getting R and RStudio"
 
 output:
   html_document:
@@ -15,13 +15,11 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-*This lab is part of a series designed to accompany a course using* The
+*This lab is part of a series designed for BIOL 300, based on* The
 Analysis of Biological Data*. The rest of the labs can be found
 [here](index.html).*
 
 ------------------------------------------------------------------------
-
-<br>
 
 For these labs, you will need two apps on your computer: R and RStudio.
 Both of these are free, available to download without charge from the

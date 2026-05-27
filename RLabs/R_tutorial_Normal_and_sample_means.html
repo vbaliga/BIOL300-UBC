@@ -468,7 +468,7 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="00_R_tutorial_Loading_R_and_RStudio.html">0. Loading R and RStudio</a>
+      <a href="00_R_tutorial_Getting_R_and_RStudio.html">0. Getting R and RStudio</a>
     </li>
     <li>
       <a href="01_R_tutorial_Intro_to_R.html">1. Intro to R</a>
@@ -683,9 +683,9 @@ distribution</p>
 numbers drawn from a normal distribution with mean 13 and standard
 deviation 4:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">mean =</span> <span class="dv">13</span>, <span class="at">sd =</span> <span class="dv">4</span>)</span></code></pre></div>
-<pre><code>##  [1] 10.396135 11.198932 21.444812 12.602197 18.162242 16.689232  4.955803
-##  [8] 14.068376 15.634845  9.252119 19.743686 11.161886 11.782930  9.018690
-## [15] 17.440041 15.590924 17.427853 10.431812  5.111211  9.352911</code></pre>
+<pre><code>##  [1]  6.782577  9.629173 12.176246 20.286573 13.511154 13.034201 14.796676
+##  [8]  6.616373 11.264113 22.549230 19.199053 11.665245  9.821064 14.125835
+## [15]  9.810325 14.835235  6.346278 10.013584 16.210635 16.998878</code></pre>
 <p>Let’s look at a QQ plot generated from 100 numbers randomly drawn
 from a normal distribution:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>normal_vector <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">13</span>, <span class="at">sd =</span> <span class="dv">4</span>)</span>

@@ -22,8 +22,8 @@ navbar:
 
     - text: "R labs"      
       menu:
-        - text: "0. Loading R and RStudio"
-          href: 00_R_tutorial_Loading_R_and_RStudio.html
+        - text: "0. Getting R and RStudio"
+          href: 00_R_tutorial_Getting_R_and_RStudio.html
         - text: "1. Intro to R"
           href: 01_R_tutorial_Intro_to_R.html
         - text: "2. Tabular data"
