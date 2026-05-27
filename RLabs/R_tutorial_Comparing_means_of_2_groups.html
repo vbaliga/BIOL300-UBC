@@ -65,8 +65,9 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -77,7 +78,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -488,10 +489,10 @@ div.tocify {
       <a href="06_R_tutorial_Frequency_data.html">6. Frequency data</a>
     </li>
     <li>
-      <a href="R_tutorial_Contingency_analysis.html">7. Contingency analysis</a>
+      <a href="07_R_tutorial_Contingency_analysis.html">7. Contingency analysis</a>
     </li>
     <li>
-      <a href="R_tutorial_Normal_and_sample_means.html">8. Normal distribution and sample means</a>
+      <a href="08_R_tutorial_Normal_and_sample_means.html">8. Normal distribution and sample means</a>
     </li>
     <li>
       <a href="R_tutorial_Comparing_means_of_2_groups.html">9. Comparing the means of two groups</a>
@@ -647,7 +648,7 @@ variable. If we want more or less jitter, we could use a larger or
 smaller value than 0.05 in the option
 <strong>position_jitter(0.05)</strong>.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x =</span> survive, <span class="at">y =</span> age)) <span class="sc">+</span> <span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="fl">0.05</span>)) <span class="sc">+</span> <span class="fu">theme_minimal</span>()</span></code></pre></div>
-<p><img src="R_tutorial_Comparing_means_of_2_groups_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="R_tutorial_Comparing_means_of_2_groups_files/figure-html/unnamed-chunk-4-1.png" alt="" width="672" /></p>
 <p>One can see from this strip chart that there is a weak tendency for
 survivors to be younger on average than non-survivors. Younger people
 had a higher chance of surviving the Titanic disaster than older
@@ -670,7 +671,7 @@ assumptions of relevant statistical methods are met.</p>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
 <pre><code>## Warning: Removed 680 rows containing non-finite outside the scale range
 ## (`stat_bin()`).</code></pre>
-<p><img src="R_tutorial_Comparing_means_of_2_groups_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="R_tutorial_Comparing_means_of_2_groups_files/figure-html/unnamed-chunk-5-1.png" alt="" width="672" /></p>
 <p>We specified the data set <strong>titanicData</strong> for the
 function to use. Note that here the numerical variable is entered as the
 variable on the <em>x</em> axis (<strong>x = age</strong>). No
@@ -698,7 +699,7 @@ the geom function <strong>geom_violin()</strong>.</p>
 <span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.y=</span>mean,  <span class="at">geom=</span><span class="st">&quot;point&quot;</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>)<span class="sc">+</span> </span>
 <span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span> </span>
 <span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">aspect.ratio=</span><span class="dv">1</span>)</span></code></pre></div>
-<p><img src="R_tutorial_Comparing_means_of_2_groups_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="R_tutorial_Comparing_means_of_2_groups_files/figure-html/unnamed-chunk-6-1.png" alt="" width="672" /></p>
 <p>This version has some extra options thrown in. What is important here
 is that it uses <strong>geom_violin()</strong> to specify that a violin
 plot is wanted and that it specifies the categorial variable ( here

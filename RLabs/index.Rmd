@@ -50,10 +50,10 @@ may require working in a group environment.
 
 [6. Frequency data](06_R_tutorial_Frequency_data.html)
 
-[7. Contingency analysis](R_tutorial_Contingency_analysis.html)
+[7. Contingency analysis](07_R_tutorial_Contingency_analysis.html)
 
 [8. Normal distribution and sample
-means](R_tutorial_Normal_and_sample_means.html)
+means](08_R_tutorial_Normal_and_sample_means.html)
 
 [9. Comparing means of two
 groups](R_tutorial_Comparing_means_of_2_groups.html)

@@ -65,8 +65,9 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -77,7 +78,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -488,10 +489,10 @@ div.tocify {
       <a href="06_R_tutorial_Frequency_data.html">6. Frequency data</a>
     </li>
     <li>
-      <a href="R_tutorial_Contingency_analysis.html">7. Contingency analysis</a>
+      <a href="07_R_tutorial_Contingency_analysis.html">7. Contingency analysis</a>
     </li>
     <li>
-      <a href="R_tutorial_Normal_and_sample_means.html">8. Normal distribution and sample means</a>
+      <a href="08_R_tutorial_Normal_and_sample_means.html">8. Normal distribution and sample means</a>
     </li>
     <li>
       <a href="R_tutorial_Comparing_means_of_2_groups.html">9. Comparing the means of two groups</a>
@@ -663,7 +664,7 @@ randomly chooses integers from a given range. To randomly sample 5
 individuals from 25 possibilities, we can use:</li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">sample.int</span>(<span class="at">n =</span> <span class="dv">25</span>, <span class="at">size =</span> <span class="dv">5</span>)</span></code></pre></div>
-<pre><code>## [1]  3  6  7  9 19</code></pre>
+<pre><code>## [1] 15 10 17 14  2</code></pre>
 <p>This tells R to give us a sample of <code>size = 5</code> numbers
 randomly chosen from the integers 1 to <code>n</code>, and here we set
 <code>n = 25</code>. (When you run this line you will almost certainly
@@ -720,7 +721,7 @@ you a step-by-step understaning of how it works.</p>
 <p>If done correctly, you should see <code>mean_from_a_sample</code> in
 your Environment:</p>
 <p><img src="formula_summaries/mean_from_a_sample_R.png"
-width="480" /></p>
+width="640" /></p>
 <p>Call this function by entering:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">mean_from_a_sample</span>(population_data<span class="sc">$</span>length, <span class="at">sample_size  =</span> <span class="dv">5</span>)</span></code></pre></div>
 <p>where <code>population_data</code> is the list of all the lengths of

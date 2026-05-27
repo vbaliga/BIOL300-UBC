@@ -9,6 +9,6 @@ callr::r(function() {
 })
 
 ## NOTES:
-# R 4.5.0
+# R 4.6.0
 # tidyverse 2.0.0
 # rmarkdown 2.31

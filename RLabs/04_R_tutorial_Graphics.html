@@ -65,8 +65,9 @@
   }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -77,7 +78,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -488,10 +489,10 @@ div.tocify {
       <a href="06_R_tutorial_Frequency_data.html">6. Frequency data</a>
     </li>
     <li>
-      <a href="R_tutorial_Contingency_analysis.html">7. Contingency analysis</a>
+      <a href="07_R_tutorial_Contingency_analysis.html">7. Contingency analysis</a>
     </li>
     <li>
-      <a href="R_tutorial_Normal_and_sample_means.html">8. Normal distribution and sample means</a>
+      <a href="08_R_tutorial_Normal_and_sample_means.html">8. Normal distribution and sample means</a>
     </li>
     <li>
       <a href="R_tutorial_Comparing_means_of_2_groups.html">9. Comparing the means of two groups</a>
@@ -635,7 +636,7 @@ Titanic data set. Make sure you have loaded the data (using
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
 <pre><code>## Warning: Removed 680 rows containing non-finite outside the scale range
 ## (`stat_bin()`).</code></pre>
-<p><img src="04_R_tutorial_Graphics_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="04_R_tutorial_Graphics_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" /></p>
 <p>Notice that there are two functions called here, put together in a
 single command with a plus sign. The first function is
 <code>ggplot()</code>, and it has two input arguments. Listed first is
@@ -670,7 +671,7 @@ from specifying a different variable for <code>x</code>, we use a
 different geom function here, <code>geom_bar</code>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x=</span>sex)) <span class="sc">+</span> </span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;count&quot;</span>)</span></code></pre></div>
-<p><img src="04_R_tutorial_Graphics_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="04_R_tutorial_Graphics_files/figure-html/unnamed-chunk-4-1.png" alt="" width="672" /></p>
 <p><br></p>
 </div>
 <div id="boxplots" class="section level2">
@@ -682,7 +683,7 @@ boxplot for age in the titanic data set, separately for each sex:</p>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
 <pre><code>## Warning: Removed 680 rows containing non-finite outside the scale range
 ## (`stat_boxplot()`).</code></pre>
-<p><img src="04_R_tutorial_Graphics_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="04_R_tutorial_Graphics_files/figure-html/unnamed-chunk-5-1.png" alt="" width="672" /></p>
 <p>Notice that the y variable here is <code>age</code>, and
 <code>x</code> is the categorical variable sex that winds up on the
 <em>x</em>-axis. See the result below, and look at where the variables
@@ -698,6 +699,7 @@ value bigger than 75% of the other values.)</p>
 range of the data (except when data points are pretty far from the
 median (see section 3.2 of textbook), when they are plotted as
 individual dots, as on the male boxplot).</p>
+<p><img src="formula_summaries/boxplot_anatomy.png" width="640" /></p>
 <p><br></p>
 </div>
 <div id="scatterplots" class="section level2">
@@ -718,7 +720,7 @@ variables, and use <code>geom_point()</code>:</p>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> fatherOrnamentation, </span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="at">y =</span> sonAttractiveness)) <span class="sc">+</span></span>
 <span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
-<p><img src="04_R_tutorial_Graphics_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="04_R_tutorial_Graphics_files/figure-html/unnamed-chunk-7-1.png" alt="" width="672" /></p>
 <p>Note that it is possible in R to have a line break between successive
 arguments of a function, as we do above (between the <code>x =</code>
 and <code>y =</code> arguments). This is is sometimes a handy way to
@@ -749,7 +751,7 @@ appears:</p>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Father&#39;s ornamentation&quot;</span>) <span class="sc">+</span> </span>
 <span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Son’s attractiveness&quot;</span>)</span></code></pre></div>
-<p><img src="04_R_tutorial_Graphics_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="04_R_tutorial_Graphics_files/figure-html/unnamed-chunk-8-1.png" alt="" width="672" /></p>
 <p>It can also be nice to remove the default gray background, to make
 what some feel is a cleaner graph. Try adding</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="sc">+</span> <span class="fu">theme_classic</span>()</span></code></pre></div>
@@ -761,7 +763,7 @@ whether you prefer the result to the default design.</p>
 <span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Father&#39;s ornamentation&quot;</span>) <span class="sc">+</span> </span>
 <span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Son’s attractiveness&quot;</span>) <span class="sc">+</span> </span>
 <span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>    <span class="fu">theme_classic</span>()</span></code></pre></div>
-<p><img src="04_R_tutorial_Graphics_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="04_R_tutorial_Graphics_files/figure-html/unnamed-chunk-10-1.png" alt="" width="672" /></p>
 <p><br></p>
 </div>
 <div id="getting-help" class="section level2">

@@ -186,7 +186,7 @@ In the second row (labeled “Packages”), type `tidyverse` (without
 quotation marks). Make sure the box for “Install dependencies” near the
 bottom is clicked, and then click the “Install” button at bottom right.
 
-![](formula_summaries/Install_tidyverse.png){width="350"}
+![](formula_summaries/Install_tidyverse.png){width="480"}
 
 Installing an R package only needs to be done once on a given computer.
 If installed correctly, the package wil permanently available from that
@@ -333,7 +333,7 @@ run the following command:
 View(titanicData)
 ```
 
-![](formula_summaries/VIew_function_titanicData.png){width="700"}
+![](formula_summaries/VIew_function_titanicData.png){width="680"}
 
 Again, note that the `titanicData` object has 7 columns and 1313 rows.
 The horizontal and vertical scroll bars will allow you to see more of

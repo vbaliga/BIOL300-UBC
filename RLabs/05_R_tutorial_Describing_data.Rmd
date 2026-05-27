@@ -220,6 +220,10 @@ Note that this is the same as we could calculate by the results from
 `summary()` above. The third quartile is 41 and the first quartile is
 21, so the difference is 41 – 21 = 20.
 
+Remember from last week that the IQR is also shown within a boxplot:
+
+![](formula_summaries/boxplot_anatomy.png){width="640"}
+
 <br>
 
 ## Confidence intervals of the mean

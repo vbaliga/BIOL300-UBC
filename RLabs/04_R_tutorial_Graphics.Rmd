@@ -24,13 +24,13 @@ Analysis of Biological Data*. The rest of the labs can be found
 
 # Learning outcomes
 
--   Know some basic graphical formats and when they are useful.
+- Know some basic graphical formats and when they are useful.
 
--   Make graphs in R, such as histograms, bar charts, box plots, and
-    scatter plots.
+- Make graphs in R, such as histograms, bar charts, box plots, and
+  scatter plots.
 
--   Be able to suggest improvements to basic graphs to improve
-    readability and accurate communication
+- Be able to suggest improvements to basic graphs to improve readability
+  and accurate communication
 
 <br>
 
@@ -162,6 +162,8 @@ The vertical lines are called whiskers, and they cover most of the range
 of the data (except when data points are pretty far from the median (see
 section 3.2 of textbook), when they are plotted as individual dots, as
 on the male boxplot).
+
+![](formula_summaries/boxplot_anatomy.png){width="640"}
 
 <br>
 

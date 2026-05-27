@@ -12,7 +12,7 @@
 <meta name="author" content="" />
 
 
-<title>Labs using R:  8. The normal distribution and sample means</title>
+<title>Labs using R: UBC Edition  Lab 8. The normal distribution and sample means</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -566,17 +566,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-<h1 class="title toc-ignore"><em>Labs using R</em>: <br>8. The normal
-distribution and sample means</h1>
+<h1 class="title toc-ignore">Labs using R: <em>UBC Edition</em> <br>Lab
+8. The normal distribution and sample means</h1>
 <h4 class="author"></h4>
 
 </div>
 
 
-<p><em>This lab is part of a series designed to accompany a course using
-</em>The Analysis of Biological Data<em>. The rest of the labs can be
-found <a href="index.html">here</a>. This lab is based on topics in
-Chapters 10 and 11 of ABD.</em></p>
+<p><em>This lab is part of a series designed for BIOL 300, based on</em>
+The Analysis of Biological Data<em>. The rest of the labs can be found
+<a href="index.html">here</a>.</em></p>
 <p><br></p>
 <div id="learning-outcomes" class="section level1">
 <h1>Learning outcomes</h1>
@@ -590,8 +589,8 @@ distribution</p></li>
 <p><br></p>
 <p>If you have not already done so, download <a href="ABDLabs.zip">the
 zip file containing Data, R scripts, and other resources for these
-labs</a>. Remember to start RStudio from the “ABDLabs.Rproj” file in
-that folder to make these exercises work more seamlessly.</p>
+labs</a>. Remember to start RStudio from the <code>ABDLabs.Rproj</code>
+file in that folder to make these exercises work more seamlessly.</p>
 <hr />
 <p><br></p>
 </div>
@@ -612,21 +611,21 @@ bell curve).</p>
 of the variable in the data set by drawing a histogram. Let’s use the
 age of passengers on the Titanic for our example.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p>Remember we can use <strong>ggplot()</strong> to draw histograms.</p>
+<p>Remember we can use <code>ggplot()</code> to draw histograms.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span>   </span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">10</span>)</span></code></pre></div>
 <pre><code>## Warning: Removed 680 rows containing non-finite outside the scale range
 ## (`stat_bin()`).</code></pre>
-<p><img src="R_tutorial_Normal_and_sample_means_files/figure-html/unnamed-chunk-2-1.png" alt="" width="672" /></p>
+<p><img src="08_R_tutorial_Normal_and_sample_means_files/figure-html/unnamed-chunk-2-1.png" alt="" width="672" /></p>
 <p><br></p>
 <div id="hist" class="section level2">
-<h2>hist()</h2>
+<h2><code>hist()</code></h2>
 <p>If we are just drawing a histogram for ourselves to better understand
 the data, it is even easier to just use a function from base R,
-<strong>hist()</strong>. Give <strong>hist()</strong> a vector of data
-as input, and it will print a histogram in the plots window.</p>
+<code>hist()</code>. Give <code>hist()</code> a vector of data as input,
+and it will print a histogram in the plots window.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">hist</span>(titanicData<span class="sc">$</span>age)</span></code></pre></div>
-<p><img src="R_tutorial_Normal_and_sample_means_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" /></p>
+<p><img src="08_R_tutorial_Normal_and_sample_means_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" /></p>
 <p>Looking at this histogram, we see that the frequency distribution of
 the variable is not exactly normal; it is slightly asymmetric and there
 seems to be a second mode near 0. On the other hand, like the normal
@@ -648,13 +647,13 @@ quantiles” in the same figure). The QQ plot should follow more or less
 along a straight line if the data come from a normal distribution (with
 some tolerance for sampling variation).</p>
 <p>QQ plots can be made in R using a function called
-<strong>qqnorm()</strong>. Simply give the vector of data as input and
-it will draw a QQ plot for you. (<strong>qqline()</strong> will draw a
-line through that Q-Q plot to make the linear relationship easier to
+<code>qqnorm()</code>. Simply give the vector of data as input and it
+will draw a QQ plot for you. (<code>qqline()</code> will draw a line
+through that Q-Q plot to make the linear relationship easier to
 see.)</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">qqnorm</span>(titanicData<span class="sc">$</span>age)</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">qqline</span>(titanicData<span class="sc">$</span>age)</span></code></pre></div>
-<p><img src="R_tutorial_Normal_and_sample_means_files/figure-html/unnamed-chunk-4-1.png" alt="" width="672" /></p>
+<p><img src="08_R_tutorial_Normal_and_sample_means_files/figure-html/unnamed-chunk-4-1.png" alt="" width="672" /></p>
 <p>This is what the resulting graph looks like for the Titanic age data.
 The dots do not land along a perfectly straight line. In particular the
 graph curves at the upper and lower end. However, this distribution
@@ -665,33 +664,35 @@ goals of today’s exercises will be to develop some visual experience
 about what these graphs look like when the data is truly normal. To do
 that, we will take advantage of a function built into R to generate
 random numbers drawn from a normal distribution. This function is called
-<strong>rnorm()</strong>.</p>
+<code>rnorm()</code>.</p>
 <p><br></p>
 </div>
 <div id="rnorm" class="section level2">
-<h2>rnorm()</h2>
-<p>The function <strong>rnorm()</strong> will return a vector of
-numbers, all drawn randomly from a normal distribution. It takes three
+<h2><code>rnorm()</code></h2>
+<p>The function <code>rnorm()</code> will return a vector of numbers,
+all drawn randomly from a normal distribution. It takes three
 arguments:</p>
-<p><br> <strong>n</strong>: how many random numbers to generate (the
-length of the output vector)</p>
-<p><br> <strong>mean</strong>: the mean of the normal distribution to
-sample from</p>
-<p><br> <strong>sd</strong>: the standard deviation of the normal
-distribution</p>
+<ul>
+<li><p><code>n</code>: how many random numbers to generate (the length
+of the output vector)</p></li>
+<li><p><code>mean</code>: the mean of the normal distribution to sample
+from</p></li>
+<li><p><code>sd</code>: the standard deviation of the normal
+distribution</p></li>
+</ul>
 <p>For example, the following command will give a vector of 20 random
 numbers drawn from a normal distribution with mean 13 and standard
 deviation 4:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">mean =</span> <span class="dv">13</span>, <span class="at">sd =</span> <span class="dv">4</span>)</span></code></pre></div>
-<pre><code>##  [1] 10.396135 11.198932 21.444812 12.602197 18.162242 16.689232  4.955803
-##  [8] 14.068376 15.634845  9.252119 19.743686 11.161886 11.782930  9.018690
-## [15] 17.440041 15.590924 17.427853 10.431812  5.111211  9.352911</code></pre>
+<pre><code>##  [1]  8.961025 14.196078  7.134441 15.718258 13.565325 17.028629  7.937845
+##  [8] 14.520724  8.681734 15.093304 11.340327 12.137286 14.856167  7.765167
+## [15] 15.095154 16.108646 16.830622 13.637858 10.596334  5.975479</code></pre>
 <p>Let’s look at a QQ plot generated from 100 numbers randomly drawn
 from a normal distribution:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>normal_vector <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">13</span>, <span class="at">sd =</span> <span class="dv">4</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">qqnorm</span>(normal_vector)</span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="fu">qqline</span>(normal_vector)</span></code></pre></div>
-<p><img src="R_tutorial_Normal_and_sample_means_files/figure-html/unnamed-chunk-6-1.png" alt="" width="672" /></p>
+<p><img src="08_R_tutorial_Normal_and_sample_means_files/figure-html/unnamed-chunk-6-1.png" alt="" width="672" /></p>
 <p>These points fall mainly along a straight line, but there is some
 wobble around that line even though these points were in fact randomly
 sampled from a known normal distribution. With a QQ plot, we are looking
@@ -726,10 +727,9 @@ zero. Also, it will only improve the fit of the normal distribution to
 the data in cases when the frequency distribution of the data is
 right-skewed.</p>
 <p>To take the log transformation for a variable in R is very simple. We
-simply use the function <strong>log()</strong>, and apply it to the
-vector of the numerical variable in question. For example, to calculate
-the log of age for all passengers on the Titanic, we use the
-command:</p>
+simply use the function <code>log()</code>, and apply it to the vector
+of the numerical variable in question. For example, to calculate the log
+of age for all passengers on the Titanic, we use the command:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">log</span>(titanicData<span class="sc">$</span>age)</span></code></pre></div>
 <p>This will return a vector of values, each of which is the log of age
 of a passenger.</p>
@@ -743,30 +743,19 @@ src="formula_summaries/Normal%20and%20means%20summary.png" /></p>
 <hr />
 <p><br></p>
 </div>
-<div id="activities" class="section level1">
-<h1>Activities</h1>
-<p><br></p>
-<div id="activity-1.-give-the-ta-the-fingers" class="section level2">
-<h2>Activity 1. Give the TA the finger(s)</h2>
-<p><em>Skip if you are doing this lab outside of a group setting</em>
-Using <a href="Student%20data%20sheet%207.pdf">Student Data Sheet 7</a>,
-please make the suggested measurements and record them on the sheet.
-Then, if you don’t mind sharing these data with the class, give the
-sheet to your TA who will compile them for use in Question 4.</p>
-</div>
-<div id="activity-2.-distribution-of-sample-means"
-class="section level2">
-<h2>Activity 2. Distribution of sample means</h2>
-<p>We return to the applet we used in tutorial 3, located at <a
-href="http://www.zoology.ubc.ca/~whitlock/Kingfisher/SamplingNormal.htm">http://www.zoology.ubc.ca/~whitlock/Kingfisher/SamplingNormal.htm</a>
+<div id="activities-and-questions" class="section level1">
+<h1>Activities and Questions</h1>
+<p><br> 1. We return to the applet we used previously, located at <a
+href="http://www.zoology.ubc.ca/~whitlock/Kingfisher/SamplingNormal.htm"
+class="uri">http://www.zoology.ubc.ca/~whitlock/Kingfisher/SamplingNormal.htm</a>
 to investigate three points made in the text.</p>
-<p><br> <strong>Point 1: The distribution of sample means is normal, if
-the variable itself has a normal distribution.</strong> First, hit
-“COMPLETE SAMPLE OF 10” and “CALCULATE MEAN” a few times, to remind
-yourself of what this applet does. (It takes a sample from the normal
-distribution shown when you click “SHOW POPULATION”. The top panel shows
-a histogram of that sample, and the bottom panel shows the distribution
-of sample means from all the previous samples.)</p>
+<p><strong>Point 1: The distribution of sample means is normal, if the
+variable itself has a normal distribution.</strong> First, hit “COMPLETE
+SAMPLE OF 10” and “CALCULATE MEAN” a few times, to remind yourself of
+what this applet does. (It takes a sample from the normal distribution
+shown when you click “SHOW POPULATION”. The top panel shows a histogram
+of that sample, and the bottom panel shows the distribution of sample
+means from all the previous samples.)</p>
 <p>Next, hit the “MEANS FOR MANY SAMPLES” button. This button makes a
 large number of separate samples at one go, all of the same sample size,
 to save you from making the samples one by one. Notice that the sample
@@ -778,48 +767,47 @@ normal distribution? Click the checkbox by “SHOW SAMPLING DISTRIBUTION”
 off to the right, which will draw the curve for a normal distribution
 with the same mean and variance as this distribution of sample
 means.</p>
-<p><br> <strong>Point 2: The standard deviation of the distribution of
-sample means is reduced with larger sample sizes.</strong> The standard
+<p><strong>Point 2: The standard deviation of the distribution of sample
+means is reduced with larger sample sizes.</strong> The standard
 deviation of the population is controlled by the right slider marked
 with <span class="math inline">\(\sigma\)</span>. The sample size is set
 by left slider. (The default when it opens is set to <em>n</em>=10.)</p>
 <p>For <em>n</em>=10, have the applet calculate a large number of sample
-means as you did in the previous exercise. If each sample size is 10 and
-the standard deviation is 30 (as in the default), what do you predict
-the standard deviation of the sample means to be? (Use the equation you
-have learned in class to make this calculation.)</p>
-<p>Change the sample size to <em>n</em>=100, and recalculate many sample
-means. Calculate the predicted standard deviation of all the sample
-means. Should the sampling distribution of sample means be wider or
-narrower with this larger sample size than in the previous case with a
-smaller sample size? What do you observe in the simulations?</p>
-<p><br> <strong>Point 3: The distribution of sample means is
-approximately normal no matter what the distribution of the variable, as
-long as the sample size is large enough. (The Central Limit
-Theorem)</strong> Load another web page: <a
-href="http://www.zoology.ubc.ca/~whitlock/Kingfisher/CLT.htm">http://www.zoology.ubc.ca/~whitlock/Kingfisher/CLT.htm</a></p>
+means as you did in the previous exercise.</p>
+<ol style="list-style-type: lower-alpha">
+<li><p>If each sample size is 10 and the standard deviation is 30 (as in
+the default), what do you predict the standard deviation of the sample
+means to be? (Use the equation you have learned in class to make this
+calculation.)</p></li>
+<li><p>Change the sample size to <em>n</em>=100, and recalculate many
+sample means. Calculate the predicted standard deviation of all the
+sample means. Should the sampling distribution of sample means be wider
+or narrower with this larger sample size than in the previous case with
+a smaller sample size? What do you observe in the simulations?</p></li>
+</ol>
+<p><strong>Point 3: The distribution of sample means is approximately
+normal no matter what the distribution of the variable, as long as the
+sample size is large enough. (The Central Limit Theorem)</strong> Load
+another web page: <a
+href="http://www.zoology.ubc.ca/~whitlock/Kingfisher/CLT.htm"
+class="uri">http://www.zoology.ubc.ca/~whitlock/Kingfisher/CLT.htm</a></p>
 <p>This will simulate a very skewed distribution of data, showing the
 number of cups of coffee drunk per week for a population of university
 students. Click on “COFFEE” to see the distribution of the variable
 among individual students. Describe the ways that this looks different
 from a normal distribution.</p>
-<p>Set <em>n</em>=2 for the sample size, and simulate many sample means.
-Does the distribution of sample means look normal? Is it closer to
-normal in its shape than the distribution of individuals in the
-population?</p>
-<p>Now set <em>n</em>=25 and simulate many sample means. How does the
-distribution of sample means look now? It should look much more like a
-normal distribution, because of the Central Limit Theorem.</p>
-<hr />
-<p><br></p>
-</div>
-</div>
-<div id="questions" class="section level1">
-<h1>Questions</h1>
-<p><br> 1. Let’s use R’s random number generator for the normal
+<ol start="3" style="list-style-type: lower-alpha">
+<li><p>Set <em>n</em>=2 for the sample size, and simulate many sample
+means. Does the distribution of sample means look normal? Is it closer
+to normal in its shape than the distribution of individuals in the
+population?</p></li>
+<li><p>Now set <em>n</em>=25 and simulate many sample means. How does
+the distribution of sample means look now?</p></li>
+</ol>
+<p><br> 2. Let’s use R’s random number generator for the normal
 distribution to build intuition for how to view and interpret histograms
 and QQ plots. Remember, the lists of values generated by
-<strong>rnorm()</strong> come from a population that truly have a normal
+<code>rnorm()</code> come from a population that truly have a normal
 distribution.</p>
 <ol style="list-style-type: lower-alpha">
 <li>Generate a list of 10 random numbers from a normal distribution with
@@ -827,8 +815,8 @@ mean 15 and standard deviation 3, using the following command:</li>
 </ol>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>normal_vector <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">15</span>, <span class="at">sd =</span> <span class="dv">3</span>)</span></code></pre></div>
 <ol start="2" style="list-style-type: lower-alpha">
-<li><p>Use <strong>hist()</strong> to plot a histogram of these numbers
-from part <em>a</em>.</p></li>
+<li><p>Use <code>hist()</code> to plot a histogram of these numbers from
+part <em>a</em>.</p></li>
 <li><p>Plot a QQ plot from the numbers in part <em>a</em>.</p></li>
 <li><p>Repeat a through c several times (at least a dozen times). For
 each, look at the histograms and QQ plots. Think about the ways in which
@@ -836,14 +824,15 @@ these look different from the expectation of a normal distribution (but
 remember that each of these samples comes from a truly normal
 population).</p></li>
 </ol>
-<p><br> 2. Repeat the procedures of Question 1, except this time have R
+<p><br> 3. Repeat the procedures of Question 2, except this time have R
 sample 250 individuals for each sample. (You can use the same command as
-in Question 1, but now set <em>n</em> = 250.) Do the graphs and QQ plots
+in Question 2, but now set <em>n</em> = 250.) Do the graphs and QQ plots
 from these larger samples look more like the normal expectations than
 the smaller sample you already did? Why do you think that this is?</p>
 <p><br> 3. In 1898, Hermon Bumpus collected house sparrows that had been
 caught in a severe winter storm in Chicago. He made several measurements
-on these sparrows, and his data are in the file “bumpus.csv”.</p>
+on these sparrows, and his data are in the file
+<code>bumpus.csv</code>.</p>
 <p>Bumpus used these data to observe differences between the birds that
 survived and those that died from the storm. This became one of the
 first direct and quantitative observations of natural selection on
@@ -851,11 +840,11 @@ morphological traits. Here, let’s use these data to practice looking for
 fit of the normal distribution. (We’ll return to this data set next week
 to look for evidence of natural selection.)</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Use <strong>ggplot()</strong> to plot the distribution of total
+<li><p>Use <code>ggplot()</code> to plot the distribution of total
 length (this is the length of the bird from beak to tail). Does the data
 look as though it comes from distribution that is approximately
 normal?</p></li>
-<li><p>Use <strong>qqnorm()</strong> to plot a QQ plot for total length.
+<li><p>Use <code>qqnorm()</code> to plot a QQ plot for total length.
 Does the data fall approximately along a straight line in the QQ plot?
 If so, what does this imply about the fit of these data to a normal
 distribution?</p></li>
@@ -863,13 +852,10 @@ distribution?</p></li>
 for this mean. (You may want to refer back to Week 5 for the R commands
 to do this.)</p></li>
 </ol>
-<p><br> <em>Skip Q4 if you are doing this lab outside of a group
-setting</em><br />
-4. Earlier this lab you will have measured your fingers. We’re going to
-use this data now and also in the next lab. We’ll look at the ratio of
-the lengths of index finger over ring finger. This is called the 2D:4D
-ratio, where the 2D refers to second digit and 4D means fourth
-digit.</p>
+<p><br> 4. The dataset <code>fingerlengths.csv</code> has data from
+previous BIOL 300 students on the the ratio of the lengths of index
+finger over ring finger. This is called the 2D:4D ratio, where the 2D
+refers to second digit and 4D means fourth digit.</p>
 <p><img src="formula_summaries/2d4d.png" /></p>
 <p>It turns out—bizarrely—that this 2D:4D ratio is a measure of the
 amount of testosterone that a fetus is exposed to during gestation. Next
@@ -877,19 +863,18 @@ week we’ll test whether that corresponds to differences for males and
 females. For this week, we’ll estimate the 2D:4D ratio, and ask whether
 its mean is significantly different from 1. If index fingers are equal
 to ring fingers in length, then the ratio would be one.</p>
-<p>First, use the finger data file your TA has compiled. Create a new
-vector called “Right_2D_4D_ratio”. In this vector, calculate the ratio
-of the length of the index finger over the length of the ring finger for
-each individual.</p>
+<p>First, create a new vector called <code>Right_2D_4D_ratio</code>. In
+this vector, calculate the ratio of the length of the index finger over
+the length of the ring finger for each individual.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Describe how well the “Right_2D_4D_ratio” is fit by a normal
-distribution, by using at least one of the two methods we have learned
-this week.</p></li>
-<li><p>What is the 95% confidence interval for “Right_2D_4D_ratio”? (You
-may need to refer back to Week 5.)</p></li>
+<li><p>Describe how well the <code>Right_2D_4D_ratio</code> is fit by a
+normal distribution, by using at least one of the two methods we have
+learned this week.</p></li>
+<li><p>What is the 95% confidence interval for
+<code>Right_2D_4D_ratio</code>?</p></li>
 </ol>
-<p><br> 5. The file “mammals.csv” contains information on the body mass
-of various mammal species.</p>
+<p><br> 5. The file <code>mammals.csv</code> contains information on the
+body mass of various mammal species.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Plot the distribution of body mass, and describe its shape. Does
 this look like it has a normal distribution?</p></li>

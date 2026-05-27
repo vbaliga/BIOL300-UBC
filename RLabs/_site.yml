@@ -37,9 +37,9 @@ navbar:
         - text: "6. Frequency data"
           href: 06_R_tutorial_Frequency_data.html
         - text: "7. Contingency analysis"
-          href: R_tutorial_Contingency_analysis.html
+          href: 07_R_tutorial_Contingency_analysis.html
         - text: "8. Normal distribution and sample means"
-          href: R_tutorial_Normal_and_sample_means.html
+          href: 08_R_tutorial_Normal_and_sample_means.html
         - text: "9. Comparing the means of two groups"
           href: R_tutorial_Comparing_means_of_2_groups.html
         - text: "10. ANOVA"

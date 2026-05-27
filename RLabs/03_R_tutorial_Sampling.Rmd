@@ -179,7 +179,7 @@ mean_from_a_sample <- function(datalist,sample_size) {
 If done correctly, you should see `mean_from_a_sample` in your
 Environment:
 
-![](formula_summaries/mean_from_a_sample_R.png){width="480"}
+![](formula_summaries/mean_from_a_sample_R.png){width="640"}
 
 Call this function by entering:
 

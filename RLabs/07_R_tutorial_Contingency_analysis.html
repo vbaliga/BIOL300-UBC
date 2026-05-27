@@ -12,7 +12,7 @@
 <meta name="author" content="" />
 
 
-<title>Labs using R:  7: Contingency analysis</title>
+<title>Labs using R: UBC Edition  Lab 7. Contingency analysis</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -566,17 +566,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-<h1 class="title toc-ignore"><em>Labs using R</em>: <br>7: Contingency
-analysis</h1>
+<h1 class="title toc-ignore">Labs using R: <em>UBC Edition</em> <br>Lab
+7. Contingency analysis</h1>
 <h4 class="author"></h4>
 
 </div>
 
 
-<p><em>This lab is part of a series designed to accompany a course using
-</em>The Analysis of Biological Data<em>. The rest of the labs can be
-found <a href="index.html">here</a>. This lab is based on topics in
-Chapter 9 of ABD.</em></p>
+<p><em>This lab is part of a series designed for BIOL 300, based on</em>
+The Analysis of Biological Data<em>. The rest of the labs can be found
+<a href="index.html">here</a>.</em></p>
 <p><br></p>
 <div id="learning-outcomes" class="section level1">
 <h1>Learning outcomes</h1>
@@ -589,8 +588,8 @@ contingency tables and mosaic plots</p></li>
 <p><br></p>
 <p>If you have not already done so, download <a href="ABDLabs.zip">the
 zip file containing Data, R scripts, and other resources for these
-labs</a>. Remember to start RStudio from the “ABDLabs.Rproj” file in
-that folder to make these exercises work more seamlessly.</p>
+labs</a>. Remember to start RStudio from the <code>ABDLabs.Rproj</code>
+file in that folder to make these exercises work more seamlessly.</p>
 <hr />
 <p><br></p>
 </div>
@@ -602,53 +601,54 @@ data set as an example, looking at the association between the sex of
 passengers and whether they survived the accident. Let’s read the data
 from the .csv file:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p>The variables we’ll use are “sex” and “survive”. The variable
-”survive” contains a “yes” if the individual survived the sinking and a
-“no” for those that did not.</p>
+<p>The variables we’ll use are <code>sex</code> and
+<code>survive</code>. The variable <code>survive</code> contains a
+<code>yes</code> if the individual survived the sinking and a
+<code>no</code> for those that did not.</p>
 <p><br></p>
 <div id="factors" class="section level2">
 <h2>Factors</h2>
-<p>Categorical variables in R are often treated as “factors.” You’lll
-notice that the <strong>read.csv()</strong> command above included an
-option <strong>stringsAsFactors=TRUE</strong> which tells R to treat all
-columns that include non-numeric characters to be treated as factors.
-There are several reasons why treating categorical variables in R as
-factors is beneficial, but here the most relevant is that factors allow
-us to set the <em>order</em> of different values or categories of the
-factors. This ordering will affect the order of appearance of these
-categories in tables and graphs. This order also matters for some
-calculations (such as odds ratios, below). The default order of
-categories is alphabetical, but you can change this.</p>
+<p>Categorical variables in R are often treated as “factors”. You’ll
+notice that the <code>read.csv()</code> command above included an option
+<code>stringsAsFactors = TRUE</code> which tells R to treat all columns
+that include non-numeric characters to be treated as factors. There are
+several reasons why treating categorical variables in R as factors is
+beneficial, but here the most relevant is that factors allow us to set
+the <em>order</em> of different values or categories of the factors.
+This ordering will affect the order of appearance of these categories in
+tables and graphs. This order also matters for some calculations (such
+as odds ratios, below). The default order of categories is alphabetical,
+but you can change this.</p>
 <p>To see the categories and their order for a factor variable, use the
-<strong>levels()</strong> command. For example, the default order of the
-categories “no” and then “yes” for the variable “survive” in the Titanic
-data set is alphabetical:</p>
+<code>levels()</code> function. For example, the default order of the
+categories <code>no</code> and then <code>yes</code> for the variable
+<code>survive</code> in the Titanic data set is alphabetical:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">levels</span>(titanicData<span class="sc">$</span>survive)</span></code></pre></div>
 <pre><code>## [1] &quot;no&quot;  &quot;yes&quot;</code></pre>
-<p>We want to change the order so that the “yes” category for survive
-comes first when we use R to calculate the odds ratio below. This is to
-ensure that the probability of success (here, “yes”) is in the
-numerator. We change the order using the <strong>levels</strong>
-argument argument of the <strong>factor()</strong> command:</p>
+<p>We want to change the order so that the <code>yes</code> category for
+survive comes first when we use R to calculate the odds ratio below.
+This is to ensure that the probability of success (here,
+<code>yes</code>) is in the numerator. We change the order using the
+<code>levels</code> argument of the <code>factor()</code> command:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>titanicData<span class="sc">$</span>survive <span class="ot">&lt;-</span> <span class="fu">factor</span>(titanicData<span class="sc">$</span>survive, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>))</span></code></pre></div>
 <p>The above command saves the new ordering of categories in the data
-frame <strong>titanicData</strong>, overwriting the original variable
-“titanicData$survive”. To check the new order:</p>
+frame <code>titanicData</code>, overwriting the original variable
+<code>titanicData$survive</code>. To check the new order:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">levels</span>(titanicData<span class="sc">$</span>survive)</span></code></pre></div>
 <pre><code>## [1] &quot;yes&quot; &quot;no&quot;</code></pre>
 <p><br></p>
 </div>
-<div id="frequency-table" class="section level2">
-<h2>Frequency table</h2>
+<div id="table" class="section level2">
+<h2><code>table()</code></h2>
 <p>A contingency table is an effective method to see the association
 between two categorical variables. Moreover, other R functions we will
 use in this exercise require a contingency table as input.</p>
 <p>A frequency table can be created using a function we saw in the last
-lab, called <strong>table()</strong>. To create a contingency table that
+lab, called <code>table()</code>. To create a contingency table that
 shows the relationship between two categorical variables, we simply give
-<strong>table()</strong> the vectors that contain those two variables.
-Put the explanatory variable first, and then the response variable after
-a comma.</p>
+<code>table()</code> the vectors that contain those two variables. Put
+the explanatory variable first, and then the response variable after a
+comma.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>sex_survive_table <span class="ot">&lt;-</span> <span class="fu">table</span>(titanicData<span class="sc">$</span>sex, titanicData<span class="sc">$</span>survive)</span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>sex_survive_table</span></code></pre></div>
 <pre><code>##         
@@ -659,8 +659,8 @@ a comma.</p>
 passengers who did not survive, 307 females who did survive, and similar
 information for the males.</p>
 <p>It is useful to keep this frequency table as a named object, as we
-have done here (<strong>sex_survive_table</strong>). We shall use this
-table several times in later analyses.</p>
+have done here (<code>sex_survive_table</code>). We shall use this table
+several times in later analyses.</p>
 <p>Sometimes for contingency analysis we have already summarized the
 counts for each case. In these cases it is useful to be able to create a
 data table directly from these counts. The following syntax will allow
@@ -678,25 +678,25 @@ variables. Here, each combination of the variables is represented by a
 rectangle, and the size of the rectangle is proportional to the number
 of individuals in that combination.</p>
 <p>R has a function to calculate mosaic plots, with the sensible name
-<strong>mosaicplot()</strong>. In its most basic form, you just give it
-a frequency table as input.</p>
+<code>mosaicplot()</code>. In its most basic form, you just give it a
+frequency table as input.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">mosaicplot</span>(sex_survive_table)</span></code></pre></div>
-<p><img src="R_tutorial_Contingency_analysis_files/figure-html/unnamed-chunk-7-1.png" alt="" width="672" /></p>
+<p><img src="07_R_tutorial_Contingency_analysis_files/figure-html/unnamed-chunk-7-1.png" alt="" width="672" /></p>
 <p>This shows the basic pattern. However, this plot can be greatly
 improved by adding a couple of extra options, to specify color and axes
-labels. We can add the option <strong>color = c(“darkred”,
-“gold”)</strong> to tell R which colors to use for the different
-response variables. This is a vector of color names that R assigns in
-the same order as the order of the categories of the variable plotted on
-the vertical axis (the response variable) starting with the topmost. (R
-has many named colors, including all the basics like “red”, “orange”,
-“blue”, etc.)</p>
+labels. We can add the argument
+<code>color = c("darkred", "gold")</code> to tell R which colors to use
+for the different response variables. This is a vector of color names
+that R assigns in the same order as the order of the categories of the
+variable plotted on the vertical axis (the response variable) starting
+with the topmost. (R has many named colors, including all the basics
+like <code>red</code>, <code>orange</code>, <code>blue</code>, etc.)</p>
 <p>We would also like the axes to have labels. We can specify these with
-<strong>xlab</strong> and <strong>ylab</strong> as options. Let’s simply
-call the <em>x</em>-axis “Sex” and the <em>y</em>-axis “Survival”.
-Here’s what the command would now look like:</p>
+<code>xlab</code> and <code>ylab</code> as options. Let’s simply call
+the <em>x</em>-axis “Sex” and the <em>y</em>-axis “Survival”. Here’s
+what the command would now look like:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">mosaicplot</span>(sex_survive_table, <span class="at">color =</span> <span class="fu">c</span>(<span class="st">&quot;darkred&quot;</span>, <span class="st">&quot;gold&quot;</span>), <span class="at">xlab =</span><span class="st">&quot;Sex&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Survival&quot;</span>)</span></code></pre></div>
-<p><img src="R_tutorial_Contingency_analysis_files/figure-html/unnamed-chunk-8-1.png" alt="" width="672" /></p>
+<p><img src="07_R_tutorial_Contingency_analysis_files/figure-html/unnamed-chunk-8-1.png" alt="" width="672" /></p>
 <p>It is much easier now to see in the graph that the majority of
 females survived whereas the majority of males did not.</p>
 <p><br></p>
@@ -706,20 +706,20 @@ females survived whereas the majority of males did not.</p>
 <p>One of the ways to measure the strength of the association between
 two categorical variables is an odds ratio.</p>
 <p>In R, the simplest way to estimate an odds ratio is to use the
-command <strong>fisher.test()</strong>. This function will also perform
-a Fisher’s exact test (more on that later). The input to this function
-is a contingency table like the one we calculated above. We’ll use the
+command <code>fisher.test()</code>. This function will also perform a
+Fisher’s exact test (more on that later). The input to this function is
+a contingency table like the one we calculated above. We’ll use the
 results in a couple of ways, so let’s save the results in an object.
-(Here we called it <strong>sex_survive_fisher</strong>.)</p>
+(Here we called it <code>sex_survive_fisher</code>.)</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>sex_survive_fisher <span class="ot">&lt;-</span> <span class="fu">fisher.test</span>(sex_survive_table)</span></code></pre></div>
 <p>The output of this function has several parts, two of which we’ll
 want to look at now for estimating an odds ratio. We can see the
-specific elements of the output by using the <strong>$</strong>
+specific elements of the output by using the <code>$</code>
 notation.</p>
-<p>Add <strong>$estimate</strong> after the results of the
-<strong>fisher.test()</strong> function call to get the odds ratio
-estimate. For example, if we want to know the odds ratio for survival as
-a function of sex for the Titanic data, we write:</p>
+<p>Add <code>$estimate</code> after the results of the
+<code>fisher.test()</code> function call to get the odds ratio estimate.
+For example, if we want to know the odds ratio for survival as a
+function of sex for the Titanic data, we write:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>sex_survive_fisher<span class="sc">$</span>estimate</span></code></pre></div>
 <pre><code>## odds ratio 
 ##   9.792284</code></pre>
@@ -728,9 +728,9 @@ surviving were about ten times the odds of a male surviving. This is
 (female survival / female death) / (male survival / male death). The
 order of the values in the odds ratios is determined by the order of the
 values of each variable; by default R uses alphabetical order.</p>
-<p>This <strong>fisher.test()</strong> function also calculates the 95%
+<p>This <code>fisher.test()</code> function also calculates the 95%
 confidence interval for the odds ratio, and assigns it to an output
-variable called <strong>conf.int</strong>. We can see the 95% confidence
+variable called <code>conf.int</code>. We can see the 95% confidence
 interval for the odds ratio with a command like:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>sex_survive_fisher<span class="sc">$</span>conf.int</span></code></pre></div>
 <pre><code>## [1]  7.471136 12.887759
@@ -741,30 +741,28 @@ about 12.89.</p>
 <p><br></p>
 </div>
 <div id="chi2-contingency-test" class="section level2">
-<h2><span class="math inline">\(\chi\)</span><sup>2</sup> contingency
-test</h2>
-<p>A <span class="math inline">\(\chi\)</span><sup>2</sup> contingency
-analysis allows us to test the null hypothesis that two categorical
-variables are independent of each other.</p>
+<h2><span class="math inline">\(\chi^2\)</span> contingency test</h2>
+<p>A <span class="math inline">\(\chi^2\)</span> contingency analysis
+allows us to test the null hypothesis that two categorical variables are
+independent of each other.</p>
 <p>Because this scenario appears frequently, it is one of the most
 common tests used in biology. However, remember that the <span
-class="math inline">\(\chi\)</span><sup>2</sup> test is an
-approximation, and requires that all of the expected values are greater
-than 1 and that at least 80% are greater than 5. When doing such a test
-of independence on a computer, it is probably better to use Fisher’s
-exact test, which doesn’t have this restriction.</p>
-<p>The <span class="math inline">\(\chi\)</span><sup>2</sup> contingency
-test can be done with a function we saw last week,
-<strong>chisq.test()</strong>. If we give a frequency table as input,
-this function will calculate the <span
-class="math inline">\(\chi\)</span><sup>2</sup> test for us.</p>
+class="math inline">\(\chi^2\)</span> test is an approximation, and
+requires that all of the expected values are greater than 1 and that at
+least 80% are greater than 5. When doing such a test of independence on
+a computer, it is probably better to use Fisher’s exact test, which
+doesn’t have this restriction.</p>
+<p>The <span class="math inline">\(\chi^2\)</span> contingency test can
+be done with a function we saw last week, <code>chisq.test()</code>. If
+we give a frequency table as input, this function will calculate the
+<span class="math inline">\(\chi^2\)</span> test for us.</p>
 <p>Before we do the test, though, we need to make sure that the
-assumptions of the <span class="math inline">\(\chi\)</span><sup>2</sup>
-test are met by our data. Fortunately, the <strong>chisq.test()</strong>
-function also provides a way for us to look at the expected values. If
-we give a frequency table as input, and then add
-<strong>$expected</strong> at the end of the function, it will show us
-the expected values for a test of independence, like this:</p>
+assumptions of the <span class="math inline">\(\chi^2\)</span> test are
+met by our data. Fortunately, the <code>chisq.test()</code> function
+also provides a way for us to look at the expected values. If we give a
+frequency table as input, and then add <code>$expected</code> at the end
+of the function, it will show us the expected values for a test of
+independence, like this:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">chisq.test</span>(sex_survive_table)<span class="sc">$</span>expected</span></code></pre></div>
 <pre><code>##         
 ##               yes       no
@@ -772,11 +770,11 @@ the expected values for a test of independence, like this:</p>
 ##   male   290.6702 559.3298</code></pre>
 <p>In this case all the expected values are greater than 5, so we have
 no problem meeting this assumption. Therefore, it is appropriate to do a
-<span class="math inline">\(\chi\)</span><sup>2</sup> contingency test.
-Just give a frequency table as input to the
-<strong>chisq.test()</strong> function to do this test. We’ve added the
-option <strong>“correct = FALSE”</strong> to tell R to not do a Yate’s
-correction, which can be overly conservative.</p>
+<span class="math inline">\(\chi^2\)</span> contingency test. Just give
+a frequency table as input to the <code>chisq.test()</code> function to
+do this test. We’ve added the option <code>correct = FALSE</code> to
+tell R to not do a Yate’s correction, which can be overly
+conservative.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">chisq.test</span>(sex_survive_table, <span class="at">correct=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Pearson&#39;s Chi-squared test
@@ -784,8 +782,8 @@ correction, which can be overly conservative.</p>
 ## data:  sex_survive_table
 ## X-squared = 327.7, df = 1, p-value &lt; 2.2e-16</code></pre>
 <p>This output shows that the <span
-class="math inline">\(\chi\)</span><sup>2</sup> value for this test is
-327.7, with 1 degree of freedom and a <em>P</em>-value less than 2.2 x
+class="math inline">\(\chi^2\)</span> value for this test is 327.7, with
+1 degree of freedom and a <em>P</em>-value less than 2.2 x
 10<sup>-16</sup>. So we can reject the null hypothesis of no association
 between sex and survival on the Titanic.</p>
 <p><br></p>
@@ -819,9 +817,9 @@ recorded using the default numerical precision in R.)</p>
 <p>Also given in the output here is information about the estimate of
 the odds ratio and its 95% confidence interval.</p>
 <p>Unlike the version of Fisher’s test described in the text,
-<strong>fisher.test()</strong> is able to calculate contingency tests
-even when there are more than two possible values for each variable. In
-such cases, though, it cannot calculate the odds ratios.</p>
+<code>fisher.test()</code> is able to calculate contingency tests even
+when there are more than two possible values for each variable. In such
+cases, though, it cannot calculate the odds ratios.</p>
 <p><br></p>
 </div>
 </div>
@@ -831,48 +829,44 @@ such cases, though, it cannot calculate the odds ratios.</p>
 <hr />
 <p><br></p>
 </div>
-<div id="activities" class="section level1">
-<h1>Activities</h1>
-<p><br></p>
-<div id="sampling-and-contingency-tables" class="section level2">
-<h2>1. Sampling and contingency tables</h2>
-<p>The <span class="math inline">\(\chi\)</span><sup>2</sup> contingency
+<div id="activities-and-questions" class="section level1">
+<h1>Activities and Questions</h1>
+<p><br> 1. The <span class="math inline">\(\chi^2\)</span> contingency
 test uses a test statistic called <span
-class="math inline">\(\chi\)</span><sup>2</sup>. When the null
-hypothesis is true the distribution of possible values of that <span
-class="math inline">\(\chi\)</span><sup>2</sup> is approximately a <span
-class="math inline">\(\chi\)</span><sup>2</sup> distribution. We’ll use
-an online exercise to visualize how well the <span
-class="math inline">\(\chi\)</span><sup>2</sup> distribution fits the
-distribution of the test statistic when the null hypothesis is true.</p>
+class="math inline">\(\chi^2\)</span>. When the null hypothesis is true
+the distribution of possible values of that <span
+class="math inline">\(\chi^2\)</span> is approximately a <span
+class="math inline">\(\chi^2\)</span> distribution. We’ll use an online
+exercise to visualize how well the <span
+class="math inline">\(\chi^2\)</span> distribution fits the distribution
+of the test statistic when the null hypothesis is true.</p>
 <p>Open a web browser and navigate to the page at</p>
 <p><a
-href="http://www.zoology.ubc.ca/~whitlock/Kingfisher/ContingencyAnalysis.htm">http://www.zoology.ubc.ca/~whitlock/Kingfisher/ContingencyAnalysis.htm</a></p>
+href="http://www.zoology.ubc.ca/~whitlock/Kingfisher/ContingencyAnalysis.htm"
+class="uri">http://www.zoology.ubc.ca/~whitlock/Kingfisher/ContingencyAnalysis.htm</a></p>
 <p>This page is based on a hypothetical example in which we compare the
 proportion of people who get sick after either receiving a vaccination
 or not. When you first open this app, you will see that the true
 probability of getting sick has been set to 60%, regardless of whether
-the person is vaccinated or not. Under these conditions, the null
-hypothesis of a contingency analysis is true: whether or not a person is
-vaccinated has no effect on whether they get sick. The two variables are
+the person is vaccinated. Under these conditions, the null hypothesis of
+a contingency analysis is true: whether or not a person is vaccinated
+has no effect on whether they get sick. The two variables are
 independent.</p>
 <p>Notice the graph at the bottom right. Before we do anything else,
-this graph simply shows the <span
-class="math inline">\(\chi\)</span><sup>2</sup> distribution with one
-degree of freedom, as would be appropriate to use for a 2 x 2
-contingency analysis as will be performed here.</p>
+this graph simply shows the <span class="math inline">\(\chi^2\)</span>
+distribution with one degree of freedom, as would be appropriate to use
+for a 2 x 2 contingency analysis as will be performed here.</p>
 <p><strong>STEP 1.</strong> Click the “MAKE ONE SAMPLE” button once.
 This will cause the computer to take one sample of <em>n</em> = 120
 individuals from the population. A frequency table for that sample is
 shown on the right side of the page, and under that the <span
-class="math inline">\(\chi\)</span><sup>2</sup> and <em>P</em>-value
-from a <span class="math inline">\(\chi\)</span><sup>2</sup> contingency
-test of those data is shown. Also, a vertical blue bar appears on the
-graph at that value of <span
-class="math inline">\(\chi\)</span><sup>2</sup>, and the area under the
-curve to the left of this <span
-class="math inline">\(\chi\)</span><sup>2</sup> is shown in red. The
-area under the curve to the right is the <em>P</em>-value.</p>
+class="math inline">\(\chi^2\)</span> and <em>P</em>-value from a <span
+class="math inline">\(\chi^2\)</span> contingency test of those data is
+shown. Also, a vertical blue bar appears on the graph at that value of
+<span class="math inline">\(\chi^2\)</span>, and the area under the
+curve to the left of this <span class="math inline">\(\chi^2\)</span> is
+shown in red. The area under the curve to the right is the
+<em>P</em>-value.</p>
 <p>Visually compare the <em>P</em>-value to the area under the curve in
 the graph. Did your sample cause the test to reject the null hypothesis?
 Or did that sample give the correct answer about the population (i.e.,
@@ -880,31 +874,34 @@ that there is no difference in the sickness rates between vaccinated and
 unvaccinated people)?</p>
 <p><strong>STEP 2.</strong> The button “SIMULATE DISTRIBUTION” will take
 repeated samples from the population and calculate a <span
-class="math inline">\(\chi\)</span><sup>2</sup> statistic for each one.
-In the yellow box on the right, it will keep a tally of how many samples
-led to hypothesis tests that rejected the null hypothesis of
-independence. (Rejecting a true null hypothesis is a Type I error.) The
-program will also make a histogram of the <span
-class="math inline">\(\chi\)</span><sup>2</sup> values from all the
-tests to allow comparison with the <span
-class="math inline">\(\chi\)</span><sup>2</sup> distribution.</p>
+class="math inline">\(\chi^2\)</span> statistic for each one. In the
+yellow box on the right, it will keep a tally of how many samples led to
+hypothesis tests that rejected the null hypothesis of independence.
+(Rejecting a true null hypothesis is a Type I error.) The program will
+also make a histogram of the <span class="math inline">\(\chi^2\)</span>
+values from all the tests to allow comparison with the <span
+class="math inline">\(\chi^2\)</span> distribution.</p>
 <p>Check that probability of getting sick is still set to be the same
 for vaccinated and unvaccinated people in the population parameters. If
 so, the null hypothesis is in fact true. With a true null hypothesis,
 the distribution of calculated <span
-class="math inline">\(\chi\)</span><sup>2</sup> values (in the
-histogram) ought to match the theoretical distribution (shown by the
-thin curve). Do they match? (Note: you won’t get a proportion that
-exactly matches what we expect, by chance, because we haven’t been able
-to take an infinite number of samples.)</p>
-<p>The calculations in this app assume a significance level of α = 0.05.
-What fraction of samples should we expect to result in a Type I
-error?</p>
+class="math inline">\(\chi^2\)</span> values (in the histogram) ought to
+match the theoretical distribution (shown by the thin curve). Do they
+match? (Note: you won’t get a proportion that exactly matches what we
+expect, by chance, because we haven’t been able to take an infinite
+number of samples.)</p>
+<ol style="list-style-type: lower-alpha">
+<li>The calculations in this app assume a significance level of α =
+0.05. What proportion of samples should we expect to result in a Type I
+error?</li>
+</ol>
 <p>Notice that there is a “FASTER!” button on the left. If you press
 this it will speed up the intervals between new samples taken in the
 simulation.</p>
-<p>Run the simulation until there are 1000 or more replicates. What Type
-I error rate do you observe?</p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li>Run the simulation until there are 1000 or more replicates. What
+Type I error rate do you observe?</li>
+</ol>
 <p><strong>STEP 3.</strong> Finally, let’s investigate the distribution
 of results that you get when the null hypothesis is NOT true. Before we
 go any further, think about what you would expect to see in the
@@ -923,39 +920,38 @@ groups.</p>
 case, let’s simulate samples from this new population. Click “SIMULATE
 DISTRIBUTION” again. What is the shape of the distribution of test
 statistics in the histogram? Does it still match the theoretical <span
-class="math inline">\(\chi\)</span><sup>2</sup> distribution (shown by
-the curve)? Remember, the theoretical distribution is what we would get
-assuming that the null hypothesis is true. When the null hypothesis is
-false, we expect on average larger values of <span
-class="math inline">\(\chi\)</span><sup>2</sup>.</p>
+class="math inline">\(\chi^2\)</span> distribution (shown by the curve)?
+Remember, the theoretical distribution is what we would get assuming
+that the null hypothesis is true. When the null hypothesis is false, we
+expect on average larger values of <span
+class="math inline">\(\chi^2\)</span>.</p>
 <p>Now that the null hypothesis is false, a hypothesis test gets the
 correct answer when it rejects <span class="math inline">\(H_0\)</span>.
 The probability that a test correctly rejects a false null hypothesis is
 called the power of a test. The yellow box on the right tracks the power
-of the <span class="math inline">\(\chi\)</span><sup>2</sup> test. This
-is not a value that we can easily calculate ahead of time in a real
-setting. Power should be increased by having larger sample sizes or by
-having larger true deviations from the null hypothesis in the
-population. You can explore these features of power by changing the
-sample size (with the slider at the top right) or by making the
-difference between the vaccinated and unvaccinated groups larger or
-smaller.</p>
+of the <span class="math inline">\(\chi^2\)</span> test. This is not a
+value that we can easily calculate ahead of time in a real setting.</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>Run the simulation until there are 500 or more replicates. What
+power do you observe?</li>
+</ol>
+<p>Power should be increased by having larger sample sizes or by having
+larger true deviations from the null hypothesis in the population. You
+can explore these features of power by changing the sample size (with
+the slider at the top right) or by making the difference between the
+vaccinated and unvaccinated groups larger or smaller.</p>
 <p><br></p>
-</div>
-<div id="collecting-some-data" class="section level2">
-<h2>2. Collecting some data</h2>
-<p>We’ll do an experiment on ourselves. The point of the experiment
-needs to remain obscure until after the data is collected, so as to not
-bias the data collection process.</p>
+<p><br> 2. We’ll do an experiment on ourselves. The point of the
+experiment needs to remain obscure until after the data is collected, so
+as to not bias the data collection process.</p>
 <p>After this paragraph, we reprint the last paragraph of Darwin’s
-<em>Origin of Species</em>. You can <a
+<em>Origin of Species</em>. You can also <a
 href="OriginsParagraph.pdf">download a page with only this one
-paragraph</a> to print out. (Print a paper version if you are reading
-this electronically.) Please read through this paragraph, and circle
-every letter “t”. Please proceed at a normal reading speed. If you ever
+paragraph</a>. Please read through this paragraph, and circle every
+letter “t”. Please proceed at a normal reading speed. If you ever
 realize that you missed a “t” in a previous word, do not retrace your
 steps to encircle the “t”. You are not expected to get every “t”, so
-don’t slow down your reading to get the “t”s.</p>
+don’t slow down your reading to get the “t”s. Be honest!</p>
 <hr />
 <p>It is interesting to contemplate an entangled bank, clothed with many
 plants of many kinds, with birds singing on the bushes, with various
@@ -977,46 +973,40 @@ and that, whilst this planet has gone cycling on according to the fixed
 law of gravity, from so simple a beginning endless forms most beautiful
 and most wonderful have been, and are being, evolved.</p>
 <hr />
-<p>Question number 5 will return to this exercise. Please don’t read
-Question 5 until you have completed this procedure.</p>
-<hr />
-<p><br></p>
-</div>
-</div>
-<div id="questions" class="section level1">
-<h1>Questions</h1>
-<p><br> 1. On April 18, 1940, most of the participants at a church
+<p>Question 7 will return to this exercise. Please don’t read Question 7
+until you have completed this procedure.</p>
+<p><br> 3. On April 18, 1940, most of the participants at a church
 supper in Oswego County, NY, developed gastroenteritis (a.k.a. food
 poisoning). In what has become a classic of epidemiology, researchers
 interviewed most of the people at the supper to discover which dishes
-they ate (CDC-EIS 2003). Their answers are in the file “oswego.csv”. In
-this file, the variable “ill” records whether that person got sick (Y
-for yes, N for no), and there are also columns for whether each person
-ate the baked ham, spinach, mashed potatoes, etc., for a total of 14
-foods and drinks.</p>
+they ate (CDC-EIS 2003). Their answers are in the file
+<code>oswego.csv</code>. In this file, the variable “ill” records
+whether that person got sick (Y for yes, N for no), and there are also
+columns for whether each person ate the baked ham, spinach, mashed
+potatoes, etc., for a total of 14 foods and drinks.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Load the data set into R from the .csv file.</p></li>
-<li><p>Use <strong>factor()</strong> to fix the order of “ill” so that
-the favorable outcome comes first in the levels list. Do the same for
-each of the food variables that you will analyze, so that “Y” for people
-that eat the food preceded the “N” for people that didn’t.</p></li>
-<li><p>Using <strong>table()</strong> and
-<strong>chisq.test()$expected</strong>, calculate the expected values
-for a <span class="math inline">\(\chi\)</span><sup>2</sup> contingency
-test of the relationship between fruit salad and illness. Would it be
-legitimate to use a <span
-class="math inline">\(\chi\)</span><sup>2</sup> contingency analysis to
-test this association? Why or why not? What test would be best to
+<li><p>Use <code>factor()</code> to fix the order of <code>ill</code> so
+that the unfavorable outcome comes first in the levels list. Do the same
+for each of the food variables that you will analyze, so that
+<code>Y</code> for people that eat the food preceded the <code>N</code>
+for people that didn’t.</p></li>
+<li><p>Using <code>table()</code> and
+<code>chisq.test()$expected</code>, calculate the expected values for a
+<span class="math inline">\(\chi^2\)</span> contingency test of the
+relationship between fruit salad and illness. Would it be legitimate to
+use a <span class="math inline">\(\chi^2\)</span> contingency analysis
+to test this association? Why or why not? What test would be best to
 use?</p></li>
 <li><p>You want to know which food is most strongly associated with
 illness. For the sake of simplicity, let’s imagine that we have ruled
 out all the other foods except for spinach, baked ham, vanilla ice cream
-and chocolate ice cream. Use <strong>fisher.test()</strong> to calculate
-an odds ratio for the illness for each these foods. Which is the most
+and chocolate ice cream. Use <code>fisher.test()</code> to calculate an
+odds ratio for the illness for each these foods. Which is the most
 likely vehicle of the disease?</p></li>
 <li><p>Using the food you think is the likely vehicle, what is the 95%
 confidence interval of the odds ratio for illness?</p></li>
-<li><p>For the food you decided in part <em>c</em> is the most likely
+<li><p>For the food you decided in part <em>d</em> is the most likely
 vehicle, draw a mosaic plot to illustrate how many people got sick as a
 function of whether they ate this food.</p></li>
 </ol>
@@ -1026,16 +1016,14 @@ specific food that was associated with the gastroenteritis had a
 food in question had been left to sit overnight at room temperature,
 which allowed the <em>Staphylococcus</em> to grow to dangerous numbers
 before the supper.)</p>
-<p><br> 2. Return to the data you collected on your class during the
-first week. (If you are doing these outside of a class setting,
-anonymized data based on a previous classes answers is available as
-“studentSampleData.csv”.) Is there an association between dominant hand
-and dominant foot?</p>
-<p><br> 3. Human names are often of obscure origin, but many have fairly
+<p><br> 4. Return to the data you collected on your class during the
+first week. Is there an association between dominant hand and dominant
+foot?</p>
+<p><br> 5. Human names are often of obscure origin, but many have fairly
 obvious sources. For example, “Johnson” means “son of John,” “Smith”
 refers to an occupation, and “Whitlock” means “white-haired” (from
 “white locks”). In Lancashire, U.K., a fair number of people are named
-“Shufflebottom,” a name whose origins remain obscure.</p>
+“Shufflebottom”, a name whose origins remain obscure.</p>
 <p>Before children learn to walk, they move around in a variety of ways,
 with most infants preferring a particular mode of transportation. Some
 crawl on hands and knees, some belly crawl commando-style, and some
@@ -1048,7 +1036,7 @@ named “Walker.” (By the way, this study, like all others in these labs,
 is real. See Fox et al. 2002.)</p>
 <p>They found that 9 out of 41 Walkers moved by bottom-shuffling, while
 9 out of 43 Shufflebottoms did. You can find these data in the file
-“shufflebottoms.csv”.</p>
+<code>shufflebottoms.csv</code>.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>What is the odds ratio for the association between name and mode
 of movement? Give a 95% confidence interval for this odds
@@ -1059,7 +1047,7 @@ between name and movement type? Why or why not?</p></li>
 <li><p>Is there a significant difference between the name groups for
 mode of movement?</p></li>
 </ol>
-<p><br> 4. Falls are extremely dangerous for the elderly; in fact many
+<p><br> 6. Falls are extremely dangerous for the elderly; in fact many
 deaths are associated with such falls. Some preventative measures are
 possible, and it would be very useful to have ways to predict which
 people are at greatest risks for falls.</p>
@@ -1073,7 +1061,7 @@ home (Lundin-Olsson et al. 1997).</p>
 did not. Of the people who stopped walking to talk, 10 had a fall in the
 next six months. Of the other 46 who did not stop walking to talk, 11
 had a fall in that same time period. These data are available in
-“stopping_falls.csv”.</p>
+<code>stopping_falls.csv</code>.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Draw a mosaic plot of the relationship between stopping to talk
 and falls.</p></li>
@@ -1083,7 +1071,7 @@ between “stops walking while talking” and falls.</p></li>
 confidence interval. Which group has the higher odds of
 falling?</p></li>
 </ol>
-<p><br> 5. Return to the page from the activities section where you
+<p><br> 7. Return to the page from the activities section where you
 circled the letter “t” in the paragraph from Darwin’s <em>Origin of
 Species</em>. (If you haven’t already done this, please stop reading
 here now and go back to do that first.)</p>
