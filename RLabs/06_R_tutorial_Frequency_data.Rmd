@@ -24,13 +24,13 @@ Analysis of Biological Data*. The rest of the labs can be found
 
 # Learning outcomes
 
--   Calculate a confidence interval for a proportion
+- Calculate a confidence interval for a proportion
 
--   Make a hypothesis test about proportions.
+- Make a hypothesis test about proportions.
 
--   Fit frequency data to a model.
+- Fit frequency data to a model.
 
--   Test for a fit to a Poisson distribution.
+- Test for a fit to a Poisson distribution.
 
 <br>
 
@@ -132,12 +132,12 @@ the Agresti-Coull method that we recommend.)
 
 ## Goodness of fit test
 
-A $\chi^2$ goodness-of-fit test compares the frequencies of values
-of a categorical variable to the frequencies predicted by a null
-hypothesis. For example, the file `MandMlist.csv` contains a list of all
-the colors of M&M candies from one package, under the variable `color`.
-Let’s ask whether this fits the proportions of colors advertised by the
-candy company.
+A $\chi^2$ goodness-of-fit test compares the frequencies of values of a
+categorical variable to the frequencies predicted by a null hypothesis.
+For example, the file `MandMlist.csv` contains a list of all the colors
+of M&M candies from one package, under the variable `color`. Let’s ask
+whether this fits the proportions of colors advertised by the candy
+company.
 
 ```{r}
 MMlist <- read.csv("DataForLabs/MandMlist.csv", stringsAsFactors = TRUE)
@@ -150,9 +150,9 @@ MMlist <- read.csv("DataForLabs/MandMlist.csv", stringsAsFactors = TRUE)
 ### table()
 
 Summarizing frequency data in a table is useful to see the data more
-concisely, and such a table is also necessary as input to the
-$\chi^2$ test function. We can summarize the counts (frequencies) of
-a categorical variable with `table()`.
+concisely, and such a table is also necessary as input to the $\chi^2$
+test function. We can summarize the counts (frequencies) of a
+categorical variable with `table()`.
 
 ```{r}
 MMtable <- table(MMlist$color)
@@ -167,10 +167,10 @@ etc.
 
 ### chisq.test()
 
-We can use a $\chi^2$ goodness-of-fit test to compare the
-frequencies in a set of data to a null hypothesis that specifies the
-probabilities of each category. In R, this can be calculated using the
-function `chisq.test()`.
+We can use a $\chi^2$ goodness-of-fit test to compare the frequencies in
+a set of data to a null hypothesis that specifies the probabilities of
+each category. In R, this can be calculated using the function
+`chisq.test()`.
 
 The company says that the percentages are 24% blue, 14% brown, 16%
 green, 20% orange, 13% red and 13% yellow. This is our null hypothesis.
@@ -187,9 +187,8 @@ use to calculate the expected frequencies.
 
 The first thing we need to do is check whether the expected frequencies
 (expected by the null hypothesis) are large enough to justify using a
-$\chi^2$ goodness of fit test. (In other words, that no more than
-25% of the expected frequencies are less than 5 and none is less than
-1.)
+$\chi^2$ goodness of fit test. (In other words, that no more than 25% of
+the expected frequencies are less than 5 and none is less than 1.)
 
 To obtain these expected counts, multiply the vector of the expected
 proportions by the total sample size. We can find the total sample size
@@ -221,19 +220,19 @@ $\chi^2$ test:
 chisq.test(MMtable, p = expected_proportions)
 ```
 
-“X–squared” here in the output means $\chi^2$. The $\chi^2$
-value for this test is 5.1442. There are 5 degrees of freedom (df) for
-this test, and the *P*-value turned out to be 0.3985. We wouldn't reject
-the null hypothesis with these data.
+“X–squared” here in the output means $\chi^2$. The $\chi^2$ value for
+this test is 5.1442. There are 5 degrees of freedom (df) for this test,
+and the *P*-value turned out to be 0.3985. We wouldn't reject the null
+hypothesis with these data.
 
 <br>
 
 ## Fit to a Poisson distribution
 
-A $\chi^2$ goodness of fit test can be used to ask whether a
-frequency distribution of a variable is consistent with a Poisson
-distribution. This is a useful way to determine if events in space or
-time are not “random” but instead are clumped or dispersed.
+A $\chi^2$ goodness of fit test can be used to ask whether a frequency
+distribution of a variable is consistent with a Poisson distribution.
+This is a useful way to determine if events in space or time are not
+“random” but instead are clumped or dispersed.
 
 It turns out that this is not a straightforward process in R. In this
 section, we’ll highlight a couple of functions in R that will streamline
@@ -284,20 +283,28 @@ dpois(x = 3, lambda = 4.21)
 The probability of getting exactly 3 successes from a Poisson
 distribution with mean 4.21 is about 18.5%.
 
-`dpois()` will accept a vector of `x`’s as input, and return a vector
-of the probabilities of those `x`s. A convenient short hand to know
-here is that R will create a vector with a range of values with a colon.
-For example, 0:19 is a vector with the integers from 0 to 19.
+`dpois()` will accept a vector of `x`’s as input, and return a vector of
+the probabilities of those `x`s. A convenient short hand to know here is
+that R will create a vector with a range of values with a colon. For
+example, 0:19 is a vector with the integers from 0 to 19.
 
 ```{r}
 0:19
 ```
 
-We’ll need the probabilities for all possible values of 'x' from 0 to
-20, but recall that the Poisson distribution extends to infinity. To get the 
-probability for x ≥ 20, we can keep in mind that that the sum of all
-probabilities must equal 1. We can therefore create a vector with the
-Poisson probabilities of each possibility from 0 to 20 like this:
+This can be plugged directly into `dpois()` along with the appropriate 
+`lambda` to generate the probabilities for the integers from 0 to 19.
+
+```{r}
+dpois(0:19, lambda = 4.21)
+```
+
+We’ll need the probabilities for all possible values of 'x' we see in
+the data, but recall that the Poisson distribution extends from 0 to
+infinity. To get the probability for x ≥ 20, we can keep in mind that
+that the sum of all probabilities must equal 1. We can therefore create
+a vector with the Poisson probabilities of each possibility from 0 to 20
+like this:
 
 ```{r}
 expected_1to19 <- dpois(x = 0:19, lambda = 4.21)
@@ -309,8 +316,11 @@ The odd notation here is a shorthand for scientific notation. 1.48e-02
 means 1.48 x 10^-2^. The e stands for exponent.
 
 Remember that we asked R to output the probability of values from 0 to
-20. So the first value in this output corresponds to the probability of
-getting a zero, the second to the probability of getting a 1, etc.
+20+. Consequently, there are 21 numbers listed. The first value in this
+output corresponds to the probability of getting a zero, the second to
+the probability of getting a 1, etc. The 21st value (2.328750e-08)
+corresponds to the probability of x ≥ 20 (i.e., all the way out to
+infinity).
 
 In order to convert these probabilities into expected values for a
 $\chi^2$ test, we need to multiply them by the total sample size.
@@ -320,17 +330,17 @@ length(number_of_extinctions) * expected_probability
 
 ```
 
-Most of these values would cause problems for the $\chi^2$ test
-because they are too small (less than 1). We need to combine categories
-in some reasonable way so that the expected frequencies match the
-assumptions of the $\chi^2$ test. Let’s combine the categories for 0
-and 1 successes, and combine everything greater than or equal to 8 into
-one category. It is possible to do this all in R, but you can also do it
-by hand, using the expected frequencies we just calculated. Here is a
-table of the expected frequencies for these new combined categories, for
-both the observed and expected, summing over all the possibilities
-within each of these groupings. (E.g., the expected frequency for the
-category “0 or 1” is the sum of 1.128324 and 4.750244.)
+Most of these values would cause problems for the $\chi^2$ test because
+they are too small (less than 1). We need to combine categories in some
+reasonable way so that the expected frequencies match the assumptions of
+the $\chi^2$ test. Let’s combine the categories for 0 and 1 successes,
+and combine everything greater than or equal to 8 into one category. It
+is possible to do this all in R, but you can also do it by hand, using
+the expected frequencies we just calculated. Here is a table of the
+expected frequencies for these new combined categories, for both the
+observed and expected, summing over all the possibilities within each of
+these groupings. (E.g., the expected frequency for the category “0 or 1”
+is the sum of 1.128324 and 4.750244.)
 
 | Number of extinctions | Expected  | Observed |
 |-----------------------|-----------|----------|
@@ -362,11 +372,11 @@ From these we can calculate the $\chi^2$ test statistic using
 
 We give it first the list of observed values, then the expected values
 as `p`. Because we are giving the list of expected frequencies rather
-the expected probabilities, we need to give it the option `rescale.p =
-TRUE`. Finally, by adding `$statistic` at the end, R will only give
-us the $\chi^2$ value as output. (We don’t yet want the full results
-of the test because R does not know to correct for the reduction in
-degrees of freedom caused by estimating the mean.)
+the expected probabilities, we need to give it the option
+`rescale.p = TRUE`. Finally, by adding `$statistic` at the end, R will
+only give us the $\chi^2$ value as output. (We don’t yet want the full
+results of the test because R does not know to correct for the reduction
+in degrees of freedom caused by estimating the mean.)
 
 ```{r}
 chisq.test(observed_combined, p = expected_combined, rescale.p = TRUE)$statistic
@@ -387,14 +397,14 @@ df = 8 – 1 – 1 = 6.
 ### `pchisq()`
 
 To calculate the correct *P*-value, we need to know probability of
-getting a $\chi^2$ value greater than 23.939 from a distribution
-that has 6 degrees of freedom. R has a function we can use for this,
-called `pchisq()`. We are interested here in the probability above the
-observed $\chi^2$ value, so we want the probability in the right (or
-upper) tail. To use this function, we need to specify three values: our
-observed $\chi^2$ (confusingly called `q` in this function), the
-degrees of freedom (called `df`, thank goodness), and an option that
-tells us to use the upper tail (`lower.tail = FALSE`).
+getting a $\chi^2$ value greater than 23.939 from a distribution that
+has 6 degrees of freedom. R has a function we can use for this, called
+`pchisq()`. We are interested here in the probability above the observed
+$\chi^2$ value, so we want the probability in the right (or upper) tail.
+To use this function, we need to specify three values: our observed
+$\chi^2$ (confusingly called `q` in this function), the degrees of
+freedom (called `df`, thank goodness), and an option that tells us to
+use the upper tail (`lower.tail = FALSE`).
 
 ```{r}
 pchisq(q = 23.939, df = 6, lower.tail = FALSE)
@@ -418,13 +428,13 @@ these extinction data follow a Poisson distribution.
 
 <br>
 
-<br> 1. This is a simple, quick exercise meant to help you visualize the meaning
-of a binomial distribution. The binomial distribution applies to cases
-where we do a set number of random trials, and in each trial there is an
-equal and independent probability of a success. Let's say there are *n*
-trials and the probability of success is *p*. Of those *n* trials,
-anywhere between 0 and n of them could be a 'success" and the rest will
-be "failures." Let's call the number of successes *X*.
+<br> 1. This is a simple, quick exercise meant to help you visualize the
+meaning of a binomial distribution. The binomial distribution applies to
+cases where we do a set number of random trials, and in each trial there
+is an equal and independent probability of a success. Let's say there
+are *n* trials and the probability of success is *p*. Of those *n*
+trials, anywhere between 0 and n of them could be a 'success" and the
+rest will be "failures." Let's call the number of successes *X*.
 
 As our example, let's roll five regular dice, and keep track of how many
 come up as "three." In this case, there are five trials, so *n* = 5. The
@@ -457,7 +467,6 @@ you increase your number of samples, the fit should improve.)
 The expected mean number of threes is 0.833. (For the binomial
 distribution, the mean is `n` × `p`, or in this case 5 × 0.1666.)
 Calculate the mean number of threes in your samples.
-
 
 <br> 2. Many hospitals still have signs posted everywhere banning cell
 phone use. These bans originated from studies on earlier versions of
@@ -498,12 +507,12 @@ a.  What are the expected frequencies for this scenario, under the null
     hypothesis that all four pairs of stockings are equally likely to be
     chosen.
 
-b.  Use `chisq.test()` to test the null hypothesis that the selection
-    of the stockings was independent of position.
+b.  Use `chisq.test()` to test the null hypothesis that the selection of
+    the stockings was independent of position.
 
-c.  The function `chisq.test()` can take the data either
-    as a data frame, as above, or as a vector of the observed counts, as
-    a parameter called `x` as input:
+c.  The function `chisq.test()` can take the data either as a data
+    frame, as above, or as a vector of the observed counts, as a
+    parameter called `x` as input:
 
 ```{r eval=FALSE}
 chisq.test(x = c(6,9,16,21), p = c(0.25,0.25,0.25,0.25))
@@ -579,7 +588,7 @@ d.  Here is a table of the expected frequencies under the null
 e.  Create vectors in R for the observed and expected frequencies.
 
 f.  Calculate the $\chi^2$ for this hypothesis test, using
-    `chisq.test()\$statistic`.
+    `chisq.test()$statistic`.
 
 g.  How many degrees of freedom should this $\chi^2$ goodness of fit
     test have?

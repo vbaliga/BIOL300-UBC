@@ -572,8 +572,7 @@ line work? If not, make edits to the code. Then determine the value of
 `life_expectancy_at_birth_female` for Japan, as found in `japan_data`.
 
 <br> 5. Using the `countries` data, create a new data frame called
-`AfricaData` that only includes data for countries in Africa via the
-`filter()` function.
+`AfricaData` that only includes data for countries in Africa.
 
 a.  How many countries are included in `AfricaData`?
 
