@@ -310,6 +310,7 @@ though, it cannot calculate the odds ratios.
 <br>
 
 # Activities & Questions
+Make a script in RStudio that includes all your R code required to answer the following questions. Include answers to all questions below using comments.
 
 <br> 1. The $\chi^2$ contingency test uses a test statistic called
 $\chi^2$. When the null hypothesis is true the distribution of

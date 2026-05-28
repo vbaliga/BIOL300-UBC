@@ -283,6 +283,7 @@ groups with the Titanic data.
 <br>
 
 # Activities & Questions
+Make a script in RStudio that includes all your R code required to answer the following questions. Include answers to all questions below using comments.
 
 <br> 1. The European cuckoo does not look after its own eggs, but
 instead lays them in the nests of birds of other species. Previous

@@ -24,11 +24,11 @@ Analysis of Biological Data*. The rest of the labs can be found
 
 # Learning outcomes
 
--   Learning how to start with R and RStudio
+- Learning how to start with R and RStudio
 
--   Use functions in R
+- Use functions in R
 
--   Write and save an R script
+- Write and save an R script
 
 <br>
 
@@ -287,12 +287,13 @@ x
 
 <br>
 
-## Names
+## Naming objects
 
 Naming objects and functions in R is pretty flexible.
 
-A name has to start with a letter, but that can be followed by letters
-or numbers. There can’t be any spaces, though.
+In general, a name should start with a letter, but that can be followed
+by letters or numbers. There can’t be any spaces or dashes, but
+underscores work.
 
 Names in R are case-sensitive, which means that `Weights` and `weights`
 are completely different things to R. This is a common and incredibly
@@ -312,7 +313,12 @@ hyphens!), as in `weights_before_hospital`. This convention is called
 
 Another solution to make separate words stand out in a object name is to
 vary the case: `weightsBeforeHospital`. This convention is called
-"camelCase".
+"camelCase" (capital letters = humps).
+
+It may be tempting to try something like `weights-before-hospital`, but
+this will not work as R will interpret this as subtraction, e.g.,
+`weights` - `before` - `hospital`. Do not use this convention (often
+called "Kebab-case", dashes = skewers).
 
 <br>
 
@@ -460,18 +466,19 @@ information and fill in the rest, that is fine too. The data sheets do
 not identify students by name. Pass the sheet to the TA when you are
 finished. We’ll use these data in subsequent labs.
 
-<br> 2. For each week, create an R script that captures the code that
-you use to answer the questions, along with the answers. Use a `#` at
-the beginning of each comment line.
+<br> 2. Each week in BIOL 300, you will create an R script that captures
+the code that you use to answer the questions, along with the answers. 
+Use a `#` at the beginning of each comment line. 
 
 a.  Open a new R script file. Start by adding comments with your name
-    and the week (Week 1) at the top.
+    and the lab number (Lab 1) at the top.
 
 b.  For each of the questions below, write the question number as a
     comment, followed by any R code you use to do the question, and give
-    the answers as comments.
+    the answers as comments. Save the R script on your computer; you will
+    upload the R script you write each week as part of the Canvas quiz.
 
-For example, here is what part of your script might look like.
+For example, here is what the beginning of your script might look like.
 
 ```{r eval=FALSE}
 # Terry T. Student
@@ -495,8 +502,8 @@ b.  Run most or all of the commands in R. Did you get the same answers
     as shown in the text?
 
 <br> 4. For each of the variables below, come up with a object name that
-would be appropriate to use in R. Remember that `camelCase` and
-`snake_case` are usually good conventions.
+would be appropriate to use in R. Remember that camelCase and snake_case
+are usually good conventions.
 
 a.  Body temperature in Celsius
 

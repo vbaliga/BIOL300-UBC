@@ -924,13 +924,27 @@ makes life easier for you &amp; your TAs.</p>
 <div id="a-first-look-at-data" class="section level2">
 <h2>A first look at data</h2>
 <p>To see if the data were imported appropriately and/or get a sense of
-the characteristics of the data, the <code>summary()</code> and
-<code>View()</code> commands can be useful.</p>
+the characteristics of the data, the commands below can be useful.</p>
+<div id="view" class="section level3">
+<h3><code>View()</code></h3>
+<p>The <code>View()</code> function is a nice way to see the data in a
+spreadsheet-like format. To see the data in <code>titanicData</code>
+with <code>View()</code>, run the following command:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">View</span>(titanicData)</span></code></pre></div>
+<p><img src="formula_summaries/VIew_function_titanicData.png"
+width="680" /></p>
+<p>Again, note that the <code>titanicData</code> object has 1313 rows
+and 7 columns. A convention in R is to describe data frames according to
+the number of rows first and then columns second. For example,
+<code>titanicData</code> would be a 1313 x 7 object.</p>
+<p>The horizontal and vertical scroll bars will allow you to see more of
+the data compared to what may initially appear in the window.</p>
+</div>
 <div id="summary" class="section level3">
 <h3><code>summary()</code></h3>
 <p>This function will list all the variables and some summary statistics
 for each variable.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">summary</span>(titanicData)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">summary</span>(titanicData)</span></code></pre></div>
 <pre><code>##  passenger_class                        name           age         
 ##  1st:322         Carlsson,MrFransOlof     :   2   Min.   : 0.1667  
 ##  2nd:280         Connolly,MissKate        :   2   1st Qu.:21.0000  
@@ -948,18 +962,34 @@ for each variable.</p>
 ##                    Paris,France     :  9                           
 ##                    (Other)          :648</code></pre>
 </div>
-<div id="view" class="section level3">
-<h3><code>View()</code></h3>
-<p>The <code>View()</code> function is a nice way to see the data in a
-spreadsheet-like format. To see the data in <code>titanicData</code>
-with <code>View()</code>, run the following command:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">View</span>(titanicData)</span></code></pre></div>
-<p><img src="formula_summaries/VIew_function_titanicData.png"
-width="680" /></p>
-<p>Again, note that the <code>titanicData</code> object has 7 columns
-and 1313 rows. The horizontal and vertical scroll bars will allow you to
-see more of the data compared to what may initially appear in the
-window.</p>
+<div id="names" class="section level3">
+<h3><code>names()</code></h3>
+<p>Sometimes, we’ll deal with datasets that are quite “wide” (lots of
+measured variables). These data may not lend themselves well to being
+inspected via <code>View()</code> and/or you may just want to see basic
+information about the names of variables.</p>
+<p><code>names()</code>, if used on a <code>data.frame</code> or
+<code>tibble</code>, will report the names of each column:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">names</span>(titanicData)</span></code></pre></div>
+<pre><code>## [1] &quot;passenger_class&quot;  &quot;name&quot;             &quot;age&quot;             
+## [4] &quot;embarked&quot;         &quot;home_destination&quot; &quot;sex&quot;             
+## [7] &quot;survive&quot;</code></pre>
+</div>
+<div id="str" class="section level3">
+<h3><code>str()</code></h3>
+<p><code>str()</code> will report the names of each column, along with a
+little more descriptive information about the type of variable it
+contains. It is somewhat of a hybrid of <code>summary()</code> and
+<code>names()</code>. “str” stand for “structure”.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">str</span>(titanicData)</span></code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    1313 obs. of  7 variables:
+##  $ passenger_class : Factor w/ 3 levels &quot;1st&quot;,&quot;2nd&quot;,&quot;3rd&quot;: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ name            : Factor w/ 1310 levels &quot;Abbing,MrAnthony&quot;,..: 22 25 26 27 24 31 45 46 50 54 ...
+##  $ age             : num  29 2 30 25 0.917 ...
+##  $ embarked        : Factor w/ 4 levels &quot;&quot;,&quot;Cherbourg&quot;,..: 4 4 4 4 4 4 4 4 4 2 ...
+##  $ home_destination: Factor w/ 372 levels &quot;&quot;,&quot;?Havana,Cuba&quot;,..: 314 234 234 234 234 241 165 26 24 232 ...
+##  $ sex             : Factor w/ 2 levels &quot;female&quot;,&quot;male&quot;: 1 1 2 1 2 2 1 2 1 2 ...
+##  $ survive         : Factor w/ 2 levels &quot;no&quot;,&quot;yes&quot;: 2 1 1 1 2 2 2 1 2 1 ...</code></pre>
 <p><br></p>
 </div>
 </div>
@@ -990,9 +1020,42 @@ by itself. We write the name of the data set, followed by a
 <code>$</code>, and then the name of the variable.</p>
 <p>For example, to show a list of the age of all the passengers on the
 Titanic, use</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>titanicData<span class="sc">$</span>age</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>titanicData<span class="sc">$</span>age</span></code></pre></div>
 <p>This will show a vector that has all the values for this variable
 age, one for each individual in the data set.</p>
+<p><br></p>
+</div>
+<div id="indexing" class="section level3">
+<h3>Indexing</h3>
+<p>“Indexing” means selecting specific parts of objects. In lab 1, we
+used square brackets <code>[ ]</code> to look at specific elements
+within a vector.</p>
+<p>Data frames and tibbles are often described by how many rows and
+columns they contain. The convention is to list rows first: for example,
+<code>titanicData</code> would be a 1313 x 7 object.</p>
+<p>We can use this convention as a coordinate system for indexing
+specific subsets of the data. To do this, we again use square brackets
+right next to the object name and specify [row(s), column(s)] of
+interest. Remember that in R, the indexing starts at 1, not 0 (<em>this
+is different from the way Python works!</em>).</p>
+<p>For example, to see the entry for the 6th row and 3rd column of
+<code>titanicData</code>:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>titanicData[<span class="dv">6</span>, <span class="dv">3</span>]</span></code></pre></div>
+<pre><code>## [1] 47</code></pre>
+<p>If you do not include a value in either the “row” or “column” spot, R
+will include all rows or all columns. The comma within the brackets
+<code>[ , ]</code> will still be necessary for R to interpret what you
+intend. The following shows all columns for the 6th row:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>titanicData[<span class="dv">6</span>, ]</span></code></pre></div>
+<pre><code>##   passenger_class             name age    embarked home_destination  sex
+## 6             1st Anderson,MrHarry  47 Southampton       NewYork,NY male
+##   survive
+## 6     yes</code></pre>
+<p>Indexing data can get a bit more complicated. Other operators such as
+<code>:</code> or functions such as <code>c()</code> can be used to grab
+specific subsets of data. This won’t be a point of emphasis in BIOL 300;
+we’re more likely to subset our data based on factors using the
+<code>filter()</code> function described in a section below.</p>
 <p><br></p>
 </div>
 </div>
@@ -1003,10 +1066,10 @@ easiest way to do this is to simply assign a new vector to a new column
 name, using the <code>$</code>.</p>
 <p>For example, to add the log of age as a column in the
 <code>titanicData</code> data frame, we can write</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>titanicData<span class="sc">$</span>log_age <span class="ot">&lt;-</span> <span class="fu">log</span>(titanicData<span class="sc">$</span>age)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>titanicData<span class="sc">$</span>log_age <span class="ot">&lt;-</span> <span class="fu">log</span>(titanicData<span class="sc">$</span>age)</span></code></pre></div>
 <p>You can run the command <code>head(titanicData)</code> to see that
 <code>log_age</code> is now a column in <code>titanicData</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">head</span>(titanicData)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">head</span>(titanicData)</span></code></pre></div>
 <pre><code>##   passenger_class                                      name     age
 ## 1             1st                 Allen,MissElisabethWalton 29.0000
 ## 2             1st                  Allison,MissHelenLoraine  2.0000
@@ -1043,8 +1106,8 @@ including <code>filter()</code>.</p>
 and an individual is female if that variable has value
 <code>female</code>. We can create a new data frame that includes only
 the data from females with the following command:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>titanicDataFemalesOnly <span class="ot">&lt;-</span> <span class="fu">filter</span>(titanicData, sex <span class="sc">==</span> <span class="st">&quot;female&quot;</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">summary</span>(titanicDataFemalesOnly)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>titanicDataFemalesOnly <span class="ot">&lt;-</span> <span class="fu">filter</span>(titanicData, sex <span class="sc">==</span> <span class="st">&quot;female&quot;</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">summary</span>(titanicDataFemalesOnly)</span></code></pre></div>
 <pre><code>##  passenger_class                            name          age         
 ##  1st:143         Connolly,MissKate            :  2   Min.   : 0.1667  
 ##  2nd:107         Abbott,MrsStanton(Rosa)      :  1   1st Qu.:19.0000  
@@ -1094,6 +1157,9 @@ double equal sign <code>==</code>.</p>
 </div>
 <div id="activities-questions" class="section level1">
 <h1>Activities &amp; Questions</h1>
+<p>Make a script in RStudio that includes all your R code required to
+answer the following questions. Include answers to all questions below
+using comments.</p>
 <p><br> 1. Install the <code>tidyverse</code> package on your system if
 you haven’t already. After it has installed, use <code>library()</code>
 to load it into your R environment. A good practice is to write
@@ -1116,8 +1182,14 @@ computer with the file name
 data file. Remember to list the meaning of each variable name, including
 units. The objective here is to provide a short document that another
 person could read to unambiguously interpret your data file.</p></li>
-<li><p>Import this data file into R using <code>read.csv()</code>, and
-give the resulting data frame a name that makes sense to you.</p></li>
+<li><p>The line below will not work because it contains a couple errors.
+Make corrections to the code to import the csv into R as a data frame
+named <code>Lab1_section_measurements</code>. Explain each correction
+you made (there should be at least 2). Why is each one
+necessary?</p></li>
+</ol>
+<p><code>Lab1_section_measurements &lt;- read.csv(DataForLabs/Lab1_section_measurements.csv, strings = "TRUE")</code></p>
+<ol start="3" style="list-style-type: lower-alpha">
 <li><p>Use the <code>View()</code> function to check that you have read
 the data correctly.</p></li>
 <li><p>Use the <code>summary()</code> function to determine the
@@ -1130,7 +1202,7 @@ countries on Earth. Each row is a country, and each column contains a
 variable.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Use <code>read.csv()</code> to read the data from this file into
-a data frame called countries.</p></li>
+a data frame called <code>countries</code>.</p></li>
 <li><p>Use <code>summary()</code> to get a quick description of this
 data set. What are the first three variables?</p></li>
 <li><p>Using the output of <code>summary()</code>, how many countries

@@ -374,6 +374,7 @@ that died had the same population variances for the variable `age`.
 <br>
 
 # Activities & Questions
+Make a script in RStudio that includes all your R code required to answer the following questions. Include answers to all questions below using comments.
 
 <br> 1. We will investigate robustness of the two-sample *t*-test.
 Remember that the two-sample *t*-test assumes that the variable has a

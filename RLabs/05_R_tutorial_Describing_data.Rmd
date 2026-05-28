@@ -270,7 +270,7 @@ t.test(titanicData$age, conf.level = 0.99)$conf.int
 <br>
 
 # Activities & Questions
-
+Make a script in RStudio that includes all your R code required to answer the following questions. Include answers to all questions below using comments.
 <br>
 
 <br> 1. Go to the web and open the page at

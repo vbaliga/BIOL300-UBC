@@ -225,6 +225,7 @@ a passenger.
 <br>
 
 # Activities & Questions
+Make a script in RStudio that includes all your R code required to answer the following questions. Include answers to all questions below using comments.
 
 <br> 1. We return to the applet we used previously, located at
 <http://www.zoology.ubc.ca/~whitlock/Kingfisher/SamplingNormal.htm> to

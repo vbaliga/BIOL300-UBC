@@ -209,10 +209,11 @@ session if you want to use it. You do this with a function called
 For this lab, we will use functions from a couple packages within the
 tidyverse. This might feel initially confusing, but `tidyverse` itself
 is a collection of separate packages. Therefore, `tidyverse` is
-sometimes referred to as a "metapackage" (don't worry, that bit of trivia won't be on an exam).
+sometimes referred to as a "metapackage" (don't worry, that bit of
+trivia won't be on an exam).
 
-Before using the functions in these packages, we need to load `tidyverse`.
-We do this with the `library()` function: 
+Before using the functions in these packages, we need to load
+`tidyverse`. We do this with the `library()` function:
 
 ```{r message=TRUE, warning=TRUE, results='markup'}
 library(tidyverse)
@@ -361,17 +362,7 @@ life easier for you & your TAs.
 ## A first look at data
 
 To see if the data were imported appropriately and/or get a sense of the
-characteristics of the data, the `summary()` and `View()` commands can
-be useful.
-
-### `summary()`
-
-This function will list all the variables and some summary statistics
-for each variable.
-
-```{r}
-summary(titanicData)
-```
+characteristics of the data, the commands below can be useful.
 
 ### `View()`
 
@@ -385,9 +376,47 @@ View(titanicData)
 
 ![](formula_summaries/VIew_function_titanicData.png){width="680"}
 
-Again, note that the `titanicData` object has 7 columns and 1313 rows.
+Again, note that the `titanicData` object has 1313 rows and 7 columns. A
+convention in R is to describe data frames according to the number of
+rows first and then columns second. For example, `titanicData` would be
+a 1313 x 7 object.
+
 The horizontal and vertical scroll bars will allow you to see more of
 the data compared to what may initially appear in the window.
+
+### `summary()`
+
+This function will list all the variables and some summary statistics
+for each variable.
+
+```{r}
+summary(titanicData)
+```
+
+### `names()`
+
+Sometimes, we'll deal with datasets that are quite "wide" (lots of
+measured variables). These data may not lend themselves well to being
+inspected via `View()` and/or you may just want to see basic information
+about the names of variables.
+
+`names()`, if used on a `data.frame` or `tibble`, will report the names
+of each column:
+
+```{r}
+names(titanicData)
+```
+
+### `str()`
+
+`str()` will report the names of each column, along with a little more
+descriptive information about the type of variable it contains. It is
+somewhat of a hybrid of `summary()` and `names()`. "str" stand for
+"structure".
+
+```{r}
+str(titanicData)
+```
 
 <br>
 
@@ -428,6 +457,45 @@ titanicData$age
 
 This will show a vector that has all the values for this variable age,
 one for each individual in the data set.
+
+<br>
+
+### Indexing
+
+"Indexing" means selecting specific parts of objects. In lab 1, we used
+square brackets `[ ]` to look at specific elements within a vector.
+
+Data frames and tibbles are often described by how many rows and columns
+they contain. The convention is to list rows first: for example,
+`titanicData` would be a 1313 x 7 object.
+
+We can use this convention as a coordinate system for indexing specific
+subsets of the data. To do this, we again use square brackets right next
+to the object name and specify [row(s), column(s)] of interest. Remember
+that in R, the indexing starts at 1, not 0 (*this is different from the
+way Python works!*).
+
+For example, to see the entry for the 6th row and 3rd column of
+`titanicData`:
+
+```{r}
+titanicData[6, 3]
+```
+
+If you do not include a value in either the "row" or "column" spot, R
+will include all rows or all columns. The comma within the brackets
+`[ , ]` will still be necessary for R to interpret what you intend. The
+following shows all columns for the 6th row:
+
+```{r}
+titanicData[6, ]
+```
+
+Indexing data can get a bit more complicated. Other operators such as
+`:` or functions such as `c()` can be used to grab specific subsets of
+data. This won't be a point of emphasis in BIOL 300; we're more likely
+to subset our data based on factors using the `filter()` function
+described in a section below.
 
 <br>
 
@@ -504,11 +572,12 @@ individual, whether `sex` is `female`. We not assigning the value
 <br>
 
 # Activities & Questions
+Make a script in RStudio that includes all your R code required to answer the following questions. Include answers to all questions below using comments.
 
 <br> 1. Install the `tidyverse` package on your system if you haven't
-already. After it has installed, use `library()` to load it
-into your R environment. A good practice is to write `library(tidyverse)` as
-one of the first lines of code in each R script you write for BIOL 300.
+already. After it has installed, use `library()` to load it into your R
+environment. A good practice is to write `library(tidyverse)` as one of
+the first lines of code in each R script you write for BIOL 300.
 
 <br> 2. In Lab 1, Question 7, you and your fellow students may have
 recorded requested information about yourselves. Your TA will now
@@ -528,8 +597,12 @@ a.  Prepare a text file which describes each of the variables in the
     that another person could read to unambiguously interpret your data
     file.
 
-b.  Import this data file into R using `read.csv()`, and give the
-    resulting data frame a name that makes sense to you.
+b.  The line below will not work because it contains a couple errors.
+    Make corrections to the code to import the csv into R as a data
+    frame named `Lab1_section_measurements`. Explain each correction you
+    made (there should be at least 2). Why is each one necessary?
+
+`Lab1_section_measurements <- read.csv(DataForLabs/Lab1_section_measurements.csv, strings = "TRUE")`
 
 c.  Use the `View()` function to check that you have read the data
     correctly.
@@ -542,7 +615,7 @@ contains information about all the countries on Earth. Each row is a
 country, and each column contains a variable.
 
 a.  Use `read.csv()` to read the data from this file into a data frame
-    called countries.
+    called `countries`.
 
 b.  Use `summary()` to get a quick description of this data set. What
     are the first three variables?
