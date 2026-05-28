@@ -431,9 +431,6 @@ div.tocify {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">Home</a>
-</li>
-<li>
   <a href="index.html">About these labs</a>
 </li>
 <li class="dropdown">
@@ -495,13 +492,13 @@ div.tocify {
       <a href="08_R_tutorial_Normal_and_sample_means.html">8. Normal distribution and sample means</a>
     </li>
     <li>
-      <a href="R_tutorial_Comparing_means_of_2_groups.html">9. Comparing the means of two groups</a>
+      <a href="09_R_tutorial_Comparing_means_of_2_groups.html">9. Comparing the means of two groups</a>
     </li>
     <li>
-      <a href="R_tutorial_ANOVA.html">10. ANOVA</a>
+      <a href="10_R_tutorial_ANOVA.html">10. ANOVA</a>
     </li>
     <li>
-      <a href="R_tutorial_Correlation_Regression.html">11. Correlation and regression</a>
+      <a href="11_R_tutorial_Correlation_Regression.html">11. Correlation and regression</a>
     </li>
   </ul>
 </li>
@@ -757,7 +754,9 @@ and then save it again as a <code>.csv</code> file.</p>
 <h2>Installing packages</h2>
 <p>R has a lot of power in its basic form, but one of the most important
 parts about R is that it is expandable by the work of other people.
-These expansions are usually released in “packages”.</p>
+These expansions are usually released in “packages”. An R package is a
+collection of functions that can be used in addition to the built-in R
+functions once loaded.</p>
 <p>Each package needs to be installed on your computer only once, but to
 be used it has to be loaded into R during each session.</p>
 <p>To install a package in RStudio, click on the Packages tab from the
@@ -772,7 +771,7 @@ near the bottom is clicked, and then click the “Install” button at
 bottom right.</p>
 <p><img src="formula_summaries/Install_tidyverse.png" width="480" /></p>
 <p>Installing an R package only needs to be done once on a given
-computer. If installed correctly, the package wil permanently available
+computer. If installed correctly, the package will permanently available
 from that point forward (though it will need to be loaded).</p>
 <p><br></p>
 </div>
@@ -785,9 +784,13 @@ session if you want to use it. You do this with a function called
 <div id="library" class="section level3">
 <h3><code>library()</code></h3>
 <p>For this lab, we will use functions from a couple packages within the
-tidyverse. Before using the functions in these packages, we need to load
-tidyverse. We do this with the <code>library()</code> function. In the
-console, enter this:</p>
+tidyverse. This might feel initially confusing, but
+<code>tidyverse</code> itself is a collection of separate packages.
+Therefore, <code>tidyverse</code> is sometimes referred to as a
+“metapackage” (don’t worry, that bit of trivia won’t be on an exam).</p>
+<p>Before using the functions in these packages, we need to load
+<code>tidyverse</code>. We do this with the <code>library()</code>
+function:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching core tidyverse packages ─────────────────── tidyverse 2.0.0 ──
 ## ✔ dplyr     1.2.1     ✔ readr     2.2.0
@@ -799,10 +802,21 @@ console, enter this:</p>
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-<p>If the <code>tidyverse</code> was is installed on your computer
-correctly, the computer will show a brief status message and then will
-be ready to go. If the package is not installed, it will give you an
-error message in red asking you to install the package.</p>
+<p>If the <code>tidyverse</code> was installed on your computer
+correctly, the computer will show a brief status message like the one
+above and then will be ready to go. In the first part of the message,
+you can see the names of each individual R package within
+<code>tidyverse</code>, such as <code>dplyr</code>,
+<code>forcats</code>, and so on. The numbers after each package name
+indicate the version of each package that is on your computer (this can
+occasionally be important if specific functions change across versions
+of a package).</p>
+<p>Our labs will use functions from several packages within tidyverse,
+including <code>ggplot2</code> and <code>dplyr</code>, and the above
+status message shows you that they have been loaded up as part of doing
+<code>library(tidyverse)</code>.</p>
+<p>If the package was not installed correctly (or at all), it will give
+you an error message in red asking you to install the package.</p>
 <p><br></p>
 </div>
 </div>
@@ -862,23 +876,48 @@ be a csv file.</p>
 </div>
 <div id="finding-files-in-other-locations" class="section level3">
 <h3>Finding files in other locations</h3>
-<p>For all of the examples in BIOL 300 labs, we assume that the data is
-in a folder called <code>DataForLabs</code> and that folder resides in
-the <code>ABDLabs</code> folder. When you work on a new data set outside
-of these labs, you will want to store the data somewhere else. To import
-data into R from another location on your computer, you need to know the
-full file path for the file. For example, the file path to the titanic
-file on my Mac is
-“/Users/whitlock/Desktop/ABDLabs/DataForLabs/titanic.csv”. On a Windows
-machine, it would look something like
+<p><em>Note that for all labs that you turn in for BIOL 300, we expect
+you to use <code>ABDLabs.Rproj</code> to start your session, and put
+data into the <code>DataForLabs</code> folder. Do not use either of the
+examples below in this section in your R scripts for BIOL 300.</em></p>
+<p>When you work on a new data set outside of BIOL 300 labs, you will
+want to store the data somewhere else. To import data into R from
+another location on your computer, you need to know the full file path
+for the file. For example, the file path to the titanic file on my Mac
+is “/Users/vikram/Desktop/ABDLabs/DataForLabs/titanic.csv”. On a Windows
+computer, it would look something like
 “C:\Documents\ABDLabs\DataForLabs\titanic.csv”. In either case, this
 file path describes a series of folders nested inside one another that
 tells the computer where to look for the file.</p>
 <p>By supplying the full address, you are telling
-<code>read.csv()</code> to look for the file outside your current
-working directory. Reading a file from any location can be done with
-<code>read.csv()</code> like this:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;/Users/whitlock/Desktop/ABDLabs/DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<code>read.csv()</code> to look for the file in a specific place, which
+may be outside your current working directory:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;/Users/vikram/Desktop/titanic.csv&quot;</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  )</span></code></pre></div>
+<p>Another alternative is to have R use your Finder or Windows Explorer
+to help you select the right file. This can be occasionally useful if
+you are importing a file for one-time usage and aren’t worried so much
+about the reproducibility of your code. <em>Do not use this in your R
+scripts for BIOL 300.</em> Reading a file from any location can be done
+with <code>file.choose()</code> like this:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="fu">file.choose</span>(),</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  )</span></code></pre></div>
+<p>This will bring up a new window where you navigate to find the file
+of interest yourself. Note that the specific name of the file
+(<code>titanic.csv</code>) isn’t specified in the block of code; it’s
+incumbent on you to select the correct file.</p>
+<p><em>Again note that for all labs that you turn in for BIOL 300, we
+expect you to use <code>ABDLabs.Rproj</code> to start your session, and
+put data into the <code>DataForLabs</code> folder. Do not use either of
+the examples above in this section in your R scripts.</em> All data
+import should follow something like:
+<code>object_name &lt;- read.csv("DataForLabs/data.csv", stringsAsFactors = TRUE)</code></p>
+<p>This enforces a standard environment for all submitted work, which
+makes life easier for you &amp; your TAs.</p>
 <p><br></p>
 </div>
 </div>
@@ -891,7 +930,7 @@ the characteristics of the data, the <code>summary()</code> and
 <h3><code>summary()</code></h3>
 <p>This function will list all the variables and some summary statistics
 for each variable.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">summary</span>(titanicData)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">summary</span>(titanicData)</span></code></pre></div>
 <pre><code>##  passenger_class                        name           age         
 ##  1st:322         Carlsson,MrFransOlof     :   2   Min.   : 0.1667  
 ##  2nd:280         Connolly,MissKate        :   2   1st Qu.:21.0000  
@@ -914,7 +953,7 @@ for each variable.</p>
 <p>The <code>View()</code> function is a nice way to see the data in a
 spreadsheet-like format. To see the data in <code>titanicData</code>
 with <code>View()</code>, run the following command:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">View</span>(titanicData)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">View</span>(titanicData)</span></code></pre></div>
 <p><img src="formula_summaries/VIew_function_titanicData.png"
 width="680" /></p>
 <p>Again, note that the <code>titanicData</code> object has 7 columns
@@ -951,7 +990,7 @@ by itself. We write the name of the data set, followed by a
 <code>$</code>, and then the name of the variable.</p>
 <p>For example, to show a list of the age of all the passengers on the
 Titanic, use</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>titanicData<span class="sc">$</span>age</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>titanicData<span class="sc">$</span>age</span></code></pre></div>
 <p>This will show a vector that has all the values for this variable
 age, one for each individual in the data set.</p>
 <p><br></p>
@@ -964,10 +1003,10 @@ easiest way to do this is to simply assign a new vector to a new column
 name, using the <code>$</code>.</p>
 <p>For example, to add the log of age as a column in the
 <code>titanicData</code> data frame, we can write</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>titanicData<span class="sc">$</span>log_age <span class="ot">&lt;-</span> <span class="fu">log</span>(titanicData<span class="sc">$</span>age)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>titanicData<span class="sc">$</span>log_age <span class="ot">&lt;-</span> <span class="fu">log</span>(titanicData<span class="sc">$</span>age)</span></code></pre></div>
 <p>You can run the command <code>head(titanicData)</code> to see that
 <code>log_age</code> is now a column in <code>titanicData</code>.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">head</span>(titanicData)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">head</span>(titanicData)</span></code></pre></div>
 <pre><code>##   passenger_class                                      name     age
 ## 1             1st                 Allen,MissElisabethWalton 29.0000
 ## 2             1st                  Allison,MissHelenLoraine  2.0000
@@ -1004,8 +1043,8 @@ including <code>filter()</code>.</p>
 and an individual is female if that variable has value
 <code>female</code>. We can create a new data frame that includes only
 the data from females with the following command:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>titanicDataFemalesOnly <span class="ot">&lt;-</span> <span class="fu">filter</span>(titanicData, sex <span class="sc">==</span> <span class="st">&quot;female&quot;</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">summary</span>(titanicDataFemalesOnly)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>titanicDataFemalesOnly <span class="ot">&lt;-</span> <span class="fu">filter</span>(titanicData, sex <span class="sc">==</span> <span class="st">&quot;female&quot;</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">summary</span>(titanicDataFemalesOnly)</span></code></pre></div>
 <pre><code>##  passenger_class                            name          age         
 ##  1st:143         Connolly,MissKate            :  2   Min.   : 0.1667  
 ##  2nd:107         Abbott,MrsStanton(Rosa)      :  1   1st Qu.:19.0000  
@@ -1056,8 +1095,10 @@ double equal sign <code>==</code>.</p>
 <div id="activities-questions" class="section level1">
 <h1>Activities &amp; Questions</h1>
 <p><br> 1. Install the <code>tidyverse</code> package on your system if
-you haven’t already. After it has installed, use
-<code>library(tidyverse)</code> to load it into your R environment.</p>
+you haven’t already. After it has installed, use <code>library()</code>
+to load it into your R environment. A good practice is to write
+<code>library(tidyverse)</code> as one of the first lines of code in
+each R script you write for BIOL 300.</p>
 <p><br> 2. In Lab 1, Question 7, you and your fellow students may have
 recorded requested information about yourselves. Your TA will now
 provide you with data sheets for all students in your section who took

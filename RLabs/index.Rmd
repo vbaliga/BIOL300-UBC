@@ -57,11 +57,11 @@ may require working in a group environment.
 means](08_R_tutorial_Normal_and_sample_means.html)
 
 [9. Comparing means of two
-groups](R_tutorial_Comparing_means_of_2_groups.html)
+groups](09_R_tutorial_Comparing_means_of_2_groups.html)
 
-[10. ANOVA](R_tutorial_ANOVA.html)
+[10. ANOVA](10_R_tutorial_ANOVA.html)
 
-[11. Correlation and regression](R_tutorial_Correlation_Regression.html)
+[11. Correlation and regression](11_R_tutorial_Correlation_Regression.html)
 
 [References and data sources for all tutorials](References.html)
 

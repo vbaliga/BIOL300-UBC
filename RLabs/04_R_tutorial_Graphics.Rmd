@@ -117,6 +117,17 @@ telling us that R was unable to plot all data points; 680 of them do not
 appear. Run `summary(titanicData)` and look at the descriptors of the
 `age` column to see why.
 
+A common convention in writing `ggplot()` code is to drop a line after
+each `+` to get the separate functions within a plot on their own lines.
+This is not a requirement (it is feasible to write the above as
+`ggplot(titanicData, aes(x=age)) + geom_histogram()`, all in 1 line),
+but dropping lines does often help with readability of the code. An
+important reason for this convention of having separate lines is also
+because `ggplot()` itself builds up the plot layer-by-layer. Successive
+functions add to or edit things on the plot. Try running
+`ggplot(titanicData, aes(x=age))` to see how it looks without the
+`geom_histogram()` layer.
+
 <br>
 
 ## Bar graphs
@@ -277,7 +288,7 @@ specifics about how each argument works. Most Help files also have an
 
 <br>
 
-# Questions
+# Activities & Questions
 
 Make a script in RStudio that includes all your R code required to
 answer the following questions. Include answers to all questions below
@@ -315,7 +326,10 @@ d.  Make a bar graph to show the numbers of countries in each of the
 
 e.  Create a scatterplot that shows the relationship between the two
     numerical variables `life_expectancy_at_birth_male` and
-    `life_expectancy_at_birth_female`.
+    `life_expectancy_at_birth_female`. Note that since the units of
+    measurement in each axis are identical, we recommend adding
+    `+ theme(aspect.ratio = 1)` to the end of your ggplot block so that
+    changes in units along each axis are proportional to each other.
 
 <br> 3. The ecological footprint is a widely-used measure, developed at
 UBC, of the impact a person has on the planet. It measures the area of
@@ -339,11 +353,14 @@ b.  Describe the relationship between the footprints for the two years.
 
 c.  From this graph, does the ecological footprint tend to go up or down
     in the years between 2000 and 2012? Did the countries with high or
-    low ecological footprint change the most over this time? (Hint: you
-    can add a one-to-one line to your graph by adding
-    `+ geom_abline(intercept = 0, slope = 1)` to your `ggplot` code
-    block. This will make it easier to see when your points are above or
-    below the line of equivalence.)
+    low ecological footprint change the most over this time? Again note
+    that since the units of measurement in each axis are identical, we
+    recommend adding `+ theme(aspect.ratio = 1)` to the end of your ggplot
+    block so that changes in units along each axis are proportional to
+    each other. (Hint: you can add a one-to-one line to your graph by
+    adding `+ geom_abline(intercept = 0, slope = 1)`. This will make it
+    easier to see when your points are above or below the line of
+    equivalence.)
 
 <br> 4. Use the `countries` data again. Plot the relationship between
 continent and female life expectancy at birth. Describe the patterns

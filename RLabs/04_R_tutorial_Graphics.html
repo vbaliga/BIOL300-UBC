@@ -431,9 +431,6 @@ div.tocify {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">Home</a>
-</li>
-<li>
   <a href="index.html">About these labs</a>
 </li>
 <li class="dropdown">
@@ -495,13 +492,13 @@ div.tocify {
       <a href="08_R_tutorial_Normal_and_sample_means.html">8. Normal distribution and sample means</a>
     </li>
     <li>
-      <a href="R_tutorial_Comparing_means_of_2_groups.html">9. Comparing the means of two groups</a>
+      <a href="09_R_tutorial_Comparing_means_of_2_groups.html">9. Comparing the means of two groups</a>
     </li>
     <li>
-      <a href="R_tutorial_ANOVA.html">10. ANOVA</a>
+      <a href="10_R_tutorial_ANOVA.html">10. ANOVA</a>
     </li>
     <li>
-      <a href="R_tutorial_Correlation_Regression.html">11. Correlation and regression</a>
+      <a href="11_R_tutorial_Correlation_Regression.html">11. Correlation and regression</a>
     </li>
   </ul>
 </li>
@@ -658,6 +655,17 @@ containing non-finite outside the scale range”. This is a benign warning
 telling us that R was unable to plot all data points; 680 of them do not
 appear. Run <code>summary(titanicData)</code> and look at the
 descriptors of the <code>age</code> column to see why.</p>
+<p>A common convention in writing <code>ggplot()</code> code is to drop
+a line after each <code>+</code> to get the separate functions within a
+plot on their own lines. This is not a requirement (it is feasible to
+write the above as
+<code>ggplot(titanicData, aes(x=age)) + geom_histogram()</code>, all in
+1 line), but dropping lines does often help with readability of the
+code. An important reason for this convention of having separate lines
+is also because <code>ggplot()</code> itself builds up the plot
+layer-by-layer. Successive functions add to or edit things on the plot.
+Try running <code>ggplot(titanicData, aes(x=age))</code> to see how it
+looks without the <code>geom_histogram()</code> layer.</p>
 <p><br></p>
 </div>
 <div id="bar-graphs" class="section level2">
@@ -789,8 +797,8 @@ show worked examples.</p>
 <hr />
 <p><br></p>
 </div>
-<div id="questions" class="section level1">
-<h1>Questions</h1>
+<div id="activities-questions" class="section level1">
+<h1>Activities &amp; Questions</h1>
 <p>Make a script in RStudio that includes all your R code required to
 answer the following questions. Include answers to all questions below
 using comments.</p>
@@ -822,7 +830,11 @@ continents. (The categorical variable continent indicates the continent
 to which countries belong.)</p></li>
 <li><p>Create a scatterplot that shows the relationship between the two
 numerical variables <code>life_expectancy_at_birth_male</code> and
-<code>life_expectancy_at_birth_female</code>.</p></li>
+<code>life_expectancy_at_birth_female</code>. Note that since the units
+of measurement in each axis are identical, we recommend adding
+<code>+ theme(aspect.ratio = 1)</code> to the end of your ggplot block
+so that changes in units along each axis are proportional to each
+other.</p></li>
 </ol>
 <p><br> 3. The ecological footprint is a widely-used measure, developed
 at UBC, of the impact a person has on the planet. It measures the area
@@ -844,11 +856,14 @@ years. Does the value of ecological footprint of 2000 seem to predict
 anything about its value in 2012?</p></li>
 <li><p>From this graph, does the ecological footprint tend to go up or
 down in the years between 2000 and 2012? Did the countries with high or
-low ecological footprint change the most over this time? (Hint: you can
-add a one-to-one line to your graph by adding
-<code>+ geom_abline(intercept = 0, slope = 1)</code> to your
-<code>ggplot</code> code block. This will make it easier to see when
-your points are above or below the line of equivalence.)</p></li>
+low ecological footprint change the most over this time? Again note that
+since the units of measurement in each axis are identical, we recommend
+adding <code>+ theme(aspect.ratio = 1)</code> to the end of your ggplot
+block so that changes in units along each axis are proportional to each
+other. (Hint: you can add a one-to-one line to your graph by adding
+<code>+ geom_abline(intercept = 0, slope = 1)</code>. This will make it
+easier to see when your points are above or below the line of
+equivalence.)</p></li>
 </ol>
 <p><br> 4. Use the <code>countries</code> data again. Plot the
 relationship between continent and female life expectancy at birth.

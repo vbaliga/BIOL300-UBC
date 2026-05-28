@@ -12,7 +12,7 @@
 <meta name="author" content="" />
 
 
-<title>Labs using R:  11. Correlation and regression</title>
+<title>Labs using R: UBC Edition  Lab 11. Correlation and regression</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -431,9 +431,6 @@ div.tocify {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">Home</a>
-</li>
-<li>
   <a href="index.html">About these labs</a>
 </li>
 <li class="dropdown">
@@ -495,13 +492,13 @@ div.tocify {
       <a href="08_R_tutorial_Normal_and_sample_means.html">8. Normal distribution and sample means</a>
     </li>
     <li>
-      <a href="R_tutorial_Comparing_means_of_2_groups.html">9. Comparing the means of two groups</a>
+      <a href="09_R_tutorial_Comparing_means_of_2_groups.html">9. Comparing the means of two groups</a>
     </li>
     <li>
-      <a href="R_tutorial_ANOVA.html">10. ANOVA</a>
+      <a href="10_R_tutorial_ANOVA.html">10. ANOVA</a>
     </li>
     <li>
-      <a href="R_tutorial_Correlation_Regression.html">11. Correlation and regression</a>
+      <a href="11_R_tutorial_Correlation_Regression.html">11. Correlation and regression</a>
     </li>
   </ul>
 </li>
@@ -566,17 +563,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-<h1 class="title toc-ignore"><em>Labs using R</em>: <br>11. Correlation
-and regression</h1>
+<h1 class="title toc-ignore">Labs using R: <em>UBC Edition</em> <br>Lab
+11. Correlation and regression</h1>
 <h4 class="author"></h4>
 
 </div>
 
 
-<p><em>This lab is part of a series designed to accompany a course using
-</em>The Analysis of Biological Data<em>. The rest of the labs can be
-found <a href="index.html">here</a>. This lab is based on topics in
-Chapters 16 and 17 of ABD.</em></p>
+<p><em>This lab is part of a series designed for BIOL 300, based on</em>
+The Analysis of Biological Data<em>. The rest of the labs can be found
+<a href="index.html">here</a>.</em></p>
 <p><br></p>
 <div id="learning-outcomes" class="section level1">
 <h1>Learning outcomes</h1>
@@ -594,8 +590,8 @@ linear regression</p></li>
 <p><br></p>
 <p>If you have not already done so, download <a href="ABDLabs.zip">the
 zip file containing Data, R scripts, and other resources for these
-labs</a>. Remember to start RStudio from the “ABDLabs.Rproj” file in
-that folder to make these exercises work more seamlessly.</p>
+labs</a>. Remember to start RStudio from the <code>ABDLabs.Rproj</code>
+file in that folder to make these exercises work more seamlessly.</p>
 <hr />
 <p><br></p>
 </div>
@@ -607,18 +603,23 @@ between two numerical variables, using correlation and regression.</p>
 <p>To demonstrate the new R commands this week, we will use the data set
 from Figure 2.3-3 in Whitlock and Schluter. These data investigate the
 relationship between how ornamented a father guppy is
-(fatherOrnamentation) and how attractive to females are his sons
-(sonAttractiveness). Load the data from the .csv file:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>guppyData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/chap02e3bGuppyFatherSonAttractiveness.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+(<code>fatherOrnamentation</code>) and how attractive to females are his
+sons (<code>sonAttractiveness</code>). Load the data from the .csv
+file:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>guppyData <span class="ot">&lt;-</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/chap02e3bGuppyFatherSonAttractiveness.csv&quot;</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>  )</span></code></pre></div>
 <p>Before we go further, it is wise to plot a scatterplot to view the
 relationship of the two variables. (See Lab 3.)</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">ggplot</span>(guppyData, <span class="fu">aes</span>(<span class="at">x=</span>fatherOrnamentation, </span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>   <span class="at">y=</span>sonAttractiveness)) <span class="sc">+</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>   <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>   <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>   <span class="fu">xlab</span>(<span class="st">&quot;Father&#39;s ornamentation&quot;</span>) <span class="sc">+</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>   <span class="fu">ylab</span>(<span class="st">&quot;Son&#39;s attractiveness&quot;</span>)</span></code></pre></div>
-<p><img src="R_tutorial_Correlation_Regression_files/figure-html/unnamed-chunk-2-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">ggplot</span>(guppyData, </span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> fatherOrnamentation, </span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>           <span class="at">y =</span> sonAttractiveness)) <span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Father&#39;s ornamentation&quot;</span>) <span class="sc">+</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Son&#39;s attractiveness&quot;</span>) </span></code></pre></div>
+<p><img src="11_R_tutorial_Correlation_Regression_files/figure-html/unnamed-chunk-2-1.png" alt="" width="672" /></p>
 <p>Note that these data seem to have a moderately strong, positive
 relationship.</p>
 <p><br></p>
@@ -626,30 +627,31 @@ relationship.</p>
 <h2>Correlation</h2>
 <p><br></p>
 <div id="cor" class="section level3">
-<h3>cor()</h3>
+<h3><code>cor()</code></h3>
 <p>Calculating a correlation coefficient in R is straightforward. The
-function <strong>cor()</strong> calculates the correlation between the
-two variables given as input:</p>
+function <code>cor()</code> calculates the correlation between the two
+variables given as input. Note that this function does not use a
+<code>data =</code> argument, so we’ll specify columns via
+<code>$</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">cor</span>(guppyData<span class="sc">$</span>fatherOrnamentation, guppyData<span class="sc">$</span>sonAttractiveness)</span></code></pre></div>
 <pre><code>## [1] 0.6141043</code></pre>
-<p>As we predicted from the graph, the correlation coefficient of these
-data is positive and fairly strong.</p>
+<p>As we predicted from the graph, the Pearson’s correlation coefficient
+of these data is positive and fairly strong.</p>
 <p>R has no explicit function for calculating the coefficient of
 determination. However, the coefficient of determination is simply the
 square of the correlation coefficient, so we can calculate it by simply
-squaring the output of <strong>cor()</strong>. Remember from Lab 1 that
-the caret sign (<strong>^</strong>) is used to denote exponents, as in
-the following example:</p>
+squaring the output of <code>cor()</code>. Remember from Lab 1 that the
+caret sign (<code>^</code>) is used to denote exponents, as in the
+following example:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">cor</span>(guppyData<span class="sc">$</span>fatherOrnamentation, guppyData<span class="sc">$</span>sonAttractiveness)<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
 <pre><code>## [1] 0.377124</code></pre>
 <p><br></p>
 </div>
 <div id="cor.test" class="section level3">
-<h3>cor.test()</h3>
+<h3><code>cor.test()</code></h3>
 <p>To test a hypothesis about the correlation coefficient or to
-calculate its confidence interval, use <strong>cor.test()</strong>. It
-takes as input the names of vectors containing the variables of
-interest.</p>
+calculate its confidence interval, use <code>cor.test()</code>. It takes
+as input the names of vectors containing the variables of interest.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">cor.test</span>(guppyData<span class="sc">$</span>fatherOrnamentation, guppyData<span class="sc">$</span>sonAttractiveness)</span></code></pre></div>
 <pre><code>## 
 ##  Pearson&#39;s product-moment correlation
@@ -677,10 +679,12 @@ coefficient itself.</p>
 </div>
 <div id="spearmans-correlation" class="section level2">
 <h2>Spearman’s correlation</h2>
-<p>The function <strong>cor.test()</strong> can also calculate a
-Spearman’s rank correlation, if we add the option <strong>method =
-“spearman”</strong> to the command.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">cor.test</span>(guppyData<span class="sc">$</span>fatherOrnamentation, guppyData<span class="sc">$</span>sonAttractiveness, <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span>)</span></code></pre></div>
+<p>The function <code>cor.test()</code> can also calculate a Spearman’s
+rank correlation, if we add the option <code>method = "spearman"</code>
+to the command.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">cor.test</span>(guppyData<span class="sc">$</span>fatherOrnamentation, guppyData<span class="sc">$</span>sonAttractiveness,</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>         <span class="at">method =</span> <span class="st">&quot;spearman&quot;</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>         )</span></code></pre></div>
 <pre><code>## 
 ##  Spearman&#39;s rank correlation rho
 ## 
@@ -698,24 +702,27 @@ class="math inline">\(\rho\)</span> in this case is about 0.579.</p>
 <div id="linear-regression" class="section level2">
 <h2>Linear regression</h2>
 <p>Regression in R is a two-step process similar to the steps used in
-ANOVA last week. In fact, we again start by using <strong>lm()</strong>
-to fit a linear model to the data. (Both ANOVA and regression are
-special cases of linear models, which also can be used to generate much
-more complicated analyses than these.) We then give the output of
-<strong>lm()</strong> to the function <strong>summary()</strong> to see
-many useful results of the analysis.</p>
-<p>Using the <strong>lm()</strong> function to calculate regression is
+ANOVA last week. In fact, we again start by using <code>lm()</code> to
+fit a linear model to the data. (Both ANOVA and regression are special
+cases of linear models, which also can be used to generate much more
+complicated analyses than these.) We then give the output of
+<code>lm()</code> to the function <code>summary()</code> to see many
+useful results of the analysis.</p>
+<p>Using the <code>lm()</code> function to calculate regression is
 similar to the steps used for ANOVA. The first argument is a formula, in
-the form <strong>response_variable ~ explanatory_variable</strong>. In
+the usual form <code>response_variable ~ explanatory_variable</code>. In
 this case we want to predict son’s attractiveness from father’s
-ornamentation, so our formula will be <strong>sonAttractiveness ~
-fatherOrnamentation</strong>. The second input argument is the name of
-the data frame with the data. We will want to assign the results to a
-new object with a name (we chose “<strong>guppyRegression</strong>”), so
-that we can use the results in later calculations with
-<strong>summary()</strong>.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>guppyRegression <span class="ot">&lt;-</span> <span class="fu">lm</span>(sonAttractiveness <span class="sc">~</span> fatherOrnamentation, <span class="at">data =</span> guppyData)</span></code></pre></div>
-<p>Let’s look at the output of <strong>lm()</strong> in this case.</p>
+ornamentation, so our formula will be
+<code>sonAttractiveness ~ fatherOrnamentation</code>. The second input
+argument is the name of the data frame with the data. We will want to
+assign the results to a new object with a name (we chose
+<code>guppyRegression</code>), so that we can use the results in later
+calculations with <code>summary()</code>.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>guppyRegression <span class="ot">&lt;-</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">lm</span>(sonAttractiveness <span class="sc">~</span> fatherOrnamentation,</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>    <span class="at">data =</span> guppyData</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  )</span></code></pre></div>
+<p>Let’s look at the output of <code>lm()</code> in this case.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>guppyRegression </span></code></pre></div>
 <pre><code>## 
 ## Call:
@@ -730,7 +737,7 @@ Therefore the line that is estimated to be the best fit to these data
 is</p>
 <p>sonAttractiveness = 0.005084 + (0.982285 x fatherOrnamentation).</p>
 <p>We can find other useful information by looking at the
-<strong>summary()</strong> of the <strong>lm()</strong> result:</p>
+<code>summary()</code> of the <code>lm()</code> result:</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">summary</span>(guppyRegression)</span></code></pre></div>
 <pre><code>## 
 ## Call:
@@ -756,27 +763,27 @@ standard error and <em>P</em>-value for each of these numbers in that
 same table. For these data, the <em>P</em>-value for the null hypothesis
 that the true slope is zero is 6.78 x 10–5.</p>
 <p>Plotting this line on the scatterplot is fairly straightforward in
-<strong>ggplot()</strong>. We can use the same plot function as above,
-with a new layer added with “<strong>+ geom_smooth(method=lm)</strong>”
-in the last line below:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">ggplot</span>(guppyData, <span class="fu">aes</span>(<span class="at">x=</span>fatherOrnamentation, </span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>   <span class="at">y=</span>sonAttractiveness)) <span class="sc">+</span></span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>   <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>   <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>   <span class="fu">xlab</span>(<span class="st">&quot;Father&#39;s ornamentation&quot;</span>) <span class="sc">+</span></span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>   <span class="fu">ylab</span>(<span class="st">&quot;Son&#39;s attractiveness&quot;</span>) <span class="sc">+</span>    </span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>   <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm)</span></code></pre></div>
+<code>ggplot()</code>. We can use the same plot function as above, with
+a new layer added with <code>+ geom_smooth(method = lm)</code> in the
+last line below:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">ggplot</span>(guppyData, </span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> fatherOrnamentation,</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>           <span class="at">y =</span> sonAttractiveness)) <span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>       <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>       <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>       <span class="fu">xlab</span>(<span class="st">&quot;Father&#39;s ornamentation&quot;</span>) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>       <span class="fu">ylab</span>(<span class="st">&quot;Son&#39;s attractiveness&quot;</span>) <span class="sc">+</span>    </span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>       <span class="fu">geom_smooth</span>(<span class="at">method =</span> lm)</span></code></pre></div>
 <pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
-<p><img src="R_tutorial_Correlation_Regression_files/figure-html/unnamed-chunk-10-1.png" alt="" width="672" /></p>
+<p><img src="11_R_tutorial_Correlation_Regression_files/figure-html/unnamed-chunk-10-1.png" alt="" width="672" /></p>
 <p>This layer adds both the best-fitting regression line and also the
 95% confidence interval for the line shown in grey shading. The outer
 edges of the shaded area represent the confidence bands, indicating the
 95% confidence intervals for the mean of the Y-variable (son’s
 attractiveness) at each value of the X-variable (father’s
 ornamentation). If you want a plot without this confidence interval, add
-the argument <strong>se = FALSE</strong> to the
-<strong>gm_smooth()</strong> function, as in
-<strong>geom_smooth(method=lm, se = FALSE)</strong>.</p>
+the argument <code>se = FALSE</code> to the <code>gm_smooth()</code>
+function, as in <code>geom_smooth(method = lm, se = FALSE)</code>.</p>
 <p><br></p>
 </div>
 <div id="residual-plots" class="section level2">
@@ -787,22 +794,23 @@ the difference between the actual value of the <em>y</em> variable and
 the predicted value based on the regression line.</p>
 <p><br></p>
 <div id="residuals" class="section level3">
-<h3>residuals()</h3>
+<h3><code>residuals()</code></h3>
 <p>R can calculate the residuals from a model with the
-<strong>residuals()</strong> function. Simply give this function the
-results from the <strong>lm()</strong> function, such as the
-<strong>guppyRegression</strong> that we calculated above. A vector of
-all the residuals for this regression line would be calculated by</p>
+<code>residuals()</code> function. Simply give this function the results
+from the <code>lm()</code> function, such as the
+<code>guppyRegression</code> that we calculated above. A vector of all
+the residuals for this regression line would be calculated by</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">residuals</span>(guppyRegression)</span></code></pre></div>
 <p>With a residual plot, we plot the residuals of each data point as a
 function of the explanatory variable.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">residuals</span>(guppyRegression) <span class="sc">~</span> fatherOrnamentation, <span class="at">data =</span> guppyData)</span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>)</span></code></pre></div>
-<p><img src="R_tutorial_Correlation_Regression_files/figure-html/unnamed-chunk-12-1.png" alt="" width="672" /></p>
-<p>In this case we used the built-in function <strong>plot()</strong>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">residuals</span>(guppyRegression) <span class="sc">~</span> fatherOrnamentation, </span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>     <span class="at">data =</span> guppyData)</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="dv">0</span>)</span></code></pre></div>
+<p><img src="11_R_tutorial_Correlation_Regression_files/figure-html/unnamed-chunk-12-1.png" alt="" width="672" /></p>
+<p>In this case we used the built-in function <code>plot()</code>
 because it is fast and easy, and this residual plot may only be for
-ourselves. The second command <strong>abline(h=0)</strong> adds the
+ourselves. The second command <code>abline(h=0)</code> adds the
 horizontal line at 0 to the plot so that it is easier to see the
 baseline.</p>
 <p>This residual plot shows no major deviation from the assumptions of
@@ -822,13 +830,9 @@ src="formula_summaries/Regression%20correlation%20summary.png" /></p>
 <hr />
 <p><br></p>
 </div>
-<div id="activities" class="section level1">
-<h1>Activities</h1>
-<p><br></p>
-<div id="developing-an-intuition-for-correlation-coefficients."
-class="section level2">
-<h2>1. Developing an intuition for correlation coefficients.</h2>
-<p>In a web browser, open the app at <a
+<div id="activities-questions" class="section level1">
+<h1>Activities &amp; Questions</h1>
+<p><br> 1. In a web browser, open the app at <a
 href="http://shiney.zoology.ubc.ca/whitlock/Guessing_correlation/">shiney.zoology.ubc.ca/whitlock/Guessing_correlation/</a></p>
 <p>This app is simple—it will plot some data in a scatterplot, and you
 guess the correct correlation coefficient for those data. Select one of
@@ -839,23 +843,14 @@ correlation coefficient means for how strong a relationship is between
 two numerical variables.</p>
 <p>Keep trying new data sets (by clicking the “Simulate new data”
 button) until you feel like you can get it right most of the time.</p>
-<p><br></p>
-</div>
-<div id="visualizing-residuals." class="section level2">
-<h2>2. Visualizing residuals.</h2>
-<p>Open another app at <a
-href="http://shiney.zoology.ubc.ca/whitlock/Residuals/">http://shiney.zoology.ubc.ca/whitlock/Residuals/</a>
-This app will let you visualize the meaning of the term “residual” and
-help to understand what a residual plot is.</p>
+<p><br> 2. Open another app at <a
+href="http://shiney.zoology.ubc.ca/whitlock/Residuals/"
+class="uri">http://shiney.zoology.ubc.ca/whitlock/Residuals/</a> This
+app will let you visualize the meaning of the term “residual” and help
+to understand what a residual plot is.</p>
 <p>Start with the first tab (“1. Residuals”), and work through the tabs
 in order.</p>
-<hr />
-<p><br></p>
-</div>
-</div>
-<div id="questions" class="section level1">
-<h1>Questions</h1>
-<p><br> 1. The ends of chromosomes are called telomeres. These telomeres
+<p><br> 3. The ends of chromosomes are called telomeres. These telomeres
 are shortened a bit during each cell cycle as DNA is replicated. One of
 their purposes is to protect more valuable DNA in the chromosome from
 degradation during replication. As people get older and their cells have
@@ -868,18 +863,22 @@ cells, on the other hand, usually express telomerase.)</p>
 becomes interesting to know whether telomere length varies between
 individuals and whether this variation is inherited. A set of data was
 collected by Nordfjäll et al. (2005) on the telomere length of fathers
-and their children; these data are in the file “telomere
-inheritance.csv”.</p>
+and their children; these data are in the file
+<code>telomere inheritance.csv</code>.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Create a scatter plot showing the relationship between father and
-offspring telomere length.</p></li>
+offspring telomere length. Note that since the units of measurement in
+each axis are identical, we recommend adding
+<code>theme(aspect.ratio = 1)</code> in your ggplot block so that
+changes in units along each axis are proportional to each
+other.</p></li>
 <li><p>Do the data require any transformation before analysis using
 linear regression?</p></li>
 <li><p>Estimate an equation that predicts the offspring telomere length
 from its father’s. Is there evidence that the father’s telomere length
 predicts his offspring’s value?</p></li>
 </ol>
-<p><br> 2. Opfer and Segler (2007) asked second- and fourth-grade school
+<p><br> 4. Opfer and Segler (2007) asked second- and fourth-grade school
 children to mark on a number line where a given number would fall. Each
 child was given a drawing of a number line with two ends marked at 0 and
 1000, and was then asked to make an X on that line where a number, for
@@ -889,7 +888,7 @@ paper.</p>
 <p><img src="formula_summaries/number%20line.png" /></p>
 <p>The researchers then measured the placement of each mark on a linear
 scale. The results, averaged over all 93 kids for each group, are given
-in the file “numberline.csv”.</p>
+in the file <code>numberline.csv</code>.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Plot the fourth graders’ guesses against the true value. Is this
 relationship linear? If not, find a transformation of <em>X</em> or
@@ -905,14 +904,14 @@ untransformed data.</p></li>
 real. What would you conclude about the difference in the way 2nd
 graders and 4th graders perceive numbers?</p></li>
 </ol>
-<p><br> 3. Larger animals tend to have larger brains. But is the
+<p><br> 5. Larger animals tend to have larger brains. But is the
 increase in brain size proportional to the increase in body size? A set
 of data on body and brain size of 62 mammal species was collated by
 Allison and Cicchetti (1976), and these data are in the data set
-“mammals.csv”. The file contains columns giving the species name, the
-average body mass (in kg) and average brain size (in g) for each
-species. These are the same data used in the second half of the app
-about residuals that you used in the activities earlier in this lab.</p>
+<code>mammals.csv</code>. The file contains columns giving the species
+name, the average body mass (in kg) and average brain size (in g) for
+each species. These are the same data used in the app about residuals
+that you used in part 2.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Plot brain size against body size. Is the relationship
 linear?</p></li>
@@ -928,10 +927,9 @@ size?</p></li>
 <li><p>Make a residual plot using the regression fitted to the
 transformed variables. Do the data look like they match the assumptions
 of linear regression?</p></li>
-<li><p>[<strong>OPTIONAL</strong> – hint: try using
-<strong>filter()</strong> from the <strong>dplyr</strong> package.]
-Which species has the highest brain size relative to that predicted by
-its body size? Which species has the smallest brain relative to that
+<li><p>[Hint: try using <code>filter()</code> for this one] Which
+species has the highest brain size relative to that predicted by its
+body size? Which species has the smallest brain relative to that
 predicted by its body size?</p></li>
 </ol>
 </div>

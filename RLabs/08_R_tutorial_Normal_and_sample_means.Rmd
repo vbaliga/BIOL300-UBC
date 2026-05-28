@@ -224,7 +224,7 @@ a passenger.
 
 <br>
 
-# Activities and Questions
+# Activities & Questions
 
 <br> 1. We return to the applet we used previously, located at
 <http://www.zoology.ubc.ca/~whitlock/Kingfisher/SamplingNormal.htm> to

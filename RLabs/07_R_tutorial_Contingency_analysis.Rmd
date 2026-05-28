@@ -309,7 +309,7 @@ though, it cannot calculate the odds ratios.
 
 <br>
 
-# Activities and Questions
+# Activities & Questions
 
 <br> 1. The $\chi^2$ contingency test uses a test statistic called
 $\chi^2$. When the null hypothesis is true the distribution of

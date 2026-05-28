@@ -3,8 +3,6 @@ navbar:
   title: <em>The Analysis of Biological Data</em> by Whitlock and Schluter
   left:
 
-    - text: "Home"
-      href: ../index.html
     - text: "About these labs"
       href: index.html
     - text: "Available resources"
@@ -41,11 +39,11 @@ navbar:
         - text: "8. Normal distribution and sample means"
           href: 08_R_tutorial_Normal_and_sample_means.html
         - text: "9. Comparing the means of two groups"
-          href: R_tutorial_Comparing_means_of_2_groups.html
+          href: 09_R_tutorial_Comparing_means_of_2_groups.html
         - text: "10. ANOVA"
-          href: R_tutorial_ANOVA.html
+          href: 10_R_tutorial_ANOVA.html
         - text: "11. Correlation and regression"
-          href: R_tutorial_Correlation_Regression.html
+          href: 11_R_tutorial_Correlation_Regression.html
         
    
 output_dir: "."
