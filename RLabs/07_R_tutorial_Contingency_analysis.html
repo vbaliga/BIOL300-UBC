@@ -597,7 +597,8 @@ association between two categorical variables. We’ll use the Titanic
 data set as an example, looking at the association between the sex of
 passengers and whether they survived the accident. Let’s read the data
 from the .csv file:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> </span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>The variables we’ll use are <code>sex</code> and
 <code>survive</code>. The variable <code>survive</code> contains a
 <code>yes</code> if the individual survived the sinking and a
@@ -627,10 +628,12 @@ survive comes first when we use R to calculate the odds ratio below.
 This is to ensure that the probability of success (here,
 <code>yes</code>) is in the numerator. We change the order using the
 <code>levels</code> argument of the <code>factor()</code> command:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>titanicData<span class="sc">$</span>survive <span class="ot">&lt;-</span> <span class="fu">factor</span>(titanicData<span class="sc">$</span>survive, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>titanicData<span class="sc">$</span>survive <span class="ot">&lt;-</span> </span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  <span class="fu">factor</span>(titanicData<span class="sc">$</span>survive, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;yes&quot;</span>, <span class="st">&quot;no&quot;</span>))</span></code></pre></div>
 <p>The above command saves the new ordering of categories in the data
 frame <code>titanicData</code>, overwriting the original variable
-<code>titanicData$survive</code>. To check the new order:</p>
+<code>titanicData$survive</code>. To check the new order, use
+<code>levels()</code> again:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">levels</span>(titanicData<span class="sc">$</span>survive)</span></code></pre></div>
 <pre><code>## [1] &quot;yes&quot; &quot;no&quot;</code></pre>
 <p><br></p>
@@ -658,17 +661,22 @@ information for the males.</p>
 <p>It is useful to keep this frequency table as a named object, as we
 have done here (<code>sex_survive_table</code>). We shall use this table
 several times in later analyses.</p>
-<p>Sometimes for contingency analysis we have already summarized the
-counts for each case. In these cases it is useful to be able to create a
-data table directly from these counts. The following syntax will allow
-you to create a data table directly:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>sex_survive_table_direct <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">yes =</span> <span class="fu">c</span>(<span class="dv">307</span>,<span class="dv">142</span>), <span class="at">no =</span> <span class="fu">c</span>(<span class="dv">156</span>,<span class="dv">708</span>),</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>      <span class="at">row.names =</span> <span class="fu">c</span>(<span class="st">&quot;female&quot;</span>,<span class="st">&quot;male&quot;</span>))</span></code></pre></div>
+<p>Sometimes for contingency analysis, we may have already summarized
+the counts for each case. In these cases it is useful to be able to
+create a data table directly from these values. The following syntax
+will allow you to create a data table directly:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>sex_survive_table_direct <span class="ot">&lt;-</span> </span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">yes =</span> <span class="fu">c</span>(<span class="dv">307</span>,<span class="dv">142</span>), <span class="at">no =</span> <span class="fu">c</span>(<span class="dv">156</span>,<span class="dv">708</span>),</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>             <span class="at">row.names =</span> <span class="fu">c</span>(<span class="st">&quot;female&quot;</span>,<span class="st">&quot;male&quot;</span>))</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>sex_survive_table_direct</span></code></pre></div>
+<pre><code>##        yes  no
+## female 307 156
+## male   142 708</code></pre>
 <p><br></p>
 </div>
 <div id="mosaic-plots" class="section level2">
 <h2>Mosaic plots</h2>
-<p>We learned in week 3 how to show associations between categorical
+<p>We learned in Lab 3 how to show associations between categorical
 variables like this using grouped bar graphs. The mosaic plot is another
 graphical technique for showing the association between two categorical
 variables. Here, each combination of the variables is represented by a
@@ -677,7 +685,7 @@ of individuals in that combination.</p>
 <p>R has a function to calculate mosaic plots, with the sensible name
 <code>mosaicplot()</code>. In its most basic form, you just give it a
 frequency table as input.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">mosaicplot</span>(sex_survive_table)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">mosaicplot</span>(sex_survive_table)</span></code></pre></div>
 <p><img src="07_R_tutorial_Contingency_analysis_files/figure-html/unnamed-chunk-7-1.png" alt="" width="672" /></p>
 <p>This shows the basic pattern. However, this plot can be greatly
 improved by adding a couple of extra options, to specify color and axes
@@ -692,7 +700,10 @@ like <code>red</code>, <code>orange</code>, <code>blue</code>, etc.)</p>
 <code>xlab</code> and <code>ylab</code> as options. Let’s simply call
 the <em>x</em>-axis “Sex” and the <em>y</em>-axis “Survival”. Here’s
 what the command would now look like:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">mosaicplot</span>(sex_survive_table, <span class="at">color =</span> <span class="fu">c</span>(<span class="st">&quot;darkred&quot;</span>, <span class="st">&quot;gold&quot;</span>), <span class="at">xlab =</span><span class="st">&quot;Sex&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Survival&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">mosaicplot</span>(sex_survive_table,</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="at">color =</span> <span class="fu">c</span>(<span class="st">&quot;darkred&quot;</span>, <span class="st">&quot;gold&quot;</span>),</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Sex&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Survival&quot;</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>)</span></code></pre></div>
 <p><img src="07_R_tutorial_Contingency_analysis_files/figure-html/unnamed-chunk-8-1.png" alt="" width="672" /></p>
 <p>It is much easier now to see in the graph that the majority of
 females survived whereas the majority of males did not.</p>
@@ -708,7 +719,7 @@ Fisher’s exact test (more on that later). The input to this function is
 a contingency table like the one we calculated above. We’ll use the
 results in a couple of ways, so let’s save the results in an object.
 (Here we called it <code>sex_survive_fisher</code>.)</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>sex_survive_fisher <span class="ot">&lt;-</span> <span class="fu">fisher.test</span>(sex_survive_table)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>sex_survive_fisher <span class="ot">&lt;-</span> <span class="fu">fisher.test</span>(sex_survive_table)</span></code></pre></div>
 <p>The output of this function has several parts, two of which we’ll
 want to look at now for estimating an odds ratio. We can see the
 specific elements of the output by using the <code>$</code>
@@ -717,10 +728,10 @@ notation.</p>
 <code>fisher.test()</code> function call to get the odds ratio estimate.
 For example, if we want to know the odds ratio for survival as a
 function of sex for the Titanic data, we write:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>sex_survive_fisher<span class="sc">$</span>estimate</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>sex_survive_fisher<span class="sc">$</span>estimate</span></code></pre></div>
 <pre><code>## odds ratio 
 ##   9.792284</code></pre>
-<p>This shows that the odds ratio is about 10—the odds of a female
+<p>This shows that the odds ratio is about 10; the odds of a female
 surviving were about ten times the odds of a male surviving. This is
 (female survival / female death) / (male survival / male death). The
 order of the values in the odds ratios is determined by the order of the
@@ -729,7 +740,7 @@ values of each variable; by default R uses alphabetical order.</p>
 confidence interval for the odds ratio, and assigns it to an output
 variable called <code>conf.int</code>. We can see the 95% confidence
 interval for the odds ratio with a command like:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>sex_survive_fisher<span class="sc">$</span>conf.int</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>sex_survive_fisher<span class="sc">$</span>conf.int</span></code></pre></div>
 <pre><code>## [1]  7.471136 12.887759
 ## attr(,&quot;conf.level&quot;)
 ## [1] 0.95</code></pre>
@@ -760,7 +771,7 @@ also provides a way for us to look at the expected values. If we give a
 frequency table as input, and then add <code>$expected</code> at the end
 of the function, it will show us the expected values for a test of
 independence, like this:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">chisq.test</span>(sex_survive_table)<span class="sc">$</span>expected</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">chisq.test</span>(sex_survive_table)<span class="sc">$</span>expected</span></code></pre></div>
 <pre><code>##         
 ##               yes       no
 ##   female 158.3298 304.6702
@@ -772,7 +783,7 @@ a frequency table as input to the <code>chisq.test()</code> function to
 do this test. We’ve added the option <code>correct = FALSE</code> to
 tell R to not do a Yate’s correction, which can be overly
 conservative.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">chisq.test</span>(sex_survive_table, <span class="at">correct=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">chisq.test</span>(sex_survive_table, <span class="at">correct=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Pearson&#39;s Chi-squared test
 ## 
@@ -793,9 +804,9 @@ tedious to calculate by hand, but R can do it in a flash. This test
 makes no approximations and sets no minimum threshold for the sizes of
 the expected values.</p>
 <p>To implement Fisher’s exact test in R, use
-<strong>fisher.test()</strong>. This function is easy to use; just give
-it a frequency table as input.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">fisher.test</span>(sex_survive_table)</span></code></pre></div>
+<code>fisher.test()</code>. This function is easy to use; just give it a
+frequency table as input.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">fisher.test</span>(sex_survive_table)</span></code></pre></div>
 <pre><code>## 
 ##  Fisher&#39;s Exact Test for Count Data
 ## 
@@ -828,9 +839,9 @@ cases, though, it cannot calculate the odds ratios.</p>
 </div>
 <div id="activities-questions" class="section level1">
 <h1>Activities &amp; Questions</h1>
-<p>Make a script in RStudio that includes all your R code required to
-answer the following questions. Include answers to all questions below
-using comments.</p>
+<p>Make a script in RStudio that includes all your R code to answer the
+following questions. Include answers to all questions below using
+comments. <br></p>
 <p><br> 1. The <span class="math inline">\(\chi^2\)</span> contingency
 test uses a test statistic called <span
 class="math inline">\(\chi^2\)</span>. When the null hypothesis is true
@@ -946,7 +957,7 @@ experiment needs to remain obscure until after the data is collected, so
 as to not bias the data collection process.</p>
 <p>After this paragraph, we reprint the last paragraph of Darwin’s
 <em>Origin of Species</em>. You can also <a
-href="OriginsParagraph.pdf">download a page with only this one
+href="OriginsParagraph.pdf">download a PDF with only this one
 paragraph</a>. Please read through this paragraph, and circle every
 letter “t”. Please proceed at a normal reading speed. If you ever
 realize that you missed a “t” in a previous word, do not retrace your
@@ -981,15 +992,14 @@ poisoning). In what has become a classic of epidemiology, researchers
 interviewed most of the people at the supper to discover which dishes
 they ate (CDC-EIS 2003). Their answers are in the file
 <code>oswego.csv</code>. In this file, the variable “ill” records
-whether that person got sick (Y for yes, N for no), and there are also
-columns for whether each person ate the baked ham, spinach, mashed
-potatoes, etc., for a total of 14 foods and drinks.</p>
+whether that person got sick, and there are also columns for whether
+each person ate the baked ham, spinach, mashed potatoes, etc., for a
+total of 14 foods and drinks.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Load the data set into R from the .csv file.</p></li>
 <li><p>Use <code>factor()</code> to fix the order of <code>ill</code> so
 that the unfavorable outcome comes first in the levels list. Do the same
 for each of the food variables that you will analyze, so that
-<code>Y</code> for people that eat the food preceded the <code>N</code>
+<code>Y</code> for people that eat the food precedes the <code>N</code>
 for people that didn’t.</p></li>
 <li><p>Using <code>table()</code> and
 <code>chisq.test()$expected</code>, calculate the expected values for a
@@ -1006,7 +1016,7 @@ odds ratio for the illness for each these foods. Which is the most
 likely vehicle of the disease?</p></li>
 <li><p>Using the food you think is the likely vehicle, what is the 95%
 confidence interval of the odds ratio for illness?</p></li>
-<li><p>For the food you decided in part <em>d</em> is the most likely
+<li><p>For the food you decided in part <em>c</em> is the most likely
 vehicle, draw a mosaic plot to illustrate how many people got sick as a
 function of whether they ate this food.</p></li>
 </ol>
@@ -1032,10 +1042,10 @@ shuffle around on their bottoms.</p>
 “Shufflebottom” might be associated with a propensity to bottom-shuffle.
 To test this, the compared the frequency of bottom-shufflers among
 infants with the last name “Shufflebottom” to the frequency of infants
-named “Walker.” (By the way, this study, like all others in these labs,
+named “Walker”. (By the way, this study, like all others in these labs,
 is real. See Fox et al. 2002.)</p>
 <p>They found that 9 out of 41 Walkers moved by bottom-shuffling, while
-9 out of 43 Shufflebottoms did. You can find these data in the file
+9 out of 43 Shufflebottoms did. You can find these data in
 <code>shufflebottoms.csv</code>.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>What is the odds ratio for the association between name and mode
@@ -1071,35 +1081,39 @@ between “stops walking while talking” and falls.</p></li>
 confidence interval. Which group has the higher odds of
 falling?</p></li>
 </ol>
-<p><br> 7. Return to the page from the activities section where you
-circled the letter “t” in the paragraph from Darwin’s <em>Origin of
-Species</em>. (If you haven’t already done this, please stop reading
-here now and go back to do that first.)</p>
+<p><br> 7. Return to the page from Question 2 where you circled the
+letter “t” in the paragraph from Darwin’s <em>Origin of Species</em>.
+(If you haven’t already done this, please stop reading here now and go
+back to do that first.)</p>
 <p>The point of this exercise is to collect data on whether our brains
 perceive words merely as a collection of letters or if sometimes our
-brains process words as entities. The logic of this test is that, if
-words are perceived as units, rather than as collections of letters,
-then this should be especially true for common words. Hence we will look
-at the errors made in scanning this paragraph, and ask whether we are
-more (or less) likely to miss finding a “t” when it is part of a common
-word.</p>
+brains process words as entities. The logic of this test is: if words
+are perceived as units, rather than as collections of letters, then this
+should be especially true for common words. Hence we will look at the
+errors made in scanning this paragraph, and ask whether we are more (or
+less) likely to miss finding a “t” when it is part of a common word.</p>
 <p>Compare your results to <a href="OriginParagraphScored.pdf">the
 answer key</a> that marks all the instances of the letter “t”. Note that
 the answer key marks all “t”s in red, but it also puts boxes around some
 words. The boxes are drawn around all instances of the letter “t”
 occurring in common words. “Common” is defined here as among the
 top-twenty words in terms of frequency of use in English; of these six
-contain one or more “t”s: the, to, it, that, with, and at. In this
-passage there are 94 “t”s, and 29 are in common words.</p>
-<p>Count how many mistakes you made finding “t”s in common words and in
-less common words.</p>
+contain one or more “t”s: the, to, it, that, with, and at.</p>
+<p>In this passage there are 94 “t”s, and 29 are in common words. Count
+how many mistakes you made finding “t”s in common words and in less
+common words.</p>
 <p>Use the appropriate test to ask whether the commonness of a word
 affects your probability of noticing the “t”s in it. You can create the
-table needed for the test by a command like:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>tCountTable <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Common =</span> <span class="fu">c</span> (<span class="dv">25</span>, <span class="dv">4</span>), <span class="at">Uncommon =</span> <span class="fu">c</span>(<span class="dv">55</span>, <span class="dv">10</span>), <span class="at">row.names =</span> <span class="fu">c</span>(<span class="st">&quot;Found&quot;</span>, <span class="st">&quot;Not found&quot;</span>))</span></code></pre></div>
-<p>Replace 25 and 4 with the number of t’s in common words that you
-found or didn’t find, respectively. Replace 55 and 10 with the numbers
-of t’s you found or didn’t find in uncommon words.</p>
+table needed for the test by editing this:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>tCountTable <span class="ot">&lt;-</span> </span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">Common =</span> <span class="fu">c</span>( , ), </span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>             <span class="at">Uncommon =</span> <span class="fu">c</span>( , ), </span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>             <span class="at">row.names =</span> <span class="fu">c</span>(<span class="st">&quot;Found&quot;</span>, <span class="st">&quot;Not found&quot;</span>))</span></code></pre></div>
+<p>Within each <code>c( , )</code>, replace each blank spot with the
+number of t’s that you found or didn’t find, respectively. Do this
+separately for common words (<code>Common</code>) and uncommon words
+(<code>Uncommon</code>). Then use <code>tCountTable</code> to perform a
+hypothesis test.</p>
 </div>
 
 

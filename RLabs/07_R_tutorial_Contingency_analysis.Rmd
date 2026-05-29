@@ -51,7 +51,8 @@ whether they survived the accident. Let’s read the data from the .csv
 file:
 
 ```{r}
-titanicData <- read.csv("DataForLabs/titanic.csv", stringsAsFactors = TRUE)
+titanicData <- 
+  read.csv("DataForLabs/titanic.csv", stringsAsFactors = TRUE)
 ```
 
 The variables we’ll use are `sex` and `survive`. The variable `survive`
@@ -89,12 +90,13 @@ that the probability of success (here, `yes`) is in the numerator. We
 change the order using the `levels` argument of the `factor()` command:
 
 ```{r}
-titanicData$survive <- factor(titanicData$survive, levels = c("yes", "no"))
+titanicData$survive <- 
+  factor(titanicData$survive, levels = c("yes", "no"))
 ```
 
 The above command saves the new ordering of categories in the data frame
 `titanicData`, overwriting the original variable `titanicData$survive`.
-To check the new order:
+To check the new order, use `levels()` again:
 
 ```{r}
 levels(titanicData$survive)
@@ -127,21 +129,23 @@ It is useful to keep this frequency table as a named object, as we have
 done here (`sex_survive_table`). We shall use this table several times
 in later analyses.
 
-Sometimes for contingency analysis we have already summarized the counts
-for each case. In these cases it is useful to be able to create a data
-table directly from these counts. The following syntax will allow you to
-create a data table directly:
+Sometimes for contingency analysis, we may have already summarized the
+counts for each case. In these cases it is useful to be able to create a
+data table directly from these values. The following syntax will allow
+you to create a data table directly:
 
 ```{r}
-sex_survive_table_direct <- data.frame(yes = c(307,142), no = c(156,708),
-      row.names = c("female","male"))
+sex_survive_table_direct <- 
+  data.frame(yes = c(307,142), no = c(156,708),
+             row.names = c("female","male"))
+sex_survive_table_direct
 ```
 
 <br>
 
 ## Mosaic plots
 
-We learned in week 3 how to show associations between categorical
+We learned in Lab 3 how to show associations between categorical
 variables like this using grouped bar graphs. The mosaic plot is another
 graphical technique for showing the association between two categorical
 variables. Here, each combination of the variables is represented by a
@@ -170,7 +174,10 @@ We would also like the axes to have labels. We can specify these with
 the *y*-axis “Survival”. Here’s what the command would now look like:
 
 ```{r}
-mosaicplot(sex_survive_table, color = c("darkred", "gold"), xlab ="Sex", ylab = "Survival")
+mosaicplot(sex_survive_table,
+  color = c("darkred", "gold"),
+  xlab = "Sex", ylab = "Survival"
+)
 ```
 
 It is much easier now to see in the graph that the majority of females
@@ -206,7 +213,7 @@ ratio for survival as a function of sex for the Titanic data, we write:
 sex_survive_fisher$estimate
 ```
 
-This shows that the odds ratio is about 10—the odds of a female
+This shows that the odds ratio is about 10; the odds of a female
 surviving were about ten times the odds of a male surviving. This is
 (female survival / female death) / (male survival / male death). The
 order of the values in the odds ratios is determined by the order of the
@@ -228,18 +235,18 @@ about 12.89.
 
 ## $\chi^2$ contingency test
 
-A $\chi^2$ contingency analysis allows us to test the null
-hypothesis that two categorical variables are independent of each other.
+A $\chi^2$ contingency analysis allows us to test the null hypothesis
+that two categorical variables are independent of each other.
 
 Because this scenario appears frequently, it is one of the most common
-tests used in biology. However, remember that the $\chi^2$ test is
-an approximation, and requires that all of the expected values are
-greater than 1 and that at least 80% are greater than 5. When doing such
-a test of independence on a computer, it is probably better to use
-Fisher’s exact test, which doesn't have this restriction.
+tests used in biology. However, remember that the $\chi^2$ test is an
+approximation, and requires that all of the expected values are greater
+than 1 and that at least 80% are greater than 5. When doing such a test
+of independence on a computer, it is probably better to use Fisher’s
+exact test, which doesn't have this restriction.
 
-The $\chi^2$ contingency test can be done with a function we saw
-last week, `chisq.test()`. If we give a frequency table as input, this
+The $\chi^2$ contingency test can be done with a function we saw last
+week, `chisq.test()`. If we give a frequency table as input, this
 function will calculate the $\chi^2$ test for us.
 
 Before we do the test, though, we need to make sure that the assumptions
@@ -255,8 +262,8 @@ chisq.test(sex_survive_table)$expected
 
 In this case all the expected values are greater than 5, so we have no
 problem meeting this assumption. Therefore, it is appropriate to do a
-$\chi^2$ contingency test. Just give a frequency table as input to
-the `chisq.test()` function to do this test. We’ve added the option
+$\chi^2$ contingency test. Just give a frequency table as input to the
+`chisq.test()` function to do this test. We’ve added the option
 `correct = FALSE` to tell R to not do a Yate’s correction, which can be
 overly conservative.
 
@@ -264,10 +271,10 @@ overly conservative.
 chisq.test(sex_survive_table, correct=FALSE)
 ```
 
-This output shows that the $\chi^2$ value for this test is 327.7,
-with 1 degree of freedom and a *P*-value less than 2.2 x 10^-16^. So we
-can reject the null hypothesis of no association between sex and
-survival on the Titanic.
+This output shows that the $\chi^2$ value for this test is 327.7, with 1
+degree of freedom and a *P*-value less than 2.2 x 10^-16^. So we can
+reject the null hypothesis of no association between sex and survival on
+the Titanic.
 
 <br>
 
@@ -279,7 +286,7 @@ tedious to calculate by hand, but R can do it in a flash. This test
 makes no approximations and sets no minimum threshold for the sizes of
 the expected values.
 
-To implement Fisher’s exact test in R, use **fisher.test()**. This
+To implement Fisher’s exact test in R, use `fisher.test()`. This
 function is easy to use; just give it a frequency table as input.
 
 ```{r}
@@ -310,14 +317,17 @@ though, it cannot calculate the odds ratios.
 <br>
 
 # Activities & Questions
-Make a script in RStudio that includes all your R code required to answer the following questions. Include answers to all questions below using comments.
+
+Make a script in RStudio that includes all your R code to answer the
+following questions. Include answers to all questions below using
+comments. <br>
 
 <br> 1. The $\chi^2$ contingency test uses a test statistic called
-$\chi^2$. When the null hypothesis is true the distribution of
-possible values of that $\chi^2$ is approximately a $\chi^2$
-distribution. We’ll use an online exercise to visualize how well the
-$\chi^2$ distribution fits the distribution of the test statistic
-when the null hypothesis is true.
+$\chi^2$. When the null hypothesis is true the distribution of possible
+values of that $\chi^2$ is approximately a $\chi^2$ distribution. We’ll
+use an online exercise to visualize how well the $\chi^2$ distribution
+fits the distribution of the test statistic when the null hypothesis is
+true.
 
 Open a web browser and navigate to the page at
 
@@ -327,24 +337,24 @@ This page is based on a hypothetical example in which we compare the
 proportion of people who get sick after either receiving a vaccination
 or not. When you first open this app, you will see that the true
 probability of getting sick has been set to 60%, regardless of whether
-the person is vaccinated. Under these conditions, the null
-hypothesis of a contingency analysis is true: whether or not a person is
-vaccinated has no effect on whether they get sick. The two variables are
+the person is vaccinated. Under these conditions, the null hypothesis of
+a contingency analysis is true: whether or not a person is vaccinated
+has no effect on whether they get sick. The two variables are
 independent.
 
 Notice the graph at the bottom right. Before we do anything else, this
-graph simply shows the $\chi^2$ distribution with one degree of
-freedom, as would be appropriate to use for a 2 x 2 contingency analysis
-as will be performed here.
+graph simply shows the $\chi^2$ distribution with one degree of freedom,
+as would be appropriate to use for a 2 x 2 contingency analysis as will
+be performed here.
 
 **STEP 1.** Click the “MAKE ONE SAMPLE” button once. This will cause the
 computer to take one sample of *n* = 120 individuals from the
 population. A frequency table for that sample is shown on the right side
-of the page, and under that the $\chi^2$ and *P*-value from a
-$\chi^2$ contingency test of those data is shown. Also, a vertical
-blue bar appears on the graph at that value of $\chi^2$, and the
-area under the curve to the left of this $\chi^2$ is shown in red.
-The area under the curve to the right is the *P*-value.
+of the page, and under that the $\chi^2$ and *P*-value from a $\chi^2$
+contingency test of those data is shown. Also, a vertical blue bar
+appears on the graph at that value of $\chi^2$, and the area under the
+curve to the left of this $\chi^2$ is shown in red. The area under the
+curve to the right is the *P*-value.
 
 Visually compare the *P*-value to the area under the curve in the graph.
 Did your sample cause the test to reject the null hypothesis? Or did
@@ -353,25 +363,25 @@ there is no difference in the sickness rates between vaccinated and
 unvaccinated people)?
 
 **STEP 2.** The button “SIMULATE DISTRIBUTION” will take repeated
-samples from the population and calculate a $\chi^2$ statistic for
-each one. In the yellow box on the right, it will keep a tally of how
-many samples led to hypothesis tests that rejected the null hypothesis
-of independence. (Rejecting a true null hypothesis is a Type I error.)
-The program will also make a histogram of the $\chi^2$ values from
-all the tests to allow comparison with the $\chi^2$ distribution.
+samples from the population and calculate a $\chi^2$ statistic for each
+one. In the yellow box on the right, it will keep a tally of how many
+samples led to hypothesis tests that rejected the null hypothesis of
+independence. (Rejecting a true null hypothesis is a Type I error.) The
+program will also make a histogram of the $\chi^2$ values from all the
+tests to allow comparison with the $\chi^2$ distribution.
 
 Check that probability of getting sick is still set to be the same for
 vaccinated and unvaccinated people in the population parameters. If so,
 the null hypothesis is in fact true. With a true null hypothesis, the
-distribution of calculated $\chi^2$ values (in the histogram) ought
-to match the theoretical distribution (shown by the thin curve). Do they
+distribution of calculated $\chi^2$ values (in the histogram) ought to
+match the theoretical distribution (shown by the thin curve). Do they
 match? (Note: you won't get a proportion that exactly matches what we
 expect, by chance, because we haven't been able to take an infinite
 number of samples.)
 
 a.  The calculations in this app assume a significance level of α =
-    0.05. What proportion of samples should we expect to result in a Type
-    I error?
+    0.05. What proportion of samples should we expect to result in a
+    Type I error?
 
 Notice that there is a “FASTER!” button on the left. If you press this
 it will speed up the intervals between new samples taken in the
@@ -400,16 +410,16 @@ To see what the distribution of test statistics is now under this case,
 let’s simulate samples from this new population. Click “SIMULATE
 DISTRIBUTION” again. What is the shape of the distribution of test
 statistics in the histogram? Does it still match the theoretical
-$\chi^2$ distribution (shown by the curve)? Remember, the
-theoretical distribution is what we would get assuming that the null
-hypothesis is true. When the null hypothesis is false, we expect on
-average larger values of $\chi^2$.
+$\chi^2$ distribution (shown by the curve)? Remember, the theoretical
+distribution is what we would get assuming that the null hypothesis is
+true. When the null hypothesis is false, we expect on average larger
+values of $\chi^2$.
 
 Now that the null hypothesis is false, a hypothesis test gets the
 correct answer when it rejects $H_0$. The probability that a test
 correctly rejects a false null hypothesis is called the power of a test.
-The yellow box on the right tracks the power of the $\chi^2$ test.
-This is not a value that we can easily calculate ahead of time in a real
+The yellow box on the right tracks the power of the $\chi^2$ test. This
+is not a value that we can easily calculate ahead of time in a real
 setting.
 
 c.  Run the simulation until there are 500 or more replicates. What
@@ -428,7 +438,7 @@ needs to remain obscure until after the data is collected, so as to not
 bias the data collection process.
 
 After this paragraph, we reprint the last paragraph of Darwin's *Origin
-of Species*. You can also [download a page with only this one
+of Species*. You can also [download a PDF with only this one
 paragraph](OriginsParagraph.pdf). Please read through this paragraph,
 and circle every letter "t". Please proceed at a normal reading speed.
 If you ever realize that you missed a "t" in a previous word, do not
@@ -467,35 +477,32 @@ in Oswego County, NY, developed gastroenteritis (a.k.a. food poisoning).
 In what has become a classic of epidemiology, researchers interviewed
 most of the people at the supper to discover which dishes they ate
 (CDC-EIS 2003). Their answers are in the file `oswego.csv`. In this
-file, the variable “ill” records whether that person got sick (Y for
-yes, N for no), and there are also columns for whether each person ate
-the baked ham, spinach, mashed potatoes, etc., for a total of 14 foods
-and drinks.
+file, the variable “ill” records whether that person got sick, and there
+are also columns for whether each person ate the baked ham, spinach,
+mashed potatoes, etc., for a total of 14 foods and drinks.
 
-a.  Load the data set into R from the .csv file.
-
-b.  Use `factor()` to fix the order of `ill` so that the unfavorable
+a.  Use `factor()` to fix the order of `ill` so that the unfavorable
     outcome comes first in the levels list. Do the same for each of the
     food variables that you will analyze, so that `Y` for people that
-    eat the food preceded the `N` for people that didn't.
+    eat the food precedes the `N` for people that didn't.
 
-c.  Using `table()` and `chisq.test()$expected`, calculate the expected
-    values for a $\chi^2$ contingency test of the relationship
-    between fruit salad and illness. Would it be legitimate to use a
-    $\chi^2$ contingency analysis to test this association? Why or
-    why not? What test would be best to use?
+b.  Using `table()` and `chisq.test()$expected`, calculate the expected
+    values for a $\chi^2$ contingency test of the relationship between
+    fruit salad and illness. Would it be legitimate to use a $\chi^2$
+    contingency analysis to test this association? Why or why not? What
+    test would be best to use?
 
-d.  You want to know which food is most strongly associated with
+c.  You want to know which food is most strongly associated with
     illness. For the sake of simplicity, let’s imagine that we have
     ruled out all the other foods except for spinach, baked ham, vanilla
     ice cream and chocolate ice cream. Use `fisher.test()` to calculate
     an odds ratio for the illness for each these foods. Which is the
     most likely vehicle of the disease?
 
-e.  Using the food you think is the likely vehicle, what is the 95%
+d.  Using the food you think is the likely vehicle, what is the 95%
     confidence interval of the odds ratio for illness?
 
-f.  For the food you decided in part *d* is the most likely vehicle,
+e.  For the food you decided in part *c* is the most likely vehicle,
     draw a mosaic plot to illustrate how many people got sick as a
     function of whether they ate this food.
 
@@ -523,12 +530,12 @@ shuffle around on their bottoms.
 A group of researchers decided to ask whether the name "Shufflebottom"
 might be associated with a propensity to bottom-shuffle. To test this,
 the compared the frequency of bottom-shufflers among infants with the
-last name "Shufflebottom" to the frequency of infants named "Walker."
+last name "Shufflebottom" to the frequency of infants named "Walker".
 (By the way, this study, like all others in these labs, is real. See Fox
 et al. 2002.)
 
 They found that 9 out of 41 Walkers moved by bottom-shuffling, while 9
-out of 43 Shufflebottoms did. You can find these data in the file
+out of 43 Shufflebottoms did. You can find these data in
 `shufflebottoms.csv`.
 
 a.  What is the odds ratio for the association between name and mode of
@@ -568,19 +575,18 @@ b.  Carry out an appropriate hypothesis test of the relationship between
 c.  What is the odds ratio of this relationship? Give a 95% confidence
     interval. Which group has the higher odds of falling?
 
-<br> 7. Return to the page from the activities section where you circled
-the letter "t" in the paragraph from Darwin's *Origin of Species*. (If
-you haven’t already done this, please stop reading here now and go back
-to do that first.)
+<br> 7. Return to the page from Question 2 where you circled the letter
+"t" in the paragraph from Darwin's *Origin of Species*. (If you haven’t
+already done this, please stop reading here now and go back to do that
+first.)
 
 The point of this exercise is to collect data on whether our brains
 perceive words merely as a collection of letters or if sometimes our
-brains process words as entities. The logic of this test is that, if
-words are perceived as units, rather than as collections of letters,
-then this should be especially true for common words. Hence we will look
-at the errors made in scanning this paragraph, and ask whether we are
-more (or less) likely to miss finding a "t" when it is part of a common
-word.
+brains process words as entities. The logic of this test is: if words
+are perceived as units, rather than as collections of letters, then this
+should be especially true for common words. Hence we will look at the
+errors made in scanning this paragraph, and ask whether we are more (or
+less) likely to miss finding a "t" when it is part of a common word.
 
 Compare your results to [the answer key](OriginParagraphScored.pdf) that
 marks all the instances of the letter "t". Note that the answer key
@@ -588,20 +594,24 @@ marks all "t"s in red, but it also puts boxes around some words. The
 boxes are drawn around all instances of the letter "t" occurring in
 common words. "Common" is defined here as among the top-twenty words in
 terms of frequency of use in English; of these six contain one or more
-"t"s: the, to, it, that, with, and at. In this passage there are 94
-"t"s, and 29 are in common words.
+"t"s: the, to, it, that, with, and at.
 
-Count how many mistakes you made finding "t"s in common words and in
-less common words.
+In this passage there are 94 "t"s, and 29 are in common words. Count how
+many mistakes you made finding "t"s in common words and in less common
+words.
 
 Use the appropriate test to ask whether the commonness of a word affects
 your probability of noticing the "t"s in it. You can create the table
-needed for the test by a command like:
+needed for the test by editing this:
 
-```{r}
-tCountTable <- data.frame(Common = c (25, 4), Uncommon = c(55, 10), row.names = c("Found", "Not found"))
+```{r eval=FALSE}
+tCountTable <- 
+  data.frame(Common = c( , ), 
+             Uncommon = c( , ), 
+             row.names = c("Found", "Not found"))
 ```
 
-Replace 25 and 4 with the number of t’s in common words that you found
-or didn't find, respectively. Replace 55 and 10 with the numbers of t’s
-you found or didn't find in uncommon words.
+Within each `c( , )`, replace each blank spot with the number of t’s
+that you found or didn't find, respectively. Do this separately for
+common words (`Common`) and uncommon words (`Uncommon`). Then use 
+`tCountTable` to perform a hypothesis test.

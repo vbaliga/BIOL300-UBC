@@ -18,7 +18,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 <br>
 
-<p style="color:red"> *Unlike the rest of these labs, this lab depends on having some physical objects prepared in a class setting ahead of time and requires a class of 12 or more to work properly.* </p>
+<p style="color:red">
+
+*Unlike the rest of these labs, this lab depends on having some physical
+objects prepared in a class setting ahead of time and requires a class
+of 12 or more to work properly.*
+
+</p>
 
 *This lab is part of a series designed for BIOL 300, based on* The
 Analysis of Biological Data*. The rest of the labs can be found
@@ -28,17 +34,20 @@ Analysis of Biological Data*. The rest of the labs can be found
 
 # Learning outcomes
 
--   Explore the importance of random sampling
+- Explore the importance of random sampling
 
--   Understand the sampling distribution of an estimate
+- Understand the sampling distribution of an estimate
 
--   Investigate sampling error and sampling bias
+- Investigate sampling error and sampling bias
 
--   Practice creating data files.
+- Practice creating data files.
 
 <br>
 
-If you have not already done so, download [the zip file containing Data, R scripts, and other resources for these labs](ABDLabs.zip). Remember to start RStudio from the `ABDLabs.Rproj` file in that folder to make these exercises work more seamlessly.
+If you have not already done so, download [the zip file containing Data,
+R scripts, and other resources for these labs](ABDLabs.zip). Remember to
+start RStudio from the `ABDLabs.Rproj` file in that folder to make these
+exercises work more seamlessly.
 
 ------------------------------------------------------------------------
 
@@ -52,6 +61,9 @@ In this lab you will be given a container of 25 cowrie shells. Think of
 this collection of shells as the complete population that you care
 about. You will work with a small group to take samples from this
 population to estimate the mean length of these shells.
+
+Make a script in RStudio that includes all your R code to answer the
+questions. Include answers to all questions using comments. <br>
 
 Follow these steps:
 
@@ -200,13 +212,13 @@ for(i in 1:1000) sample_mean_length[i] =
       mean_from_a_sample(population_data$length,5)
 ```
 
-This creates a vector called `sample_mean_length` and fills it with
-1000 means of independent random samples.
+This creates a vector called `sample_mean_length` and fills it with 1000
+means of independent random samples.
 
 15. Plot a histogram that shows the distribution of the means of these
-    random samples. You can do this using the `hist()` function. Note that next
-    week, we will learn how to use `ggplot` to make figures that are more 
-    elegant and customizable. 
+    random samples. You can do this using the `hist()` function. Note
+    that next week, we will learn how to use `ggplot` to make figures
+    that are more elegant and customizable.
 
 ```{r eval = FALSE}
 hist(sample_mean_length)
@@ -220,8 +232,7 @@ of the mean? Why, or why not?
 
 **Question 3.** How does the mean of the distribution of sample means
 compare to the true mean of the population? Are they approximately
-equal? Are the sample means unbiased estimates of the population
-mean?
+equal? Are the sample means unbiased estimates of the population mean?
 
 <br>
 
@@ -232,8 +243,8 @@ mean?
     unusual in any way?
 
 18. From your TA, get the list of the means from the first samples of
-    each group, and the population means for each group. Import these data
-    into a `data.frame` in R.
+    each group, and the population means for each group. Import these
+    data into a `data.frame` in R.
 
 19. Create a new variable from the difference between a student group’s
     first sample mean and their population mean. Call this new variable

@@ -75,7 +75,8 @@ guppyData <-
 Before we go further, it is wise to plot a scatterplot to view the
 relationship of the two variables. (See Lab 3.)
 
-```{r}
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
 ggplot(guppyData, 
        aes(x = fatherOrnamentation, 
            y = sonAttractiveness)) +
@@ -149,8 +150,7 @@ correlation, if we add the option `method = "spearman"` to the command.
 
 ```{r warning=FALSE}
 cor.test(guppyData$fatherOrnamentation, guppyData$sonAttractiveness,
-         method = "spearman"
-         )
+         method = "spearman")
 ```
 
 The output here is similar to what we described above with a Pearson’s
@@ -180,8 +180,7 @@ with `summary()`.
 ```{r}
 guppyRegression <-
   lm(sonAttractiveness ~ fatherOrnamentation,
-    data = guppyData
-  )
+     data = guppyData)
 ```
 
 Let’s look at the output of `lm()` in this case.
@@ -197,7 +196,7 @@ the line that is estimated to be the best fit to these data is
 
 sonAttractiveness = 0.005084 + (0.982285 x fatherOrnamentation).
 
-We can find other useful information by looking at the `summary()` of
+We can find more useful information by looking at the `summary()` of
 the `lm()` result:
 
 ```{r}
@@ -292,7 +291,9 @@ value of *x*.
 <br>
 
 # Activities & Questions
-Make a script in RStudio that includes all your R code required to answer the following questions. Include answers to all questions below using comments.
+Make a script in RStudio that includes all your R code to answer the
+following questions. Include answers to all questions below using
+comments. <br>
 
 <br> 1. In a web browser, open the app at
 [shiney.zoology.ubc.ca/whitlock/Guessing_correlation/](http://shiney.zoology.ubc.ca/whitlock/Guessing_correlation/)

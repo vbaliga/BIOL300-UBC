@@ -68,11 +68,11 @@ Once the package is installed, calculating a confidence interval for a
 proportion is fairly straightforward. The function you need is called
 `binom.confint()`. You need to specify:
 
-`x`: the number of successes
+- `x`: the number of successes
 
-`n`: the total sample size
+- `n`: the total sample size
 
-`method = "ac"` for Agresti-Coull
+- `method = "ac"` for Agresti-Coull
 
 For example, if we have 87 data points and 30 of them are “successes”,
 we can find the 95% confidence interval for the proportion of successes
@@ -102,11 +102,11 @@ Doing a binomial test in R is much easier than doing one by hand.
 The function `binom.test()` will do an exact binomial test. It requires
 three pieces of information in the input:
 
-`x` for the number of “successes” observed in the data
+- `x` for the number of “successes” observed in the data
 
-`n` for the total number of data
+- `n` for the total number of data
 
-`p` for the proportion given by the null hypothesis
+- `p` for the proportion given by the null hypothesis
 
 For example, if we have 18 toads that have been measured for a
 left-right preference and 14 are right-handed, we can test the null
@@ -241,7 +241,10 @@ extinctions per prehistoric time period described in Example 8.4 in the
 Whitlock and Schluter textbook.
 
 ```{r}
-extinctData <- read.csv("DataForLabs/MassExtinctions.csv", stringsAsFactors = TRUE)
+extinctData <-
+  read.csv("DataForLabs/MassExtinctions.csv",
+    stringsAsFactors = TRUE
+  )
 
 number_of_extinctions <- extinctData$numberOfExtinctions
 
@@ -258,7 +261,8 @@ null hypothesis, so we need to estimate it from the data. This mean
 turns out to be 4.21 extinctions per time period.
 
 ```{r}
-mean(number_of_extinctions)
+mu <- mean(number_of_extinctions)
+mu
 ```
 
 We can use this mean to calculate the probability according to a Poisson
@@ -277,7 +281,7 @@ extinctions). For example, the probability of getting `x` = 3 from a
 Poisson distribution with mean 4.21 can be found from the following:
 
 ```{r}
-dpois(x = 3, lambda = 4.21)
+dpois(x = 3, lambda = mu)
 ```
 
 The probability of getting exactly 3 successes from a Poisson
@@ -292,11 +296,11 @@ example, 0:19 is a vector with the integers from 0 to 19.
 0:19
 ```
 
-This can be plugged directly into `dpois()` along with the appropriate 
+This can be plugged directly into `dpois()` along with the appropriate
 `lambda` to generate the probabilities for the integers from 0 to 19.
 
 ```{r}
-dpois(0:19, lambda = 4.21)
+dpois(0:19, lambda = mu)
 ```
 
 We’ll need the probabilities for all possible values of 'x' we see in
@@ -307,8 +311,8 @@ a vector with the Poisson probabilities of each possibility from 0 to 20
 like this:
 
 ```{r}
-expected_1to19 <- dpois(x = 0:19, lambda = 4.21)
-expected_probability <- c(expected_1to19, 1 - sum(expected_1to19))
+expected_0to19 <- dpois(x = 0:19, lambda = mu)
+expected_probability <- c(expected_0to19, 1 - sum(expected_0to19))
 expected_probability
 ```
 
@@ -326,8 +330,9 @@ In order to convert these probabilities into expected values for a
 $\chi^2$ test, we need to multiply them by the total sample size.
 
 ```{r}
-length(number_of_extinctions) * expected_probability
-
+expected_values <- 
+  length(number_of_extinctions) * expected_probability
+expected_values
 ```
 
 Most of these values would cause problems for the $\chi^2$ test because
@@ -336,33 +341,50 @@ reasonable way so that the expected frequencies match the assumptions of
 the $\chi^2$ test. Let’s combine the categories for 0 and 1 successes,
 and combine everything greater than or equal to 8 into one category. It
 is possible to do this all in R, but you can also do it by hand, using
-the expected frequencies we just calculated. Here is a table of the
-expected frequencies for these new combined categories, for both the
-observed and expected, summing over all the possibilities within each of
-these groupings. (E.g., the expected frequency for the category “0 or 1”
-is the sum of 1.128324 and 4.750244.)
+the expected frequencies we just calculated.
+
+Here's how you can do it in R, using the `c()` function and indexing.
+Note that the `sum()` function is used to combine wherever needed. The
+colon (`:`) means "through". E.g., `9:21` means "9 through 21".
+
+```{r}
+expected_combined <- 
+  c(sum(expected_values[1:2]), # 0 or 1
+    expected_values[3:8],      # 2 through 7
+    sum(expected_values[9:21]) # 8 or more
+  )
+expected_combined
+```
+
+Here is a table of the expected frequencies for these new combined
+categories, for both the observed and expected, summing over all the
+possibilities within each of these groupings. (E.g., the expected
+frequency for the category “0 or 1” is the sum of 1.128324 and
+4.750244.)
 
 | Number of extinctions | Expected  | Observed |
 |-----------------------|-----------|----------|
-| 0 or 1                | 5.878568  | 13       |
-| 2                     | 9.999264  | 15       |
-| 3                     | 14.032300 | 16       |
-| 4                     | 14.768996 | 7        |
-| 5                     | 12.435494 | 10       |
-| 6                     | 8.725572  | 4        |
-| 7                     | 5.247808  | 2        |
-| 8 or more             | 4.911998  | 9        |
+| 0 or 1                | 5.876068  | 13       |
+| 2                     | 9.996501  | 15       |
+| 3                     | 14.030177 | 16       |
+| 4                     | 14.768608 | 7        |
+| 5                     | 12.436722 | 10       |
+| 6                     | 8.727524  | 4        |
+| 7                     | 5.249639  | 2        |
+| 8 or more             | 4.914761  | 9        |
 
 Note that these expected values are large enough to match the conditions
 of the $\chi^2$ test.
 
 Make vectors, using `c()`, for the observed and expected values for
-these new groups:
+these new groups. If you didn't use the R code to make
+`expected_combined` automatically from the `expected_values` object, the
+code below can be used.
 
 ```{r}
 expected_combined <- 
-  c(5.878568, 9.999264, 14.032300, 14.768996, 
-    12.435494, 8.725572, 5.247808, 4.911998)
+  c(5.876068, 9.996501, 14.030177, 14.768608, 
+    12.436722, 8.727524, 5.249639, 4.914761)
 
 observed_combined <- c(13, 15, 16, 7, 10, 4, 2, 9)
 ```
@@ -379,13 +401,14 @@ results of the test because R does not know to correct for the reduction
 in degrees of freedom caused by estimating the mean.)
 
 ```{r}
-chisq.test(observed_combined, p = expected_combined, rescale.p = TRUE)$statistic
+chisq_value <-
+  chisq.test(observed_combined, p = expected_combined, rescale.p = TRUE)$statistic
+chisq_value
 ```
 
-This correctly calculates our $\chi^2$ value as 23.939. The warning
-message in red is because one of the expected values is under 5, but
-because this occurred in less than 20% of the categories, it is fine to
-proceed.
+This correctly calculates our $\chi^2$ value as 23.94974. The warning
+message is because one of the expected values is under 5, but because
+this occurred in less than 20% of the categories, it is fine to proceed.
 
 The degrees of freedom for this test are the number of categories minus
 the number of parameters estimated from the data minus one. We ended up
@@ -397,7 +420,7 @@ df = 8 – 1 – 1 = 6.
 ### `pchisq()`
 
 To calculate the correct *P*-value, we need to know probability of
-getting a $\chi^2$ value greater than 23.939 from a distribution that
+getting a $\chi^2$ value greater than 23.94974 from a distribution that
 has 6 degrees of freedom. R has a function we can use for this, called
 `pchisq()`. We are interested here in the probability above the observed
 $\chi^2$ value, so we want the probability in the right (or upper) tail.
@@ -407,7 +430,7 @@ freedom (called `df`, thank goodness), and an option that tells us to
 use the upper tail (`lower.tail = FALSE`).
 
 ```{r}
-pchisq(q = 23.939, df = 6, lower.tail = FALSE)
+pchisq(q = chisq_value, df = 6, lower.tail = FALSE)
 ```
 
 Thus, our *P-*value for this test of the fit of these data to a Poisson
@@ -425,8 +448,10 @@ these extinction data follow a Poisson distribution.
 <br>
 
 # Activities & Questions
-Make a script in RStudio that includes all your R code required to answer the following questions. Include answers to all questions below using comments.
-<br>
+
+Make a script in RStudio that includes all your R code to answer the
+following questions. Include answers to all questions below using
+comments. <br>
 
 <br> 1. This is a simple, quick exercise meant to help you visualize the
 meaning of a binomial distribution. The binomial distribution applies to
@@ -446,7 +471,7 @@ five dice, and record the number of threes.
 (If you don't have dice available, you can simulate rolling dice at
 <https://shiney.zoology.ubc.ca/otto/Dice/>)
 
-For this exercise, let’s draw a histogram of the results by hand. First
+For this exercise, draw a histogram of the results by hand. First
 draw the axes, and then for each result draw an X stacked up in the
 appropriate place. For example, after three trials that got 0, 1, and 1
 threes, respectively, the histogram will look like this:
@@ -464,7 +489,7 @@ Is this similar to what you found? (Remember that with only a few
 trials, you don’t expect to exactly match the predicted distribution. If
 you increase your number of samples, the fit should improve.)
 
-The expected mean number of threes is 0.833. (For the binomial
+a.  The expected mean number of threes is 0.833. (For the binomial
 distribution, the mean is `n` × `p`, or in this case 5 × 0.1666.)
 Calculate the mean number of threes in your samples.
 
@@ -501,11 +526,16 @@ subjects who selected a pair of stockings, 6 chose the pair on the far
 left, 9 chose the pair in the left-middle, 16 chose the pair in the
 right-middle, and 21 chose the pair on the far right. None admitted
 later that the position had any role in their selection. These data are
-in a file called “stockings.csv”.
+in a file called `stockings.csv`.
 
 a.  What are the expected frequencies for this scenario, under the null
     hypothesis that all four pairs of stockings are equally likely to be
-    chosen.
+    chosen? Save these frequencies in a vector in R by editing the line
+    below:
+    
+```{r eval=FALSE}
+exp_freqs <- c()
+```
 
 b.  Use `chisq.test()` to test the null hypothesis that the selection of
     the stockings was independent of position.
@@ -515,11 +545,11 @@ c.  The function `chisq.test()` can take the data either as a data
     parameter called `x` as input:
 
 ```{r eval=FALSE}
-chisq.test(x = c(6,9,16,21), p = c(0.25,0.25,0.25,0.25))
+chisq.test(x = c(6,9,16,21), p = exp_freqs)
 ```
 
-Try it using the specification of the counts, to see that you get the
-same answer as in (b).
+Try it using the specification of the counts, to see whether you get the
+same answer as in (b). The `exp_freqs` object comes from your answer to (a).
 
 <br> 4. Many people believe that the month in which a person is born
 predicts significant attributes of that person in later life. Such
@@ -593,7 +623,7 @@ f.  Calculate the $\chi^2$ for this hypothesis test, using
 g.  How many degrees of freedom should this $\chi^2$ goodness of fit
     test have?
 
-h.  Calculate the *P*-value for this test, using `pchisq()`.
+h.  Calculate the *P*-value for this test using R.
 
 i.  Summarize the results of this test. Does the frequency distribution
     of out-of-hospital cardiac events follow a Poisson distribution?

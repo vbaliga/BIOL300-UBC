@@ -600,12 +600,13 @@ file in that folder to make these exercises work more seamlessly.</p>
 <h1>Learning the tools</h1>
 <p>We’ll use the Titanic data set again this week for our examples, so
 load those data to R.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> </span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Also, we will be using <code>ggplot()</code> to make some graphs, so
 make sure that <code>tidyverse</code> has been loaded. (Remember that
 <code>ggplot2</code> is among the packages within
 <code>tidyverse</code>.) We also will need functions from the package
-<code>car</code>, so let’s load that as well. (If you don’t ave
+<code>car</code>, so let’s load that as well. (If you don’t have
 <code>car</code>, you may need to <a
 href="R_tutorial_Intro_to_R_2.html#expanding_r%E2%80%99s_capabilities">install
 the package</a>.)</p>
@@ -620,13 +621,6 @@ the package</a>.)</p>
 <pre><code>## The following object is masked from &#39;package:purrr&#39;:
 ## 
 ##     some</code></pre>
-<p><br></p>
-<p>We’ll use the Titanic data set again this week for our examples, so
-load those data to R.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>,</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  )</span></code></pre></div>
 <p><br></p>
 <div id="strip-charts" class="section level2">
 <h2>Strip charts</h2>
@@ -646,10 +640,10 @@ specify <code>x = survive</code> to indicate the categorical (group)
 variable and <code>y = age</code> to specify the numerical variable. If
 we want more or less jitter, we could use a larger or smaller value than
 0.05 in the option <code>position_jitter(0.05)</code>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x =</span> survive, <span class="at">y =</span> age)) <span class="sc">+</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="fl">0.05</span>)) <span class="sc">+</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
-<p><img src="09_R_tutorial_Comparing_means_of_2_groups_files/figure-html/unnamed-chunk-4-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x =</span> survive, <span class="at">y =</span> age)) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="fl">0.05</span>)) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+<p><img src="09_R_tutorial_Comparing_means_of_2_groups_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" /></p>
 <p>One can see from this strip chart that there is a weak tendency for
 survivors to be younger on average than non-survivors. Younger people
 had a higher chance of surviving the Titanic disaster than older
@@ -666,25 +660,24 @@ variable in the different groups, and it helps to assess whether the
 assumptions of relevant statistical methods are met.</p>
 <p>Plotting <code>age</code> again as a function of
 <code>survive</code>, we can write:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span>   </span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>    <span class="fu">geom_histogram</span>() <span class="sc">+</span> </span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> survive, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span>   </span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>    <span class="fu">geom_histogram</span>() <span class="sc">+</span> </span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span> survive, <span class="at">ncol =</span> <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
 <pre><code>## Warning: Removed 680 rows containing non-finite outside the scale range
 ## (`stat_bin()`).</code></pre>
-<p><img src="09_R_tutorial_Comparing_means_of_2_groups_files/figure-html/unnamed-chunk-5-1.png" alt="" width="672" /></p>
+<p><img src="09_R_tutorial_Comparing_means_of_2_groups_files/figure-html/unnamed-chunk-4-1.png" alt="" width="672" /></p>
 <p>We specified the data set <code>titanicData</code> for the function
 to use. Note that here the numerical variable is entered as the variable
 on the <em>x</em> axis (<code>x = age</code>). No <em>y</em> variable is
 specified because that is simply the count of individuals that have that
-age. The categorical variable is specified in the
-<code>facet_wrap()</code> function (<code>~ survive</code>). The
-“facets” here are the separate plots, and <code>facet_wrap()</code>
-tells R which variable to use to separate the data across the plots. The
-tilde (<code>~</code>) tells R to do the faceting “by” the variable
-specified (e.g., <code>facet_wrap(~ survive, ncol = 1)</code> is read as
-“facet by the <code>survive</code> variable and put all facets into 1
-column”.)</p>
+age. The categorical variable is specified within the
+<code>facet_wrap()</code> function. The “facets” here are the separate
+plots, and <code>facet_wrap()</code> tells R which variable to use to
+separate the data across the plots. The tilde (<code>~</code>) tells R
+to do the faceting “by” the variable specified (e.g.,
+<code>facet_wrap(~ survive, ncol = 1)</code> is read as “facet by the
+<code>survive</code> variable and put all facets into 1 column”.)</p>
 <p>Notice, for example, that the very youngest people (less than 10
 years old, say) are much more likely to be in the group that
 survived.</p>
@@ -696,16 +689,16 @@ survived.</p>
 variable and a numerical variable is a violin plot.</p>
 <p>A violin plot can be made in R using <code>ggplot</code>, using the
 geom function <code>geom_violin()</code>.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x =</span> survive, <span class="at">y =</span> age, <span class="at">fill =</span> survive)) <span class="sc">+</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">geom_violin</span>() <span class="sc">+</span></span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Survival&quot;</span>) <span class="sc">+</span></span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Age&quot;</span>) <span class="sc">+</span></span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#FFB531&quot;</span>, <span class="st">&quot;#BC211A&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.y =</span> mean, <span class="at">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
-<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">aspect.ratio =</span> <span class="dv">1</span>)</span></code></pre></div>
-<p><img src="09_R_tutorial_Comparing_means_of_2_groups_files/figure-html/unnamed-chunk-6-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x =</span> survive, <span class="at">y =</span> age, <span class="at">fill =</span> survive)) <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">geom_violin</span>() <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Survival&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Age&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#FFB531&quot;</span>, <span class="st">&quot;#BC211A&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.y =</span> mean, <span class="at">geom =</span> <span class="st">&quot;point&quot;</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">aspect.ratio =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p><img src="09_R_tutorial_Comparing_means_of_2_groups_files/figure-html/unnamed-chunk-5-1.png" alt="" width="672" /></p>
 <p>This version has some extra options thrown in. What is important here
 is that it uses <code>geom_violin()</code> to specify that a violin plot
 is desired and that it specifies the categorical variable (here
@@ -741,18 +734,18 @@ passengers who did not survive. For this, the categorical variable is
 survive and the numerical variable is age. We would write the formula as
 <code>age ~ survive</code>.</p>
 <p>To do a 2-sample <em>t</em>-test, <code>t.test()</code> also needs
-two other pieces of input. You need to specify which data frame contains
-the data, and you need to specify that you want to assume that the
-variances of the two groups are equal. (If you specify this assumption,
-you are telling R to do a classic 2-sample <em>t</em>-test rather than a
-Welch’s <em>t</em>-test. We’ll see how to do Welch’s next, which allows
-for unequal variances.)</p>
-<p>To specify the data frame to use, we give a value for the argument
+two other pieces of input. You need to specify which data frame or
+tibble contains the data, and you need to specify that you want to
+assume that the variances of the two groups are equal. (If you specify
+this assumption, you are telling R to do a classic 2-sample
+<em>t</em>-test rather than a Welch’s <em>t</em>-test. We’ll see how to
+do Welch’s next, which allows for unequal variances.)</p>
+<p>To specify the data to use, we give a value for the argument
 <code>data</code>, such as <code>data = titanicData</code>. To tell R to
 assume that the variances are equal, we use the option
 <code>var.equal = TRUE</code>.</p>
 <p>Here is the complete command for this example and the output:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">t.test</span>(age <span class="sc">~</span> survive, <span class="at">data =</span> titanicData, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">t.test</span>(age <span class="sc">~</span> survive, <span class="at">data =</span> titanicData, <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Two Sample t-test
 ## 
@@ -782,7 +775,7 @@ did a Two Sample <em>t</em>-test as we requested. The output gives us
 the test statistic <em>t</em>, the degrees of freedom for the test
 (<code>df</code>), and the <em>P</em>-value for the test of equal
 population means (which in this case is <em>P</em> = 0.044).</p>
-<p>Under “95 percent confidence interval,” this output gives the 95%
+<p>Under “95 percent confidence interval”, this output gives the 95%
 confidence interval for the difference between the population means of
 the two groups. Finally, it gives the sample means for each group in the
 last line.</p>
@@ -802,7 +795,7 @@ variable has a normal distribution in both populations.)</p>
 function <code>t.test()</code>. The command is exactly like that for the
 2-sample <em>t</em>-test that we did above, but with the option
 <code>var.equal</code> set to <code>FALSE</code>.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">t.test</span>(age <span class="sc">~</span> survive, <span class="at">data =</span> titanicData, <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">t.test</span>(age <span class="sc">~</span> survive, <span class="at">data =</span> titanicData, <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Welch Two Sample t-test
 ## 
@@ -836,10 +829,10 @@ other group.</p>
 <p>The Titanic data set does not include any paired data, so we will use
 Example 12.2 from Whitlock and Schluter to show how this function works
 in R. Import the data with <code>read.csv()</code>.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>blackbird <span class="ot">&lt;-</span></span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/chap12e2BlackbirdTestosterone.csv&quot;</span>,</span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span></span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>blackbird <span class="ot">&lt;-</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/chap12e2BlackbirdTestosterone.csv&quot;</span>,</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  )</span></code></pre></div>
 <p>These data show the log antibody production of male blackbirds before
 (<code>logBeforeImplant</code>) and after (<code>logAfterImplant</code>)
 the birds received a testosterone implant. There is a before and after
@@ -851,7 +844,7 @@ columns that have the data from the two conditions. Unlike the previous
 examples with <code>t.test()</code>, using the <code>paired</code>
 option does not allow you to use the <code>data =</code> argument. It’s
 a weird quirk of how the function was written.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">t.test</span>(blackbird<span class="sc">$</span>logAfterImplant, blackbird<span class="sc">$</span>logBeforeImplant, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">t.test</span>(blackbird<span class="sc">$</span>logAfterImplant, blackbird<span class="sc">$</span>logBeforeImplant, <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## 
 ##  Paired t-test
 ## 
@@ -881,11 +874,8 @@ reject the null hypothesis.</p>
 or more groups. One of the best methods is Levene’s test. It is
 difficult to calculate by hand, but R makes it easy. The basic version
 of R does not do Levene’s test, but it is available from the package
-<code>car</code> with the function <code>leveneTest()</code>.</p>
-<p>As with other packages you would need to install the package car
-first (see Lab 2 for instructions), and then use library to load its
-functions into R.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">library</span>(car)</span></code></pre></div>
+<code>car</code> with the function <code>leveneTest()</code>. Make sure
+you’ve installed and loaded <code>car</code>.</p>
 <p>To use <code>leveneTest()</code>, you need three arguments for the
 input.</p>
 <ul>
@@ -898,7 +888,7 @@ For the standard Levene’s test, use <code>center = mean</code></p></li>
 </ul>
 <p>Let’s demonstrate this with the Titanic data, with age as the
 numerical variable and survive as the group variable.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">leveneTest</span>(<span class="at">data =</span> titanicData, age <span class="sc">~</span> survive, <span class="at">center =</span> mean)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">leveneTest</span>(<span class="at">data =</span> titanicData, age <span class="sc">~</span> survive, <span class="at">center =</span> mean)</span></code></pre></div>
 <pre><code>## Levene&#39;s Test for Homogeneity of Variance (center = mean)
 ##        Df F value  Pr(&gt;F)  
 ## group   1   3.906 0.04855 *
@@ -920,9 +910,9 @@ group that died had the same population variances for the variable
 </div>
 <div id="activities-questions" class="section level1">
 <h1>Activities &amp; Questions</h1>
-<p>Make a script in RStudio that includes all your R code required to
-answer the following questions. Include answers to all questions below
-using comments.</p>
+<p>Make a script in RStudio that includes all your R code to answer the
+following questions. Include answers to all questions below using
+comments. <br></p>
 <p><br> 1. We will investigate robustness of the two-sample
 <em>t</em>-test. Remember that the two-sample <em>t</em>-test assumes
 that the variable has a normal distribution within the populations, that
@@ -1002,19 +992,18 @@ on all of the birds, and he was able to demonstrate strong natural
 selection on some of the traits as a result of this storm. Natural
 selection has occurred if traits are different between the survivors and
 non-survivors.</p>
-<p>Bumpus published all of his data, and they are given in the file
+<p>Bumpus published all of his data, and they are given in
 <code>bumpus.csv</code>. Let’s examine whether there was natural
 selection in body weight from this storm event, by comparing the weights
 of the birds that survived to those that died.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Plot a graph with multiple histograms for body weight (called
-<code>weight_g</code> in the <code>bumpus.csv</code> data set),
-comparing the surviving and nonsurviving groups (given in the variable
-<code>survival</code>). Do the distributions look approximately normal?
-Do the variances look approximately equal?</p></li>
-<li><p>Use <code>t.test()</code> to do a Welch’s <em>t</em>-test to look
-for a difference in mean body weight between the surviving and dying
-birds.</p></li>
+<code>weight_g</code> in the data set), comparing the surviving and
+nonsurviving groups (given in the variable <code>survival</code>). Do
+the distributions look approximately normal? Do the variances look
+approximately equal?</p></li>
+<li><p>Use R to do a Welch’s <em>t</em>-test to look for a difference in
+mean body weight between the surviving and dying birds.</p></li>
 <li><p>What is the 95% confidence interval for the difference in mean
 weight of surviving and dying birds?</p></li>
 <li><p>Use a Levene’s test to ask whether the surviving and dying birds
@@ -1034,9 +1023,9 @@ changed over that time period.</p>
 between 2012 and 2000. (Note, you will probably need to create a new
 vector containing the differences, and <code>hist()</code> may be easier
 to use than ggplot.)</p></li>
-<li><p>Use <code>t.test()</code> to do a paired <em>t</em>-test to
-determine whether the ecological footprint changed significantly between
-2000 and 2012.</p></li>
+<li><p>Use R to do a paired <em>t</em>-test to determine whether the
+ecological footprint changed significantly between 2000 and
+2012.</p></li>
 <li><p>Interpret your result. Is there evidence that the ecological
 footprint changed over that time? If so did it increase or
 decrease?</p></li>

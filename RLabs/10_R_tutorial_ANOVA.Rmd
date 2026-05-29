@@ -56,7 +56,8 @@ differed in their mean age (a numerical variable).
 First, load the data.
 
 ```{r}
-titanicData <- read.csv("DataForLabs/titanic.csv", stringsAsFactors = TRUE)
+titanicData <- 
+  read.csv("DataForLabs/titanic.csv", stringsAsFactors = TRUE)
 ```
 
 Let’s first look at the data to get a sense of how well it fits the
@@ -64,9 +65,8 @@ assumptions of ANOVA. Multiple histogram are useful for this purpose. As
 we saw in the last lab, we can use `ggplot()` and facets to make this
 plot:
 
-```{r}
-library(ggplot2)
-
+```{r message=FALSE, warning=FALSE}
+library(tidyverse)
 ggplot(titanicData, aes(x = age)) +   
   geom_histogram() + 
   facet_wrap(~ passenger_class, ncol = 1) 
@@ -79,12 +79,8 @@ To confirm these visual impressions, it would be useful to construct a
 table of the means and standard deviations of each group. There are
 numerous ways to do this in R, but one of the neatest is to the
 `group_by()` function from the package `dplyr`. This package is among
-those contained in the metapackage `tidyverse`, so as usual we should
-load up `tidyverse`.
-
-```{r}
-library(tidyverse)
-```
+those contained in the metapackage `tidyverse`, so we should already be
+good to go.
 
 <br>
 
@@ -92,7 +88,7 @@ library(tidyverse)
 
 The package `dplyr` has several useful features for manipulating data
 sets. For our current purposes, we will find two functions particularly
-useful: `group_by()` and `summarise()`. These two functions are well
+useful: `group_by()` and `summarize()`. These two functions are well
 named and work together well, first to organize the data by groups, and
 second to summarize the results for each group.
 
@@ -106,35 +102,34 @@ titanic_by_passenger_class
 ```
 
 There are a couple subtle changes here. Firstly, `group_by()` converts
-`data.frame`s into `tibble`s, as indicated in the first row of the
-output. You may recall from lab 2 that tibbles and data frames are
-essentially the same thing, though there may be some minor aesthetic
-differences in how they are presented (tibbles have a much neater
-printed output) and some distinctions in how R handles things behind the
-scenes. The `1,313 × 7` in the first line conveys that there are 1313
-rows and 7 columns, which can also be handy info.
+data frames into tibbles, as indicated in the first row of the output.
+You may recall from Lab 2 that tibbles and data frames are essentially
+the same thing, though there may be some minor aesthetic differences in
+how they are presented (tibbles have a much neater printed output) and
+some distinctions in how R handles things behind the scenes. The
+`1,313 × 7` in the first line conveys that there are 1313 rows and 7
+columns, which can also be handy info.
 
 Secondly, the second row now indicates `Groups:   passenger_class [3]`,
 which shows that R correctly grouped the `titanicData` by
-`passenger_class`, which itself has 3 distinct levels. Ensuring our data
-are grouped is important to the next step: summarizing the data by
-group.
+`passenger_class`, which itself has 3 distinct levels. This is what the
+`group_by()` function intrinsically does; converting the data frame into
+a tibble is just an added bonus. Ensuring our data are grouped is
+important to the next step: summarizing the data by group.
 
 <br>
 
-### `summarise()`
+### `summarize()`
 
 After applying `group_by()` to a data frame or tibble, we can summarize
-the data using `summarise()`. (The “s” in `summarise()` is not a
-typo—the creator of the package is from New Zealand. But also note that
-`summarize()` also works and is an identical function.) With
-`summarise()`, we can apply any type of function that summarizes data
-(e.g. `mean()`, `median()`, `var()`, etc.), and receive that summary
-group by group. For example, to calculate the mean age of each
-`passenger_class`, we can use:
+the data using `summarize()`. With `summarize()`, we can apply any type
+of function that summarizes data (e.g. `mean()`, `median()`, `var()`,
+etc.), and receive that summary group by group. For example, to
+calculate the mean age of each `passenger_class`, we can use:
 
 ```{r}
-summarise(titanic_by_passenger_class, group_mean = mean(age, na.rm=TRUE))
+summarize(titanic_by_passenger_class, 
+          group_mean = mean(age, na.rm = TRUE))
 ```
 
 As input, we give the name of the grouped table created by `group_by()`
@@ -143,14 +138,14 @@ and the function we want to apply to each group. In this case we used
 variable (it could have been any name we wanted). The output is a tibble
 that includes the names of the groups being summarized.
 
-We can give `summarise()` many summary functions at once, and it will
+We can give `summarize()` many summary functions at once, and it will
 create columns in the output table for each one. For example, if we want
 to output both the mean and the standard deviation, we can add
-`sd = sd(age, na.rm=TRUE)` to the function above. Dropping lines between
+`sd = sd(age, na.rm = TRUE)` to the function above. Adding line breaks between
 arguments helps with readability.
 
 ```{r}
-summarise(titanic_by_passenger_class,
+summarize(titanic_by_passenger_class,
   group_mean = mean(age, na.rm = TRUE), 
   group_sd = sd(age, na.rm = TRUE)
 )
@@ -179,7 +174,7 @@ of calculations. One-way ANOVA is a type of linear model.*
 The function `lm()` needs a formula and a data frame as arguments. The
 formula is a statement specifying the “model” that we are asking R to
 fit to the data. A model formula always takes the form of a response
-variable, followed by a tilde(`~`), and then at least one explanatory
+variable, followed by a tilde (`~`), and then at least one explanatory
 variable. In the case of a one-way ANOVA, this model statement will take
 the form `numerical_variable ~ categorical_variable`.
 
@@ -230,8 +225,8 @@ the function `TukeyHSD()`.
 We will use the results of an ANOVA done with `lm()` as above, that we
 stored in the variable `titanicANOVA`. To do a Tukey-Kramer test on
 these data, we need to first apply the function `aov()` to
-`titanicANOVA`, and then we need to apply the function `TukeyHSD` to
-the result. We can do this in a single command:
+`titanicANOVA`, and then we need to apply the function `TukeyHSD` to the
+result. We can do this in a single command:
 
 ```{r}
 TukeyHSD(aov(titanicANOVA))
@@ -241,11 +236,11 @@ The key part of this output is the table at the bottom. It estimates the
 difference between the means of groups (for example, the 2nd passenger
 class compared to the 1st passenger class) and calculates a 95%
 confidence interval for the difference between the corresponding
-population means. (`lwr` and `upr` correspond to the lower and
-upper bounds of that confidence interval for the difference in means.)
+population means. (`lwr` and `upr` correspond to the lower and upper
+bounds of that confidence interval for the difference in means.)
 Finally, it give the *P*-value from a test of the null hypothesis of no
-difference between the means (the column headed with `p adj`). In
-the case of the Titanic data, *P* is less than 0.05 in all pairs, and we
+difference between the means (the column headed with `p adj`). In the
+case of the Titanic data, *P* is less than 0.05 in all pairs, and we
 therefore reject every null hypothesis. We conclude that the population
 mean ages of all passenger classes are significantly different from each
 other.
@@ -283,7 +278,10 @@ groups with the Titanic data.
 <br>
 
 # Activities & Questions
-Make a script in RStudio that includes all your R code required to answer the following questions. Include answers to all questions below using comments.
+
+Make a script in RStudio that includes all your R code to answer the
+following questions. Include answers to all questions below using
+comments. <br>
 
 <br> 1. The European cuckoo does not look after its own eggs, but
 instead lays them in the nests of birds of other species. Previous
@@ -323,7 +321,7 @@ partly responsible for the increase in malaria?
 
 One line of evidence is to look for an association between maize
 production and malaria incidence at different geographically dispersed
-sites (Kebede et al. 2005). The data set "malaria vs maize.csv" contains
+sites (Kebede et al. 2005). The data set `malaria vs maize.csv` contains
 information on several high-altitude sites in Ethiopia, with information
 about the level of cultivation of maize (low, medium or high in the
 variable `maize_yield`) and the rate of malaria per 10,000 people

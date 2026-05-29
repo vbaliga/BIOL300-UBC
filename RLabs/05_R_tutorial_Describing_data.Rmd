@@ -270,8 +270,9 @@ t.test(titanicData$age, conf.level = 0.99)$conf.int
 <br>
 
 # Activities & Questions
-Make a script in RStudio that includes all your R code required to answer the following questions. Include answers to all questions below using comments.
-<br>
+Make a script in RStudio that includes all your R code to answer the
+following questions. Include answers to all questions below using
+comments. <br>
 
 <br> 1. Go to the web and open the page at
 <http://www.zoology.ubc.ca/~whitlock/kingfisher/SamplingNormal.htm>.
@@ -305,7 +306,7 @@ b.  When you switched to using a 99% confidence interval, did the
 classmates collected on themselves during the first week of lab, in
 Lab 1. Remember that these data were collected using measuring tapes
 based in inches, but the data file asked for the measurements in
-centimenters. Open that file in R.
+centimenters. Import the data into R.
 
 a.  Plot the distribution of heights in the class. Describe the shape of
     the distribution. Is it symmetric or strongly skewed? Is it unimodal
@@ -325,7 +326,7 @@ b.  Are there any large outliers that look as though a student used the
 c.  Use R to calculate the mean height of all students in the class,
     using the filtered data.
 
-d.  Use `sd()` to calculate the standard deviation of height, using the
+d.  Calculate the standard deviation of height, using the
     filtered data.
 
 <br> 4. The file `caffeine.csv` contains data on the amount of caffeine

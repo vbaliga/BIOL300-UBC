@@ -64,7 +64,8 @@ the variable in the data set by drawing a histogram. Let’s use the age
 of passengers on the Titanic for our example.
 
 ```{r}
-titanicData <- read.csv("DataForLabs/titanic.csv", stringsAsFactors = TRUE)
+titanicData <- 
+  read.csv("DataForLabs/titanic.csv", stringsAsFactors = TRUE)
 ```
 
 Remember we can use `ggplot()` to draw histograms.
@@ -80,8 +81,7 @@ ggplot(titanicData, aes(x = age)) +
 
 If we are just drawing a histogram for ourselves to better understand
 the data, it is even easier to just use a function from base R,
-`hist()`. Give `hist()` a vector of data as input, and it will print a
-histogram in the plots window.
+`hist()`, with a vector of data as input.
 
 ```{r}
 hist(titanicData$age)
@@ -225,7 +225,9 @@ a passenger.
 <br>
 
 # Activities & Questions
-Make a script in RStudio that includes all your R code required to answer the following questions. Include answers to all questions below using comments.
+Make a script in RStudio that includes all your R code to answer the
+following questions. Include answers to all questions below using
+comments. <br>
 
 <br> 1. We return to the applet we used previously, located at
 <http://www.zoology.ubc.ca/~whitlock/Kingfisher/SamplingNormal.htm> to
@@ -300,7 +302,7 @@ a.  Generate a list of 10 random numbers from a normal distribution with
 normal_vector <- rnorm(n = 10, mean = 15, sd = 3)
 ```
 
-b.  Use `hist()` to plot a histogram of these numbers from part *a*.
+b.  Plot a histogram of these numbers from part *a*.
 
 c.  Plot a QQ plot from the numbers in part *a*.
 
@@ -318,7 +320,7 @@ smaller sample you already did? Why do you think that this is?
 
 <br> 3. In 1898, Hermon Bumpus collected house sparrows that had been
 caught in a severe winter storm in Chicago. He made several measurements
-on these sparrows, and his data are in the file `bumpus.csv`.
+on these sparrows, and his data are in `bumpus.csv`.
 
 Bumpus used these data to observe differences between the birds that
 survived and those that died from the storm. This became one of the
@@ -327,18 +329,17 @@ morphological traits. Here, let’s use these data to practice looking for
 fit of the normal distribution. (We’ll return to this data set next week
 to look for evidence of natural selection.)
 
-a.  Use `ggplot()` to plot the distribution of total length (this is
+a.  Plot the distribution of total length (this is
     the length of the bird from beak to tail). Does the data look as
     though it comes from distribution that is approximately normal?
 
-b.  Use `qqnorm()` to plot a QQ plot for total length. Does the data
+b.  Plot a QQ plot for total length. Does the data
     fall approximately along a straight line in the QQ plot? If so, what
     does this imply about the fit of these data to a normal
     distribution?
 
 c.  Calculate the mean of total length and a 95% confidence interval for
-    this mean. (You may want to refer back to Week 5 for the R commands
-    to do this.)
+    this mean. (hint: You may want to refer back to Lab 5.)
 
 <br> 4. The dataset `fingerlengths.csv` has data from previous BIOL 300
 students on the the ratio of the lengths of index finger over ring

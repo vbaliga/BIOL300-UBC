@@ -290,9 +290,9 @@ specifics about how each argument works. Most Help files also have an
 
 # Activities & Questions
 
-Make a script in RStudio that includes all your R code required to
-answer the following questions. Include answers to all questions below
-using comments.
+Make a script in RStudio that includes all your R code to answer the
+following questions. Include answers to all questions below using
+comments. <br>
 
 <br> 1. For each of the following pairs of graphs, identify features
 that communicate better on one version than the other.

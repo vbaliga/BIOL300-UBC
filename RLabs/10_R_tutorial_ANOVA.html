@@ -599,19 +599,16 @@ data set. We’ll group passengers by the passenger class they travelled
 under (a categorical variable) and ask whether different passenger
 classes differed in their mean age (a numerical variable).</p>
 <p>First, load the data.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> </span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Let’s first look at the data to get a sense of how well it fits the
 assumptions of ANOVA. Multiple histogram are useful for this purpose. As
 we saw in the last lab, we can use <code>ggplot()</code> and facets to
 make this plot:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span>   </span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span> </span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> passenger_class, <span class="at">ncol =</span> <span class="dv">1</span>) </span></code></pre></div>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
-<pre><code>## Warning: Removed 680 rows containing non-finite outside the scale range
-## (`stat_bin()`).</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span>   </span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() <span class="sc">+</span> </span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> passenger_class, <span class="at">ncol =</span> <span class="dv">1</span>) </span></code></pre></div>
 <p><img src="10_R_tutorial_ANOVA_files/figure-html/unnamed-chunk-2-1.png" alt="" width="672" /></p>
 <p>These data look sufficiently normal and with similar spreads that
 ANOVA would be appropriate.</p>
@@ -620,23 +617,21 @@ a table of the means and standard deviations of each group. There are
 numerous ways to do this in R, but one of the neatest is to the
 <code>group_by()</code> function from the package <code>dplyr</code>.
 This package is among those contained in the metapackage
-<code>tidyverse</code>, so as usual we should load up
-<code>tidyverse</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div>
+<code>tidyverse</code>, so we should already be good to go.</p>
 <p><br></p>
 <div id="group_by" class="section level3">
 <h3><code>group_by()</code></h3>
 <p>The package <code>dplyr</code> has several useful features for
 manipulating data sets. For our current purposes, we will find two
 functions particularly useful: <code>group_by()</code> and
-<code>summarise()</code>. These two functions are well named and work
+<code>summarize()</code>. These two functions are well named and work
 together well, first to organize the data by groups, and second to
 summarize the results for each group.</p>
 <p>First, use <code>group_by()</code> to organize your data frame by the
 appropriate grouping variable. For example, here we want to organize the
 <code>titanicData</code> by <code>passenger_class</code>:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>titanic_by_passenger_class <span class="ot">&lt;-</span> <span class="fu">group_by</span>(titanicData,passenger_class)</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>titanic_by_passenger_class</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>titanic_by_passenger_class <span class="ot">&lt;-</span> <span class="fu">group_by</span>(titanicData,passenger_class)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>titanic_by_passenger_class</span></code></pre></div>
 <pre><code>## # A tibble: 1,313 × 7
 ## # Groups:   passenger_class [3]
 ##    passenger_class name         age embarked home_destination sex   survive
@@ -653,34 +648,35 @@ appropriate grouping variable. For example, here we want to organize the
 ## 10 1st             Artagave… 71     Cherbou… Montevideo,Urug… male  no     
 ## # ℹ 1,303 more rows</code></pre>
 <p>There are a couple subtle changes here. Firstly,
-<code>group_by()</code> converts <code>data.frame</code>s into
-<code>tibble</code>s, as indicated in the first row of the output. You
-may recall from lab 2 that tibbles and data frames are essentially the
-same thing, though there may be some minor aesthetic differences in how
-they are presented (tibbles have a much neater printed output) and some
-distinctions in how R handles things behind the scenes. The
-<code>1,313 × 7</code> in the first line conveys that there are 1313
-rows and 7 columns, which can also be handy info.</p>
+<code>group_by()</code> converts data frames into tibbles, as indicated
+in the first row of the output. You may recall from Lab 2 that tibbles
+and data frames are essentially the same thing, though there may be some
+minor aesthetic differences in how they are presented (tibbles have a
+much neater printed output) and some distinctions in how R handles
+things behind the scenes. The <code>1,313 × 7</code> in the first line
+conveys that there are 1313 rows and 7 columns, which can also be handy
+info.</p>
 <p>Secondly, the second row now indicates
 <code>Groups:   passenger_class [3]</code>, which shows that R correctly
 grouped the <code>titanicData</code> by <code>passenger_class</code>,
-which itself has 3 distinct levels. Ensuring our data are grouped is
-important to the next step: summarizing the data by group.</p>
+which itself has 3 distinct levels. This is what the
+<code>group_by()</code> function intrinsically does; converting the data
+frame into a tibble is just an added bonus. Ensuring our data are
+grouped is important to the next step: summarizing the data by
+group.</p>
 <p><br></p>
 </div>
-<div id="summarise" class="section level3">
-<h3><code>summarise()</code></h3>
+<div id="summarize" class="section level3">
+<h3><code>summarize()</code></h3>
 <p>After applying <code>group_by()</code> to a data frame or tibble, we
-can summarize the data using <code>summarise()</code>. (The “s” in
-<code>summarise()</code> is not a typo—the creator of the package is
-from New Zealand. But also note that <code>summarize()</code> also works
-and is an identical function.) With <code>summarise()</code>, we can
-apply any type of function that summarizes data
-(e.g. <code>mean()</code>, <code>median()</code>, <code>var()</code>,
-etc.), and receive that summary group by group. For example, to
-calculate the mean age of each <code>passenger_class</code>, we can
-use:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">summarise</span>(titanic_by_passenger_class, <span class="at">group_mean =</span> <span class="fu">mean</span>(age, <span class="at">na.rm=</span><span class="cn">TRUE</span>))</span></code></pre></div>
+can summarize the data using <code>summarize()</code>. With
+<code>summarize()</code>, we can apply any type of function that
+summarizes data (e.g. <code>mean()</code>, <code>median()</code>,
+<code>var()</code>, etc.), and receive that summary group by group. For
+example, to calculate the mean age of each <code>passenger_class</code>,
+we can use:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">summarize</span>(titanic_by_passenger_class, </span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>          <span class="at">group_mean =</span> <span class="fu">mean</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 2
 ##   passenger_class group_mean
 ##   &lt;fct&gt;                &lt;dbl&gt;
@@ -693,15 +689,15 @@ In this case we used <code>mean(age, na.rm=TRUE)</code>.
 <code>group_mean</code>” is a name we give to that summary variable (it
 could have been any name we wanted). The output is a tibble that
 includes the names of the groups being summarized.</p>
-<p>We can give <code>summarise()</code> many summary functions at once,
+<p>We can give <code>summarize()</code> many summary functions at once,
 and it will create columns in the output table for each one. For
 example, if we want to output both the mean and the standard deviation,
-we can add <code>sd = sd(age, na.rm=TRUE)</code> to the function above.
-Dropping lines between arguments helps with readability.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">summarise</span>(titanic_by_passenger_class,</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="at">group_mean =</span> <span class="fu">mean</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="at">group_sd =</span> <span class="fu">sd</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>)</span></code></pre></div>
+we can add <code>sd = sd(age, na.rm = TRUE)</code> to the function
+above. Adding line breaks between arguments helps with readability.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">summarize</span>(titanic_by_passenger_class,</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="at">group_mean =</span> <span class="fu">mean</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="at">group_sd =</span> <span class="fu">sd</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>)</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 3
 ##   passenger_class group_mean group_sd
 ##   &lt;fct&gt;                &lt;dbl&gt;    &lt;dbl&gt;
@@ -729,7 +725,7 @@ ANOVA is a type of linear model.</em></p>
 <p>The function <code>lm()</code> needs a formula and a data frame as
 arguments. The formula is a statement specifying the “model” that we are
 asking R to fit to the data. A model formula always takes the form of a
-response variable, followed by a tilde(<code>~</code>), and then at
+response variable, followed by a tilde (<code>~</code>), and then at
 least one explanatory variable. In the case of a one-way ANOVA, this
 model statement will take the form
 <code>numerical_variable ~ categorical_variable</code>.</p>
@@ -745,14 +741,14 @@ intermediate results by assigning them to a new object, which
 <code>anova()</code> can then use to make the ANOVA table. For example,
 here we assign the results of <code>lm()</code> to a new object named
 <code>titanicANOVA</code>:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>titanicANOVA <span class="ot">&lt;-</span> <span class="fu">lm</span>(age <span class="sc">~</span> passenger_class, <span class="at">data =</span> titanicData)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>titanicANOVA <span class="ot">&lt;-</span> <span class="fu">lm</span>(age <span class="sc">~</span> passenger_class, <span class="at">data =</span> titanicData)</span></code></pre></div>
 <p><br></p>
 </div>
 <div id="anova-1" class="section level3">
 <h3><code>anova()</code></h3>
 <p>The function <code>anova()</code> takes the results of
 <code>lm()</code> as input and returns an ANOVA table as output:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">anova</span>(titanicANOVA)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">anova</span>(titanicANOVA)</span></code></pre></div>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Response: age
@@ -783,7 +779,7 @@ Tukey-Kramer test on these data, we need to first apply the function
 <code>aov()</code> to <code>titanicANOVA</code>, and then we need to
 apply the function <code>TukeyHSD</code> to the result. We can do this
 in a single command:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">TukeyHSD</span>(<span class="fu">aov</span>(titanicANOVA))</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">TukeyHSD</span>(<span class="fu">aov</span>(titanicANOVA))</span></code></pre></div>
 <pre><code>##   Tukey multiple comparisons of means
 ##     95% family-wise confidence level
 ## 
@@ -818,7 +814,7 @@ the same mean in each group.)</p>
 <code>kruskal.test()</code>. The input for this function is the same as
 we used for <code>lm()</code> above. It includes a model formula
 statement and the name of the data frame to be used.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">kruskal.test</span>(age <span class="sc">~</span> passenger_class, <span class="at">data =</span> titanicData)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">kruskal.test</span>(age <span class="sc">~</span> passenger_class, <span class="at">data =</span> titanicData)</span></code></pre></div>
 <pre><code>## 
 ##  Kruskal-Wallis rank sum test
 ## 
@@ -838,9 +834,9 @@ groups with the Titanic data.</p>
 </div>
 <div id="activities-questions" class="section level1">
 <h1>Activities &amp; Questions</h1>
-<p>Make a script in RStudio that includes all your R code required to
-answer the following questions. Include answers to all questions below
-using comments.</p>
+<p>Make a script in RStudio that includes all your R code to answer the
+following questions. Include answers to all questions below using
+comments. <br></p>
 <p><br> 1. The European cuckoo does not look after its own eggs, but
 instead lays them in the nests of birds of other species. Previous
 studies showed that cuckoos sometimes have evolved to lay eggs that are
@@ -875,11 +871,12 @@ rare. This raises the question, is the increase of maize cultivation
 partly responsible for the increase in malaria?</p>
 <p>One line of evidence is to look for an association between maize
 production and malaria incidence at different geographically dispersed
-sites (Kebede et al. 2005). The data set “malaria vs maize.csv” contains
-information on several high-altitude sites in Ethiopia, with information
-about the level of cultivation of maize (low, medium or high in the
-variable <code>maize_yield</code>) and the rate of malaria per 10,000
-people (<code>incidence_rate_per_ten_thousand</code>).</p>
+sites (Kebede et al. 2005). The data set
+<code>malaria vs maize.csv</code> contains information on several
+high-altitude sites in Ethiopia, with information about the level of
+cultivation of maize (low, medium or high in the variable
+<code>maize_yield</code>) and the rate of malaria per 10,000 people
+(<code>incidence_rate_per_ten_thousand</code>).</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Plot a multiple histogram to show the relationship between level
 of maize production and the incidence of malaria.</p></li>

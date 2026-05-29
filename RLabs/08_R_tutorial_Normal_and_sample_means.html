@@ -607,7 +607,8 @@ bell curve).</p>
 <p>A good way to start is to simply visualize the frequency distribution
 of the variable in the data set by drawing a histogram. Let’s use the
 age of passengers on the Titanic for our example.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>titanicData <span class="ot">&lt;-</span> </span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>  <span class="fu">read.csv</span>(<span class="st">&quot;DataForLabs/titanic.csv&quot;</span>, <span class="at">stringsAsFactors =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Remember we can use <code>ggplot()</code> to draw histograms.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">ggplot</span>(titanicData, <span class="fu">aes</span>(<span class="at">x =</span> age)) <span class="sc">+</span>   </span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> <span class="dv">10</span>)</span></code></pre></div>
@@ -619,8 +620,7 @@ age of passengers on the Titanic for our example.</p>
 <h2><code>hist()</code></h2>
 <p>If we are just drawing a histogram for ourselves to better understand
 the data, it is even easier to just use a function from base R,
-<code>hist()</code>. Give <code>hist()</code> a vector of data as input,
-and it will print a histogram in the plots window.</p>
+<code>hist()</code>, with a vector of data as input.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">hist</span>(titanicData<span class="sc">$</span>age)</span></code></pre></div>
 <p><img src="08_R_tutorial_Normal_and_sample_means_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" /></p>
 <p>Looking at this histogram, we see that the frequency distribution of
@@ -681,9 +681,9 @@ distribution</p></li>
 numbers drawn from a normal distribution with mean 13 and standard
 deviation 4:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">mean =</span> <span class="dv">13</span>, <span class="at">sd =</span> <span class="dv">4</span>)</span></code></pre></div>
-<pre><code>##  [1]  7.556509  3.912858 10.989351 13.603654 15.156133 12.365173 16.279218
-##  [8] 14.320862 11.292923 16.306890 15.546635 11.761765 13.710770 18.452916
-## [15] 13.342931 12.585764 13.871102 10.600728 17.583199 10.812068</code></pre>
+<pre><code>##  [1] 15.976670 13.275231 17.137969 10.601475 14.548273 11.821859 10.063846
+##  [8] 13.477607 10.022530 14.725673 13.928014 14.151847  7.784352 16.274078
+## [15] 14.441448 14.585270 13.095978 14.381602 15.369026 19.637678</code></pre>
 <p>Let’s look at a QQ plot generated from 100 numbers randomly drawn
 from a normal distribution:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>normal_vector <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">13</span>, <span class="at">sd =</span> <span class="dv">4</span>)</span>
@@ -742,9 +742,9 @@ src="formula_summaries/Normal%20and%20means%20summary.png" /></p>
 </div>
 <div id="activities-questions" class="section level1">
 <h1>Activities &amp; Questions</h1>
-<p>Make a script in RStudio that includes all your R code required to
-answer the following questions. Include answers to all questions below
-using comments.</p>
+<p>Make a script in RStudio that includes all your R code to answer the
+following questions. Include answers to all questions below using
+comments. <br></p>
 <p><br> 1. We return to the applet we used previously, located at <a
 href="http://www.zoology.ubc.ca/~whitlock/Kingfisher/SamplingNormal.htm"
 class="uri">http://www.zoology.ubc.ca/~whitlock/Kingfisher/SamplingNormal.htm</a>
@@ -815,8 +815,7 @@ mean 15 and standard deviation 3, using the following command:</li>
 </ol>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>normal_vector <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">10</span>, <span class="at">mean =</span> <span class="dv">15</span>, <span class="at">sd =</span> <span class="dv">3</span>)</span></code></pre></div>
 <ol start="2" style="list-style-type: lower-alpha">
-<li><p>Use <code>hist()</code> to plot a histogram of these numbers from
-part <em>a</em>.</p></li>
+<li><p>Plot a histogram of these numbers from part <em>a</em>.</p></li>
 <li><p>Plot a QQ plot from the numbers in part <em>a</em>.</p></li>
 <li><p>Repeat a through c several times (at least a dozen times). For
 each, look at the histograms and QQ plots. Think about the ways in which
@@ -831,8 +830,7 @@ from these larger samples look more like the normal expectations than
 the smaller sample you already did? Why do you think that this is?</p>
 <p><br> 3. In 1898, Hermon Bumpus collected house sparrows that had been
 caught in a severe winter storm in Chicago. He made several measurements
-on these sparrows, and his data are in the file
-<code>bumpus.csv</code>.</p>
+on these sparrows, and his data are in <code>bumpus.csv</code>.</p>
 <p>Bumpus used these data to observe differences between the birds that
 survived and those that died from the storm. This became one of the
 first direct and quantitative observations of natural selection on
@@ -840,17 +838,14 @@ morphological traits. Here, let’s use these data to practice looking for
 fit of the normal distribution. (We’ll return to this data set next week
 to look for evidence of natural selection.)</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Use <code>ggplot()</code> to plot the distribution of total
-length (this is the length of the bird from beak to tail). Does the data
-look as though it comes from distribution that is approximately
-normal?</p></li>
-<li><p>Use <code>qqnorm()</code> to plot a QQ plot for total length.
-Does the data fall approximately along a straight line in the QQ plot?
-If so, what does this imply about the fit of these data to a normal
-distribution?</p></li>
+<li><p>Plot the distribution of total length (this is the length of the
+bird from beak to tail). Does the data look as though it comes from
+distribution that is approximately normal?</p></li>
+<li><p>Plot a QQ plot for total length. Does the data fall approximately
+along a straight line in the QQ plot? If so, what does this imply about
+the fit of these data to a normal distribution?</p></li>
 <li><p>Calculate the mean of total length and a 95% confidence interval
-for this mean. (You may want to refer back to Week 5 for the R commands
-to do this.)</p></li>
+for this mean. (hint: You may want to refer back to Lab 5.)</p></li>
 </ol>
 <p><br> 4. The dataset <code>fingerlengths.csv</code> has data from
 previous BIOL 300 students on the the ratio of the lengths of index
