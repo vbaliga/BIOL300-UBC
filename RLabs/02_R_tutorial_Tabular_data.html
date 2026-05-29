@@ -705,14 +705,14 @@ look like for the bat data after they are entered:</p>
 <p><img src="formula_summaries/spreadsheet%20view.jpg" /></p>
 <p><br></p>
 </div>
-<div id="saving-as-a-.csv-file" class="section level2">
-<h2>Saving as a .csv file</h2>
+<div id="saving-a-.csv-file" class="section level2">
+<h2>Saving a <code>.csv</code> file</h2>
 <p>Saving a spreadsheet in a format that R can read is very
 straightforward. In these labs, we are using <code>.csv</code> files.
 Once you have made your spreadsheet, choose
 <code>File → Save as…</code>. This will open a dialog box. First, give
 the file a name with the extension <code>.csv</code> at the end. We used
-“BatTongues.csv”.</p>
+<code>BatTongues.csv</code>.</p>
 <p>Second, choose the folder in which you want to save the file. For any
 data files we create for BIOL 300, save them in the
 <code>DataForLabs</code> folder (<code>DataForLabs</code> should be
@@ -873,13 +873,18 @@ repeated instances of the same value of a categorical variable.</p>
 <p>R has other functions that can read other data formats besides csv
 files, but the function <code>read.csv()</code> requires that the file
 be a csv file.</p>
+<p>Looking at the Environment tab in RStudio can help confirm that the
+data were imported. The Environment allows you to see all objects that
+are in R’s memory and available for you to use.</p>
+<p><img src="formula_summaries/Environment.png" width="480" /></p>
+<p><br></p>
 </div>
-<div id="finding-files-in-other-locations" class="section level3">
-<h3>Finding files in other locations</h3>
+<div id="finding-files-in-other-places" class="section level3">
+<h3>Finding files in other places</h3>
 <p><em>Note that for all labs that you turn in for BIOL 300, we expect
-you to use <code>ABDLabs.Rproj</code> to start your session, and put
-data into the <code>DataForLabs</code> folder. Do not use either of the
-examples below in this section in your R scripts for BIOL 300.</em></p>
+you to use <code>ABDLabs.Rproj</code> to start your session, and put any
+new data into the <code>DataForLabs</code> folder. Do not use either of
+the examples in this section in your R scripts for BIOL 300.</em></p>
 <p>When you work on a new data set outside of BIOL 300 labs, you will
 want to store the data somewhere else. To import data into R from
 another location on your computer, you need to know the full file path
@@ -913,8 +918,8 @@ incumbent on you to select the correct file.</p>
 <p><em>Again note that for all labs that you turn in for BIOL 300, we
 expect you to use <code>ABDLabs.Rproj</code> to start your session, and
 put data into the <code>DataForLabs</code> folder. Do not use either of
-the examples above in this section in your R scripts.</em> All data
-import should follow something like:
+the examples above in your R scripts.</em> All data import should follow
+something like:
 <code>object_name &lt;- read.csv("DataForLabs/data.csv", stringsAsFactors = TRUE)</code></p>
 <p>This enforces a standard environment for all submitted work, which
 makes life easier for you &amp; your TAs.</p>
@@ -938,7 +943,8 @@ and 7 columns. A convention in R is to describe data frames according to
 the number of rows first and then columns second. For example,
 <code>titanicData</code> would be a 1313 x 7 object.</p>
 <p>The horizontal and vertical scroll bars will allow you to see more of
-the data compared to what may initially appear in the window.</p>
+the data compared to what may initially appear in the window. <br></p>
+<p><br></p>
 </div>
 <div id="summary" class="section level3">
 <h3><code>summary()</code></h3>
@@ -961,6 +967,7 @@ for each variable.</p>
 ##                    Cornwall/Akron,OH:  9                           
 ##                    Paris,France     :  9                           
 ##                    (Other)          :648</code></pre>
+<p><br></p>
 </div>
 <div id="names" class="section level3">
 <h3><code>names()</code></h3>
@@ -974,22 +981,6 @@ information about the names of variables.</p>
 <pre><code>## [1] &quot;passenger_class&quot;  &quot;name&quot;             &quot;age&quot;             
 ## [4] &quot;embarked&quot;         &quot;home_destination&quot; &quot;sex&quot;             
 ## [7] &quot;survive&quot;</code></pre>
-</div>
-<div id="str" class="section level3">
-<h3><code>str()</code></h3>
-<p><code>str()</code> will report the names of each column, along with a
-little more descriptive information about the type of variable it
-contains. It is somewhat of a hybrid of <code>summary()</code> and
-<code>names()</code>. “str” stand for “structure”.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">str</span>(titanicData)</span></code></pre></div>
-<pre><code>## &#39;data.frame&#39;:    1313 obs. of  7 variables:
-##  $ passenger_class : Factor w/ 3 levels &quot;1st&quot;,&quot;2nd&quot;,&quot;3rd&quot;: 1 1 1 1 1 1 1 1 1 1 ...
-##  $ name            : Factor w/ 1310 levels &quot;Abbing,MrAnthony&quot;,..: 22 25 26 27 24 31 45 46 50 54 ...
-##  $ age             : num  29 2 30 25 0.917 ...
-##  $ embarked        : Factor w/ 4 levels &quot;&quot;,&quot;Cherbourg&quot;,..: 4 4 4 4 4 4 4 4 4 2 ...
-##  $ home_destination: Factor w/ 372 levels &quot;&quot;,&quot;?Havana,Cuba&quot;,..: 314 234 234 234 234 241 165 26 24 232 ...
-##  $ sex             : Factor w/ 2 levels &quot;female&quot;,&quot;male&quot;: 1 1 2 1 2 2 1 2 1 2 ...
-##  $ survive         : Factor w/ 2 levels &quot;no&quot;,&quot;yes&quot;: 2 1 1 1 2 2 2 1 2 1 ...</code></pre>
 <p><br></p>
 </div>
 </div>
@@ -1003,10 +994,10 @@ Each row contains one individual, such as one passenger on the Titanic.
 The values in a row belong together, so the first value in each column
 describes the same individual, the second value in each column describes
 the next individual, and so on.</p>
-<p>The function <code>read.csv()</code> loads data into R as a
-<code>data.frame</code>. The data set is usually given a name, which
-lets us tell R which data set to use. For example, in the previous
-section we read in a data set and called it <code>titanicData</code>.
+<p>The function <code>read.csv()</code> imports data into R as a
+<code>data.frame</code>. To work with the data, it will be important to
+save it as an object in your R Environment. For example, in the previous
+section we read in a data set and saved it as <code>titanicData</code>.
 This object contains information about passengers on the Titanic. It has
 seven variables, so it has seven columns: <code>passenger_class</code>,
 <code>name</code>, <code>age</code>, <code>embarked</code>,
@@ -1020,16 +1011,17 @@ by itself. We write the name of the data set, followed by a
 <code>$</code>, and then the name of the variable.</p>
 <p>For example, to show a list of the age of all the passengers on the
 Titanic, use</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>titanicData<span class="sc">$</span>age</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>titanicData<span class="sc">$</span>age</span></code></pre></div>
 <p>This will show a vector that has all the values for this variable
 age, one for each individual in the data set.</p>
 <p><br></p>
 </div>
 <div id="indexing" class="section level3">
 <h3>Indexing</h3>
-<p>“Indexing” means selecting specific parts of objects. In lab 1, we
-used square brackets <code>[ ]</code> to look at specific elements
-within a vector.</p>
+<p>“Indexing” means selecting specific parts of objects. In <a
+href="01_R_tutorial_Intro_to_R.html#Vectors">Lab 1</a>, we used square
+brackets <code>[ ]</code> to look at specific elements within a
+vector.</p>
 <p>Data frames and tibbles are often described by how many rows and
 columns they contain. The convention is to list rows first: for example,
 <code>titanicData</code> would be a 1313 x 7 object.</p>
@@ -1040,13 +1032,13 @@ interest. Remember that in R, the indexing starts at 1, not 0 (<em>this
 is different from the way Python works!</em>).</p>
 <p>For example, to see the entry for the 6th row and 3rd column of
 <code>titanicData</code>:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>titanicData[<span class="dv">6</span>, <span class="dv">3</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>titanicData[<span class="dv">6</span>, <span class="dv">3</span>]</span></code></pre></div>
 <pre><code>## [1] 47</code></pre>
 <p>If you do not include a value in either the “row” or “column” spot, R
 will include all rows or all columns. The comma within the brackets
 <code>[ , ]</code> will still be necessary for R to interpret what you
 intend. The following shows all columns for the 6th row:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>titanicData[<span class="dv">6</span>, ]</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>titanicData[<span class="dv">6</span>, ]</span></code></pre></div>
 <pre><code>##   passenger_class             name age    embarked home_destination  sex
 ## 6             1st Anderson,MrHarry  47 Southampton       NewYork,NY male
 ##   survive
@@ -1064,12 +1056,12 @@ we’re more likely to subset our data based on factors using the
 <p>Sometimes we would like to add a new column to a data frame. The
 easiest way to do this is to simply assign a new vector to a new column
 name, using the <code>$</code>.</p>
-<p>For example, to add the log of age as a column in the
+<p>For example, to add the natural log of age as a column in the
 <code>titanicData</code> data frame, we can write</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>titanicData<span class="sc">$</span>log_age <span class="ot">&lt;-</span> <span class="fu">log</span>(titanicData<span class="sc">$</span>age)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>titanicData<span class="sc">$</span>log_age <span class="ot">&lt;-</span> <span class="fu">log</span>(titanicData<span class="sc">$</span>age)</span></code></pre></div>
 <p>You can run the command <code>head(titanicData)</code> to see that
 <code>log_age</code> is now a column in <code>titanicData</code>.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">head</span>(titanicData)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">head</span>(titanicData)</span></code></pre></div>
 <pre><code>##   passenger_class                                      name     age
 ## 1             1st                 Allen,MissElisabethWalton 29.0000
 ## 2             1st                  Allison,MissHelenLoraine  2.0000
@@ -1106,8 +1098,8 @@ including <code>filter()</code>.</p>
 and an individual is female if that variable has value
 <code>female</code>. We can create a new data frame that includes only
 the data from females with the following command:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>titanicDataFemalesOnly <span class="ot">&lt;-</span> <span class="fu">filter</span>(titanicData, sex <span class="sc">==</span> <span class="st">&quot;female&quot;</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">summary</span>(titanicDataFemalesOnly)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>titanicDataFemalesOnly <span class="ot">&lt;-</span> <span class="fu">filter</span>(titanicData, sex <span class="sc">==</span> <span class="st">&quot;female&quot;</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a><span class="fu">summary</span>(titanicDataFemalesOnly)</span></code></pre></div>
 <pre><code>##  passenger_class                            name          age         
 ##  1st:143         Connolly,MissKate            :  2   Min.   : 0.1667  
 ##  2nd:107         Abbott,MrsStanton(Rosa)      :  1   1st Qu.:19.0000  

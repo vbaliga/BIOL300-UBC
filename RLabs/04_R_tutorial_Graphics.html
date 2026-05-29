@@ -886,12 +886,6 @@ weak?</p></li>
 <li><p>All of the data points that went into this graph have been double
 checked and verified. With that in mind, what conclusion can you draw
 from the outlier on the scatter plot?</p></li>
-<li><p>Let’s figure out which species is the outlier. To do this, we’ll
-use a useful function called <code>filter()</code> from the package
-<code>dplyr</code>. You may recall <code>dplyr</code> is within the
-<code>tidyverse</code>, so if you already ran
-<code>library(tidyverse)</code>, you should be all set to use
-<code>filter()</code>.</p></li>
 <li><p>The function <code>filter()</code> gives us the row (or rows) of
 a data frame that has a certain property. Looking at the graph, we can
 tell that the point we are interested in has a very long tongue length,
@@ -908,8 +902,9 @@ feature of the flower has led to the evolution of such a long tongue?).
 See the article by Muchhala (2006) to learn more about the biology of
 this strange bat.</p>
 <p><br> 6. Your TA will provide you a data set of all measurements from
-all students (all sections) from the first lab. (We’ll return to some of
-the other variables later in the term.)</p>
+all BIOL 300 students from the first lab. Ensure that you save this
+<code>.csv</code> in the correct spot. (We’ll return to some of the
+other variables later in the term.)</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Plot a histogram of height. Do you detect any outliers? Do all
 the data look as though the same units were used when students recorded
@@ -917,7 +912,7 @@ them?</p></li>
 <li><p>One rough anthropometric rule of thumb says that adult height is
 approximately three times head circumference (each must be measured in
 the same units). Create a new column in your <code>data.frame</code>
-that contains head circumference multiplied by 3. Plot the relationship
+that has head circumference multiplied by 3. Plot the relationship
 between height and this new variable (again,
 <code>+ theme(aspect.ratio = 1)</code> may be advisable here). Do
 students in our course, collectively speaking, seem to follow this rule

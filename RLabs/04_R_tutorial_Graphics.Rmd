@@ -386,12 +386,7 @@ c.  All of the data points that went into this graph have been double
     checked and verified. With that in mind, what conclusion can you
     draw from the outlier on the scatter plot?
 
-d.  Let’s figure out which species is the outlier. To do this, we’ll use
-    a useful function called `filter()` from the package `dplyr`. You
-    may recall `dplyr` is within the `tidyverse`, so if you already ran
-    `library(tidyverse)`, you should be all set to use `filter()`.
-
-e.  The function `filter()` gives us the row (or rows) of a data frame
+d.  The function `filter()` gives us the row (or rows) of a data frame
     that has a certain property. Looking at the graph, we can tell that
     the point we are interested in has a very long tongue length, at
     least over 80 mm long! The following command will pull out the rows
@@ -410,8 +405,9 @@ flower has led to the evolution of such a long tongue?). See the article
 by Muchhala (2006) to learn more about the biology of this strange bat.
 
 <br> 6. Your TA will provide you a data set of all measurements from all
-students (all sections) from the first lab. (We'll return to some of the
-other variables later in the term.)
+BIOL 300 students from the first lab. Ensure that you save this `.csv`
+in the correct spot. (We'll return to some of the other variables later
+in the term.)
 
 a.  Plot a histogram of height. Do you detect any outliers? Do all the
     data look as though the same units were used when students recorded
@@ -420,7 +416,7 @@ a.  Plot a histogram of height. Do you detect any outliers? Do all the
 b.  One rough anthropometric rule of thumb says that adult height is
     approximately three times head circumference (each must be measured
     in the same units). Create a new column in your `data.frame` that
-    contains head circumference multiplied by 3. Plot the relationship
+    has head circumference multiplied by 3. Plot the relationship
     between height and this new variable (again,
     `+ theme(aspect.ratio = 1)` may be advisable here). Do students in
     our course, collectively speaking, seem to follow this rule of

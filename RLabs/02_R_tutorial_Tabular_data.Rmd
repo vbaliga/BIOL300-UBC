@@ -113,13 +113,13 @@ look like for the bat data after they are entered:
 
 <br>
 
-## Saving as a .csv file
+## Saving a `.csv` file
 
 Saving a spreadsheet in a format that R can read is very
 straightforward. In these labs, we are using `.csv` files. Once you have
 made your spreadsheet, choose `File → Save as…`. This will open a dialog
 box. First, give the file a name with the extension `.csv` at the end.
-We used “BatTongues.csv”.
+We used `BatTongues.csv`.
 
 Second, choose the folder in which you want to save the file. For any
 data files we create for BIOL 300, save them in the `DataForLabs` folder
@@ -300,12 +300,20 @@ R has other functions that can read other data formats besides csv
 files, but the function `read.csv()` requires that the file be a csv
 file.
 
-### Finding files in other locations
+Looking at the Environment tab in RStudio can help confirm that the data
+were imported. The Environment allows you to see all objects that are in
+R's memory and available for you to use.
+
+![](formula_summaries/Environment.png){width="480"}
+
+<br>
+
+### Finding files in other places
 
 *Note that for all labs that you turn in for BIOL 300, we expect you to
-use `ABDLabs.Rproj` to start your session, and put data into the
-`DataForLabs` folder. Do not use either of the examples below in this
-section in your R scripts for BIOL 300.*
+use `ABDLabs.Rproj` to start your session, and put any new data into the
+`DataForLabs` folder. Do not use either of the examples in this section
+in your R scripts for BIOL 300.*
 
 When you work on a new data set outside of BIOL 300 labs, you will want
 to store the data somewhere else. To import data into R from another
@@ -349,9 +357,8 @@ you to select the correct file.
 
 *Again note that for all labs that you turn in for BIOL 300, we expect
 you to use `ABDLabs.Rproj` to start your session, and put data into the
-`DataForLabs` folder. Do not use either of the examples above in this
-section in your R scripts.* All data import should follow something
-like:
+`DataForLabs` folder. Do not use either of the examples above in your R
+scripts.* All data import should follow something like:
 `object_name <- read.csv("DataForLabs/data.csv", stringsAsFactors = TRUE)`
 
 This enforces a standard environment for all submitted work, which makes
@@ -382,7 +389,9 @@ rows first and then columns second. For example, `titanicData` would be
 a 1313 x 7 object.
 
 The horizontal and vertical scroll bars will allow you to see more of
-the data compared to what may initially appear in the window.
+the data compared to what may initially appear in the window. <br>
+
+<br>
 
 ### `summary()`
 
@@ -392,6 +401,8 @@ for each variable.
 ```{r}
 summary(titanicData)
 ```
+
+<br>
 
 ### `names()`
 
@@ -405,17 +416,6 @@ of each column:
 
 ```{r}
 names(titanicData)
-```
-
-### `str()`
-
-`str()` will report the names of each column, along with a little more
-descriptive information about the type of variable it contains. It is
-somewhat of a hybrid of `summary()` and `names()`. "str" stand for
-"structure".
-
-```{r}
-str(titanicData)
 ```
 
 <br>
@@ -432,13 +432,13 @@ values in a row belong together, so the first value in each column
 describes the same individual, the second value in each column describes
 the next individual, and so on.
 
-The function `read.csv()` loads data into R as a `data.frame`. The data
-set is usually given a name, which lets us tell R which data set to use.
-For example, in the previous section we read in a data set and called it
-`titanicData`. This object contains information about passengers on the
-Titanic. It has seven variables, so it has seven columns:
-`passenger_class`, `name`, `age`, `embarked`, `home_destination`, `sex`,
-and `survive`.
+The function `read.csv()` imports data into R as a `data.frame`. To work
+with the data, it will be important to save it as an object in your R
+Environment. For example, in the previous section we read in a data set
+and saved it as `titanicData`. This object contains information about
+passengers on the Titanic. It has seven variables, so it has seven
+columns: `passenger_class`, `name`, `age`, `embarked`,
+`home_destination`, `sex`, and `survive`.
 
 <br>
 
@@ -462,8 +462,9 @@ one for each individual in the data set.
 
 ### Indexing
 
-"Indexing" means selecting specific parts of objects. In lab 1, we used
-square brackets `[ ]` to look at specific elements within a vector.
+"Indexing" means selecting specific parts of objects. In [Lab
+1](01_R_tutorial_Intro_to_R.html#Vectors), we used square brackets `[ ]`
+to look at specific elements within a vector.
 
 Data frames and tibbles are often described by how many rows and columns
 they contain. The convention is to list rows first: for example,
@@ -505,8 +506,8 @@ Sometimes we would like to add a new column to a data frame. The easiest
 way to do this is to simply assign a new vector to a new column name,
 using the `$`.
 
-For example, to add the log of age as a column in the `titanicData` data
-frame, we can write
+For example, to add the natural log of age as a column in the
+`titanicData` data frame, we can write
 
 ```{r}
 titanicData$log_age <- log(titanicData$age)
@@ -572,7 +573,10 @@ individual, whether `sex` is `female`. We not assigning the value
 <br>
 
 # Activities & Questions
-Make a script in RStudio that includes all your R code required to answer the following questions. Include answers to all questions below using comments.
+
+Make a script in RStudio that includes all your R code required to
+answer the following questions. Include answers to all questions below
+using comments.
 
 <br> 1. Install the `tidyverse` package on your system if you haven't
 already. After it has installed, use `library()` to load it into your R

@@ -3,3 +3,7 @@
 .RData
 .Ruserdata
 .DS_Store
+*-aiolos*
+*.knit.html
+*.knit.md
+*.utf8.md
