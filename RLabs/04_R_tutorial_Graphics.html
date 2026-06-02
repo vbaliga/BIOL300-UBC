@@ -832,8 +832,8 @@ to which countries belong.)</p></li>
 numerical variables <code>life_expectancy_at_birth_male</code> and
 <code>life_expectancy_at_birth_female</code>. Note that since the units
 of measurement in each axis are identical, we recommend adding
-<code>+ theme(aspect.ratio = 1)</code> to the end of your ggplot block
-so that changes in units along each axis are proportional to each
+<code>+ coord_equal()</code> to the end of your ggplot block so that
+changes in units along each axis are proportional to each
 other.</p></li>
 </ol>
 <p><br> 3. The ecological footprint is a widely-used measure, developed
@@ -858,9 +858,9 @@ anything about its value in 2012?</p></li>
 down in the years between 2000 and 2012? Did the countries with high or
 low ecological footprint change the most over this time? Again note that
 since the units of measurement in each axis are identical, we recommend
-adding <code>+ theme(aspect.ratio = 1)</code> to the end of your ggplot
-block so that changes in units along each axis are proportional to each
-other. (Hint: you can add a one-to-one line to your graph by adding
+adding <code>+ coord_equal()</code> to the end of your ggplot block so
+that changes in units along each axis are proportional to each other.
+(Hint: you can add a one-to-one line to your graph by adding
 <code>+ geom_abline(intercept = 0, slope = 1)</code>. This will make it
 easier to see when your points are above or below the line of
 equivalence.)</p></li>
@@ -914,9 +914,9 @@ approximately three times head circumference (each must be measured in
 the same units). Create a new column in your <code>data.frame</code>
 that has head circumference multiplied by 3. Plot the relationship
 between height and this new variable (again,
-<code>+ theme(aspect.ratio = 1)</code> may be advisable here). Do
-students in our course, collectively speaking, seem to follow this rule
-of thumb?</p></li>
+<code>+ coord_equal()</code> may be advisable here). Do students in our
+course, collectively speaking, seem to follow this rule of
+thumb?</p></li>
 </ol>
 <p><br> 7. Pick one of the plots you made using R today. What could be
 improved about this graph to make it a more effective presentation of

@@ -870,10 +870,9 @@ and their children; these data are in the file
 <ol style="list-style-type: lower-alpha">
 <li><p>Create a scatter plot showing the relationship between father and
 offspring telomere length. Note that since the units of measurement in
-each axis are identical, we recommend adding
-<code>theme(aspect.ratio = 1)</code> in your ggplot block so that
-changes in units along each axis are proportional to each
-other.</p></li>
+each axis are identical, we recommend adding <code>coord_equal()</code>
+in your ggplot block so that changes in units along each axis are
+proportional to each other.</p></li>
 <li><p>Do the data require any transformation before analysis using
 linear regression?</p></li>
 <li><p>Estimate an equation that predicts the offspring telomere length

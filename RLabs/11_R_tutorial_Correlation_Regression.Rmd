@@ -336,7 +336,7 @@ children; these data are in the file `telomere inheritance.csv`.
 a.  Create a scatter plot showing the relationship between father and
     offspring telomere length. Note that since the units of measurement
     in each axis are identical, we recommend adding
-    `theme(aspect.ratio = 1)` in your ggplot block so that changes in
+    `coord_equal()` in your ggplot block so that changes in
     units along each axis are proportional to each other.
 
 b.  Do the data require any transformation before analysis using linear

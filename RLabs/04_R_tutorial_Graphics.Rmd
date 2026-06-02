@@ -328,7 +328,7 @@ e.  Create a scatterplot that shows the relationship between the two
     numerical variables `life_expectancy_at_birth_male` and
     `life_expectancy_at_birth_female`. Note that since the units of
     measurement in each axis are identical, we recommend adding
-    `+ theme(aspect.ratio = 1)` to the end of your ggplot block so that
+    `+ coord_equal()` to the end of your ggplot block so that
     changes in units along each axis are proportional to each other.
 
 <br> 3. The ecological footprint is a widely-used measure, developed at
@@ -355,7 +355,7 @@ c.  From this graph, does the ecological footprint tend to go up or down
     in the years between 2000 and 2012? Did the countries with high or
     low ecological footprint change the most over this time? Again note
     that since the units of measurement in each axis are identical, we
-    recommend adding `+ theme(aspect.ratio = 1)` to the end of your
+    recommend adding `+ coord_equal()` to the end of your
     ggplot block so that changes in units along each axis are
     proportional to each other. (Hint: you can add a one-to-one line to
     your graph by adding `+ geom_abline(intercept = 0, slope = 1)`. This
@@ -418,7 +418,7 @@ b.  One rough anthropometric rule of thumb says that adult height is
     in the same units). Create a new column in your `data.frame` that
     has head circumference multiplied by 3. Plot the relationship
     between height and this new variable (again,
-    `+ theme(aspect.ratio = 1)` may be advisable here). Do students in
+    `+ coord_equal()` may be advisable here). Do students in
     our course, collectively speaking, seem to follow this rule of
     thumb?
 
