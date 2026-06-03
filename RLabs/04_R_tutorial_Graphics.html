@@ -865,9 +865,12 @@ that changes in units along each axis are proportional to each other.
 easier to see when your points are above or below the line of
 equivalence.)</p></li>
 </ol>
-<p><br> 4. Use the <code>countries</code> data again. Plot the
-relationship between continent and female life expectancy at birth.
-Describe the patterns that you see.</p>
+<p><br> 4. Use the <code>countries</code> data again. Fix the mistakes
+in the code below to plot the relationship between continent and female
+life expectancy at birth. Describe the patterns that you see.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">ggplot</span>(countries, </span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">&quot;continent&quot;</span>, <span class="at">y =</span> <span class="st">&quot;life_expectancy_at_birth_female&quot;</span>))</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>geom_boxplot</span></code></pre></div>
 <p><br> 5. Muchhala (2006) measured the length of the tongues of eleven
 different species of South American bats, as well as the length of their
 palates (to get an indication of the size of their mouths). All of these
@@ -893,7 +896,7 @@ at least over 80 mm long! The following command will pull out the rows
 of the data frame <code>bat_tongues</code> that have
 <code>tongue_length</code> greater than 80 mm:</p></li>
 </ol>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">filter</span>(bat_tongues,tongue_length<span class="sc">&gt;</span><span class="dv">80</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">filter</span>(bat_tongues,tongue_length<span class="sc">&gt;</span><span class="dv">80</span>)</span></code></pre></div>
 <p>The unusual species is <em>Anoura fistulata.</em> <a
 href="https://www.researchgate.net/figure/235352132_fig4_Figure-4-Partially-extended-tongue-of-A-fistulata-ICN-19653-from-Genova-Narino">See
 a photo here.</a> This species has an outrageously long tongue, which it

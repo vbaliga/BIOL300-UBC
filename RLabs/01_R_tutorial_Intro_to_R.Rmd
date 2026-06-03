@@ -117,7 +117,7 @@ the selected window. (Clicking anywhere in the Console selects it.)
 The `>` prompt is R’s way of inviting you to give it instructions. You
 communicate with R by typing commands after the `>` prompt.
 
-Type “**2 + 2**” at the `>` prompt, and hit return. You’ll see that R
+Type `2+2` at the `>` prompt, and hit return. You’ll see that R
 can work like a calculator (among its many other powers). It will give
 you the answer, 4, and it will label that answer with `[1]` to indicate
 that it is the first element in the answer. (This is sort of annoying
@@ -317,7 +317,7 @@ vary the case: `weightsBeforeHospital`. This convention is called
 
 It may be tempting to try something like `weights-before-hospital`, but
 this will not work as R will interpret this as subtraction, e.g.,
-`weights` - `before` - `hospital`. Do not use this convention (often
+`weights` - `before` - `hospital`. Do **not** use this convention (often
 called "Kebab-case", dashes = skewers).
 
 <br>
@@ -503,15 +503,17 @@ b.  Run most or all of the commands in R. Did you get the same answers
 
 <br> 4. For each of the variables below, come up with a object name that
 would be appropriate to use in R. Remember that camelCase and snake_case
-are usually good conventions.
+are usually good conventions. If an object name is already given, edit
+the name so that it will work appropriately in R.
 
-a.  Body temperature in Celsius
+a.  How much aspirin is given per dose for a patient
 
-b.  How much aspirin is given per dose for a patient
+b.  Height (including neck and extended legs) of giraffes
 
-c.  Number of televisions per person
+c.  Object name: `temperature-(Celsius)`
 
-d.  Height (including neck and extended legs) of giraffes
+c.  Object name: `televisions-per-person`
+
 
 <br> 5. Use R to calculate:
 

@@ -859,8 +859,11 @@ difference.</p></li>
 contain the true value of a parameter. Consider the
 <code>caffeine.csv</code> data again.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Calculate the 99% confidence interval for the mean caffeine
-level.</p></li>
+<li>Fix any mistakes in the code below to calculate the 99% confidence
+interval for the mean caffeine level.</li>
+</ol>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">t.test</span>(caffeine<span class="sc">$</span>caffeine_mg_16oz, <span class="at">conf.level =</span> <span class="dv">99</span>)<span class="sc">$</span>conf.int</span></code></pre></div>
+<ol start="2" style="list-style-type: lower-alpha">
 <li><p>Compare this 99% confidence interval to the 95% confidence
 interval you calculate in question 4b. Which confidence interval is
 wider (i.e., spans a broader range)? Why should this one be
@@ -873,7 +876,7 @@ and 97.5% quantiles with a line like the following. (Replace
 <code>datavector</code> with the name of the vector of your caffeine
 data.)</p></li>
 </ol>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">quantile</span>(datavector, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="at">na.rm =</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">quantile</span>(datavector, <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>Are these the same as the boundaries of the 95% confidence interval?
 If not, why not? Which should bound a smaller region, the quantile or
 the confidence interval of the mean?</p>

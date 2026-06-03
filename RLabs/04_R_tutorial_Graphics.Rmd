@@ -328,8 +328,8 @@ e.  Create a scatterplot that shows the relationship between the two
     numerical variables `life_expectancy_at_birth_male` and
     `life_expectancy_at_birth_female`. Note that since the units of
     measurement in each axis are identical, we recommend adding
-    `+ coord_equal()` to the end of your ggplot block so that
-    changes in units along each axis are proportional to each other.
+    `+ coord_equal()` to the end of your ggplot block so that changes in
+    units along each axis are proportional to each other.
 
 <br> 3. The ecological footprint is a widely-used measure, developed at
 UBC, of the impact a person has on the planet. It measures the area of
@@ -355,16 +355,21 @@ c.  From this graph, does the ecological footprint tend to go up or down
     in the years between 2000 and 2012? Did the countries with high or
     low ecological footprint change the most over this time? Again note
     that since the units of measurement in each axis are identical, we
-    recommend adding `+ coord_equal()` to the end of your
-    ggplot block so that changes in units along each axis are
-    proportional to each other. (Hint: you can add a one-to-one line to
-    your graph by adding `+ geom_abline(intercept = 0, slope = 1)`. This
-    will make it easier to see when your points are above or below the
-    line of equivalence.)
+    recommend adding `+ coord_equal()` to the end of your ggplot block
+    so that changes in units along each axis are proportional to each
+    other. (Hint: you can add a one-to-one line to your graph by adding
+    `+ geom_abline(intercept = 0, slope = 1)`. This will make it easier
+    to see when your points are above or below the line of equivalence.)
 
-<br> 4. Use the `countries` data again. Plot the relationship between
-continent and female life expectancy at birth. Describe the patterns
-that you see.
+<br> 4. Use the `countries` data again. Fix the mistakes in the code
+below to plot the relationship between continent and female life
+expectancy at birth. Describe the patterns that you see.
+
+```{r eval=FALSE}
+ggplot(countries, 
+       aes(x = "continent", y = "life_expectancy_at_birth_female"))
+geom_boxplot
+```
 
 <br> 5. Muchhala (2006) measured the length of the tongues of eleven
 different species of South American bats, as well as the length of their
@@ -417,10 +422,9 @@ b.  One rough anthropometric rule of thumb says that adult height is
     approximately three times head circumference (each must be measured
     in the same units). Create a new column in your `data.frame` that
     has head circumference multiplied by 3. Plot the relationship
-    between height and this new variable (again,
-    `+ coord_equal()` may be advisable here). Do students in
-    our course, collectively speaking, seem to follow this rule of
-    thumb?
+    between height and this new variable (again, `+ coord_equal()` may
+    be advisable here). Do students in our course, collectively
+    speaking, seem to follow this rule of thumb?
 
 <br> 7. Pick one of the plots you made using R today. What could be
 improved about this graph to make it a more effective presentation of

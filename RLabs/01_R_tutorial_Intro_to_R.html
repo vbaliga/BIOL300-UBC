@@ -656,8 +656,8 @@ Console selects it.)</p>
 <p>The <code>&gt;</code> prompt is R’s way of inviting you to give it
 instructions. You communicate with R by typing commands after the
 <code>&gt;</code> prompt.</p>
-<p>Type “<strong>2 + 2</strong>” at the <code>&gt;</code> prompt, and
-hit return. You’ll see that R can work like a calculator (among its many
+<p>Type <code>2+2</code> at the <code>&gt;</code> prompt, and hit
+return. You’ll see that R can work like a calculator (among its many
 other powers). It will give you the answer, 4, and it will label that
 answer with <code>[1]</code> to indicate that it is the first element in
 the answer. (This is sort of annoying when the answers are simple like
@@ -811,8 +811,8 @@ called “camelCase” (capital letters = humps).</p>
 <p>It may be tempting to try something like
 <code>weights-before-hospital</code>, but this will not work as R will
 interpret this as subtraction, e.g., <code>weights</code> -
-<code>before</code> - <code>hospital</code>. Do not use this convention
-(often called “Kebab-case”, dashes = skewers).</p>
+<code>before</code> - <code>hospital</code>. Do <strong>not</strong> use
+this convention (often called “Kebab-case”, dashes = skewers).</p>
 <p><br></p>
 </div>
 <div id="vectors" class="section level2">
@@ -962,12 +962,13 @@ answers as shown in the text?</p></li>
 </ol>
 <p><br> 4. For each of the variables below, come up with a object name
 that would be appropriate to use in R. Remember that camelCase and
-snake_case are usually good conventions.</p>
+snake_case are usually good conventions. If an object name is already
+given, edit the name so that it will work appropriately in R.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>Body temperature in Celsius</p></li>
 <li><p>How much aspirin is given per dose for a patient</p></li>
-<li><p>Number of televisions per person</p></li>
 <li><p>Height (including neck and extended legs) of giraffes</p></li>
+<li><p>Object name: <code>temperature-(Celsius)</code></p></li>
+<li><p>Object name: <code>televisions-per-person</code></p></li>
 </ol>
 <p><br> 5. Use R to calculate:</p>
 <ol style="list-style-type: lower-alpha">

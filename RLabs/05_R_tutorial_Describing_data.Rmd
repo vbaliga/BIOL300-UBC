@@ -24,14 +24,14 @@ Analysis of Biological Data*. The rest of the labs can be found
 
 # Learning outcomes
 
--   Investigate sampling error; see that larger samples have less
-    sampling error.
+- Investigate sampling error; see that larger samples have less sampling
+  error.
 
--   Visualize confidence intervals.
+- Visualize confidence intervals.
 
--   Calculate basic summary statistics using R.
+- Calculate basic summary statistics using R.
 
--   Calculate confidence intervals for the mean with R.
+- Calculate confidence intervals for the mean with R.
 
 <br>
 
@@ -89,9 +89,9 @@ numerical data.
 
 ### `mean()`
 
-We already saw in lab 1 how to calculate the mean of a vector of
-data using `mean()`. Unfortunately, if there are missing data we need to
-tell R how to deal with it.
+We already saw in lab 1 how to calculate the mean of a vector of data
+using `mean()`. Unfortunately, if there are missing data we need to tell
+R how to deal with it.
 
 A (somewhat annoying) quirk of R is that if we try to take the mean of a
 list of numbers that include missing data, we get an `NA` for the
@@ -270,6 +270,7 @@ t.test(titanicData$age, conf.level = 0.99)$conf.int
 <br>
 
 # Activities & Questions
+
 Make a script in RStudio that includes all your R code to answer the
 following questions. Include answers to all questions below using
 comments. <br>
@@ -326,8 +327,7 @@ b.  Are there any large outliers that look as though a student used the
 c.  Use R to calculate the mean height of all students in the class,
     using the filtered data.
 
-d.  Calculate the standard deviation of height, using the
-    filtered data.
+d.  Calculate the standard deviation of height, using the filtered data.
 
 <br> 4. The file `caffeine.csv` contains data on the amount of caffeine
 in a 16 oz. cup of coffee obtained from various vendors. For context,
@@ -356,7 +356,12 @@ d.  The file `caffeineStarbucks.csv` has data on six 16 oz. cups of
 contain the true value of a parameter. Consider the `caffeine.csv` data
 again.
 
-a.  Calculate the 99% confidence interval for the mean caffeine level.
+a.  Fix any mistakes in the code below to calculate the 99% confidence
+    interval for the mean caffeine level.
+
+```{r eval=FALSE}
+t.test(caffeine$caffeine_mg_16oz, conf.level = 99)$conf.int
+```
 
 b.  Compare this 99% confidence interval to the 95% confidence interval
     you calculate in question 4b. Which confidence interval is wider
@@ -370,7 +375,7 @@ c.  Let’s compare the quantiles of the distribution of caffeine to this
     `datavector` with the name of the vector of your caffeine data.)
 
 ```{r eval=FALSE}
-> quantile(datavector, c(0.025, 0.975), na.rm =TRUE)
+quantile(datavector, c(0.025, 0.975), na.rm = TRUE)
 ```
 
 Are these the same as the boundaries of the 95% confidence interval? If
@@ -378,8 +383,8 @@ not, why not? Which should bound a smaller region, the quantile or the
 confidence interval of the mean?
 
 <br> 6. Return to the class data set. Find the mean value of "number of
-siblings". Add 1 to this to find the mean number of children per
-family in the class.
+siblings". Add 1 to this to find the mean number of children per family
+in the class.
 
 a.  The mean number of offspring per family twenty years ago was
     about 2. Is the value for this class similar, greater, or smaller?
@@ -389,8 +394,8 @@ b.  Are the families represented in this class systematically different
     from the population at large? Is there a potential sampling bias?
 
 c.  Consider the way in which the data were collected. How many families
-    with 0 children are represented? Why? What effect does this have
-    on the estimated mean family size of all couples?
+    with 0 children are represented? Why? What effect does this have on
+    the estimated mean family size of all couples?
 
 <br> 7. Return to the data on countries of the world, in
 `countries.csv`. Plot the distributions for `ecological_footprint_2000`,
