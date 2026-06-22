@@ -54,5 +54,5 @@ output:
     includes:
       in_header: header.html
       before_body: header_image.html
+      after_body: version_footer.html
     css: ws-rlabs.css
-   

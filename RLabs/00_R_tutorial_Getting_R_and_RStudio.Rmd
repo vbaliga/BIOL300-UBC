@@ -22,7 +22,7 @@ Analysis of Biological Data*. The rest of the labs can be found
 ------------------------------------------------------------------------
 
 For these labs, you will need two apps on your computer: R and RStudio.
-Both of these are free, available to download without charge from the
+Both are free, available to download without charge from the
 web. This setup requires a laptop or desktop computer; RStudio is not
 natively supported on Chromebooks or iPads/tablets. Desktop computers
 are available to use in 2004 Biological Sciences during BIOL 300
@@ -90,7 +90,7 @@ the entire file and not just open the zip file, as this can cause
 problems; the best practice is to right-click on it and choose "Extract
 All" or a similar option.
 
-Inside `ABDLabs` is one file and two folders. The folder `DataForLabs`
+Inside `ABDLabs` is one file and a couple folders. The folder `DataForLabs`
 contains all the data sets that you will need to complete these labs;
 any new data we create during the course should also be saved there. The
 folder called `LearningTheTools` has an R script for each week,
@@ -137,7 +137,8 @@ TA if you are uncertain about any of these.
 
 BIOL 300 does not support the use of Jupyter notebooks. Although
 advanced users may be able to configure Jupyter to work with R,
-troubleshooting support for these setups will be limited.
+troubleshooting support for these setups will be limited. There is no 
+dedicated Jupyter server for BIOL 300.
 
 ## Using R in VS Code
 
@@ -163,7 +164,7 @@ supports R, Python, Quarto, and other tools. Because Positron is still
 under active development, some features may behave differently than they
 do in RStudio.
 
-The `.Rproj` file included in the `ABDLabs` folder is primarily intended
+The `.Rproj` file included in the `ABDLabs` folder is intended
 for use with RStudio. Positron can still work with projects that contain
 `.Rproj` files, but it does not rely on them in the same way that
 RStudio does. As with VS Code, the best approach is to open the
