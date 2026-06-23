@@ -9,10 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="" />
 
 
-<title>changelog</title>
+<title>Troubleshooting R/RStudio installation</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -563,65 +562,67 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-<h1 class="title toc-ignore">changelog</h1>
-<h4 class="author"></h4>
+<h1 class="title toc-ignore">Troubleshooting R/RStudio installation</h1>
 
 </div>
 
 
 <hr>
-<div id="note-for-instructors-and-tas" class="section level3">
-<h3>Note for instructors and TAs</h3>
-<p>This page records substantive changes to the <strong>UBC
-edition</strong> of the BIOL 300 R labs. The purpose is to help BIOL 300
-instructors and TAs keep answer keys and lesson plans current. The date
-in the footer reflects the most recent <em>substantive</em> update.
-Minor changes such as typo fixes, formatting adjustments, or changes
-that do not really affect answers may not require answer-key updates.
-Check with Vikram if unsure.</p>
-<hr>
-</div>
-<div id="update-2026-06-23" class="section level1">
-<h1>2026-06-23</h1>
-<div id="key-changes" class="section level2">
-<h2>Key changes</h2>
-<ul>
-<li>Establishment of “UBC Edition” of materials</li>
-<li>Re-working of labs 1-4
-<ul>
-<li>Re-framing labs 1 and 2 so that lab 1 = “R as a calculator” whereas
-lab 2 = “dealing with tabular data”</li>
-<li>Re-integration of sampling lab as lab 3</li>
-<li>Shifting of graphics lab to lab 4</li>
-</ul></li>
-<li>Integration of Activities into Questions</li>
-<li>Updated version of <a href="ABDLabs.zip">ABDLabs.zip</a>
-<ul>
-<li>Additon of fingerlengths data into DataForLabs</li>
-<li>Revisions of Learning the Tools scripts</li>
-</ul></li>
-<li><a href="troubleshooting.html">Troubleshooting</a> page</li>
-</ul>
-</div>
-<div id="site-materials-developed-with" class="section level2">
-<h2>Site materials developed with</h2>
-<ul>
-<li>R version 4.6.0 (2026-04-24) – “Because it was There”</li>
-<li>RStudio 2026.05.1 Build 225, “Golden Wattle” Release (89e0c7da,
-2026-06-07)</li>
-<li><code>rmarkdown</code> 2.31</li>
-</ul>
-</div>
-<div id="r-packages-used-in-labs" class="section level2">
-<h2>R packages used in labs</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
-<pre><code>## [1] &#39;2.0.0&#39;</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;car&quot;</span>)</span></code></pre></div>
-<pre><code>## [1] &#39;3.1.5&#39;</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">packageVersion</span>(<span class="st">&quot;binom&quot;</span>)</span></code></pre></div>
-<pre><code>## [1] &#39;1.1.1.1&#39;</code></pre>
+<p>Materials on this site were developed with: R version 4.6.0
+(2026-04-24) – “Because it was There”. We generally encourage students
+to install the most recent version of R that is compatible with their
+laptop, with the hope that most laptops can support R version &gt;=
+4.0.0.</p>
+<p><br></p>
+<div id="the-primary-alternative" class="section level1">
+<h1>The primary alternative</h1>
+<p><em>The desktop computers in Biological Sciences 2004 are available
+to any BIOL 300 student during their enrolled section time. Using these
+computers should be the primary alternative for any student who does not
+own a laptop or has an older laptop.</em></p>
 <p><br></p>
 </div>
+<div id="webr" class="section level1">
+<h1>WebR</h1>
+<p>A potential but very limited option is to use <a
+href="https://docs.r-wasm.org/webr/latest/">WebR</a>. WebR runs R inside
+your web browser, so it does not require a local R/RStudio installation
+or a separate R server.</p>
+<p>However, WebR is not a full replacement for RStudio. Not all R
+packages are available or supported. WebR may be slower on older
+computers, and file handling is different from working in RStudio. For
+this reason, the BIOL 300 teaching team does not fully endorse WebR. It
+is best treated as a fallback option for running basic R code when the
+desktop computers in Biosci 2004 aren’t available (e.g., outside of
+section time).</p>
+<p>See further details on the WebR website: <a
+href="https://docs.r-wasm.org/webr/latest/"
+class="uri">https://docs.r-wasm.org/webr/latest/</a></p>
+<p><br></p>
+</div>
+<div id="older-package-versions" class="section level1">
+<h1>Older package versions</h1>
+<p>It may be possible to do these labs with R &lt; 4.0.0. The script
+below can be used to install packages (+ dependencies) without relying
+on the current versions of packages on CRAN. This is useful for cases
+where the current version of a package on CRAN is not compatible with
+the specific version of R and/or versions of other packages on a
+student’s older laptop. It requires the <code>pak</code> package.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="do">## </span><span class="al">NOTE</span><span class="do">: Close the ABDlabs project prior to running these lines</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="do">## 1) Install pak (once)</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;pak&quot;</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="do">## 2) Pick a snapshot date </span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="do">## (example: late 2018 / early 2019 tends to be R 3.5-friendly)</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>snapshot_date <span class="ot">&lt;-</span> <span class="st">&quot;2019-02-01&quot;</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="do">## 3) Point CRAN at the snapshot (PPM)</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="do">## This sets options(repos=...) for the current session</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">repo_add</span>(<span class="at">CRAN =</span> <span class="fu">paste0</span>(<span class="st">&quot;PPM@&quot;</span>, snapshot_date))</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="do">## 4) Install target packages + ALL dependencies from that snapshot</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pkg_install</span>(<span class="fu">c</span>(<span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;car&quot;</span>))</span></code></pre></div>
 </div>
 
 <hr>

@@ -36,6 +36,7 @@ not require answer-key updates. Check with Vikram if unsure.
 - Updated version of [ABDLabs.zip](ABDLabs.zip)
   - Additon of fingerlengths data into DataForLabs
   - Revisions of Learning the Tools scripts
+- [Troubleshooting](troubleshooting.html) page
 
 ## Site materials developed with
 
