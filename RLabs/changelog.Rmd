@@ -1,0 +1,53 @@
+---
+title: "changelog"
+author: 
+
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: 
+      collapsed: false
+---
+
+<hr>
+
+### Note for instructors and TAs
+
+This page records substantive changes to the **UBC edition** of the BIOL
+300 R labs. The purpose is to help BIOL 300 instructors and TAs keep
+answer keys and lesson plans current. The date in the footer reflects
+the most recent *substantive* update. Minor changes such as typo fixes,
+formatting adjustments, or changes that do not really affect answers may
+not require answer-key updates. Check with Vikram if unsure.
+
+<hr>
+
+# 2026-06-23 {#update-2026-06-23}
+
+## Key changes
+- Establishment of "UBC Edition" of materials
+- Re-working of labs 1-4
+  - Re-framing labs 1 and 2 so that lab 1 = "R as a calculator" whereas 
+  lab 2 = "dealing with tabular data"
+  - Re-integration of sampling lab as lab 3
+  - Shifting of graphics lab to lab 4
+- Integration of Activities into Questions
+
+## Site materials developed with
+
+- R version 4.6.0 (2026-04-24) -- "Because it was There"
+- RStudio 2026.05.1 Build 225, "Golden Wattle" Release (89e0c7da,
+  2026-06-07)
+- `rmarkdown` 2.31
+
+## R packages used in labs
+
+```{r}
+packageVersion("tidyverse")
+packageVersion("car")
+packageVersion("binom")
+```
+
+
+<br>

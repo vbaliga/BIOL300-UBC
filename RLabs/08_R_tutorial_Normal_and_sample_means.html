@@ -681,9 +681,10 @@ distribution</p></li>
 numbers drawn from a normal distribution with mean 13 and standard
 deviation 4:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">mean =</span> <span class="dv">13</span>, <span class="at">sd =</span> <span class="dv">4</span>)</span></code></pre></div>
-<pre><code>##  [1]  6.244134 16.486092 17.206580 12.882539  9.568597 10.456540 10.361047
-##  [8]  8.368817 10.863196 11.262189  5.835376 10.575829 16.604196  9.272595
-## [15]  9.761283 19.548060 17.477160  4.823283 15.057883 15.596921</code></pre>
+<pre><code>##  [1] 12.9968789 19.1944876 12.3688098 10.2237297 16.1271973 20.4049096
+##  [7] 16.0054157 12.9653968 12.2892785 16.0713707 17.1217254 13.1420937
+## [13] 10.0645040 11.1889088  9.5297572 15.3577976  0.3505906 19.1183977
+## [19] 16.2915767 12.7382188</code></pre>
 <p>Let’s look at a QQ plot generated from 100 numbers randomly drawn
 from a normal distribution:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>normal_vector <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">13</span>, <span class="at">sd =</span> <span class="dv">4</span>)</span>
@@ -882,7 +883,10 @@ examine it for normality.</p></li>
 <hr>
 
 <div class="version-note">
-  <p><em>Last substantive update:</em> 2026-06-22</p>
+  <p>
+    <em>Last substantive update:</em>
+    <a href="changelog.html#update-2026-06-23">2026-06-23</a>
+  </p>
 </div>
 
 

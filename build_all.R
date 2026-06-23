@@ -9,7 +9,7 @@ callr::r(function() {
 })
 
 ## NOTES:
-# Ensure you update version_footer.html with each major change.
+# Ensure you update version_footer.html and changelog with each major change.
 
 # R 4.6.0
 # tidyverse 2.0.0
