@@ -33,6 +33,9 @@ not require answer-key updates. Check with Vikram if unsure.
   - Re-integration of sampling lab as lab 3
   - Shifting of graphics lab to lab 4
 - Integration of Activities into Questions
+- Updated version of [ABDLabs.zip](ABDLabs.zip)
+  - Additon of fingerlengths data into DataForLabs
+  - Revisions of Learning the Tools scripts
 
 ## Site materials developed with
 
