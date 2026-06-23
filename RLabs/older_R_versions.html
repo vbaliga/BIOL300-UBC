@@ -9,10 +9,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="" />
 
 
-<title>Labs using R, UBC Edition</title>
+<title>Working with older versions of R</title>
 
 <script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -53,6 +52,112 @@
 
 
 
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -375,69 +480,42 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-<h1 class="title toc-ignore">Labs using R, <em>UBC Edition</em></h1>
-<h4 class="author"></h4>
+<h1 class="title toc-ignore">Working with older versions of R</h1>
 
 </div>
 
 
-<hr />
-<p>These labs are written for the UBC course BIOL 300: Funamentals of
-Biostatistics, using resources from <em>The Analysis of Biological
-Data</em> (ABD) by Whitlock and Schluter. The materials follow the same
-order and level as this textbook, though there may not be one-to-one
-correspondence between chapters in ABD and tutorials.</p>
-<p>These labs have two main purposes. First, they are intended to
-facilitate active learning in some core concepts in introductory
-statistics. Second, they introduce a key tool in modern statistics: the
-widely-used, open source program called R.</p>
-<p>Before using these labs, <a href="ABDLabs.zip">download the zip
-file</a> containing data, R scripts, and other resources for these labs.
-Move this <code>.zip</code> file out of your Downloads folder (keeping
-it there can cause issues), and then unzip it fully. Start RStudio from
-the <code>ABDLabs.Rproj</code> file in that folder to make these
-exercises work more seamlessly.</p>
-<p>Some of the exercises in these labs (particularly in the first few
-labs) may require working in a group environment.</p>
-<p><br></p>
-<div id="r-tutorials-by-topic" class="section level2">
-<h2>R tutorials by topic</h2>
-<p><a href="00_R_tutorial_Getting_R_and_RStudio.html">0. Getting R and
-RStudio</a></p>
-<p><a href="01_R_tutorial_Intro_to_R.html">1. Intro to R</a></p>
-<p><a href="02_R_tutorial_Tabular_data.html">2. Tabular data</a></p>
-<p><a href="03_R_tutorial_Sampling.html">3. Sampling</a></p>
-<p><a href="04_R_tutorial_Graphics.html">4. Graphics</a></p>
-<p><a href="05_R_tutorial_Describing_data.html">5. Describing
-data</a></p>
-<p><a href="06_R_tutorial_Frequency_data.html">6. Frequency data</a></p>
-<p><a href="07_R_tutorial_Contingency_analysis.html">7. Contingency
-analysis</a></p>
-<p><a href="08_R_tutorial_Normal_and_sample_means.html">8. Normal
-distribution and sample means</a></p>
-<p><a href="09_R_tutorial_Comparing_means_of_2_groups.html">9. Comparing
-means of two groups</a></p>
-<p><a href="10_R_tutorial_ANOVA.html">10. ANOVA</a></p>
-<p><a href="11_R_tutorial_Correlation_Regression.html">11. Correlation
-and regression</a></p>
-<p><a href="References.html">References and data sources for all
-tutorials</a></p>
-<p><a href="older_R_versions.html">Working with older versions of
-R</a></p>
-<p><br></p>
-<p>Other resources for Whitlock and Schluter <em>The Analysis of
-Biological Data</em> are <a href="../index.html">available chapter by
-chapter here</a>.</p>
-<p>Comments and suggestions are greatly appreciated. If something is not
-working or can be improved, please let us know. Please e-mail Vikram
-Baliga at <a href="mailto:vikram.baliga@ubc.ca"
-class="email">vikram.baliga@ubc.ca</a> with any thoughts you have about
-how these tutorials can be improved.</p>
-<p>Instructors, please e-mail
-<a href="mailto:whitlock@zoology.ubc.ca">Mike Whitlock</a> for a link to
-some instructor notes on these labs.</p>
-<p><br></p>
-</div>
+<hr>
+<p>Materials on this site were developed with: R version 4.6.0
+(2026-04-24) – “Because it was There”. We generally encourage students
+to install the most recent version of R that is compatible with their
+laptop, with the hope that most laptops can support R version &gt;=
+4.0.0.</p>
+<p><em>The desktop computers in Biological Sciences 2004 are available
+to any BIOL 300 student during their enrolled section time. Using these
+computers should be the primary alternative for any student who does not
+own a laptop or has an older laptop.</em></p>
+<p>That said, it may be possible to do these labs with R &lt; 4.0.0. The
+script below can be used to install packages (+ dependencies) without
+relying on the current versions of packages on CRAN. This is useful for
+cases where the current version of a package on CRAN is not compatible
+with the specific version of R and/or versions of other packages on a
+student’s older laptop.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="do">## </span><span class="al">NOTE</span><span class="do">: Close the ABDlabs project prior to running these lines</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="do">## 1) Install pak (once)</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;pak&quot;</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="do">## 2) Pick a snapshot date </span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="do">## (example: late 2018 / early 2019 tends to be R 3.5-friendly)</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>snapshot_date <span class="ot">&lt;-</span> <span class="st">&quot;2019-02-01&quot;</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="do">## 3) Point CRAN at the snapshot (PPM)</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="do">## This sets options(repos=...) for the current session</span></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">repo_add</span>(<span class="at">CRAN =</span> <span class="fu">paste0</span>(<span class="st">&quot;PPM@&quot;</span>, snapshot_date))</span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="do">## 4) Install target packages + ALL dependencies from that snapshot</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pkg_install</span>(<span class="fu">c</span>(<span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;car&quot;</span>))</span></code></pre></div>
 
 <hr>
 

@@ -57,6 +57,8 @@ groups](09_R_tutorial_Comparing_means_of_2_groups.html)
 
 [References and data sources for all tutorials](References.html)
 
+[Working with older versions of R](older_R_versions.html)
+
 <br>
 
 Other resources for Whitlock and Schluter *The Analysis of Biological

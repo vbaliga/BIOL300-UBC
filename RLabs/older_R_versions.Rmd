@@ -1,0 +1,42 @@
+---
+title: "Working with older versions of R"
+
+---
+
+<hr>
+
+Materials on this site were developed with: R version 4.6.0 (2026-04-24) -- 
+"Because it was There". We generally encourage students to install the most
+recent version of R that is compatible with their laptop, with the hope
+that most laptops can support R version >= 4.0.0. 
+
+*The desktop computers in Biological Sciences 2004 are available to any BIOL 
+300 student during their enrolled section time. Using these computers should be 
+the primary alternative for any student who does not own a laptop or has an 
+older laptop.*
+
+That said, it may be possible to do these labs with R < 4.0.0. The script below
+can be used to install packages (+ dependencies) without relying on the current
+versions of packages on CRAN. This is useful for cases where the current version
+of a package on CRAN is not compatible with the specific version of R and/or 
+versions of other packages on a student's older laptop.
+
+```{r eval=FALSE, include=TRUE}
+## NOTE: Close the ABDlabs project prior to running these lines
+
+## 1) Install pak (once)
+install.packages("pak")
+
+## 2) Pick a snapshot date 
+## (example: late 2018 / early 2019 tends to be R 3.5-friendly)
+snapshot_date <- "2019-02-01"
+
+## 3) Point CRAN at the snapshot (PPM)
+## This sets options(repos=...) for the current session
+pak::repo_add(CRAN = paste0("PPM@", snapshot_date))
+
+## 4) Install target packages + ALL dependencies from that snapshot
+pak::pkg_install(c("tidyverse", "car"))
+
+```
+
