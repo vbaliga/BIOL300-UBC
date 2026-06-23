@@ -286,9 +286,10 @@ a.  In the tutorial, when you were instructed to move the slider for "n"
     to the right, did the distribution of sample means get wider,
     narrower, or stay the same compared to when the sample size was 10?
 
-b.  Changing which of the sliders affected the breadth of the sampling
-    distribution? Did more than one slider affect the location of this
-    center? Which one(s)?
+b.  The breadth of the sampling distribution may be affected by one or 
+    more sliders. Identify all sliders that seem to affect the breadth
+    of the sampling distribution. Next, identify all sliders that affected
+    the location of the sampling distribution's center.
 
 c.  What population parameter will the center of the sampling
     distribution of the mean be equal to?
