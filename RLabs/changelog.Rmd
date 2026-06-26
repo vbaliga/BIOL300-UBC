@@ -23,6 +23,30 @@ not require answer-key updates. Check with Vikram if unsure.
 
 <hr>
 
+# 2026-06-26 {#update-2026-06-26}
+
+## Key changes
+- Correction of fingerlengths data set
+- Re-constitution of ABDLabs zip file
+- Corrections to Lab 8 question numbering
+
+## Site materials developed with
+
+- R version 4.6.0 (2026-04-24) -- "Because it was There"
+- RStudio 2026.05.1 Build 225, "Golden Wattle" Release (89e0c7da,
+  2026-06-07)
+- `rmarkdown` 2.31
+
+## R packages used in labs
+
+```{r}
+packageVersion("tidyverse")
+packageVersion("car")
+packageVersion("binom")
+```
+
+<br>
+
 # 2026-06-23 {#update-2026-06-23}
 
 ## Key changes

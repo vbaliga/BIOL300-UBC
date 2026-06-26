@@ -318,7 +318,7 @@ in Question 2, but now set *n* = 250.) Do the graphs and QQ plots from
 these larger samples look more like the normal expectations than the
 smaller sample you already did? Why do you think that this is?
 
-<br> 3. In 1898, Hermon Bumpus collected house sparrows that had been
+<br> 4. In 1898, Hermon Bumpus collected house sparrows that had been
 caught in a severe winter storm in Chicago. He made several measurements
 on these sparrows, and his data are in `bumpus.csv`.
 
@@ -341,7 +341,7 @@ b.  Plot a QQ plot for total length. Does the data
 c.  Calculate the mean of total length and a 95% confidence interval for
     this mean. (hint: You may want to refer back to Lab 5.)
 
-<br> 4. The dataset `fingerlengths.csv` has data from previous BIOL 300
+<br> 5. The dataset `fingerlengths.csv` has data from previous BIOL 300
 students on the the ratio of the lengths of index finger over ring
 finger. This is called the 2D:4D ratio, where the 2D refers to second
 digit and 4D means fourth digit.
@@ -365,7 +365,7 @@ a.  Describe how well the `Right_2D_4D_ratio` is fit by a normal
 
 b.  What is the 95% confidence interval for `Right_2D_4D_ratio`? 
 
-<br> 5. The file `mammals.csv` contains information on the body mass of
+<br> 6. The file `mammals.csv` contains information on the body mass of
 various mammal species.
 
 a.  Plot the distribution of body mass, and describe its shape. Does

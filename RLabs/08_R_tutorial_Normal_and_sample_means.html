@@ -681,9 +681,9 @@ distribution</p></li>
 numbers drawn from a normal distribution with mean 13 and standard
 deviation 4:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">20</span>, <span class="at">mean =</span> <span class="dv">13</span>, <span class="at">sd =</span> <span class="dv">4</span>)</span></code></pre></div>
-<pre><code>##  [1] 18.614961 14.866863 20.319990 15.266653 14.239187 14.655082 14.116754
-##  [8] 16.667826 14.054893 18.153593  8.762422  5.241783 12.583695  7.565303
-## [15]  5.321818  5.008387 11.032455 12.797081 13.412491 12.850191</code></pre>
+<pre><code>##  [1] 13.042566 15.695844  8.326613 13.052625 13.805002 12.993438  8.860304
+##  [8] 13.347005  7.495594 15.838069 13.678057  8.553111 14.814407 13.375998
+## [15]  9.852160 18.807802  6.867201 14.943949 16.855819 14.550840</code></pre>
 <p>Let’s look at a QQ plot generated from 100 numbers randomly drawn
 from a normal distribution:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>normal_vector <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">mean =</span> <span class="dv">13</span>, <span class="at">sd =</span> <span class="dv">4</span>)</span>
@@ -828,7 +828,7 @@ sample 250 individuals for each sample. (You can use the same command as
 in Question 2, but now set <em>n</em> = 250.) Do the graphs and QQ plots
 from these larger samples look more like the normal expectations than
 the smaller sample you already did? Why do you think that this is?</p>
-<p><br> 3. In 1898, Hermon Bumpus collected house sparrows that had been
+<p><br> 4. In 1898, Hermon Bumpus collected house sparrows that had been
 caught in a severe winter storm in Chicago. He made several measurements
 on these sparrows, and his data are in <code>bumpus.csv</code>.</p>
 <p>Bumpus used these data to observe differences between the birds that
@@ -847,7 +847,7 @@ the fit of these data to a normal distribution?</p></li>
 <li><p>Calculate the mean of total length and a 95% confidence interval
 for this mean. (hint: You may want to refer back to Lab 5.)</p></li>
 </ol>
-<p><br> 4. The dataset <code>fingerlengths.csv</code> has data from
+<p><br> 5. The dataset <code>fingerlengths.csv</code> has data from
 previous BIOL 300 students on the the ratio of the lengths of index
 finger over ring finger. This is called the 2D:4D ratio, where the 2D
 refers to second digit and 4D means fourth digit.</p>
@@ -868,7 +868,7 @@ learned this week.</p></li>
 <li><p>What is the 95% confidence interval for
 <code>Right_2D_4D_ratio</code>?</p></li>
 </ol>
-<p><br> 5. The file <code>mammals.csv</code> contains information on the
+<p><br> 6. The file <code>mammals.csv</code> contains information on the
 body mass of various mammal species.</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Plot the distribution of body mass, and describe its shape. Does
@@ -884,7 +884,7 @@ examine it for normality.</p></li>
 <div class="version-note">
   <p>
     <em>Last substantive update:</em>
-    <a href="changelog.html#update-2026-06-23">2026-06-23</a>
+    <a href="changelog.html#update-2026-06-26">2026-06-26</a>
   </p>
 </div>
 
