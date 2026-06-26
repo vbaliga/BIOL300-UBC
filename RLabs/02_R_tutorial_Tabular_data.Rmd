@@ -624,7 +624,7 @@ a.  Use `read.csv()` to read the data from this file into a data frame
 b.  Use `summary()` to get a quick description of this data set. What
     are the first three variables?
 
-c.  Using the output of `summary()`, how many countries are from Africa
+c.  Using the output of `summary()`, how many countries are from Asia
     in this data set?
 
 d.  What kinds of variables (i.e., categorical or numerical) are

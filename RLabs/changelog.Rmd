@@ -29,6 +29,7 @@ not require answer-key updates. Check with Vikram if unsure.
 - Correction of fingerlengths data set
 - Re-constitution of ABDLabs zip file
 - Corrections to Lab 8 question numbering
+- Correction to Lab 2, question 3c: switch Africa to Asia
 
 ## Site materials developed with
 
@@ -45,7 +46,7 @@ packageVersion("car")
 packageVersion("binom")
 ```
 
-<br>
+<hr>
 
 # 2026-06-23 {#update-2026-06-23}
 
