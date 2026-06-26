@@ -102,10 +102,8 @@ Follow these steps:
     in a single column named “length.” Save this file as
     `Lab3_Full_population_shells.csv`.
 
-8.  Import this data set to R. Name this as you like, but later in these
-    instructions we will refer to the imported R object as
-    `population_data`. Use R to calculate the mean of the full
-    population.
+8.  Import this data set to R, naming the object `population_data`. Use
+    R to calculate the mean of the full population.
 
 9.  Give your TA the mean of your first sample and the mean of your
     population, for later full class use.
@@ -217,7 +215,7 @@ means of independent random samples.
 
 15. Plot a histogram that shows the distribution of the means of these
     random samples. You can do this using the `hist()` function. Note
-    that next week, we will learn how to use `ggplot` to make figures
+    that next week, we will learn how to use `ggplot()` to make figures
     that are more elegant and customizable.
 
 ```{r eval = FALSE}
