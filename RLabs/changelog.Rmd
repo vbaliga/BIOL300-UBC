@@ -30,6 +30,7 @@ not require answer-key updates. Check with Vikram if unsure.
 - Re-constitution of ABDLabs zip file
 - Corrections to Lab 8 question numbering
 - Correction to Lab 2, question 3c: switch Africa to Asia
+- Add "bad code line" to Lab 8, q5
 
 ## Site materials developed with
 

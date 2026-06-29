@@ -225,6 +225,7 @@ a passenger.
 <br>
 
 # Activities & Questions
+
 Make a script in RStudio that includes all your R code to answer the
 following questions. Include answers to all questions below using
 comments. <br>
@@ -233,13 +234,13 @@ comments. <br>
 <http://www.zoology.ubc.ca/~whitlock/Kingfisher/SamplingNormal.htm> to
 investigate three points made in the text.
 
-**Point 1: The distribution of sample means is normal, if the
-variable itself has a normal distribution.** First, hit "COMPLETE SAMPLE
-OF 10" and “CALCULATE MEAN” a few times, to remind yourself of what this
-applet does. (It takes a sample from the normal distribution shown when
-you click “SHOW POPULATION”. The top panel shows a histogram of that
-sample, and the bottom panel shows the distribution of sample means from
-all the previous samples.)
+**Point 1: The distribution of sample means is normal, if the variable
+itself has a normal distribution.** First, hit "COMPLETE SAMPLE OF 10"
+and “CALCULATE MEAN” a few times, to remind yourself of what this applet
+does. (It takes a sample from the normal distribution shown when you
+click “SHOW POPULATION”. The top panel shows a histogram of that sample,
+and the bottom panel shows the distribution of sample means from all the
+previous samples.)
 
 Next, hit the "MEANS FOR MANY SAMPLES" button. This button makes a large
 number of separate samples at one go, all of the same sample size, to
@@ -252,30 +253,30 @@ distribution? Click the checkbox by "SHOW SAMPLING DISTRIBUTION" off to
 the right, which will draw the curve for a normal distribution with the
 same mean and variance as this distribution of sample means.
 
-**Point 2: The standard deviation of the distribution of sample
-means is reduced with larger sample sizes.** The standard deviation of
-the population is controlled by the right slider marked with $\sigma$.
-The sample size is set by left slider. (The default when it opens is set
-to *n*=10.)
+**Point 2: The standard deviation of the distribution of sample means is
+reduced with larger sample sizes.** The standard deviation of the
+population is controlled by the right slider marked with $\sigma$. The
+sample size is set by left slider. (The default when it opens is set to
+*n*=10.)
 
 For *n*=10, have the applet calculate a large number of sample means as
-you did in the previous exercise. 
+you did in the previous exercise.
 
-a.  If each sample size is 10 and the
-standard deviation is 30 (as in the default), what do you predict the
-standard deviation of the sample means to be? (Use the equation you have
-learned in class to make this calculation.)
+a.  If each sample size is 10 and the standard deviation is 30 (as in
+    the default), what do you predict the standard deviation of the
+    sample means to be? (Use the equation you have learned in class to
+    make this calculation.)
 
-b.  Change the sample size to *n*=100, and recalculate many sample means.
-Calculate the predicted standard deviation of all the sample means.
-Should the sampling distribution of sample means be wider or narrower
-with this larger sample size than in the previous case with a smaller
-sample size? What do you observe in the simulations?
+b.  Change the sample size to *n*=100, and recalculate many sample
+    means. Calculate the predicted standard deviation of all the sample
+    means. Should the sampling distribution of sample means be wider or
+    narrower with this larger sample size than in the previous case with
+    a smaller sample size? What do you observe in the simulations?
 
-**Point 3: The distribution of sample means is approximately normal
-no matter what the distribution of the variable, as long as the sample
-size is large enough. (The Central Limit Theorem)** Load another web
-page: <http://www.zoology.ubc.ca/~whitlock/Kingfisher/CLT.htm>
+**Point 3: The distribution of sample means is approximately normal no
+matter what the distribution of the variable, as long as the sample size
+is large enough. (The Central Limit Theorem)** Load another web page:
+<http://www.zoology.ubc.ca/~whitlock/Kingfisher/CLT.htm>
 
 This will simulate a very skewed distribution of data, showing the
 number of cups of coffee drunk per week for a population of university
@@ -283,17 +284,17 @@ students. Click on “COFFEE” to see the distribution of the variable
 among individual students. Describe the ways that this looks different
 from a normal distribution.
 
-c.  Set *n*=2 for the sample size, and simulate many sample means. Does the
-distribution of sample means look normal? Is it closer to normal in its
-shape than the distribution of individuals in the population?
+c.  Set *n*=2 for the sample size, and simulate many sample means. Does
+    the distribution of sample means look normal? Is it closer to normal
+    in its shape than the distribution of individuals in the population?
 
-d.  Now set *n*=25 and simulate many sample means. How does the distribution
-of sample means look now? 
+d.  Now set *n*=25 and simulate many sample means. How does the
+    distribution of sample means look now?
 
 <br> 2. Let’s use R’s random number generator for the normal
 distribution to build intuition for how to view and interpret histograms
-and QQ plots. Remember, the lists of values generated by `rnorm()`
-come from a population that truly have a normal distribution.
+and QQ plots. Remember, the lists of values generated by `rnorm()` come
+from a population that truly have a normal distribution.
 
 a.  Generate a list of 10 random numbers from a normal distribution with
     mean 15 and standard deviation 3, using the following command:
@@ -329,14 +330,13 @@ morphological traits. Here, let’s use these data to practice looking for
 fit of the normal distribution. (We’ll return to this data set next week
 to look for evidence of natural selection.)
 
-a.  Plot the distribution of total length (this is
-    the length of the bird from beak to tail). Does the data look as
-    though it comes from distribution that is approximately normal?
+a.  Plot the distribution of total length (this is the length of the
+    bird from beak to tail). Does the data look as though it comes from
+    distribution that is approximately normal?
 
-b.  Plot a QQ plot for total length. Does the data
-    fall approximately along a straight line in the QQ plot? If so, what
-    does this imply about the fit of these data to a normal
-    distribution?
+b.  Plot a QQ plot for total length. Does the data fall approximately
+    along a straight line in the QQ plot? If so, what does this imply
+    about the fit of these data to a normal distribution?
 
 c.  Calculate the mean of total length and a 95% confidence interval for
     this mean. (hint: You may want to refer back to Lab 5.)
@@ -355,15 +355,19 @@ females. For this week, we'll estimate the 2D:4D ratio, and ask whether
 its mean is significantly different from 1. If index fingers are equal
 to ring fingers in length, then the ratio would be one.
 
-First, create a new vector called `Right_2D_4D_ratio`. In this vector,
-calculate the ratio of the length of the index finger over the length of
-the ring finger for each individual.
+First, we'll create a new vector called `Right_2D_4D_ratio`. In this
+vector, we'll calculate the ratio of the length of the index finger over
+the length of the ring finger for each individual. The line below will
+not work because it contains errors. Make corrections to the
+code to get `Right_2D_4D_ratio` computed correctly.
+
+`Right_2D_4D_ratio <- fingerLengths$Right.2D/Right.4D`
 
 a.  Describe how well the `Right_2D_4D_ratio` is fit by a normal
     distribution, by using at least one of the two methods we have
     learned this week.
 
-b.  What is the 95% confidence interval for `Right_2D_4D_ratio`? 
+b.  What is the 95% confidence interval for `Right_2D_4D_ratio`?
 
 <br> 6. The file `mammals.csv` contains information on the body mass of
 various mammal species.
