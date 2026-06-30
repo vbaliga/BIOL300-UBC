@@ -15,8 +15,8 @@ output:
 ### Note for instructors and TAs
 
 This page records substantive changes to the **UBC edition** of the BIOL
-300 R labs. The purpose is to help BIOL 300 instructors and TAs keep
-answer keys and lesson plans current. The date in the footer reflects
+300 R labs. The purpose is to help BIOL 300 instructors and TAs identify any
+meaningful changes to the tutorials. The date in the footer reflects
 the most recent *substantive* update. Minor changes such as typo fixes,
 formatting adjustments, or changes that do not really affect answers may
 not require answer-key updates. Check with Vikram if unsure.

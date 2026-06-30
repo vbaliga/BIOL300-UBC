@@ -663,7 +663,7 @@ randomly chooses integers from a given range. To randomly sample 5
 individuals from 25 possibilities, we can use:</li>
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">sample.int</span>(<span class="at">n =</span> <span class="dv">25</span>, <span class="at">size =</span> <span class="dv">5</span>)</span></code></pre></div>
-<pre><code>## [1] 14 23  6 25 24</code></pre>
+<pre><code>## [1] 24 12  9  7  4</code></pre>
 <p>This tells R to give us a sample of <code>size = 5</code> numbers
 randomly chosen from the integers 1 to <code>n</code>, and here we set
 <code>n = 25</code>. (When you run this line you will almost certainly
@@ -678,7 +678,7 @@ population data:</p>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>samp <span class="ot">&lt;-</span> <span class="fu">sample.int</span>(<span class="at">n =</span> <span class="dv">25</span>, <span class="at">size =</span> <span class="dv">5</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># These are the row numbers of population_data$length we&#39;ll use:</span></span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>samp</span></code></pre></div>
-<pre><code>## [1]  6 12  2 23 16</code></pre>
+<pre><code>## [1] 14  8  9 10 21</code></pre>
 <p>If you then run <code>population_data$length[samp]</code>, you’ll get
 the lengths of these 5 specific shells only.</p>
 <ol start="11" style="list-style-type: decimal">
@@ -792,7 +792,7 @@ happened?</p>
 <div class="version-note">
   <p>
     <em>Last substantive update:</em>
-    <a href="changelog.html#update-2026-06-30">2026-06-30</a>
+    <a href="changelog.html">2026-06-30</a>
   </p>
 </div>
 
