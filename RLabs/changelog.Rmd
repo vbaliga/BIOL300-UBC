@@ -23,6 +23,29 @@ not require answer-key updates. Check with Vikram if unsure.
 
 <hr>
 
+# 2026-06-30 {#update-2026-06-30}
+
+## Key changes
+- Word edits to Lab 3
+  - Explicit use of indexing with `sample.int()`
+
+## Site materials developed with
+
+- R version 4.6.0 (2026-04-24) -- "Because it was There"
+- RStudio 2026.06.0 Build 242
+  - "Blue Plumbago" Release (d1dc28bb, 2026-06-18)
+- `rmarkdown` 2.31
+
+## R packages used in labs
+
+```{r}
+packageVersion("tidyverse")
+packageVersion("car")
+packageVersion("binom")
+```
+
+<hr>
+
 # 2026-06-26 {#update-2026-06-26}
 
 ## Key changes

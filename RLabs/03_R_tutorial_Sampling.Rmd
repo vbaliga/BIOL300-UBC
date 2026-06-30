@@ -57,7 +57,7 @@ exercises work more seamlessly.
 
 <br>
 
-In this lab you will be given a container of 25 cowrie shells. Think of
+In this lab you will be given a bag with 25 cowrie shells. Think of
 this collection of shells as the complete population that you care
 about. You will work with a small group to take samples from this
 population to estimate the mean length of these shells.
@@ -74,8 +74,9 @@ Follow these steps:
 1.  Get a piece of calendar paper, and make sure that there are spots
     labeled from 1 to 25 on squares of the calendar paper.
 
-2.  Sample five shells from this container. Put them in spots 1 through
-    5 on the paper. This is your sample.
+2.  Your TA will provide your group with a ziplock bag that has 25
+    shells. Sample five shells from this bag. Put them in spots 1
+    through 5 on the paper. This is your sample.
 
 3.  For each shell that you have sampled, measure the length of the
     shell in millimeters, and write these lengths down on the paper by
@@ -93,8 +94,8 @@ Follow these steps:
 ## Find the mean of the population
 
 6.  Next we will calculate the mean of the population of shells in your
-    container. Take each remaining shell one by one, measure its length,
-    and record it on the sheet beside the next available number. Set the
+    bag. Take each remaining shell one by one, measure its length, and
+    record it on the sheet beside the next available number. Set the
     shell there on the calendar paper as well.
 
 7.  Create another blank spreadsheet in Excel or Google Sheets. Add the
@@ -134,6 +135,20 @@ line you will almost certainly get a different output. It is randomly
 choosing numbers, so we expect different answers each time.) Generate a
 set of 5 random numbers this way, just once. Use these resulting numbers
 to tell you which 5 shells to include in your sample.
+
+A relatively easy way to do this is to store the random numbers in a
+named vector, and then used that named vector to index from the full
+population data:
+
+```{r}
+# Take a random sample of 5 integers and store it as "samp"
+samp <- sample.int(n = 25, size = 5)
+# These are the row numbers of population_data$length we'll use:
+samp
+```
+
+If you then run `population_data$length[samp]`, you'll get the lengths
+of these 5 specific shells only.
 
 11. Use R to calculate the mean of the shell lengths for these 5 shells
     in your random sample. The result is an estimate of the mean shell
@@ -242,7 +257,7 @@ equal? Are the sample means unbiased estimates of the population mean?
 
 18. From your TA, get the list of the means from the first samples of
     each group, and the population means for each group. Import these
-    data into a `data.frame` in R.
+    data into a `data.frame` in R, naming the object `groups_means`.
 
 19. Create a new variable from the difference between a student group’s
     first sample mean and their population mean. Call this new variable
