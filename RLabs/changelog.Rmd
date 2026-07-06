@@ -23,6 +23,29 @@ not require answer-key updates. Check with Vikram if unsure.
 
 <hr>
 
+# 2026-07-06 {#update-2026-07-06}
+
+## Key changes
+- Bump R to version 4.6.1
+- Revise Lab 1 student data sheet and stash docx & pdf
+
+## Site materials developed with
+
+- R version 4.6.1 (2026-06-24) -- "Happy Hop"
+- RStudio 2026.06.0 Build 242
+  - "Blue Plumbago" Release (d1dc28bb, 2026-06-18)
+- `rmarkdown` 2.31
+
+## R packages used in labs
+
+```{r}
+packageVersion("tidyverse")
+packageVersion("car")
+packageVersion("binom")
+```
+
+<hr>
+
 # 2026-06-30 {#update-2026-06-30}
 
 ## Key changes
