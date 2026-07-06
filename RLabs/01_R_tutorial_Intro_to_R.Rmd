@@ -117,12 +117,12 @@ the selected window. (Clicking anywhere in the Console selects it.)
 The `>` prompt is R’s way of inviting you to give it instructions. You
 communicate with R by typing commands after the `>` prompt.
 
-Type `2+2` at the `>` prompt, and hit return. You’ll see that R
-can work like a calculator (among its many other powers). It will give
-you the answer, 4, and it will label that answer with `[1]` to indicate
-that it is the first element in the answer. (This is sort of annoying
-when the answers are simple like this, but can be very valuable when the
-answers become more complex.)
+Type `2+2` at the `>` prompt, and hit return. You’ll see that R can work
+like a calculator (among its many other powers). It will give you the
+answer, 4, and it will label that answer with `[1]` to indicate that it
+is the first element in the answer. (This is sort of annoying when the
+answers are simple like this, but can be very valuable when the answers
+become more complex.)
 
 In these labs, the input will show up in a gray box and the output, if
 any, will follow in a white box.
@@ -458,25 +458,26 @@ up the vector `temperatureC`.
 # Activities & Questions
 
 <br> 1. Using the [Student data sheet
-1](Student%20data%20sheet%201.pdf), record the requested information
-about yourself. This is optional; if you have any reason to not want to
-record this (relatively innocuous) data about yourself, you do not have
-to. If you feel that you would like to skip just one of the bits of
-information and fill in the rest, that is fine too. The data sheets do
-not identify students by name. Pass the sheet to the TA when you are
-finished. We’ll use these data in subsequent labs.
+1](Lab%201%20student%20data%20sheet.pdf), record the requested
+information about yourself. This is optional; if you have any reason to
+not want to record this (relatively innocuous) data about yourself, you
+do not have to. If you feel that you would like to skip just one of the
+bits of information and fill in the rest, that is fine too. The data
+sheets do not identify students by name. Pass the sheet to the TA when
+you are finished. We’ll use these data in subsequent labs.
 
 <br> 2. Each week in BIOL 300, you will create an R script that captures
-the code that you use to answer the questions, along with the answers. 
-Use a `#` at the beginning of each comment line. 
+the code that you use to answer the questions, along with the answers.
+Use a `#` at the beginning of each comment line.
 
 a.  Open a new R script file. Start by adding comments with your name
     and the lab number (Lab 1) at the top.
 
 b.  For each of the questions below, write the question number as a
     comment, followed by any R code you use to do the question, and give
-    the answers as comments. Save the R script on your computer; you will
-    upload the R script you write each week as part of the Canvas quiz.
+    the answers as comments. Save the R script on your computer; you
+    will upload the R script you write each week as part of the Canvas
+    quiz.
 
 For example, here is what the beginning of your script might look like.
 
@@ -512,8 +513,7 @@ b.  Height (including neck and extended legs) of giraffes
 
 c.  Object name: `temperature-(Celsius)`
 
-c.  Object name: `televisions-per-person`
-
+d.  Object name: `televisions-per-person`
 
 <br> 5. Use R to calculate:
 
