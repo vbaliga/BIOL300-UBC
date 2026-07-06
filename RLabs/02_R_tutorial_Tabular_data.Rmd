@@ -583,7 +583,7 @@ already. After it has installed, use `library()` to load it into your R
 environment. A good practice is to write `library(tidyverse)` as one of
 the first lines of code in each R script you write for BIOL 300.
 
-<br> 2. In Lab 1, Question 7, you and your fellow students may have
+<br> 2. In Lab 1, Question 1, you and your fellow students may have
 recorded requested information about yourselves. Your TA will now
 provide you with data sheets for all students in your section who took
 measurements (all data are anonymous). Use the data sheets to create a
