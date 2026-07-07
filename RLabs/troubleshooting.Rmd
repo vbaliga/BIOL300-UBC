@@ -1,5 +1,5 @@
 ---
-title: "Troubleshooting R/RStudio installation"
+title: "Troubleshooting R/RStudio incompatibilities"
 
 output:
   html_document:
@@ -11,10 +11,13 @@ output:
 
 <hr>
 
-Materials on this site were developed with: R version 4.6.0 (2026-04-24)
--- "Because it was There". We generally encourage students to install
+Materials on this site were developed with: R version 4.6.1 (2026-06-24)
+-- "Happy Hop". We generally encourage students to install
 the most recent version of R that is compatible with their laptop, with
-the hope that most laptops can support R version \>= 4.0.0.
+the hope that most laptops can support R version \>= 4.1.0.
+
+Should that not be feasible, this page lists some alternative ways
+forward.
 
 <br>
 
@@ -48,7 +51,7 @@ See further details on the WebR website:
 
 # Older package versions
 
-It may be possible to do these labs with R \< 4.0.0. The script below
+It may be possible to do these labs with R \< 4.1.0. The script below
 can be used to install packages (+ dependencies) without relying on the
 current versions of packages on CRAN. This is useful for cases where the
 current version of a package on CRAN is not compatible with the specific

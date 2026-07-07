@@ -584,15 +584,15 @@ environment. A good practice is to write `library(tidyverse)` as one of
 the first lines of code in each R script you write for BIOL 300.
 
 <br> 2. In Lab 1, Question 1, you and your fellow students may have
-recorded requested information about yourselves. Your TA will now
-provide you with data sheets for all students in your section who took
-measurements (all data are anonymous). Use the data sheets to create a
-`.csv` file in Excel or Google Sheets. Include all of five of the
-variables for each of the individuals in the data sheets. Be sure to use
-variable names that are 1) legal in R and 2) intelligible to another
-person who may encounter the file (remember that `snake_case` and
-`camelCase` are preferred conventions). Save the data file that you make
-in the `DataForLabs` folder on your computer with the file name
+recorded requested information about yourselves. You will now use
+similar data from previous students, which can be found in [this
+PDF](DataSheetsLab4.pdf). Use the data sheets to create a `.csv` file in
+Excel or Google Sheets. Include all of five of the variables for each of
+the individuals in the data sheets. Be sure to use variable names that
+are 1) legal in R and 2) intelligible to another person who may
+encounter the file (remember that `snake_case` and `camelCase` are
+preferred conventions). Save the data file that you make in the
+`DataForLabs` folder on your computer with the file name
 `Lab1_section_measurements.csv`.
 
 a.  Prepare a text file which describes each of the variables in the
@@ -624,8 +624,8 @@ a.  Use `read.csv()` to read the data from this file into a data frame
 b.  Use `summary()` to get a quick description of this data set. What
     are the first three variables?
 
-c.  Using the output of `summary()`, how many countries are from Asia
-    in this data set?
+c.  Using the output of `summary()`, how many countries are from Asia in
+    this data set?
 
 d.  What kinds of variables (i.e., categorical or numerical) are
     `continents`, `cell_phone_subscriptions_per_100_people_2012`,
