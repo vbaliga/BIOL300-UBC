@@ -409,13 +409,13 @@ nectar from a particular flower (can you guess what feature of the
 flower has led to the evolution of such a long tongue?). See the article
 by Muchhala (2006) to learn more about the biology of this strange bat.
 
-<br> 6. Your TA will provide you a data set of all measurements from all
-BIOL 300 students from the first lab. Ensure that you save this `.csv`
-in the correct spot. (We'll return to some of the other variables later
-in the term.)
+<br> 6. On Canvas, we have added a data set of all recorded measurements from 
+the first lab from all BIOL 300 students who wanted to participate. Ensure that 
+you save this `.csv` in the correct spot (consult your TA if unsure); we will 
+use this data set again later in the term, too.
 
-a.  Plot a histogram of height. Do you detect any outliers? Do all the
-    data look as though the same units were used when students recorded
+a.  Plot a histogram of head circumference. Do you detect any outliers? Do all 
+    the data look as though the same units were used when students recorded
     them?
 
 b.  One rough anthropometric rule of thumb says that adult height is
