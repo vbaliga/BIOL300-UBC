@@ -310,25 +310,28 @@ Lab 1. Remember that these data were collected using measuring tapes
 based in inches, but the data file asked for the measurements in
 centimenters. Import the data into R.
 
-a.  Plot the distribution of heights in the class. Describe the shape of
+a.  Plot the distribution of height in the class. Describe the shape of
     the distribution. Is it symmetric or strongly skewed? Is it unimodal
-    or bimodal?
+    or bimodal? Then do the same for the distribution of head circumference.
+    Is it symmetric and unimodal?
 
 *Key point: A distribution is skewed if it is asymmetric. A distribution
 is skewed right if there is a long tail to the right, and skewed left if
 there is a long tail to the left.* ![](formula_summaries/skew.png)
 
-b.  Are there any large outliers that look as though a student used the
-    wrong units for their height measurement? (I.e., are there any that
-    are more plausibly a height given in inches rather than the
+b.  For either height or head circumference, are there any large outliers 
+    that look as though a student used the
+    wrong units for their measurement? (E.g., more plausibly a height
+    recorded in inches rather than the
     requested centimeters?) If so, and if this is not likely to be an
     accurate description of an individual in your class, use `filter()`
     to create a new data set without those rows.
 
-c.  Use R to calculate the mean height of all students in the class,
-    using the filtered data.
+c.  Use R to calculate the mean height and the mean head circumference 
+    of all students in the class, using the filtered data. 
 
-d.  Calculate the standard deviation of height, using the filtered data.
+d.  Calculate the standard deviation of height and of head circumference,
+    using the filtered data.
 
 <br> 4. The file `caffeine.csv` contains data on the amount of caffeine
 in a 16 oz. cup of coffee obtained from various vendors. For context,

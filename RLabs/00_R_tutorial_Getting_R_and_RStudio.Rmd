@@ -24,8 +24,11 @@ Analysis of Biological Data*. The rest of the labs can be found
 For these labs, you will need two apps on your computer: R and RStudio.
 Both are free, available to download without charge from the
 web. This setup requires a laptop or desktop computer; RStudio is not
-natively supported on Chromebooks or iPads/tablets. Desktop computers
-are available to use in 2004 Biological Sciences during BIOL 300
+natively supported on Chromebooks or iPads/tablets. 
+
+You are encouraged to 
+use your own laptop. If you don't have a laptop, you are welcome to use any
+of the desktop computers available in 2004 Biological Sciences during BIOL 300
 tutorial times (please consult your section's TA).
 
 Advanced users are permitted to use VS Code or Positron, but note that

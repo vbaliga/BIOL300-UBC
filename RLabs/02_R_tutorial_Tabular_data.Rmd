@@ -585,8 +585,7 @@ the first lines of code in each R script you write for BIOL 300.
 
 <br> 2. In Lab 1, Question 1, you and your fellow students may have
 recorded requested information about yourselves. You will now use
-similar data from previous students, which can be found in [this
-PDF](DataSheetsLab4.pdf). Use the data sheets to create a `.csv` file in
+the data from all of these sheets to create a `.csv` file in
 Excel or Google Sheets. Include all of five of the variables for each of
 the individuals in the data sheets. Be sure to use variable names that
 are 1) legal in R and 2) intelligible to another person who may
