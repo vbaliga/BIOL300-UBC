@@ -586,13 +586,14 @@ the first lines of code in each R script you write for BIOL 300.
 <br> 2. In Lab 1, Question 1, you and your fellow students may have
 recorded requested information about yourselves. You will now use
 the data from all of these sheets to create a `.csv` file in
-Excel or Google Sheets. Include all of five of the variables for each of
+Excel or Google Sheets. Include all of seven of the variables for each of
 the individuals in the data sheets. Be sure to use variable names that
 are 1) legal in R and 2) intelligible to another person who may
 encounter the file (remember that `snake_case` and `camelCase` are
-preferred conventions). Save the data file that you make in the
-`DataForLabs` folder on your computer with the file name
-`Lab1_section_measurements.csv`.
+preferred conventions). If any data are missing (e.g., the person chose to
+not record a value), leave the corresponding cell blank. Save the data file 
+that you make in the `DataForLabs` folder on your computer with the file name
+`Lab01_section_measurements.csv`.
 
 a.  Prepare a text file which describes each of the variables in the
     data file. Remember to list the meaning of each variable name,
@@ -600,12 +601,12 @@ a.  Prepare a text file which describes each of the variables in the
     that another person could read to unambiguously interpret your data
     file.
 
-b.  The line below will not work because it contains a couple errors.
+b.  The line of code below will not work because it contains mistakes.
     Make corrections to the code to import the csv into R as a data
-    frame named `Lab1_section_measurements`. Explain each correction you
+    frame named `Lab01_section_measurements`. Explain each correction you
     made (there should be at least 2). Why is each one necessary?
 
-`Lab1_section_measurements <- read.csv(DataForLabs/Lab1_section_measurements.csv, strings = "TRUE")`
+    `Lab01_section_measurements <- read.csv(DataForLabs/Lab01_section_measurements.csv, strings = "TRUE")`
 
 c.  Use the `View()` function to check that you have read the data
     correctly.
@@ -644,7 +645,7 @@ e.  Add a new column to your countries data frame that has the
 
 <br> 4. A researcher wants to examine data from Japan only and writes
 the line: `japan_data <- filter(countries, country = Japan)`. Would this
-line work? If not, make edits to the code. Then determine the value of
+line work? If not, make corrections to the code. Then determine the value of
 `life_expectancy_at_birth_female` for Japan, as found in `japan_data`.
 
 <br> 5. Using the `countries` data, create a new data frame called

@@ -513,8 +513,9 @@ question had been left to sit overnight at room temperature, which
 allowed the *Staphylococcus* to grow to dangerous numbers before the
 supper.)
 
-<br> 4. Return to the data you collected on your class during the first
-week. Is there an association between dominant hand and dominant foot?
+<br> 4. Return to our class data set gathered from Lab 1. Across all BIOL 
+300 students this term who contributed data, is there an association between
+dominant hand and dominant foot?
 
 <br> 5. Human names are often of obscure origin, but many have fairly
 obvious sources. For example, "Johnson" means "son of John," "Smith"

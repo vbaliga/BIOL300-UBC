@@ -23,6 +23,30 @@ not require answer-key updates. Check with Vikram if unsure.
 
 <hr>
 
+# 2026-08-21 {#update-2026-07-09}
+
+## Key changes
+- Add arm span to student data sheet for Lab 1
+- Adjust Lab 2 to give more precise instructions
+- Incorporate arm span into Lab 4
+- Incorporate more "spot the mistake" types of questions
+
+## Site materials developed with
+
+- R version 4.6.1 (2026-06-24) -- "Happy Hop"
+- RStudio 2026.08.1+195 "Yellow Yarrow" Release 
+- `rmarkdown` 2.31
+
+## R packages used in labs
+
+```{r}
+packageVersion("tidyverse")
+packageVersion("car")
+packageVersion("binom")
+```
+
+<hr>
+
 # 2026-07-09 {#update-2026-07-09}
 
 ## Key changes

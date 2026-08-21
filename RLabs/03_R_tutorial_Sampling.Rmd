@@ -84,10 +84,10 @@ Follow these steps:
 
 4.  Create a new spreadsheet in Excel or Google Sheets, and on the first
     row add a variable name (e.g., “length”). Enter the lengths of your
-    five shells. Save the file as `Lab3_First_sample.csv` in your
+    five shells. Save the file as `Lab03_First_sample.csv` in your
     `DataForLabs` folder.
 
-5.  In your R script for today's lab, import `Lab3_First_sample.csv`
+5.  In your R script for today's lab, import `Lab03_First_sample.csv`
     into R. Using R, calculate the mean of the lengths of these five
     shells. Record this mean. <br>
 
@@ -101,7 +101,7 @@ Follow these steps:
 7.  Create another blank spreadsheet in Excel or Google Sheets. Add the
     lengths of all the shells (including the first five) into this file
     in a single column named “length.” Save this file as
-    `Lab3_Full_population_shells.csv`.
+    `Lab03_Full_population_shells.csv`.
 
 8.  Import this data set to R, naming the object `population_data`. Use
     R to calculate the mean of the full population.

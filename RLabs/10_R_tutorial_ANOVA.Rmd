@@ -304,7 +304,14 @@ c.  Look at the graph and the table. For these data, would ANOVA be a
     lengths of cuckoo eggs in their nests?
 
 d.  Use ANOVA to test for a difference between host species in the mean
-    size of the cuckoo eggs in their nests. What is your conclusion?
+    size of the cuckoo eggs in their nests. To
+    get you started, the line of code below might help but might also
+    contain mistakes. Be sure to correct any mistakes in the code or just
+    write your own code if you'd prefer. Once you
+    have successfully performed an ANOVA, what is your conclusion about
+    the mean size of egggs across species?
+    
+    `cuckoo_lm <- anova(egg_length ~ host_species, data = cuckoo)`
 
 e.  Assuming that ANOVA rejected the null hypotheses of no mean
     differences, use a Tukey-Kramer test to decide which pairs of host

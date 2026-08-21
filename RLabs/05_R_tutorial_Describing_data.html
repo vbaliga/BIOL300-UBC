@@ -810,34 +810,33 @@ tutorial?</p></li>
 <li><p>When you switched to using a 99% confidence interval, did the
 intervals get wider, narrower, or stay the same?</p></li>
 </ol>
-<p><br> 3. Your TA should provide a data file that includes data that
-your classmates collected on themselves during the first week of lab, in
-Lab 1. Remember that these data were collected using measuring tapes
-based in inches, but the data file asked for the measurements in
-centimenters. Import the data into R.</p>
+<p><br> 3. In Lab 4, we used a data set of all recorded measurements
+from Lab 1 from all BIOL 300 students. Import that data set into R again
+(see Canvas if you need to download it again). Remember that these data
+were collected using measuring tapes based in inches, but the activity
+asked for the measurements in centimenters.</p>
 <ol style="list-style-type: lower-alpha">
 <li>Plot the distribution of height in the class. Describe the shape of
 the distribution. Is it symmetric or strongly skewed? Is it unimodal or
-bimodal? Then do the same for the distribution of head circumference. Is
-it symmetric and unimodal?</li>
+bimodal? Then do the same for the distribution of head circumference and
+for arm span. Is it symmetric and unimodal?</li>
 </ol>
 <p><em>Key point: A distribution is skewed if it is asymmetric. A
 distribution is skewed right if there is a long tail to the right, and
 skewed left if there is a long tail to the left.</em> <img
 src="formula_summaries/skew.png" /></p>
 <ol start="2" style="list-style-type: lower-alpha">
-<li><p>For either height or head circumference, are there any large
-outliers that look as though a student used the wrong units for their
-measurement? (E.g., more plausibly a height recorded in inches rather
-than the requested centimeters?) If so, and if this is not likely to be
-an accurate description of an individual in your class, use
-<code>filter()</code> to create a new data set without those
-rows.</p></li>
-<li><p>Use R to calculate the mean height and the mean head
-circumference of all students in the class, using the filtered
-data.</p></li>
-<li><p>Calculate the standard deviation of height and of head
-circumference, using the filtered data.</p></li>
+<li><p>For any of these 3 variables (height, head circumference, arm
+span), are there any large outliers that look as though a student used
+the wrong units for their measurement? (E.g., more plausibly a height
+recorded in inches rather than the requested centimeters?) If so, and if
+this is not likely to be an accurate description of an individual in
+your class, use <code>filter()</code> to create a new data set without
+those rows.</p></li>
+<li><p>Use R to calculate the mean of each of the 3 variables, using the
+filtered data if necessary for each variable.</p></li>
+<li><p>Calculate the standard deviation of each of the 3 variables,
+using the filtered data if necessary for each variable.</p></li>
 </ol>
 <p><br> 4. The file <code>caffeine.csv</code> contains data on the
 amount of caffeine in a 16 oz. cup of coffee obtained from various
@@ -884,11 +883,11 @@ data.)</p></li>
 <p>Are these the same as the boundaries of the 95% confidence interval?
 If not, why not? Which should bound a smaller region, the quantile or
 the confidence interval of the mean?</p>
-<p><br> 6. Return to the class data set. Find the mean value of “number
+<p><br> 6. Return to our class data set. Find the mean value of “number
 of siblings”. Add 1 to this to find the mean number of children per
 family in the class.</p>
 <ol style="list-style-type: lower-alpha">
-<li><p>The mean number of offspring per family twenty years ago was
+<li><p>The mean number of offspring per family a few decades ago was
 about 2. Is the value for this class similar, greater, or smaller? If
 different, think of reasons for the difference.</p></li>
 <li><p>Are the families represented in this class systematically
@@ -917,7 +916,7 @@ skew on the histogram. Do you see a pattern?</p></li>
 <div class="version-note">
   <p>
     <em>Last substantive update:</em>
-    <a href="changelog.html">2026-07-09</a>
+    <a href="changelog.html">2026-08-21</a>
   </p>
 </div>
 
