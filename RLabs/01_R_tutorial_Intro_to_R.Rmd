@@ -497,7 +497,7 @@ this lab are in a script called `LearningToolsWeek1.R` in the [ABDLabs
 folder](ABDLabs.zip) that you should have downloaded. (A similar file
 will be available for each week of these labs.)
 
-a.  Load this script into RStudio.
+a.  Open this script in RStudio.
 
 b.  Run most or all of the commands in R. Did you get the same answers
     as shown in the text?
