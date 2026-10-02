@@ -325,13 +325,15 @@ b.  For any of these 3 variables (height, head circumference, arm span),
     recorded in inches rather than the requested centimeters?) If so, 
     and if this is not likely to be an accurate description of an 
     individual in your class, use `filter()` to create a new data set 
-    without those rows.
+    without those rows. The best practice would be to do this separately
+    for each variable. Filtering out all rows with `NA`s could risk throwing
+    out reasonable measurements from cells that do not have `NA`.
 
-c.  Use R to calculate the mean of each of the 3 variables, using the 
-    filtered data if necessary for each variable. 
+c.  Use R to calculate the mean of each of the 3 variables, using each 
+    filtered dataset if necessary for each variable. 
 
-d.  Calculate the standard deviation of each of the 3 variables, using the 
-    filtered data if necessary for each variable. 
+d.  Calculate the standard deviation of each of the 3 variables, using each 
+    filtered dataset if necessary for each variable. 
 
 <br> 4. The file `caffeine.csv` contains data on the amount of caffeine
 in a 16 oz. cup of coffee obtained from various vendors. For context,

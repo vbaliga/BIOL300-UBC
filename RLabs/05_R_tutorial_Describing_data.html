@@ -832,11 +832,14 @@ the wrong units for their measurement? (E.g., more plausibly a height
 recorded in inches rather than the requested centimeters?) If so, and if
 this is not likely to be an accurate description of an individual in
 your class, use <code>filter()</code> to create a new data set without
-those rows.</p></li>
-<li><p>Use R to calculate the mean of each of the 3 variables, using the
-filtered data if necessary for each variable.</p></li>
+those rows. The best practice would be to do this separately for each
+variable. Filtering out all rows with <code>NA</code>s could risk
+throwing out reasonable measurements from cells that do not have
+<code>NA</code>.</p></li>
+<li><p>Use R to calculate the mean of each of the 3 variables, using
+each filtered dataset if necessary for each variable.</p></li>
 <li><p>Calculate the standard deviation of each of the 3 variables,
-using the filtered data if necessary for each variable.</p></li>
+using each filtered dataset if necessary for each variable.</p></li>
 </ol>
 <p><br> 4. The file <code>caffeine.csv</code> contains data on the
 amount of caffeine in a 16 oz. cup of coffee obtained from various
