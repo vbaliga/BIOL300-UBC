@@ -513,9 +513,16 @@ question had been left to sit overnight at room temperature, which
 allowed the *Staphylococcus* to grow to dangerous numbers before the
 supper.)
 
-<br> 4. Return to our class data set gathered from Lab 1. Across all BIOL 
-300 students this term who contributed data, is there an association between
-dominant hand and dominant foot?
+<br> 4. Return to our class data set gathered from Lab 1. Across BIOL
+300 students this term who contributed data, is there an association
+between dominant hand and dominant foot? First, check how many students
+fall into each category of each variable. Ask yourself if there are
+enough students in every category to learn something about that group.
+(Consult your TA if unsure.) If you decide a category should be
+excluded, use `filter()` to remove those students, and a function called
+`droplevels()` to remove the now-empty category from the variable, so
+that it no longer appears in your table. Be sure to also remove any
+students with a blank or `NA` response.
 
 <br> 5. Human names are often of obscure origin, but many have fairly
 obvious sources. For example, "Johnson" means "son of John," "Smith"
@@ -614,5 +621,5 @@ tCountTable <-
 
 Within each `c( , )`, replace each blank spot with the number of t’s
 that you found or didn't find, respectively. Do this separately for
-common words (`Common`) and uncommon words (`Uncommon`). Then use 
+common words (`Common`) and uncommon words (`Uncommon`). Then use
 `tCountTable` to perform a hypothesis test.
