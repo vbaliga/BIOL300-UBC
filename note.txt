@@ -1,0 +1,15 @@
+On Push, this repo is set up to update:
+vbaliga.github.io/BIOL300-UBC/RLabs/index.html (Main,   Github)
+vbaliga.gitlab.io/BIOL300-UBC/RLabs/index.html (Backup, Gitlab)
+
+Committing and pushing should automatically update both sites.
+
+Pushing goes to Github first. If Github fails, Gitlab is NOT updated.
+To update the backup alone (Terminal):
+  git push git@gitlab.com:vbaliga/BIOL300-UBC.git main
+
+Check the backup built: gitlab.com/vbaliga/BIOL300-UBC/-/pipelines
+
+New computer / fresh clone? The two-site push must be set up again:
+  git remote set-url --add --push origin https://github.com/vbaliga/BIOL300-UBC.git
+  git remote set-url --add --push origin git@gitlab.com:vbaliga/BIOL300-UBC.git
